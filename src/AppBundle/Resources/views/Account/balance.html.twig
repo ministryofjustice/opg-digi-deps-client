@@ -1,0 +1,23 @@
+{% embed 'AppBundle:Layouts:report_left_nav.html.twig' %}
+
+    {% set translationDomain = "report-accounts" %}
+    {% trans_default_domain translationDomain %}
+
+    {% block pageTitle %}{{ 'page.htmlTitle' | trans }}{% endblock %}
+    {% block title %}{{ 'page.pageSectionTitle' | trans }}{% endblock %}
+
+    {% block leftcontent %}
+        {% include 'AppBundle:Account:left-nav.html.twig'%}
+    {% endblock %}
+
+    {% block maincontent %}
+        {% if report.isIncomplete() %}
+            {% include 'AppBundle:Account:_balance-incomplete.html.twig'%}
+        {% elseif report.isTotalsMatch %}
+            {% include 'AppBundle:Account:_balance-good.html.twig'%}
+        {% else %}
+            {% include 'AppBundle:Account:_balance-bad.html.twig'%}
+        {% endif %}
+    {% endblock %}
+
+{% endembed %}

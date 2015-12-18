@@ -10,7 +10,8 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  * @JMS\ExclusionPolicy("none")
  * @Assert\Callback(methods={"isValidEndDate", "isValidDateRange"})
  */
-class Report {
+class Report
+{
     
     const PROPERTY_AND_AFFAIRS = 2;
     
@@ -184,7 +185,81 @@ class Report {
      * @Assert\True(message="report.agreed", groups={"declare"} )
      */
     private $agree;
-    
+
+    /**
+     * @JMS\Type("array<AppBundle\Entity\Transaction>")
+     * @JMS\Groups({"transactionsIn"})
+     *
+     * @var Transaction[]
+     */
+    private $transactionsIn;
+
+    /**
+     * @JMS\Type("array<AppBundle\Entity\Transaction>")
+     * @JMS\Groups({"transactionsOut"})
+     *
+     * @var Transaction[]
+     */
+    private $transactionsOut;
+
+    /**
+     * @JMS\Type("double")
+     *
+     * @var double
+     */
+    private $moneyInTotal;
+
+    /**
+     * @JMS\Type("double")
+     *
+     * @var double
+     */
+    private $moneyOutTotal;
+
+
+    /**
+     * @JMS\Type("double")
+     *
+     * @var double
+     */
+    private $accountsOpeningBalanceTotal;
+
+    /**
+     * @JMS\Type("double")
+     *
+     * @var double
+     */
+    private $accountsClosingBalanceTotal;
+
+    /**
+     * @JMS\Type("double")
+     *
+     * @var double
+     */
+    private $calculatedBalance;
+
+    /**
+     * @JMS\Type("double")
+     *
+     * @var double
+     */
+    private $totalsOffset;
+
+
+    /**
+     * @JMS\Type("boolean")
+     *
+     * @var boolean
+     */
+    private $totalsMatch;
+
+    /**
+     * @JMS\Type("string")
+     * @JMS\Groups({"balance_mismatch_explanation"})
+     * @var string
+     */
+    private $balanceMismatchExplanation;
+
     /**
      * 
      * @return integer $id
@@ -718,7 +793,239 @@ class Report {
     {
         $this->agree = $agree;
     }
+
+    /**
+     * @return Transaction[]
+     */
+    public function getTransactionsIn()
+    {
+        return $this->transactionsIn;
+    }
+
+    /**
+     * @param Transaction[] $transactionsIn
+     */
+    public function setTransactionsIn($transactionsIn)
+    {
+        $this->transactionsIn = $transactionsIn;
+    }
+
+    /**
+     * @return Transaction[]
+     */
+    public function getTransactionsOut()
+    {
+        return $this->transactionsOut;
+    }
+
+    /**
+     * @param Transaction[] $transactionsOut
+     */
+    public function setTransactionsOut($transactionsOut)
+    {
+        $this->transactionsOut = $transactionsOut;
+    }
+
+
+
+    /**
+     * @param Transaction[] $transactions
+     *
+     * @return array array of [category=>[entries=>[[id=>,type=>]], amountTotal[]]]
+     */
+    public function groupByCategory(array $transactions)
+    {
+        $ret = [];
+
+        foreach ($transactions as $id => $transaction) {
+            $cat = $transaction->getCategory();
+            if (!isset($ret[$cat])) {
+                $ret[$cat] = ['entries'=>[], 'amountTotal'=>0];
+            }
+            $ret[$cat]['entries'][$id] = $transaction; // needed to find the corresponding transaction in the form
+            $ret[$cat]['amountTotal'] += $transaction->getAmount();
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMoneyInTotal()
+    {
+        return $this->moneyInTotal;
+    }
+
+    /**
+     * @param float $moneyInTotal
+     */
+    public function setMoneyInTotal($moneyInTotal)
+    {
+        $this->moneyInTotal = $moneyInTotal;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMoneyOutTotal()
+    {
+        return $this->moneyOutTotal;
+    }
+
+    /**
+     * @param float $moneyOutTotal
+     */
+    public function setMoneyOutTotal($moneyOutTotal)
+    {
+        $this->moneyOutTotal = $moneyOutTotal;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAccountsOpeningBalanceTotal()
+    {
+        return $this->accountsOpeningBalanceTotal;
+    }
+
+    /**
+     * @param float $accountsOpeningBalanceTotal
+     */
+    public function setAccountsOpeningBalanceTotal($accountsOpeningBalanceTotal)
+    {
+        $this->accountsOpeningBalanceTotal = $accountsOpeningBalanceTotal;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAccountsClosingBalanceTotal()
+    {
+        return $this->accountsClosingBalanceTotal;
+    }
+
+    /**
+     * @param float $accountsClosingBalanceTotal
+     */
+    public function setAccountsClosingBalanceTotal($accountsClosingBalanceTotal)
+    {
+        $this->accountsClosingBalanceTotal = $accountsClosingBalanceTotal;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCalculatedBalance()
+    {
+        return $this->calculatedBalance;
+    }
+
+    /**
+     * @param float $calculatedBalance
+     */
+    public function setCalculatedBalance($calculatedBalance)
+    {
+        $this->calculatedBalance = $calculatedBalance;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalsOffset()
+    {
+        return $this->totalsOffset;
+    }
+
+    /**
+     * @param float $totalsOffset
+     */
+    public function setTotalsOffset($totalsOffset)
+    {
+        $this->totalsOffset = $totalsOffset;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTotalsMatch()
+    {
+        return $this->totalsMatch;
+    }
+
+    /**
+     * @param boolean $totalsMatch
+     */
+    public function setTotalsMatch($totalsMatch)
+    {
+        $this->totalsMatch = $totalsMatch;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBalanceMismatchExplanation()
+    {
+        return $this->balanceMismatchExplanation;
+    }
+
+    /**
+     * @param string $balanceMismatchExplanation
+     */
+    public function setBalanceMismatchExplanation($balanceMismatchExplanation)
+    {
+        $this->balanceMismatchExplanation = $balanceMismatchExplanation;
+    }
+    
+    /**
+     ** @return boolean
+     */
+    public function hasAccounts()
+    {
+        return count($this->getAccounts()) > 0;
+    }
+    
+    /**
+     ** @return boolean
+     */
+    public function hasMoneyIn()
+    {
+        return count(array_filter($this->getTransactionsIn()?:[], function($t){
+            return $t->getAmount() !== null;
+        })) > 0;
+    }
+    
+     /**
+     ** @return boolean
+     */
+    public function hasMoneyOut()
+    {
+        return count(array_filter($this->getTransactionsOut()?:[], function($t){
+            return $t->getAmount() !== null;
+        })) > 0;
+    }
     
     
+    /**
+     ** @return Account[]
+     */
+    public function getAccountsWithNoClosingBalance()
+    {
+        return array_filter($this->getAccounts(), function($account){
+            /** @var $account Account */
+            return $account->getClosingBalance() === null;
+        });
+    }
+    
+    /**
+     ** @return boolean
+     */
+    public function isIncomplete()
+    {
+        return !$this->hasMoneyIn() 
+            || !$this->hasMoneyOut() 
+            || count($this->getAccountsWithNoClosingBalance()) > 0;
+    }
+
     
 }

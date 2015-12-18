@@ -1,0 +1,35 @@
+{% set translationDomain = "report-accounts" %}
+{% trans_default_domain translationDomain %}
+
+<h3 class="heading-medium-large">{{ 'balance.good.pageSectionTitle' | trans }}</h3>
+<p class="page-section-description">{{ 'balance.good.pageSectionDescription' | trans }}</p>
+
+<div class="hero">
+    <h2 class="heading">{{ 'balance.good.accountsBalanced' | trans }}</h2>
+    <div class="message">{{ 'balance.good.accountsBalancedMessage' | trans }}</div>
+</div>
+
+<div class="hero split-two">
+    <div class="hero-column">
+        <div class="message">
+            {{ 'balance.balanceAfterReported' | trans }}:
+        </div>
+        <div class="total">
+            {{ 'currencySymbol' |trans }}{{ report.calculatedBalance | number_format(2, '.', ',') }}
+        </div>
+    </div>
+    <div class="hero-column">
+        <div class="message">
+            {{ 'balance.actualBalance' | trans }}:
+        </div>
+        <div class="total">
+            {{ 'currencySymbol' | trans }}{{ report.accountsClosingBalanceTotal | number_format(2, '.', ',') }}
+        </div>
+    </div>
+</div>
+
+<div id="save-accounts" class="save-section">
+    <a href="{{ path('assets' , {'reportId': report.id}) }}" class="button">{{ 'save.label' | trans }}</a> <span class="next-section">Next section: <b>{{ 'balance.nextSection' | trans }}</b></span>
+    <div><a href="/report/{{report.id}}/overview" class="button-secondary" id="bottom-overview-button">Save and return to report overview</a></div>
+</div>
+

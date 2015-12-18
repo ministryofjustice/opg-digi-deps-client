@@ -1,0 +1,48 @@
+{% embed 'AppBundle:Layouts:report_left_nav.html.twig' %}
+
+    {% set translationDomain = "report-accounts" %}
+    {% trans_default_domain translationDomain %}
+
+    {% block pageTitle %}{{ 'page.htmlTitle' | trans }}{% endblock %}
+    {% block title %}{{ 'page.pageSectionTitle' | trans }}{% endblock %}
+
+    {% block leftcontent %}
+        {% include 'AppBundle:Account:left-nav.html.twig'%}
+    {% endblock %}
+    
+    {% block maincontent %}
+
+        <h3 class="heading-medium-large">{{ 'banks.pageSectionTitle' | trans({'%client%':client.firstname}, translationDomain) }}</h3>
+        <p class="page-section-description">{{ 'banks.pageSectionDescription' | trans({'%client%':client.firstname}, translationDomain) }}</p>
+        
+        {% embed 'AppBundle:Components/Listing:_card_list.html.twig' %}
+            {% block list %}
+
+                {% if accounts is not empty %}
+                    {% for account in accounts %}
+                        {% include 'AppBundle:Account:bank-list-item.html.twig' with {
+                            account: account,
+                            report: report
+                        }%}
+                    {% endfor %}
+                {% endif %}
+                <li class="card-item">
+                    <a href="{{ path('add_account' , {'reportId': report.id}) }}" class="card add">Add account</a>
+                    <div class="meta-data"></div>
+                </li>
+            {% endblock %}
+            
+        {% endembed %}
+        
+        <dl class="labelvalue right-inline transaction big-value">
+            <dt class="label">{{ 'banks.totalBalance' | trans }}:</dt>
+            <dd class="value">{{ 'currencySymbol' | trans({}, translationDomain) }}{{ report.accountsClosingBalanceTotal == null ? '--:--' : (report.accountsClosingBalanceTotal | number_format(2, '.', ',')) }}</dd>
+        </dl>
+
+        <div id="save-accounts" class="save-section">
+            <a href="{{ path('accounts_moneyin' , {'reportId': report.id}) }}" class="button">{{ 'save.label' | trans }}</a> <span class="next-section">Next section: <b>{{ 'banks.nextSection' | trans }}</b></span>
+            <div><a href="/report/{{report.id}}/overview" class="button-secondary" id="bottom-overview-button">Save and return to report overview</a></div>
+        </div>
+    {% endblock %}
+
+{% endembed %}
