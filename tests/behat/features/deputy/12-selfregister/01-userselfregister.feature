@@ -1,8 +1,8 @@
 Feature: User Self Registration
-    
+
     @deputy
     Scenario: A user can enter their self registration information
-        Given I load the application status from "init" 
+        Given I load the application status from "init"
         And I truncate the users from CASREC:
         And I reset the email log
         #
@@ -22,9 +22,9 @@ Feature: User Self Registration
         And I should be on "/register"
         #
         # Add user to casrec and expect error for postcode
-        # 
+        #
         Given I add the following users to CASREC:
-            | Case      | Surname       | Deputy No | Dep Surname  | Dep Postcode | 
+            | Case      | Surname       | Deputy No | Dep Surname  | Dep Postcode |
             |11112222   | Cross-Tolley  | D001      | Tolley | SW1 3RF      |
             |11113333   | Cross-Tolley2 | D002     | Tolley2 | SW1 3RF2      |
         #
@@ -38,7 +38,7 @@ Feature: User Self Registration
         # fix postcode and expect success
         #
         And I fill in the following:
-            | self_registration_postcode  | SW1 3RF |  
+            | self_registration_postcode  | SW1 3RF |
         And I press "self_registration_save"
         Then the form should be valid
         And I save the page as "selfreg-ok"
@@ -56,7 +56,7 @@ Feature: User Self Registration
             | login_password  | Abcd1234 |
         Then I click on "login"
         Then I should see "behat-zac.tolley@digital.justice.gov.uk" in the "users" region
-       
+
     @deputy
     Scenario: Inform the use that Someone else has already registered with this case number
         Given I am on "/register"
@@ -138,7 +138,7 @@ Feature: User Self Registration
             | client_address |  address1 |
             | client_country | GB |
             | client_postcode | SW1 1RH |
-            | client_allowedCourtOrderTypes_1 | 1 |
+            | client_allowedCourtOrderTypes_0 | 2 |
         And I press "client_save"
         Then the URL should match "/report/create/\d+"
         And I set the report start date to "1/1/2016"
