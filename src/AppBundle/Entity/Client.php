@@ -75,7 +75,6 @@ class Client
     /**
      * @JMS\Accessor(setter="setAllowedCourtOrderTypes")
      * @JMS\Type("array")
-     * @Assert\NotBlank( message = "client.allowedCourtOrderTypes.notBlank")
      * @var array allowedCourtOrderTypes
      */
     private $allowedCourtOrderTypes;
