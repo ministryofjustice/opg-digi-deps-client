@@ -13,9 +13,6 @@ Feature: deputy / user / add client and report
             | client_courtDate_day |
             | client_courtDate_month |
             | client_courtDate_year |
-            | client_allowedCourtOrderTypes_0 |
-            | client_allowedCourtOrderTypes_1 |
-            | client_caseNumber |
             | client_caseNumber |
             | client_address |
             | client_postcode |
@@ -26,9 +23,6 @@ Feature: deputy / user / add client and report
             | client_courtDate_day |
             | client_courtDate_month |
             | client_courtDate_year |
-            | client_allowedCourtOrderTypes_0 |
-            | client_allowedCourtOrderTypes_1 |
-            | client_caseNumber |
             | client_caseNumber |
             | client_address |
             | client_postcode |
@@ -59,8 +53,6 @@ Feature: deputy / user / add client and report
             | client_address2 |
             | client_county |
             | client_postcode |
-            | client_allowedCourtOrderTypes_0 |
-            | client_allowedCourtOrderTypes_1 |
             | client_phone |
         And I save the page as "deputy-step3-errors"
         # right values
@@ -68,7 +60,6 @@ Feature: deputy / user / add client and report
             | name | Peter | White |  | | |
             | caseNumber | 12345ABC | | | | |
             | courtDate | 1 | 1 | 2016 | | |
-            | allowedCourtOrderTypes_0 | 2 | | | | |
             | address |  1 South Parade | First Floor  | Nottingham  | NG1 2HT  | GB |
             | phone | 0123456789  | | | | |
         Then the URL should match "report/create/\d+"
@@ -80,7 +71,6 @@ Feature: deputy / user / add client and report
             | client_courtDate_day | 01 |
             | client_courtDate_month | 01 |
             | client_courtDate_year | 2016 |
-            | client_allowedCourtOrderTypes_0 | 2 |
             | client_address |  1 South Parade |
             | client_address2 | First Floor  |
             | client_county | Nottingham  |
