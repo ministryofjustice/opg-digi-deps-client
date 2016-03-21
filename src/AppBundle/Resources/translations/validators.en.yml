@@ -57,8 +57,6 @@ client:
         maxMessage: The address can't be longer than {{ limit }} characters
     county:
         maxMessage: The county can't be longer than {{ limit }} characters
-    allowedCourtOrderTypes:
-        notBlank: You must select either Property and Affairs or Personal Welfare
     postcode:
         notBlank: Enter your client's postcode
         minMessage: The postcode must be at least {{ limit }} characters

@@ -15,7 +15,6 @@ Feature: Safeguarding Data entry
             | name | Peter | White | | | |
             | caseNumber | 12345ABC | | | | |
             | courtDate | 1 | 1 | 2016 | | |
-            | allowedCourtOrderTypes_0 | 2 | | | | |
             | address |  1 South Parade | First Floor  | Nottingham  | NG1 2HT  | GB |
             | phone | 07814000111 |  | | | |
       And I set the report start date to "1/1/2016"

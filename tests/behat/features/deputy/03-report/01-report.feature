@@ -1,19 +1,5 @@
 Feature: deputy / report / edit and test tabs
-    
-    @deputy
-    Scenario: test tabs for "Health & Welfare" report
-        Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-        And I save the page as "report-health-welfare-homepage"
-        And I should see a "#edit-decisions" element
-        And I should see a "#edit-contacts" element
-        But I should not see a "#edit-accounts" element
-        And I should not see a "#edit-assets" element
-        And I should see a "#edit-safeguarding" element
-
-    @deputy
-    Scenario: change report type to "Property and Affairs"
-        Given I change the report "1" court order type to "Property and Affairs"
-        
+            
     @deputy
     Scenario: edit report
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
@@ -49,7 +35,7 @@ Feature: deputy / report / edit and test tabs
             | report_edit_startDate_year | 2016 |
             | report_edit_endDate_day | 31 |
             | report_edit_endDate_month | 12 |
-            | report_edit_endDate_year | 2016 |    
+            | report_edit_endDate_year | 2016 |
         And I press "report_edit_save"
         Then the form should be valid
         # check values

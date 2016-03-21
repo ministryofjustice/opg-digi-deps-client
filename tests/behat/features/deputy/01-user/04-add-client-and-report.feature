@@ -1,5 +1,5 @@
 Feature: deputy / user / add client and report
-    
+
     @deputy
     Scenario: add client
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
@@ -13,12 +13,9 @@ Feature: deputy / user / add client and report
             | client_courtDate_day |
             | client_courtDate_month |
             | client_courtDate_year |
-            | client_allowedCourtOrderTypes_0 |
-            | client_allowedCourtOrderTypes_1 |
-            | client_caseNumber |
             | client_caseNumber |
             | client_address |
-            | client_postcode | 
+            | client_postcode |
         And I press "client_save"
         Then the following fields should have an error:
             | client_firstname |
@@ -26,12 +23,9 @@ Feature: deputy / user / add client and report
             | client_courtDate_day |
             | client_courtDate_month |
             | client_courtDate_year |
-            | client_allowedCourtOrderTypes_0 |
-            | client_allowedCourtOrderTypes_1 |
-            | client_caseNumber |
             | client_caseNumber |
             | client_address |
-            | client_postcode | 
+            | client_postcode |
         And I save the page as "deputy-step3-errors-empty"
         # subit invalid values and check errors
         When I press "client_save"
@@ -45,11 +39,11 @@ Feature: deputy / user / add client and report
             | client_address |  01234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-01234567890 more than 200 chars |
             | client_address2 |  01234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-01234567890 more than 200 chars |
             | client_county |  01234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-0123456789001234567890-01234567890-01234567890-01234567890-01234567890 more than 200 chars |
-            | client_postcode | 01234567890 more than 10 chars | 
+            | client_postcode | 01234567890 more than 10 chars |
             | client_phone | 01234567890-01234567890 more than 20 chars |
         And I press "client_save"
         Then the following fields should have an error:
-          | client_firstname | 
+          | client_firstname |
             | client_lastname |
             | client_caseNumber |
             | client_courtDate_day |
@@ -59,16 +53,13 @@ Feature: deputy / user / add client and report
             | client_address2 |
             | client_county |
             | client_postcode |
-            | client_allowedCourtOrderTypes_0 |
-            | client_allowedCourtOrderTypes_1 |
-            | client_phone | 
+            | client_phone |
         And I save the page as "deputy-step3-errors"
         # right values
        When I set the client details to:
             | name | Peter | White |  | | |
             | caseNumber | 12345ABC | | | | |
             | courtDate | 1 | 1 | 2016 | | |
-            | allowedCourtOrderTypes_1 | 1 | | | | |
             | address |  1 South Parade | First Floor  | Nottingham  | NG1 2HT  | GB |
             | phone | 0123456789  | | | | |
         Then the URL should match "report/create/\d+"
@@ -80,16 +71,15 @@ Feature: deputy / user / add client and report
             | client_courtDate_day | 01 |
             | client_courtDate_month | 01 |
             | client_courtDate_year | 2016 |
-            | client_allowedCourtOrderTypes_1 | 1 |
             | client_address |  1 South Parade |
             | client_address2 | First Floor  |
             | client_county | Nottingham  |
             | client_postcode | NG1 2HT  |
             | client_country | GB |
             | client_phone | 0123456789  |
-       
 
-    @deputy    
+
+    @deputy
     Scenario: create report
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
         Then the URL should match "report/create/\d+"
@@ -173,7 +163,7 @@ Feature: deputy / user / add client and report
         And I should see the "report-2016" link
         And I should not see the "create-new-report" link
         And I save the page as "deputy-client-home"
-        
+
     @deputy
     Scenario: report-overview
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
