@@ -58,7 +58,7 @@ class AssetController extends AbstractController
         $form->handleRequest($request);
         if ($form->isValid()) {
             return $this->redirect($this->generateUrl('asset_add_complete', [ 'reportId' => $reportId, 'title' => $form->getData()->getTitle()]));
-        }
+        } 
 
         return [
             'report' => $report,
@@ -93,8 +93,11 @@ class AssetController extends AbstractController
             $this->get('restClient')->post("report/{$reportId}/asset", $asset);
             $report->setNoAssetToAdd(false);
             $this->getRestClient()->put('report/' . $reportId, $report);
-
+            $this->flashSuccess();
+            
             return $this->redirect($this->generateUrl('assets', [ 'reportId' => $reportId]));
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
@@ -126,8 +129,11 @@ class AssetController extends AbstractController
         if ($form->isValid()) {
             $asset = $form->getData();
             $this->get('restClient')->put("report/{$reportId}/asset/{$assetId}", $asset);
-
+            $this->flashSuccess();
+            
             return $this->redirect($this->generateUrl('assets', [ 'reportId' => $reportId]));
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
@@ -151,6 +157,7 @@ class AssetController extends AbstractController
         if ($report->hasAssetWithId($id)) {
             $restClient->delete("/report/{$reportId}/asset/{$id}");
         }
+        $this->flashSuccess();
 
         return $this->redirect($this->generateUrl('assets', [ 'reportId' => $reportId]));
     }
@@ -176,6 +183,7 @@ class AssetController extends AbstractController
                 $report->setNoAssetToAdd(false);
                 $this->getRestClient()->put('report/' . $reportId, $report);
             }
+            $this->flashSuccess();
 
         }
 
