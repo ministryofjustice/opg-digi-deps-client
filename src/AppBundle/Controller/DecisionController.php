@@ -57,7 +57,11 @@ class DecisionController extends AbstractController
                 'deserialise_group' => 'Default'
             ]);
             
+            $this->flashSuccess();
+
             return $this->redirect($this->generateUrl('decisions', ['reportId'=>$reportId]) );
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
@@ -92,7 +96,11 @@ class DecisionController extends AbstractController
                  'deserialise_group' => 'Default'
             ]);
             
+            $this->addFlash('flash-top', 'error');
+            
             return $this->redirect($this->generateUrl('decisions', ['reportId'=>$reportId]));
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
@@ -121,6 +129,8 @@ class DecisionController extends AbstractController
             }
         }
         
+        $this->flashSuccess();
+        
         return $this->redirect($this->generateUrl('decisions', [ 'reportId' => $reportId ]));
     
     }
@@ -139,6 +149,9 @@ class DecisionController extends AbstractController
             $report->setReasonForNoDecisions(null);
             $restClient->put('report/'.$report->getId(),$report);
         }
+        
+        $this->flashSuccess();
+        
         return $this->redirect($this->generateUrl('decisions', ['reportId' => $report->getId()]));
     }
 
@@ -160,8 +173,11 @@ class DecisionController extends AbstractController
             $data = $form->getData();
             $restClient->put('report/'. $reportId,$data);
 
-            return $this->redirect($this->generateUrl('decisions', ['reportId'=>$reportId]));
+            $this->flashSuccess();
             
+            return $this->redirect($this->generateUrl('decisions', ['reportId'=>$reportId]));
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
         
         return [
@@ -188,6 +204,9 @@ class DecisionController extends AbstractController
         if($form->isValid()){
             $data = $form->getData();
             $this->getRestClient()->put('report/'. $reportId,$data);
+            $this->flashSuccess();
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
         
         return [
