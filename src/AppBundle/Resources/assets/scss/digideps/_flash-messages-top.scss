@@ -25,9 +25,6 @@
                 @include media(mobile) {
                     background-size: 26.5px 22px;    
                 }
-                @include device-pixel-ratio() {
-                    background-image: url("images/icons/savetick_white_2x.png");
-                }
             }
 
             
