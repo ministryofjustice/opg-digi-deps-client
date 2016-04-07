@@ -95,5 +95,21 @@ class AbstractController extends Controller
 
         return $report;
     }
+    
+    /**
+     * Display a success message on the header
+     */
+    protected function flashSuccess()
+    {
+        $this->addFlash('flash-top', 'success');
+    }
+    
+    /**
+     * Display a failure message on the header
+     */
+    protected function flashFailure()
+    {
+        $this->addFlash('flash-top', 'failure');
+    }
 
 }
