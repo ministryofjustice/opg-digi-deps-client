@@ -56,8 +56,11 @@ class ContactController extends AbstractController
             $this->get('restClient')->post('report/contact', $data, [
                 'deserialise_group' => 'Default'
             ]);
-
+            $this->flashSuccess();
+            
             return $this->redirect($this->generateUrl('contacts', ['reportId'=>$reportId]));
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
@@ -85,8 +88,11 @@ class ContactController extends AbstractController
 
             $data = $form->getData();
             $this->get('restClient')->put('report/contact', $data);
-
+            $this->flashSuccess();
+            
             return $this->redirect($this->generateUrl('contacts', ['reportId'=>$reportId]));
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
@@ -112,6 +118,7 @@ class ContactController extends AbstractController
                 $this->get('restClient')->delete("/report/contact/{$id}");
             }
         }
+        $this->flashSuccess();
 
         return $this->redirect($this->generateUrl('contacts', [ 'reportId' => $reportId ]));
 
@@ -129,6 +136,8 @@ class ContactController extends AbstractController
             $report->setReasonForNoContacts(null);
             $this->get('restClient')->put('report/'.$report->getId(),$report);
         }
+        $this->flashSuccess();
+        
         return $this->redirect($this->generateUrl('contacts', ['reportId' => $report->getId()]));
     }
     
@@ -148,9 +157,12 @@ class ContactController extends AbstractController
 
             $data = $form->getData();
             $this->get('restClient')->put('report/'. $reportId,$data);
-
+            $this->flashSuccess();
+            
             return $this->redirect($this->generateUrl('contacts', ['reportId'=>$reportId]));
 
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
@@ -176,6 +188,9 @@ class ContactController extends AbstractController
         if($form->isValid()){
             $data = $form->getData();
             $this->get('restClient')->put('report/'. $reportId,$data);
+            $this->flashSuccess();
+        } else if ($form->isSubmitted()) {
+            $this->flashFailure();
         }
 
         return [
