@@ -96,9 +96,18 @@
       </div>
     </div>
     <!--end global-cookie-message-->
-
-
-    <header role="banner" id="global-header" class="with-proposition {% block headerClass %}{% endblock %}">
+    {% set flashMessagesTop = app.session.flashbag.get('flash-top')%}
+    {% for messageType in flashMessagesTop %}    
+        <div class="flash-message-top {{ messageType }}" >
+          <div class="outer" >
+            <div class="inner {{ messageType }}">
+                {{ ('flashMessageTop.' ~ messageType) | trans({}, 'home')  }}
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+    
+    <header role="banner" id="global-header" class="with-proposition {% block headerClass %}{% endblock %}{{ flashMessagesTop is empty ? '' : 'hidden' }}">
       <div class="header-wrapper">
         <div class="header-global">
           <div class="header-logo">
@@ -119,8 +128,7 @@
 
       </div>
     </header>
-    <!--end header-->
-
+    
 
     <!--[if lte IE 6]><script>document.body.className = document.body.className.replace('js-enabled','');</script><![endif]-->
     {% block afterHeader %}{% endblock %}

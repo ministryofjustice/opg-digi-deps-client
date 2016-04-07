@@ -1,0 +1,37 @@
+.flash-message-top {
+    
+    &.success {
+        background-color: $green-flash;
+    }
+
+    &.failure {
+        background-color: $yellow-flash;
+    }
+    
+    .outer {
+        width: 30%;  
+        margin: 0 auto; 
+        padding: 10px 10px 1px 10px; 
+
+        .inner {
+            color: white; 
+            font-size: 1.5em; 
+            font-weight: bold; 
+            margin: 10px;
+
+            &.success {
+                background: top left url("images/icons/savetick_white.png") no-repeat;
+                padding-left: 40px;
+                @include media(mobile) {
+                    background-size: 26.5px 22px;    
+                }
+                @include device-pixel-ratio() {
+                    background-image: url("images/icons/savetick_white_2x.png");
+                }
+            }
+
+            
+        }
+    }
+    
+}

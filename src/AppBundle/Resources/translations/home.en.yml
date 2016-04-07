@@ -20,3 +20,8 @@ wemaystill: We may still need to contact you
 yourpriv: Your privacy
 youandclient: "You' and the 'client'"
 signin: Log in
+
+
+flashMessageTop:
+    success: Your changes have been saved
+    failure: Your changes haven’t saved, please try again
