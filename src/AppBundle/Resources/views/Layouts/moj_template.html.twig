@@ -107,7 +107,17 @@
         </div>
     {% endfor %}
     
-    <header role="banner" id="global-header" class="with-proposition {% block headerClass %}{% endblock %}{{ flashMessagesTop is empty ? '' : 'hidden' }}">
+    {% if flashMessagesTop is not empty %}
+        <script>
+            $(document).ready(function() {
+                window.setTimeout(function () {
+                    $('.flash-message-top').slideUp();
+                }, 5000);
+           });
+        </script>
+    {% endif %}
+    
+    <header role="banner" id="global-header" class="with-proposition {% block headerClass %}{% endblock %}">
       <div class="header-wrapper">
         <div class="header-global">
           <div class="header-logo">

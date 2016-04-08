@@ -1,5 +1,11 @@
 .flash-message-top {
     
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 77px;
+    z-index: 1000;
+
     &.success {
         background-color: $green-flash;
     }
