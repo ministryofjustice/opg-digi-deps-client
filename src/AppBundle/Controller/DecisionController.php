@@ -96,7 +96,7 @@ class DecisionController extends AbstractController
                  'deserialise_group' => 'Default'
             ]);
             
-            $this->addFlash('flash-top', 'error');
+            $this->flashFailure();
             
             return $this->redirect($this->generateUrl('decisions', ['reportId'=>$reportId]));
         } else if ($form->isSubmitted()) {
