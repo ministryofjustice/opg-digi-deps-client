@@ -183,7 +183,6 @@ class AssetController extends AbstractController
                 $report->setNoAssetToAdd(false);
                 $this->getRestClient()->put('report/' . $reportId, $report);
             }
-            $this->flashSuccess();
 
         }
 
