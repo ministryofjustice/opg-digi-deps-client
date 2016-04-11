@@ -131,6 +131,7 @@ class Report
     
     /**
      * @JMS\Type("boolean")
+     * @JMS\Groups({"no_assets_add"})
      * @var boolean $noAssetToAdd
      */
     private $noAssetToAdd;

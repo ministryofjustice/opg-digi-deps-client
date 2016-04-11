@@ -175,15 +175,15 @@ class AssetController extends AbstractController
         $form->handleRequest($request);
 
         if ($request->getMethod() == "POST") {
-
             if ($form->isValid()) {
                 $data = $form->getData();
-                $this->getRestClient()->put('report/' . $reportId, $data);
+                $this->getRestClient()->put('report/' . $reportId, $data, [
+                     'deserialise_group' => 'no_assets_add'
+                ]);
+                $this->flashSuccess();
             } else {
-                $report->setNoAssetToAdd(false);
-                $this->getRestClient()->put('report/' . $reportId, $report);
+                $this->flashFailure();
             }
-
         }
 
         return [
