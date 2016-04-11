@@ -90,15 +90,17 @@ Feature: deputy / report / edit asset
       And I click on "asset-impressionist-painting"
       And I click on "delete-button"
       Then the checkbox "report_noAssetToAdd" should be unchecked
-      And I save the page as "report-no-asset-empty"
+      And I save the page as "report-no-asset-checked"
       # submit without ticking the box
-      And I press "report_saveNoAsset"
-      Then the form should be invalid
-      And I save the page as "report-no-asset-error"
+      When I press "report_saveNoAsset"
+      Then the form should be valid
+      Then the checkbox "report_noAssetToAdd" should be unchecked
+      And I save the page as "report-no-asset-unchecked"
       # tick and submit
       When I check "report_noAssetToAdd"
       And I press "report_saveNoAsset"
       Then the form should be valid
+      Then the checkbox "report_noAssetToAdd" should be checked
       And I save the page as "report-no-asset-added"
       And I should see the "no-assets-selected" region
       # add asset 
