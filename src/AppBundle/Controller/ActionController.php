@@ -39,8 +39,11 @@ class ActionController extends AbstractController{
             $data->setReport($report);
 
             $this->get('restClient')->put('report/'.$reportId.'/action' , $data);
-
+            $this->flashSuccess();
+            
             return $this->redirect($this->generateUrl('actions', ['reportId'=>$reportId]) . "#pageBody");
+        } else if ($form->get('save')->isClicked() && !$form->isValid()) {
+            $this->flashFailure();
         }
 
         $reportStatusService = new ReportStatusService($report, $this->get('translator'));
