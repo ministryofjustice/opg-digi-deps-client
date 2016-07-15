@@ -1,4 +1,4 @@
-FROM registry.service.dsd.io/opguk/php-fpm:0.1.171
+FROM registry.service.dsd.io/opguk/php-fpm:0.1.172
 
 # adds nodejs pkg repository
 RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
@@ -60,3 +60,8 @@ RUN  chmod a+x /etc/my_init.d/*
 
 ENV  OPG_SERVICE client
 ENV  OPG_DOCKER_TAG 0.0.0
+
+# Set custom web root and index document
+ENV OPG_NGINX_ROOT /app/web
+ENV OPG_NGINX_INDEX app.php
+
