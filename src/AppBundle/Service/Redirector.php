@@ -86,8 +86,6 @@ class Redirector
             return $this->getAdminHomepage();
         } elseif ($this->security->isGranted('ROLE_LAY_DEPUTY')) {
             return $this->getLayDeputyHomepage($user, $enabledLastAccessedUrl);
-        } elseif ($this->security->isGranted('ROLE_AD')) {
-            return $this->getAdHomepage($user, $enabledLastAccessedUrl);
         } else {
             return $this->router->generate('access_denied');
         }
@@ -102,14 +100,6 @@ class Redirector
     }
 
     /**
-     * @return string URL
-     */
-    private function getAdHomepage()
-    {
-        return $this->router->generate('ad_homepage');
-    }
-
-    /**
      * @return array [route, options]
      */
     private function getLayDeputyHomepage($user, $enabledLastAccessedUrl)
@@ -118,24 +108,31 @@ class Redirector
             return $this->router->generate('user_details');
         }
 
+        // redirect to add_client if client is not added
         $clientId = $user->getIdOfClientWithDetails();
         if (!$clientId) {
             return $this->router->generate('client_add');
         }
 
-        if (0 == $user->getNumberOfReports()) {
-            return $this->router->generate('report_create', ['clientId' => $clientId]);
-        }
+        // redirect to create report if report is not created
+        //if (0 == $user->getNumberOfReports()) {
+        //    return $this->router->generate('report_create', ['clientId' => $clientId]);
+        //}
 
+        // last accessed url
         if ($enabledLastAccessedUrl && $lastUsedUri = $this->getLastAccessedUrl()) {
             return $lastUsedUri;
         }
 
+        // if there is an active report, redirect to its overview page
         if ($activeReportId = $user->getActiveReportId()) {
             return $this->router->generate('report_overview', ['reportId' => $activeReportId]);
         }
 
-        return $this->router->generate('reports', ['cot' => EntityDir\Report\Report::PROPERTY_AND_AFFAIRS]);
+        // default => ODR homepage / dashboard
+        return $this->router->generate('odr_index');
+
+        //return $this->router->generate('reports', ['cot' => EntityDir\Report\Report::PROPERTY_AND_AFFAIRS]);
     }
 
     /**

@@ -81,7 +81,7 @@ class ClientController extends AbstractController
                       ? $this->getRestClient()->post('client/upsert', $form->getData())
                       : $this->getRestClient()->put('client/upsert', $form->getData());
 
-            return $this->redirect($this->generateUrl('report_create', ['clientId' => $response['id']]));
+            return $this->redirect($this->generateUrl('odr_index'));
         }
 
         return ['form' => $form->createView()];

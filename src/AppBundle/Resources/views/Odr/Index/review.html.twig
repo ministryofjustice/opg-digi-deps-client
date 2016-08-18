@@ -1,0 +1,62 @@
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+{% block pageTitle %}ODR{% endblock %}
+
+{% block pageContent %}
+
+    {% if odr.submitted == true %}
+        <nav id="back-bar">
+            <a id="overview-button" href="{{ path('odr_index') }}">Return to Homepage</a>
+            {% include 'AppBundle:Components:_helpline.html.twig' %}
+        </nav>
+    {% endif %}
+    
+    <div id="page-section-title-container" class="page-section-title-container">
+        <h1>Review Opening Deputyship Report</h1>
+    </div>
+    {% if odr.submitted == false %}
+        {% if odrStatus.isReadyToSubmit and odr.isDue %}
+            {% include 'AppBundle:Components:nextprevioussimple.html.twig' with {
+            'previousLink': path("odr_overview" , {'odrId': odr.id }),
+            'previousLabel': 'Edit Opening deputyship record',
+            'position': 'top'
+            } %}
+        {% else  %}
+            {% include 'AppBundle:Components:nextprevioussimple.html.twig' with {
+            'previousLink': path("odr_overview" , {'odrId': odr.id }),
+            'previousLabel': 'Edit Opening deputyship record',
+            'position': 'top'
+            } %}
+        {% endif %}
+    {% endif %}
+    <a name="pageBody"></a>
+    
+    <div id="page-body">
+        <a class="pdflink" href="{{ path('odr_pdf', {'odrId': odr.id}) }}">Download as PDF</a>
+        {% include 'AppBundle:Odr/Formatted:formatted.html.twig' %}
+    </div>
+
+    <div id="body-footer-nav">
+        {% if odr.submitted == false %}
+            {% if odrStatus.isReadyToSubmit  %}
+                {% include 'AppBundle:Components:nextprevioussimple.html.twig' with {
+                'previousLink': path("odr_overview" , {'odrId': odr.id }),
+                'previousLabel': 'Edit Opening deputyship record',
+                'position': 'bottom'
+                } %}
+            {% else  %}
+                {% include 'AppBundle:Components:nextprevioussimple.html.twig' with {
+                'previousLink': path("odr_overview" , {'odrId': odr.id }),
+                'previousLabel': 'Edit Opening deputyship record',
+                'position': 'bottom'
+                } %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var ga = new opg.Ga({'timeout': 250});
+            ga.trackDownloadableLink($('.pdflink'));
+        });
+    </script>
+{% endblock %}

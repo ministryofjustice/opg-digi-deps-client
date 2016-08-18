@@ -1,0 +1,94 @@
+page.htmlTitle: "Opening deputyship report - overview | GOV.UK"
+report: "Opening deputyship report"
+pageSectionTitle: "Opening deputyship report"
+pageSectionDescription: "Your opening deputyship report:"
+heading:
+    title: "Opening deputyship deport"
+    planningTitle: ""
+    careAndWelfare: ""
+    finances: ""
+    finishYourReport: ""
+
+close: "Close"
+help: "Help"
+submitWhenReady: "You can't submit your opening deputyship report until it is complete"
+warningNotDue: "You can't submit your report until <span id=\"submit-start-at\">%date%</span>"
+reportingPeriod: "Reporting period"
+edit: "Edit"
+dueDate: "Due date"
+odrIsReady: "Opening deputyship report is ready to submit"
+yourFinalStep: "Your final step"
+signAndSubmit: "Check and submit"
+
+
+sectionsRemaining: "sections remaining"
+overview: Opening Deputyship Report
+
+contacts:
+    subSectionTitle: "Contacts"
+    subSectionDescription: "Tell us about the people you consulted regarding %client%"
+    edit: "Edit contacts"
+    start: "Start contacts"
+decisions:
+    subSectionTitle: "Decisions"
+    subSectionDescription: "Let us know about any significant decisions you've made for %client%"
+    edit: "Edit decisions"
+    start: "Start decisions"
+actions:
+    subSectionTitle: "Actions you plan to take"
+    subSectionDescription: "Keep us informed of any major changes due in the next reporting period"
+    edit: "Edit actions"
+    start: "Start actions"
+accounts:
+    subSectionTitle: "Finances"
+    subSectionDescription: "Enter details of all income and spending in the reporting period"
+    edit: "Edit finances"
+    start: "Start finances"
+transfers:
+    subSectionTitle: "Money transfers"
+    subSectionDescription: "Tell us about any money you've moved between %client%'s accounts"
+    edit: "Edit transfers"
+    start: "Start money transfers"
+transfersInactive:
+    subSectionTitle: "Money transfers"
+    subSectionDescription: "This will become available if you have more than one account"
+    edit: "Edit transfers"
+    start: "Start money transfers"
+visitsCare:
+    subSectionTitle: "Visits and care"
+    subSectionDescription: "To safeguard %client%'s welfare, we need to know about your involvement in their care"
+    edit: "Edit visits and care"
+    start: "Start visits and care"
+assets:
+    subSectionTitle: "Assets and debts"
+    subSectionDescription: "Enter details of %client%'s property, investments and other valuables"
+    edit: "Edit assets and debts"
+    start: "Start assets and debts"
+odr_add_further_info:
+    subSectionTitle: "Sign and submit"
+    edit: "Start sign and submit"
+    start: "Start sign and submit"
+
+
+additionalInformation:
+  subSectionTitle: More information
+
+odrSubmit:
+    checkbox:
+        label: I have reviewed and checked this opening deputyship report.
+
+decisionsMadeAsDeputy: Decisions made as deputy
+
+announcement: |
+  We’ve made some changes to the layout of this page.<br/>
+  Use the links on this page to view and edit the different sections of your opening deputyship report.
+
+status:
+    notStarted: "Not started"
+    notFinished: "Not finished"
+    readyToSubmit: "Ready to submit"
+
+labels:
+    not-started: "Not started"
+    incomplete: "Not finished"
+    done: "Finished"

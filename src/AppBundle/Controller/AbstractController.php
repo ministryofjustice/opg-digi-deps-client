@@ -35,9 +35,9 @@ class AbstractController extends Controller
     /**
      * @return Client|null
      */
-    protected function getFirstClient()
+    protected function getFirstClient($groups = ['user', 'client'])
     {
-        $user = $this->getRestClient()->get('user/'.$this->getUser()->getId(), 'User', ['user', 'client']); /* @var $user EntityDir\User*/
+        $user = $this->getRestClient()->get('user/'.$this->getUser()->getId(), 'User', $groups); /* @var $user EntityDir\User*/
         $clients = $user->getClients();
 
         return !empty($clients) ? $clients[0] : null;
@@ -60,7 +60,6 @@ class AbstractController extends Controller
 
     /**
      * @param int   $reportId
-     * @param int   $userId   for secutity checks (if present)
      * @param array $groups
      * 
      * @return Report\Report
@@ -72,6 +71,17 @@ class AbstractController extends Controller
         $groups = array_unique($groups);
         sort($groups); // helps HTTP caching
         return $this->getRestClient()->get("report/{$reportId}", 'Report\\Report', $groups);
+    }
+
+    /**
+     * @param int   $odrId
+     * @param array $groups
+     *
+     * @return Odr
+     */
+    public function getOdr($odrId, array $groups/* = ['basic']*/)
+    {
+        return $this->getRestClient()->get("odr/{$odrId}", 'Odr\Odr', $groups);
     }
 
     /**

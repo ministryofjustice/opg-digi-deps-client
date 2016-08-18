@@ -1,0 +1,96 @@
+{% embed 'AppBundle:Layouts:odr_left_nav.html.twig' %}
+    {% set translationDomain = "odr-income-benefits" %}
+    {% trans_default_domain translationDomain %}
+
+    {% set clientTrans = {'%client%': odr.client.firstname} %}
+
+    {% block pageTitle %}{{ 'page.htmlTitle' | trans }}{% endblock %}
+    {% block title %}
+        {{ 'page.pageSectionTitle' | trans(clientTrans) }}
+    {% endblock %}
+
+    {% block leftcontent %}
+        {% include 'AppBundle:Odr/Finance:left-nav.html.twig' %}
+    {% endblock %}
+
+    {% block maincontent %}
+
+        <p class="page-section-description">
+            {{ 'page.pageDescription' | trans(clientTrans, translationDomain) }}</p>
+
+        <div class="expanding-transaction-table">
+            <div class="sections">
+                {% include 'AppBundle:Odr/Finance/IncomeBenefits:_checkboxes.html.twig' with {
+                categoryKey: 'stateBenefits',
+                form: formStateBenefit,
+                formElements: formStateBenefit.stateBenefits,
+                } %}
+
+                {% include 'AppBundle:Odr/Finance/IncomeBenefits:_pensions_other_income.html.twig' with {
+                categoryKey: 'pensionsOtherIncome',
+                form: formPension
+                } %}
+
+                {% include 'AppBundle:Odr/Finance/IncomeBenefits:_damages.html.twig' with {
+                categoryKey: 'damage',
+                form: formDamage
+                } %}
+
+                {% include 'AppBundle:Odr/Finance/IncomeBenefits:_checkboxes.html.twig' with {
+                categoryKey: 'oneOff',
+                formElements: formOneOff.oneOff,
+                form: formOneOff,
+                sectionClass: 'no-border-bottom',
+                } %}
+            </div>
+        </div>
+
+
+        <script>
+            $(document).ready(function () {
+                new GOVUK.ExpandingTransactionTable('.expanding-transaction-table');
+                {#new GOVUK.AutoSave({#}
+                {#form: $('form.expanding-transaction-table'),#}
+                {#statusElement: $('#save-status'),#}
+                {#url: '{{ path('accounts_money_save_json', {'reportId': odr.id, 'type': jsonEndpoint}) }}',#}
+                {#preprocessor: GOVUK.moneyInOuPreprocessor#}
+                {#});#}
+//                $('form.expanding-transaction-table button[type="submit"]').hide();
+
+//                $('.add-transaction').removeClass('hidden');
+
+//                $('input.transaction-value').on('blur', function (event) {
+//                    GOVUK.formatCurrency(event.target);
+//                });
+
+                GOVUK.accountTransactionExpander();
+
+                new opg.RadioHide({
+                    radio: '.expect-compensation-damages input[type=radio]',
+                    content: '#expect-compensation-damages-details',
+                    showWithValue: 'yes'
+                });
+                new opg.RadioHide({
+                    radio: '.receive-other-income input[type=radio]',
+                    content: '#receive-other-income-details',
+                    showWithValue: 'yes'
+                });
+
+            });
+        </script>
+
+
+
+    {% endblock %}
+
+    {% block pageBodyFooterNav %}
+        {% include 'AppBundle:Components:nextprevious.html.twig' with {
+        'previousLink': path("odr-bank-accounts" , {'odrId': odr.id }),
+        'previousLabel': 'Accounts',
+        'nextLink': path("odr-assets" , {'odrId': odr.id }),
+        'nextLabel': 'Assets and debts'
+        } %}
+    {% endblock %}
+
+
+{% endembed %}
