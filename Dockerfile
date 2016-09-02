@@ -1,4 +1,4 @@
-FROM registry.service.dsd.io/opguk/php-fpm:0.1.128
+FROM registry.service.opg.digital/opguk/php-fpm:latest
 
 # adds nodejs pkg repository
 RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
@@ -16,7 +16,8 @@ RUN  cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.
 
 RUN  npm install --global gulp
 RUN  npm install --global browserify
-RUN  gem install sass scss_lint
+RUN  gem install sass -v 3.4.22
+RUN  gem install scss_lint -v 0.49.0
 
 # build app dependencies
 COPY composer.json /app/
