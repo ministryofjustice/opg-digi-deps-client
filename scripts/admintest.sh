@@ -7,8 +7,8 @@ cd /app
 /sbin/setuser app mkdir -p /tmp/behat
 apt-get update > /dev/null 2>&1
 export PGHOST=${API_DATABASE_HOSTNAME:=postgres}
-export PGPASSWORD=${API_DATABASE_HOSTNAME:=api}
-export PGDATABASE=${API_DATABASE_HOSTNAME:=postgres}
-export PGUSER=${API_DATABASE_HOSTNAME:=postgres}
+export PGPASSWORD=${API_DATABASE_PASSWORD:=api}
+export PGDATABASE=${API_DATABASE_NAME:=api}
+export PGUSER=${API_DATABASE_USERNAME:=api}
 rm -rf app/cache/*
 /sbin/setuser app bin/behat --config=tests/behat/behat.yml.dist --suite=admin --profile=${PROFILE:=headless} --stop-on-failure
