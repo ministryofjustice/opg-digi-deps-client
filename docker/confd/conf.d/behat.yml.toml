@@ -1,6 +1,6 @@
 [template]
-src = "behat.yml.dist.tmpl"
-dest = "/app/tests/behat/behat.yml.dist"
+src = "behat.yml.tmpl"
+dest = "/app/tests/behat/behat.yml"
 keys = [
     "/api/database",
     "/frontend/env/frontend/nonadmin",
