@@ -8,16 +8,22 @@ default:
             filters:
                 tags: "@deputy&&~@javascript"
             contexts:
-                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv '/api/database/name' 'api'}}, sessionName: 'digideps', autoDbSnapshot: true }]
-
+            {{ if exists "/api/database/name" }}
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps', autoDbSnapshot: true }]
+            {{ else }}
+                - DigidepsBehat\FeatureContext: [{ dbName: "api", sessionName: 'digideps', autoDbSnapshot: true }]
+            {{ end }}
         admin:
             description: End to end journey for Admin user
             paths:    [ %paths.base%/features/admin ]
             filters:
                 tags: "~@javascript"
             contexts:
-                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv '/api/database/name' 'api'}}, autoDbSnapshot: true }]
-
+            {{ if exists "/api/database/name" }}
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }}, autoDbSnapshot: true }]
+            {{ else }}
+                - DigidepsBehat\FeatureContext: [{ dbName: "api", autoDbSnapshot: true }]
+            {{ end }}
         components:
             description: Tests related to textareas
             paths:    [ %paths.base%/features/components ]
@@ -136,5 +142,9 @@ headless:
     extensions:
         Behat\MinkExtension\ServiceContainer\MinkExtension:
             goutte: ~
-            base_url: {{ getv "/frontend/env/frontend/nonadmin/host" "http://digideps-client.local/" }}
+        {{ if exists "/frontend/nonadmin/host" }}
+            base_url: {{ getv "/frontend/nonadmin/host" }}
+        {{ else }}
+            base_url: "http://digideps-client.local/"
+        {{ end }}
 
