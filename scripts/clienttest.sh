@@ -11,8 +11,8 @@ cd /app
 /sbin/setuser app mkdir -p /tmp/behat
 export PGHOST=${API_DATABASE_HOSTNAME:=postgres}
 export PGPASSWORD=${API_DATABASE_PASSWORD:=api}
-export PGDATABASE=${API_DATABASE_NAME:=api}
-export PGUSER=${API_DATABASE_USERNAME:=api}
+export PGDATABASE=${API_DATABASE_NAME:=postgres}
+export PGUSER=${API_DATABASE_USERNAME:=postgres}
 rm -rf app/cache/*
 # deprecated
 suitename=${1:-deputy}
