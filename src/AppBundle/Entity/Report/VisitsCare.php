@@ -25,7 +25,7 @@ class VisitsCare
      * @JMS\Type("string")
      * @JMS\Groups({"visits-care"})
      *
-     * @Assert\NotBlank(message="visitsCare.doYouLiveWithClient.notBlank", groups={"visits-care"})
+     * @Assert\NotBlank(message="visitsCare.doYouLiveWithClient.notBlank", groups={"visits-care", "visits-care-step1"})
      */
     private $doYouLiveWithClient;
 
@@ -33,7 +33,7 @@ class VisitsCare
      * @JMS\Type("string")
      * @JMS\Groups({"visits-care"})
      *
-     * @Assert\NotBlank(message="visitsCare.howOftenDoYouContactClient.notBlank", groups={"visits-care-no"})
+     * @Assert\NotBlank(message="visitsCare.howOftenDoYouContactClient.notBlank", groups={"visits-care-live-client-no"})
      */
     private $howOftenDoYouContactClient;
 
@@ -41,7 +41,7 @@ class VisitsCare
      * @JMS\Type("string")
      * @JMS\Groups({"visits-care"})
      *
-     * @Assert\NotBlank(message="visitsCare.doesClientReceivePaidCare.notBlank", groups={"visits-care"})
+     * @Assert\NotBlank(message="visitsCare.doesClientReceivePaidCare.notBlank", groups={"visits-care", "visits-care-step2"})
      */
     private $doesClientReceivePaidCare;
 
@@ -49,7 +49,7 @@ class VisitsCare
      * @JMS\Type("string")
      * @JMS\Groups({"visits-care"})
      *
-     * @Assert\NotBlank(message="visitsCare.howIsCareFunded.notBlank", groups={"visits-care-paidCare"})
+     * @Assert\NotBlank(message="visitsCare.howIsCareFunded.notBlank", groups={"visits-care-paidCare", "visits-care-paidCare"})
      */
     private $howIsCareFunded;
 
@@ -57,6 +57,7 @@ class VisitsCare
      * @JMS\Type("string")
      * @JMS\Groups({"visits-care"})
      *
+     * @Assert\NotBlank(message="visitsCare.whoIsDoingTheCaring.notBlank", groups={"visits-care", "visits-care-step3"})
      * @Assert\NotBlank(message="visitsCare.whoIsDoingTheCaring.notBlank", groups={"visits-care"})
      */
     private $whoIsDoingTheCaring;
@@ -65,7 +66,7 @@ class VisitsCare
      * @JMS\Type("string")
      * @JMS\Groups({"visits-care"})
      *
-     * @Assert\NotBlank(message="visitsCare.doesClientHaveACarePlan.notBlank", groups={"visits-care"})
+     * @Assert\NotBlank(message="visitsCare.doesClientHaveACarePlan.notBlank", groups={"visits-care", "visits-care-step4"})
      */
     private $doesClientHaveACarePlan;
 

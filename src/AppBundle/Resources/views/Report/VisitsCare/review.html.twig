@@ -1,0 +1,151 @@
+{% embed 'AppBundle:Components/Page:page-report.html.twig'%}
+
+    {% set translationDomain = "report-visits-care" %}
+    {% trans_default_domain translationDomain %}
+    {% set transOptions = {'%client%': report.client.firstname} %}
+
+    {% block bodyClasses %}safeguarding-page{% endblock %}
+    {% block pageTitle %}{{ 'reviewPage.htmlTitle' | trans }}{% endblock %}
+    {% block title %}{{ 'reviewPage.pageSectionTitle' | trans }}{% endblock %}
+
+    {% block pageBody %}
+
+        <p class="page-section-description">
+            {{ 'reviewPage.pageSectionDescription' | trans(transOptions) }}
+        </p>
+
+        {% include 'AppBundle:Components/Page:_page-section-action.html.twig' with {
+        transDomain: translationDomain
+        } %}
+
+        {# @biggs just to test the implemented behaviour #}
+        <style type="text/css">
+            table.check-your-answers tr.edited {
+                background-color: khaki;
+            }
+        </style>
+
+        {# @biggs https://www.gov.uk/service-manual/user-centred-design/resources/patterns  #}
+        <table class="check-your-answers">
+            {# in GSD, but not on Kevin's design#}
+            {#<thead>#}
+            {#<tr>#}
+                {#<th colspan="2">#}
+                    {#<h2 class="heading-medium">#}
+                        {#Visits and care#}
+                    {#</h2>#}
+                {#</th>#}
+                {#<th>#}
+                {#</th>#}
+            {#</tr>#}
+            {#</thead>#}
+
+            {# step 1 #}
+            <tbody>
+            <tr class="{{ (stepEdited == 1) ? 'edited' : '' }}">
+                <td>
+                    {{ 'form.doYouLiveWithClient.label' | trans(transOptions) }}
+                </td>
+                <td>
+                    {{ report.visitsCare.doYouLiveWithClient }}
+                </td>
+                <td class="change-answer">
+                    <a href="{{ path('visits_care_step', {'reportId': report.id, 'step': 1, 'from': 'review'}) }}">Edit</a>
+                </td>
+            </tr>
+            {% if report.visitsCare.doYouLiveWithClient == 'no' %}
+            <tr class="{{ stepEdited == 1 ? 'edited' : '' }}">
+                <td>{{ 'form.howOftenDoYouContactClient.label' | trans(transOptions) }}</td>
+                <td>{{ report.visitsCare.howOftenDoYouContactClient | nl2br }}</td>
+                <td class="change-answer">
+                    <a href="{{ path('visits_care_step', {'reportId': report.id, 'step': 1, 'from': 'review'}) }}">Edit</a>
+                </td>
+            </tr>
+            {% endif %}
+            </tbody>
+
+            {# step 2 #}
+            <tbody>
+            <tr class="{{ (stepEdited == 2) ? 'edited' : '' }}">
+                <td>
+                    {{ 'form.doesClientReceivePaidCare.label' | trans(transOptions) }}
+                </td>
+                <td>
+                    {{ report.visitsCare.doesClientReceivePaidCare }}
+                </td>
+                <td class="change-answer">
+                    <a href="{{ path('visits_care_step', {'reportId': report.id, 'step':2, 'from': 'review'}) }}">Edit</a>
+                </td>
+            </tr>
+            {% if report.visitsCare.doesClientReceivePaidCare == 'yes' %}
+                <tr class="{{ (stepEdited == 2) ? 'edited' : '' }}">
+                    <td>
+                        {{ 'form.howIsCareFunded.label' | trans(transOptions) }}
+                    </td>
+                    <td>
+                        {{ ('form.choices.' ~ report.visitsCare.howIsCareFunded) | trans(transOptions) }}
+                    </td>
+                    <td class="change-answer">
+                        <a href="{{ path('visits_care_step', {'reportId': report.id, 'step':2, 'from': 'review'}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+
+            {# step 3 #}
+            <tbody>
+            <tr class="{{ (stepEdited == 3) ? 'edited' : '' }}">
+                <td>
+                    {{ 'form.whoIsDoingTheCaring.label' | trans(transOptions) }}
+                </td>
+                <td>
+                    {{ report.visitsCare.whoIsDoingTheCaring }}
+                </td>
+                <td class="change-answer">
+                    <a href="{{ path('visits_care_step', {'reportId': report.id, 'step':3, 'from': 'review'}) }}">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+
+            {# step 4 #}
+            <tbody>
+            <tr class="{{ (stepEdited == 4) ? 'edited' : '' }}">
+                <td>
+                    {{ 'form.doesClientHaveACarePlan.label' | trans(transOptions) }}
+                </td>
+                <td>
+                    {{ report.visitsCare.doesClientHaveACarePlan }}
+                </td>
+                <td class="change-answer">
+                    <a href="{{ path('visits_care_step', {'reportId': report.id, 'step':4, 'from': 'review'}) }}">Edit</a>
+                </td>
+            </tr>
+            {% if report.visitsCare.doesClientHaveACarePlan == 'yes' %}
+                <tr class="{{ (stepEdited == 4) ? 'edited' : '' }}">
+                    <td>
+                        {{ 'form.whenWasCarePlanLastReviewed.label' | trans(transOptions) }}
+                    </td>
+                    <td>
+                        {{ report.visitsCare.whenWasCarePlanLastReviewed | date('M Y') }}
+                    </td>
+                    <td class="change-answer">
+                        <a href="{{ path('visits_care_step', {'reportId': report.id, 'step':4, 'from': 'review'}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+
+        </table>
+
+    {% endblock %}
+
+    {% block pageBodyFooterNav %}
+        {% include 'AppBundle:Components:nextprevious.html.twig' with {
+        'previousLink': path("contacts" , {'reportId': report.id }),
+        'previousLabel': 'Contacts',
+        'nextLink': path("accounts" , {'reportId': report.id }),
+        'nextLabel': 'Accounts'
+        } %}
+    {% endblock %}
+
+{% endembed %}
