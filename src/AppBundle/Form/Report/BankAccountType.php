@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use AppBundle\Form\Type\SortCodeType;
 use AppBundle\Entity\Report\Account;
 
-class AccountType extends AbstractType
+class BankAccountType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
