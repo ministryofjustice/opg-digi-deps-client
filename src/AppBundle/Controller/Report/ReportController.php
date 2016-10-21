@@ -244,7 +244,10 @@ class ReportController extends AbstractController
             $reportConfirmEmail = $this->getMailFactory()->createReportSubmissionConfirmationEmail($this->getUser(), $report, $newReport);
             $this->getMailSender()->send($reportConfirmEmail, ['text', 'html']);
 
-            return $this->redirect($this->generateUrl('report_submit_confirmation', ['reportId' => $report->getId()]));
+            return $this->redirect($this->generateUrl('report_submit_confirmation', [
+                'reportId' => $report->getId(),
+                'newReportId' => $newReport->getId(),
+            ]));
         }
 
         return [
@@ -257,36 +260,20 @@ class ReportController extends AbstractController
     /**
      * Page displaying the report has been submitted.
      *
-     * @Route("/report/{reportId}/submitted", name="report_submit_confirmation")
+     * @Route("/report/{reportId}/{newReportId}/submitted", name="report_submit_confirmation")
      * @Template()
      */
-    public function submitConfirmationAction($reportId)
+    public function submitConfirmationAction($reportId, $newReportId)
     {
         $report = $this->getReport($reportId, self::$reportGroupsForValidation);
-
-        /** @var TranslatorInterface $translator*/
-        $translator = $this->get('translator');
-
-        // check status
         if (!$report->getSubmitted()) {
             throw new \RuntimeException($translator->trans('report.submissionExceptions.submitted', [], 'validators'));
         }
 
-        $form = $this->createForm('feedback_report', new ModelDir\FeedbackReport());
-        $request = $this->getRequest();
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $feedbackEmail = $this->getMailFactory()->createFeedbackEmail($form->getData());
-            $this->getMailSender()->send($feedbackEmail, ['html']);
-
-            return $this->redirect($this->generateUrl('report_submit_feedback', ['reportId' => $reportId]));
-        }
-
         return [
             'report' => $report,
-            'form' => $form->createView(),
+            'newReportId' => $newReportId,
+            'reportStatus' => new ReportStatusService($report),
             'homePageHeaderLink' => $this->generateUrl('client_show'),
         ];
     }
@@ -323,13 +310,10 @@ class ReportController extends AbstractController
         /** @var \AppBundle\Entity\Report $report */
         $report = $this->getReport($reportId, self::$reportGroupsForValidation);
 
-        // check status
-        $reportStatusService = new ReportStatusService($report);
-
         return [
             'report' => $report,
             'deputy' => $this->getUser(),
-            'reportStatus' => $reportStatusService,
+            'reportStatus' => new ReportStatusService($report),
         ];
     }
 
@@ -343,8 +327,6 @@ class ReportController extends AbstractController
 
         $response = new Response($pdfBinary);
         $response->headers->set('Content-Type', 'application/pdf');
-
-        $name = 'OPG102-'.$report->getClient()->getCaseNumber().'-'.date_format($report->getEndDate(), 'Y').'.pdf';
 
         $attachmentName = sprintf('DigiRep-%s_%s_%s.pdf',
             $report->getEndDate()->format('Y'),

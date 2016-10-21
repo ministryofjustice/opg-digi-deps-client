@@ -212,20 +212,18 @@ class IndexController extends AbstractController
     {
         $client = $this->getFirstClient(self::$odrGroupsForValidation);
         $odr = $client->getOdr();
+        $odr->setClient($client);
         if ($odr->getId() != $odrId) {
             throw new \RuntimeException('Not authorised to access this Report');
         }
-        $odr->setClient($client);
 
         if (!$odr->getSubmitted()) {
             throw new \RuntimeException('Report not submitted');
         }
 
-        $odrStatus = new OdrStatusService($odr);
-
         return [
             'odr' => $odr,
-            'odrStatus' => $odrStatus,
+            'odrStatus' => new OdrStatusService($odr),
             'homePageHeaderLink' => $this->generateUrl('client_show'),
         ];
     }

@@ -1,13 +1,39 @@
 page:
   htmlTitle: "Deputy report - report submitted | GOV.UK"
   pageSectionTitle: "Report submitted"
-  thankYouForsubmitting: Thank you for submitting your %reportName% report
-  yourReportWillBeSent: "Your report has been sent to OPG. You'll get an email shortly to let you know we've received it."
-  weWillSendReminder: "We'll send you a reminder when it's time for you to complete the next report. You can make a start on it at any time from now on."
-  downloadLink: View %reportName% report
-  returnToHomepage: Return to reports page
-  feedback:
-    title: Give us your feedback
-thanks:
-  thankYouForsubmitting: Thank you for your feedback
-  more: If you want to give us more detailed feedback, use [linkStart]this form[linkEnd] to contact us
+
+weHaveSentEmail: We have sent you a confirmation email
+
+greenBox:
+   reportSubmitted: Report submitted
+   subtitle: on %submitDate%
+
+whatHappensNext:
+  title: What happens next?
+  body1: |
+    Now that you’ve submitted your opening deputy report, you can make use of our annual deputy report service.
+  body2: |
+    Your annual deputy report falls due on the anniversary of your court order – we’ll send you a reminder.
+  body3: |
+    But you can use the service year round to keep track of your deputyship decisions and spending.
+    %linkStart%Make a start here.%linkEnd%
+
+giveUsFeedback:
+  title: Please give us your feedback
+  body1: |
+    Filling in our %linkStart%Deputyship satisfaction survey%linkEnd% takes just a few minutes.
+  body2: |
+    Feedback is vital in helping us to improve the services we offer deputies and attorneys.
+  body3: |
+    This survey is voluntary. We'll only ever use your personal information for the purposes of this research.
+
+needHelp:
+  title: Need help?
+  body: |
+    If you have any questions or need support, please call the OPG helpline
+    on 0115 934 2700. We're open 9am to 5pm, Monday to Friday.
+
+
+status:
+  downloadACopy: Download a copy
+  viewReportOnline: View report online
