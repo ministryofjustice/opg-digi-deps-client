@@ -21,7 +21,3 @@ odrSubmissionConfirmation:
 resetPassword:
     subject: Deputy report - reset your password
     fromName: Office of the Public Guardian
-feedbackForm:
-    subject: User Feedback
-    fromName: Deputy report service - feedback form
-    toName: Deputyship Service

@@ -297,10 +297,6 @@ mentalCapacity:
     hasCapacityChangedDetails:
         notBlank: You must tell us how the client's mental capacity has changed
 
-feedbackAfterReport:
-    satisfactionLevel:
-        notEmpty: Please selection an option
-
 odr:
   agree: In order to submit your opening deputy report, you must agree to the statement above
   agreedBehalfDeputy:

@@ -221,29 +221,6 @@ class MailFactory
     }
 
     /**
-     * @param string $response
-     * 
-     * @return ModelDir\Email
-     */
-    public function createFeedbackEmail($response)
-    {
-        $viewParams = [
-            'response' => $response,
-         ];
-
-        $email = new ModelDir\Email();
-        $email
-            ->setFromEmail($this->container->getParameter('email_feedback_send')['from_email'])
-            ->setFromName($this->translate('feedbackForm.fromName'))
-            ->setToEmail($this->container->getParameter('email_feedback_send')['to_email'])
-            ->setToName($this->translate('feedbackForm.toName'))
-            ->setSubject($this->translate('feedbackForm.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:feedback.html.twig', $viewParams));
-
-        return $email;
-    }
-
-    /**
  * @param EntityDir\User          $user
  * @param EntityDir\Report\Report $submittedReport
  * @param EntityDir\Report        $newReport

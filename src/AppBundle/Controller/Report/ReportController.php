@@ -278,26 +278,6 @@ class ReportController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/report/{reportId}/submit_feedback", name="report_submit_feedback")
-     * @Template()
-     */
-    public function submitFeedbackAction($reportId)
-    {
-        $report = $this->getReport($reportId, self::$reportGroupsForValidation);
-
-        /** @var TranslatorInterface $translator*/
-        $translator = $this->get('translator');
-
-        // check status
-        if (!$report->getSubmitted()) {
-            throw new \RuntimeException($translator->trans('report.submissionExceptions.submitted', [], 'validators'));
-        }
-
-        return [
-            'report' => $report,
-        ];
-    }
 
     /**
      * Used for active and archived report.
