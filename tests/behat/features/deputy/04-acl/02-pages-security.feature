@@ -90,7 +90,7 @@ Feature: deputy / acl / security on pages
         # submit
         | /report/1/add_further_information | 500 | 
         | /report/1/declaration | 500 | 
-        | /report/1/submitted | 500 | 
+        | /report/1/2/submitted | 500 |
       And I load the application status from "deputy-acl-before"
 
     @deputy

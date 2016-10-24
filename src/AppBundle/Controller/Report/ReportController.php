@@ -267,6 +267,8 @@ class ReportController extends AbstractController
     {
         $report = $this->getReport($reportId, self::$reportGroupsForValidation);
         if (!$report->getSubmitted()) {
+            /** @var TranslatorInterface $translator*/
+            $translator = $this->get('translator');
             throw new \RuntimeException($translator->trans('report.submissionExceptions.submitted', [], 'validators'));
         }
 
