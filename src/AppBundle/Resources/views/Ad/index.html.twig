@@ -1,20 +1,21 @@
-{% extends 'AppBundle:Components/Page:page-service.html.twig' %}
-
-{% trans_default_domain "assisted-digital" %}
+{% extends 'AppBundle:Components/Page:page-admin.html.twig' %}
 
 {% block pageTitle %}Administration - Users{% endblock %}
 {% block contentClass %}{{ parent() }} admin-users{% endblock %}
-{% block title %}OPG Assisted Digital{% endblock %}
+{% block title %}Admin{% endblock %}
 
 {% block validationSummary %}
+    {#{{ form_errors_list(form) }}#}
 {% endblock %}
 
 
 {% block pageBody %}
-    {#Register a new assited digital user
-     <a href="/ad/register" class="open-button button">Register a new user</a>
-     <p><br/></p>
-     <p><br/></p>
-    Help an existing assited digital user
-     <a href="/ad/login" class="open-button button">Sign in for a user</a>#}
+    <hr>
+    {% include 'AppBundle:Admin:_jump_to_user.html.twig' %}
+
+    <h1 class="form-title heading-medium">
+        Add a deputy user
+    </h1>
+    {% include 'AppBundle:Admin:_add.html.twig' %}
+
 {% endblock %}

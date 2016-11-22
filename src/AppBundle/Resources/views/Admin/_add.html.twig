@@ -2,15 +2,9 @@
               transDomain: 'admin'
         } %}
 
-{% if action is defined %}
-{% else %}
-{% endif %}
-
 {{ form_start(form, {attr: {novalidate: 'novalidate' }}) }}
 
-<h1 class="form-title heading-medium">
-    {{title}}
-</h1>
+
   {{ form_input(form.email,'email', { 'labelClass': 'required' }) }}
   {{ form_input(form.firstname,'firstname', { 'labelClass': 'required' }) }}
   {{ form_input(form.lastname,'lastname', { 'labelClass': 'required' }) }}

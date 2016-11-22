@@ -12,6 +12,12 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Role
 {
+    const ADMIN = 'ROLE_ADMIN';
+    const LAY_DEPUTY = 'ROLE_LAY_DEPUTY';
+    const AD = 'ROLE_AD';
+    const SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
+
     // keep aligned with backendd
     public static $availableRoles = [
         1 => 'OPG Administrator (super user)', //old OPG admin

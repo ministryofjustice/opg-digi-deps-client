@@ -11,11 +11,14 @@
 {% endblock %}
 
 
-{% block pageBody %}    
-    {% include 'AppBundle:Admin:_add.html.twig' with { 'title': 'Add a user'} %}
+{% block pageBody %}
+    <h1 class="form-title heading-medium">
+        Add a user
+    </h1>
+    {% include 'AppBundle:Admin:_add.html.twig' %}
 
     <hr>
-    {% include 'AppBundle:Admin:_jump_to_user.html.twig' with {users: users, form: form} %}
+    {% include 'AppBundle:Admin:_jump_to_user.html.twig' %}
 
     <hr>
     {% include 'AppBundle:Admin:_list.html.twig' with {users: users, form: form} %}
