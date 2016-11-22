@@ -75,3 +75,8 @@ transDomain: 'admin'
 {% include 'AppBundle:Components/ButtonBar:_end.html.twig' %}
 
 {{ form_end(form) }}
+
+{% if is_granted('ROLE_AD') %}
+    TODO: recreate registration token or use another one if not present
+<a href="{{  deputyBaseUrl }}/login-ad/{{ user.registrationToken }}/{{ app.user.id }}" target="_blank" class="button">Login on behalf of this user</a>
+{% endif %}

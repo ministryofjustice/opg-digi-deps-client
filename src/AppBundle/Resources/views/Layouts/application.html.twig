@@ -52,6 +52,11 @@
         <a href="{{ homePageHeaderLink is defined ? homePageHeaderLink : '/' }}" id="proposition-name">{% block proposition_title %}Complete the deputy report{% endblock %}</a>
         {% if app.user %}
             <ul id="proposition-links">
+                {% if app.session.get('_adId') %}
+                <li>
+                    <a href="#">Logged as AD [{{ app.session.get('_adId') }}] </a>
+                </li>
+                {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('admin_homepage') }}">{% trans %}adminArea{% endtrans %}</a></li>

@@ -114,7 +114,13 @@ class AdminController extends AbstractController
             }
         }
 
-        return ['form' => $form->createView(), 'action' => 'edit', 'id' => $user->getId(), 'user' => $user];
+        return [
+            'form' => $form->createView(),
+            'action' => 'edit',
+            'id' => $user->getId(),
+            'user' => $user,
+            'deputyBaseUrl' => $this->container->getParameter('non_admin_host'),
+        ];
     }
 
     /**

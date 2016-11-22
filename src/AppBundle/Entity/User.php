@@ -706,5 +706,10 @@ class User implements AdvancedUserInterface
         $this->odrEnabled = $odrEnabled;
     }
 
+//    public function getLoginHash()
+//    {
+//        return sha1($this->getId());
+//    }
+
 
 }

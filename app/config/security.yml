@@ -61,7 +61,8 @@ security:
         - { path: ^/ad, roles: [ROLE_AD] }
         # open URLs
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/manage, roles: IS_AUTHENTICATED_ANONYMOUSLY }  
+        - { path: ^/login-ad, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/manage, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/feedback, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/terms, roles: IS_AUTHENTICATED_ANONYMOUSLY }
