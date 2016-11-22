@@ -12,12 +12,14 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Role
 {
+    // keep aligned with backendd
     public static $availableRoles = [
-        1 => 'OPG Administrator',
+        1 => 'OPG Administrator (super user)', //old OPG admin
         2 => 'Lay Deputy',
-//        3 => "Professional Deputy",
-//        4 => "Local Authority Deputy",
-//        5 => "Assisted Digital Support",
+        // 3 => "Professional Deputy",
+        // 4 => "Local Authority Deputy",
+        5 => "Assisted Digital Support",
+        6 => "Super Admin",
     ];
 
     /**
