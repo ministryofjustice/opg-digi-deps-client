@@ -29,9 +29,9 @@ class AdminController extends AbstractController
         $orderBy = $request->query->has('order_by') ? $request->query->get('order_by') : 'firstname';
         $sortOrder = $request->query->has('sort_order') ? $request->query->get('sort_order') : 'ASC';
 
-        $form = $this->createForm(new FormDir\AddUserType([
+        $form = $this->createForm(new FormDir\Admin\AddUserType([
             'roleChoices' => EntityDir\Role::$availableRoles,
-            'roleIdEmptyValue' => $this->get('translator')->trans('roleId.defaultOption', [], 'admin'),
+            'roleIdEmptyValue' => $this->get('translator')->trans('addUserForm.roleId.defaultOption', [], 'admin'),
         ]), new EntityDir\User());
 
         if ($request->isMethod('POST')) {
@@ -95,9 +95,9 @@ class AdminController extends AbstractController
             ]);
         }
 
-        $form = $this->createForm(new FormDir\AddUserType([
+        $form = $this->createForm(new FormDir\Admin\AddUserType([
             'roleChoices' => EntityDir\Role::$availableRoles,
-            'roleIdEmptyValue' => $this->get('translator')->trans('roleId.defaultOption', [], 'admin'),
+            'roleIdEmptyValue' => $this->get('translator')->trans('addUserForm.roleId.defaultOption', [], 'admin'),
             'roleIdDisabled' => $user->getId() == $this->getUser()->getId(),
         ]), $user);
 

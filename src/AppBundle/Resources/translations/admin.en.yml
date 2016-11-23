@@ -1,20 +1,21 @@
-email:
-  label: Email
-  hint: ''
-firstname:
-  label: First name
-  hint: ''
-lastname:
-  label: Last name
-  hint: ''
-roleId:
-  label: Role
-  hint: ''
-  defaultOption: Please select ...
-odrEnabled:
-  label: Enable ODR for this user
-submit:
-  label: Submit
+addUserForm:
+  email:
+    label: Email
+    hint: ''
+  firstname:
+    label: First name
+    hint: ''
+  lastname:
+    label: Last name
+    hint: ''
+  roleId:
+    label: Role
+    hint: ''
+    defaultOption: Please select ...
+  odrEnabled:
+    label: Enable ODR for this user
+  submit:
+    label: Submit
 cancel:
     label: Cancel
 expiration:

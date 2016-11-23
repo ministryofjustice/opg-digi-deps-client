@@ -1,0 +1,50 @@
+{% extends 'AppBundle:Components/Page:page-admin.html.twig' %}
+
+{% set firstClient = (user.clients | length) > 0 ? (user.clients | first) : null %}
+{% set reports = firstClient ? firstClient.reports : [] %}
+{% set reportsCount = reports | length %}
+
+{% block pageTitle %}Administration - Users{% endblock %}
+{% block contentClass %}{{ parent() }} admin-users{% endblock %}
+{% block title %}Admin{% endblock %}
+
+{% block pageBody %}
+
+    <h2 class="heading-small">User</h2>
+    <ul>
+        <li>Name: {{ user.firstname }}</li>
+        <li>Lastname: {{ user.lastname }}</li>
+        <li>Email: {{ user.email }}</li>
+        <li>ODR enabled: {{ user.odrEnabled ? 'yes':'no' }}</li>
+    </ul>
+
+    <h2 class="heading-small">Client</h2>
+    {% if firstClient %}
+        <ul>
+            <li>Client name: {{ firstClient.firstname }}</li>
+            <li>Client lastname: {{ firstClient.lastname }}</li>
+            <li>Case number: {{ firstClient.caseNumber }}</li>
+        </ul>
+    {% else %}
+        No clients for this user. Use the login button below to login as deputy
+    {% endif %}
+
+    <h2 class="heading-small">NDR</h2>
+    {% if firstClient.odr is defined %}
+        <ul>
+            <li>Status: {{ firstClient.odr.submitted ? 'Submitted' : 'Not submitted' }}</li>
+        </ul>
+    {% else %}
+        You must create the client first
+    {% endif %}
+
+
+    <h2 class="heading-small">Login as deputy</h2>
+    <p>Login as a deputy to edit all the data above.</p>
+    {% if is_granted('ROLE_AD') %}
+        <a href="{{ path('ad_deputy_login_redirect', {deputyId: user.id}) }}" target="_blank" class="button">
+            Login as deputy (new window)</a>
+    {% endif %}
+
+
+{% endblock %}

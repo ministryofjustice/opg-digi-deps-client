@@ -10,12 +10,40 @@
 
 
 {% block pageBody %}
-    <hr>
-    {% include 'AppBundle:Admin:_jump_to_user.html.twig' %}
+    <div class="jump-to-user">
+        <h1 class="form-title heading-medium">
+            Search
+        </h1>
+
+        <form action="/ad/view-user" method="GET">
+            Jump to user with ID equals to
+            <input name="what" value="user_id" type="hidden" />
+            <input name="filter" required="required" class="form-control" style="width: 250px">
+            <button class="button" type="submit"/>Go</button>
+        </form>
+
+        <form action="/ad/view-user" method="GET">
+            Jump to user with Email equals to
+            <input name="what" value="email" type="hidden" />
+            <input name="filter" required="required" class="form-control" style="width: 250px">
+            <button class="button" type="submit"/>Go</button>
+        </form>
+
+        <form action="/ad/view-user" method="GET">
+            Jump to client with Case number equals to
+            <input name="what" value="case_number" type="hidden" />
+            <input name="filter" required="required" class="form-control" style="width: 250px">
+            <button class="button" type="submit"/>Go</button>
+        </form>
+
+    </div>
+
+
 
     <h1 class="form-title heading-medium">
         Add a deputy user
     </h1>
-    {% include 'AppBundle:Admin:_add.html.twig' %}
+
+
 
 {% endblock %}
