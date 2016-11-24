@@ -112,6 +112,12 @@ class AdminController extends AbstractController
             ]);
         }
 
+        if (!$this->isGranted(EntityDir\Role::ADMIN)) {
+            return $this->render('AppBundle:Admin:error.html.twig', [
+                'error' => 'Non-admin cannot edit admin users',
+            ]);
+        }
+
         $form = $this->createForm(new FormDir\Admin\AddUserType([
             'roleChoices' => EntityDir\Role::$availableRoles,
             'roleIdEmptyValue' => $this->get('translator')->trans('addUserForm.roleId.defaultOption', [], 'admin'),
