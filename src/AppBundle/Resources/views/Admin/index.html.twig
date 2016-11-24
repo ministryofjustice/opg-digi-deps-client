@@ -133,12 +133,17 @@
                     </td>
                     <td>{{ user.lastname }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.role.name }} {% if app.user.id == user.id %} (currenty logged){% endif %}</td>
+                    <td>
+                        {{ user.role.name }} {% if app.user.id == user.id %} (currenty logged){% endif %}
+                        {% if is_granted('ROLE_AD') and  user.role.role == 'ROLE_LAY_DEPUTY' %}
+                            [<a href="{{ path('ad_view_user', { what: 'user_id', filter: user.id })}}">View</a>]
+                        {% endif %}
+                    </td>
                     <td class="behat-region-{{ user.email | behat_namify }}-odr-enabled">{{ user.odrEnabled ? 'yes' : '-' }}</td>
                     <td>{{ user.registrationDate ? user.registrationDate | date("d/m/Y") : 'n.a.' }}</td>
                 <td>
                     [<a href='{{ path('admin_editUser', { what: 'user_id', filter: user.id })}}' class="behat-link-user-{{ user.email }}" >Edit</a>]
-                    [<a href="{{ path('ad_view_user', { what: 'user_id', filter: user.id })}}">View</a>]
+
                 </td>
                 </tr>
             {% endfor %}
