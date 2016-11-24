@@ -11,8 +11,8 @@
 
 {% block pageBody %}
     <div class="jump-to-user">
-        <h1 class="form-title heading-medium">
-            Search
+        <h1 class="form-title heading-large">
+            ASSISTED DIGITAL
         </h1>
 
         <form action="/ad/view-user" method="GET">
@@ -35,14 +35,90 @@
             <input name="filter" required="required" class="form-control" style="width: 250px">
             <button class="button" type="submit"/>Go</button>
         </form>
-
     </div>
 
 
+    {# LIST #}
 
-    <h1 class="form-title heading-medium">
-        Add a deputy user
-    </h1>
+    <div class="behat-region-users user-list">
+
+        <h2 class="form-title heading-medium" id="users-list-title">
+            User list
+        </h2>
+        <p class="text">[<a href="{{ path('admin_add_user') }}">Add a new user</a>]</p>
+
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">
+                    {% if (app.request.query.has('order_by')) and (app.request.query.get('order_by') == 'lastname') %}
+                        <a href="{{url('ad_homepage', { 'order_by': 'lastname', 'sort_order': newSortOrder })}}#users-list-title"> Deputy</a>
+
+                        {% if app.request.query.get('sort_order') == "ASC" %}
+                            (a-z)
+                        {% else %}
+                            (z-a)
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{{url('ad_homepage', { 'order_by': 'lastname', 'sort_order': 'DESC' })}}#users-list-title" > Firstname</a>
+                    {% endif %}
+                </th>
+
+                <th scope="col">
+                    {% if (app.request.query.has('order_by')) and (app.request.query.get('order_by') == 'registrationDate') %}
+                        <a href="{{url('ad_homepage', { 'order_by': 'registrationDate', 'sort_order': newSortOrder })}}#users-list-title">Created/Registered at</a>
+
+                        {% if app.request.query.get('sort_order') == "ASC" %}
+                            (a-z)
+                        {% else %}
+                            (z-a)
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{{url('ad_homepage', { 'order_by': 'registrationDate', 'sort_order': 'ASC' })}}#users-list-title" >Created/Registered at</a>
+                    {% endif %}
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {# simple paginator #}
+            <div style="float: right">
+                {{ userCount }} users in total.
+                {% if userCount > limit %}
+                    Go to page
+                    {% set pages = range(0, userCount, limit) %}
+                    {% for currentOffset in pages %}
+                        {% if currentOffset == offset %}
+                            {{ loop.index }}
+                        {% else %}
+                            <a href="{{  path("ad_homepage", {
+                                "offset": currentOffset,
+                                'sort_order': app.request.query.get('sort_order'),
+                                'order_by': app.request.query.get('order_by')}
+                            ) }}#users-list-title">{{ loop.index }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            {% for user in users %}
+                <tr>
+                    <td>
+                        {{ user.firstname }} {{ user.lastname }}
+                    </td>
+                    <td>{{ user.registrationDate ? user.registrationDate | date("d/m/Y") : 'n.a.' }}</td>
+                    <td>
+                        [<a href='{{ path('admin_editUser', { what: 'user_id', filter: user.id })}}' class="behat-link-user-{{ user.email }}" >View/Edit user details</a>]
+                        [<a href="{{ path('ad_view_user', { what: 'user_id', filter: user.id })}}">View/Edit Client and NDR </a>]
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 
 

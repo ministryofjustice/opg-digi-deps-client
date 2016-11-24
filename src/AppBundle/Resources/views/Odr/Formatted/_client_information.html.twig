@@ -77,6 +77,13 @@
             <dt class="label">Email (optional)</dt>
             <dd class="value">{{deputy.email}}</dd>
         </dl>
+        {% if adLoggedAsDeputy %}
+            <dl class="labelvalue cleared">
+                <dt class="label">Assisted Digital</dt>
+                <dd class="value">{{ adLoggedAsDeputy}} [... name surname ...]</dd>
+            </dl>
+        {% endif %}
+
     </div>
 
 

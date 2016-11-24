@@ -228,6 +228,13 @@ class User implements AdvancedUserInterface
     private $odrEnabled;
 
     /**
+     * @var bool
+     * @JMS\Type("boolean")
+     * @JMS\Groups({"ad_managed"})
+     */
+    private $adManaged;
+
+    /**
      * @return int $id
      */
     public function getId()
@@ -706,10 +713,21 @@ class User implements AdvancedUserInterface
         $this->odrEnabled = $odrEnabled;
     }
 
-//    public function getLoginHash()
-//    {
-//        return sha1($this->getId());
-//    }
+    /**
+     * @return boolean
+     */
+    public function isAdManaged()
+    {
+        return $this->adManaged;
+    }
+
+    /**
+     * @param boolean $adManaged
+     */
+    public function setAdManaged($adManaged)
+    {
+        $this->adManaged = $adManaged;
+    }
 
 
 }

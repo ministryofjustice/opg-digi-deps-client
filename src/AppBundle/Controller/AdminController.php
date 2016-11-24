@@ -28,7 +28,27 @@ class AdminController extends AbstractController
     {
         $orderBy = $request->query->has('order_by') ? $request->query->get('order_by') : 'firstname';
         $sortOrder = $request->query->has('sort_order') ? $request->query->get('sort_order') : 'ASC';
+        $limit = $request->query->get('limit') ?: 50;
+        $offset = $request->query->get('offset') ?: 0;
+        $userCount = $this->getRestClient()->get('user/count', 'array');
+        $users = $this->getRestClient()->get("user/get-all/{$orderBy}/{$sortOrder}/$limit/$offset/0", 'User[]');
+        $newSortOrder = $sortOrder == 'ASC' ? 'DESC' : 'ASC';
 
+        return [
+            'users' => $users,
+            'userCount' => $userCount,
+            'limit' => $limit,
+            'offset' => $offset,
+            'newSortOrder' => $newSortOrder,
+        ];
+    }
+
+    /**
+     * @Route("/user-add", name="admin_add_user")
+     * @Template
+     */
+    public function addUserAction(Request $request)
+    {
         $form = $this->createForm(new FormDir\Admin\AddUserType([
             'roleChoices' => EntityDir\Role::$availableRoles,
             'roleIdEmptyValue' => $this->get('translator')->trans('addUserForm.roleId.defaultOption', [], 'admin'),
@@ -59,19 +79,8 @@ class AdminController extends AbstractController
             }
         }
 
-        $limit = $request->query->get('limit') ?: 50;
-        $offset = $request->query->get('offset') ?: 0;
-        $userCount = $this->getRestClient()->get('user/count', 'array');
-        $users = $this->getRestClient()->get("user/get-all/{$orderBy}/{$sortOrder}/$limit/$offset", 'User[]');
-        $newSortOrder = $sortOrder == 'ASC' ? 'DESC' : 'ASC';
-
         return [
-            'users' => $users,
-            'userCount' => $userCount,
-            'limit' => $limit,
-            'offset' => $offset,
             'form' => $form->createView(),
-            'newSortOrder' => $newSortOrder,
         ];
     }
 

@@ -20,7 +20,20 @@ class AdController extends AbstractController
      */
     public function indexAction(Request $request)
     {
+        $orderBy = $request->query->has('order_by') ? $request->query->get('order_by') : 'firstname';
+        $sortOrder = $request->query->has('sort_order') ? $request->query->get('sort_order') : 'ASC';
+        $limit = $request->query->get('limit') ?: 50;
+        $offset = $request->query->get('offset') ?: 0;
+        $userCount = $this->getRestClient()->get('user/count', 'array');
+        $users = $this->getRestClient()->get("user/get-all/{$orderBy}/{$sortOrder}/$limit/$offset/1", 'User[]');
+        $newSortOrder = $sortOrder == 'ASC' ? 'DESC' : 'ASC';
+
         return [
+            'users' => $users,
+            'userCount' => $userCount,
+            'limit' => $limit,
+            'offset' => $offset,
+            'newSortOrder' => $newSortOrder,
         ];
     }
 
@@ -71,8 +84,14 @@ class AdController extends AbstractController
                 throw new \RuntimeException('User not ODR enabled');
             }
 
+            // flag as managed in order to retrieve it later
+            $deputy->setAdManaged(true);
+            $this->getRestClient()->put('user/'.$deputy->getId(), $deputy, ['ad_managed']);
+
+            // recreate token needed for login
             $deputy = $this->getRestClient()->userRecreateToken($deputy->getEmail());
 
+            // redirect to deputy area
             $deputyBaseUrl = rtrim($this->container->getParameter('non_admin_host'), '/');
             $redirectUrl = $deputyBaseUrl . $this->generateUrl('ad_login', [
                     'adId' => $adId,
