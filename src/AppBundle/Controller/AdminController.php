@@ -112,7 +112,7 @@ class AdminController extends AbstractController
             ]);
         }
 
-        if (!$this->isGranted(EntityDir\Role::ADMIN)) {
+        if ($user->getRole()['role'] == EntityDir\Role::ADMIN && !$this->isGranted(EntityDir\Role::ADMIN)) {
             return $this->render('AppBundle:Admin:error.html.twig', [
                 'error' => 'Non-admin cannot edit admin users',
             ]);
