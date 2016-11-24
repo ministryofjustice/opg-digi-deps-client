@@ -30,6 +30,8 @@
         Reports already exist for this user. If NDR is enabled, the deputy won't see them until NDR is submitted.
     {% endif %}
     {{ form_checkbox(form.odrEnabled, 'addUserForm.odrEnabled', { 'labelClass': 'required' }) }}
+    {{ form_submit(form.save,'addUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
+
 
     <h2 class="heading-small">Client</h2>
     {% if firstClient %}
@@ -52,8 +54,6 @@
         No reports
     {% endif %}
 
-
-    {{ form_submit(form.save,'addUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
 
     {% if action is defined %}
         {% if action == 'edit' %}
