@@ -30,7 +30,7 @@ class AdminController extends AbstractController
         $sortOrder = $request->query->has('sort_order') ? $request->query->get('sort_order') : 'ASC';
         $limit = $request->query->get('limit') ?: 50;
         $offset = $request->query->get('offset') ?: 0;
-        $userCount = $this->getRestClient()->get('user/count', 'array');
+        $userCount = $this->getRestClient()->get('user/count/0', 'array');
         $users = $this->getRestClient()->get("user/get-all/{$orderBy}/{$sortOrder}/$limit/$offset/0", 'User[]');
         $newSortOrder = $sortOrder == 'ASC' ? 'DESC' : 'ASC';
 
