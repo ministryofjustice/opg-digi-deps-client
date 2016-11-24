@@ -30,7 +30,7 @@ class AddUserType extends AbstractType
 
         if (!empty($this->options['roleIdSetTo'])) {
             $roleIdOptions['data'] = $this->options['roleIdSetTo'];
-            $roleIdOptions['disabled'] = 'disabled';
+
         }
 
         if (!empty($this->options['roleIdDisabled'])) {
@@ -41,8 +41,9 @@ class AddUserType extends AbstractType
         if (!empty($this->options['odrEnabledDisabled'])) {
             $odrEnabledOptions['disabled'] = 'disabled';
         }
+        $odrEnabledOptions['data']=true;
 
-        $builder->add('email', 'text')
+        $builder
             ->add('firstname', 'text')
             ->add('lastname', 'text')
             ->add('roleId', 'choice', $roleIdOptions)
@@ -54,7 +55,7 @@ class AddUserType extends AbstractType
     {
         $resolver->setDefaults([
             'translation_domain' => 'ad',
-            'validation_groups' => ['admin_add_user'],
+            'validation_groups' => ['ad_add_user'],
         ]);
     }
 

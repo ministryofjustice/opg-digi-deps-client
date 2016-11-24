@@ -1,6 +1,7 @@
 {% extends 'AppBundle:Layouts:moj_template.html.twig' %}
 
 {% set adLoggedAsDeputy = app.session.get('_adId') %}
+{% set adName = app.session.get('_adFirstname') ~ ' ' ~ app.session.get('_adLastname') %}
 
 {% trans_default_domain "layout" %}
 
@@ -96,8 +97,9 @@
                         <li><a href="{{path('reports', {'cot': constant('AppBundle\\Entity\\Report\\Report::PROPERTY_AND_AFFAIRS') })}}" class="behat-link-reports reports-link"  >{{ 'nav.reports' | trans }}</a></li>
                     {% endif %}
 
-                    <li><a href="{{path('logout')}}" class="behat-link-logout">
-                        {% if adLoggedAsDeputy %}Terminate deputy session{% else %}{{ 'logout' | trans }}{% endif %}
+                    <li>
+                        <a href="{{path('logout')}}" class="behat-link-logout">
+                        {% if adLoggedAsDeputy %}Terminate session ({{  adName }}){% else %}{{ 'logout' | trans }}{% endif %}
                         </a></li>
 
                 {% endif %}

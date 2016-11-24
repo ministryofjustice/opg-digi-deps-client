@@ -13,7 +13,7 @@ addUserForm:
     hint: ''
     defaultOption: Please select ...
   odrEnabled:
-    label: Enable ODR for this user
+    label: Enable NDR for this user
   submit:
     label: Submit
 cancel:

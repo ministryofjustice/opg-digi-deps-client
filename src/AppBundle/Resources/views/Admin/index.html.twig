@@ -86,7 +86,7 @@
                     {% endif %}
                 </th>
                 <th scope="col">Role</th>
-                <th scope="col">ODR Enabled</th>
+                <th scope="col">NDR Enabled</th>
                 <th scope="col">
                     {% if (app.request.query.has('order_by')) and (app.request.query.get('order_by') == 'registrationDate') %}
                         <a href="{{url('admin_homepage', { 'order_by': 'registrationDate', 'sort_order': newSortOrder })}}#users-list-title">Registration date</a>

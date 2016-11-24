@@ -26,7 +26,7 @@
     {{ form_input(form.lastname,'addUserForm.lastname', { 'labelClass': 'required' }) }}
     {{ form_select(form.roleId,'addUserForm.roleId', { 'labelClass': 'required' }) }}
     {% if reportsCount > 0 %}
-        Reports already exist for this user. If ODR is enabled, the deputy won't see them until ODR is submitted.
+        Reports already exist for this user. If NDR is enabled, the deputy won't see them until NDR is submitted.
     {% endif %}
     {{ form_checkbox(form.odrEnabled, 'addUserForm.odrEnabled', { 'labelClass': 'required' }) }}
 
