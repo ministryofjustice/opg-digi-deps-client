@@ -49,8 +49,13 @@ class AdminController extends AbstractController
      */
     public function addUserAction(Request $request)
     {
+        $availableRoles = EntityDir\Role::$availableRoles;
+        // non-admin cannot add admin users
+        if (!$this->isGranted(EntityDir\Role::ADMIN)) {
+            unset($availableRoles[1]);
+        }
         $form = $this->createForm(new FormDir\Admin\AddUserType([
-            'roleChoices' => EntityDir\Role::$availableRoles,
+            'roleChoices' => $availableRoles,
             'roleIdEmptyValue' => $this->get('translator')->trans('addUserForm.roleId.defaultOption', [], 'admin'),
         ]), new EntityDir\User());
 
@@ -59,6 +64,9 @@ class AdminController extends AbstractController
             if ($form->isValid()) {
                 // add user
                 try {
+                    if (!$this->isGranted(EntityDir\Role::ADMIN) && $form->getData()->getRoleId() == 1) {
+                        throw new \RuntimeException('Cannot add admin from non-admin user');
+                    }
                     $response = $this->getRestClient()->post('user', $form->getData(), ['admin_add_user']);
                     $user = $this->getRestClient()->get('user/'.$response['id'], 'User');
 
