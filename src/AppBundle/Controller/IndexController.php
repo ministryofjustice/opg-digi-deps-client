@@ -103,9 +103,9 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("login-ad/{userToken}/{adId}", name="ad_login")
+     * @Route("login-ad/{userToken}/{adId}/{adFirstname}/{adLastname}", name="ad_login")
      */
-    public function adLoginAction(Request $request, $userToken, $adId)
+    public function adLoginAction(Request $request, $userToken, $adId, $adFirstname, $adLastname)
     {
         $user = $this->getRestClient()->loadUserByToken($userToken); /* @var $user EntityDir\User*/
 
@@ -118,6 +118,8 @@ class IndexController extends AbstractController
         $session = $this->get('session');
         $session->set('_security_secured_area', serialize($clientToken));
         $session->set('_adId', $adId);
+        $session->set('_adFirstname', $adFirstname);
+        $session->set('_adLastname', $adLastname);
 
 
         $url = $this->get('redirectorService')->getHomepageRedirect();

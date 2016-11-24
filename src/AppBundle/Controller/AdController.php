@@ -96,6 +96,8 @@ class AdController extends AbstractController
             $redirectUrl = $deputyBaseUrl . $this->generateUrl('ad_login', [
                     'adId' => $adId,
                     'userToken' => $deputy->getRegistrationToken(),
+                    'adFirstname' => $deputy->getFirstname(),
+                    'adLastname' => $deputy->getLastname(),
                 ]);
 
             return $this->redirect($redirectUrl);
