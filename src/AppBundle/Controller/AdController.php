@@ -93,6 +93,12 @@ class AdController extends AbstractController
             ]);
         }
 
+        if ($user->getRole()['role'] != EntityDir\Role::LAY_DEPUTY) {
+            return $this->render('AppBundle:Ad:error.html.twig', [
+                'error' => 'You can only view Lay deputies',
+            ]);
+        }
+
         return [
             'action' => 'edit',
             'id' => $user->getId(),

@@ -10,12 +10,12 @@
 
 {% block pageBody %}
     <a href="{{ path('ad_homepage') }}">Back</a>
-    <h2 class="heading-small">{{ user.role.name }}</h2>
+    <h2 class="heading-small">{{ user.adManaged ? 'Assisted':'' }} {{ user.role.name }}</h2>
     <ul>
         <li>Name: {{ user.firstname }}</li>
         <li>Lastname: {{ user.lastname }}</li>
-        <li>Email: {{ user.email }}</li>
         <li>NDR enabled: {{ user.odrEnabled ? 'yes':'no' }}</li>
+        <li>Assisted: {{ user.adManaged ? 'yes':'no' }}</li>
     </ul>
 
     <h2 class="heading-small">Client</h2>

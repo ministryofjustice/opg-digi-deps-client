@@ -72,6 +72,9 @@ class IndexController extends AbstractController
 
             $session = $request->getSession();
             $session->set('_security_secured_area', serialize($token));
+            $session->set('_adId', null);
+            $session->set('_adFirstname', null);
+            $session->set('_adLastname', null);
             $session->set('loggedOutFrom', null);
 
             // regenerate cookie, otherwise gc_* timeouts might logout out after successful login
@@ -111,7 +114,6 @@ class IndexController extends AbstractController
 
         $this->get('deputyprovider')->login(['token' => $userToken]);
 
-        // log in user into CLIENT
         $clientToken = new UsernamePasswordToken($user, null, 'secured_area', $user->getRoles());
         $this->get('security.context')->setToken($clientToken); //now the user is logged in
 
@@ -120,7 +122,6 @@ class IndexController extends AbstractController
         $session->set('_adId', $adId);
         $session->set('_adFirstname', $adFirstname);
         $session->set('_adLastname', $adLastname);
-
 
         $url = $this->get('redirectorService')->getHomepageRedirect();
 
@@ -209,10 +210,8 @@ class IndexController extends AbstractController
      */
     public function logoutAction(Request $request)
     {
-        f();
         $this->get('security.context')->setToken(null);
         $request->getSession()->invalidate();
-
         return $this->redirect(
             $this->generateUrl('homepage')
         );
