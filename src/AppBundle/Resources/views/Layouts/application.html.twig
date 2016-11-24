@@ -66,15 +66,15 @@
         </a>
         {% if app.user %}
             <ul id="proposition-links">
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <li><a href="{{ path('admin_homepage') }}">{% trans %}adminArea{% endtrans %}</a></li>
-                    <li><a href="{{ path('admin_upload') }}">{% trans %}Upload{% endtrans %}</a></li>
-                    <li><a href="{{ path('admin_stats') }}">{% trans %}Stats{% endtrans %}</a></li>
-                    <li><a href="{{path('logout')}}" class="behat-link-logout">{% trans %}logout{% endtrans %}</a></li>
-                {% endif %}
+                {#{% if is_granted('ROLE_SUPER_ADMIN') %}#}
+                    {#<li><a href="{{ path('admin_homepage') }}">{% trans %}nav.adminArea{% endtrans %}</a></li>#}
+                    {#<li><a href="{{ path('admin_upload') }}">{% trans %}Upload{% endtrans %}</a></li>#}
+                    {#<li><a href="{{ path('admin_stats') }}">{% trans %}Stats{% endtrans %}</a></li>#}
+                    {#<li><a href="{{path('logout')}}" class="behat-link-logout">{% trans %}logout{% endtrans %}</a></li>#}
+                {#{% endif %}#}
 
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="{{ path('admin_homepage') }}">{% trans %}adminArea{% endtrans %}</a></li>
+                    <li><a href="{{ path('admin_homepage') }}">{% trans %}nav.adminArea{% endtrans %}</a></li>
                     <li><a href="{{ path('admin_upload') }}">{% trans %}Upload{% endtrans %}</a></li>
                     <li><a href="{{ path('admin_stats') }}">{% trans %}Stats{% endtrans %}</a></li>
                     <li><a href="{{path('user_show')}}" class="behat-link-user-account user-account-link"  >{{ 'nav.userAccount' | trans }}</a></li>
@@ -84,12 +84,9 @@
                 {% if is_granted('ROLE_AD') %}
                     <li><a href="{{ path('ad_homepage') }}">{% trans %}nav.adArea{% endtrans %}</a></li>
                     <li><a href="{{ path('admin_homepage') }}">{% trans %}nav.adminArea{% endtrans %}</a></li>
-                    <li><a href="{{ path('admin_upload') }}">{% trans %}Upload{% endtrans %}</a></li>
-                    <li><a href="{{ path('admin_stats') }}">{% trans %}Stats{% endtrans %}</a></li>
                     <li><a href="{{path('user_show')}}" class="behat-link-user-account user-account-link"  >{{ 'nav.userAccount' | trans }}</a></li>
                     <li><a href="{{path('logout')}}" class="behat-link-logout">{% trans %}logout{% endtrans %}</a></li>
                 {% endif %}
-
 
                 {% if is_granted('ROLE_LAY_DEPUTY') %}
                     <li style="color: white">
@@ -98,11 +95,7 @@
                     {% if (app.user.hasDetails() and app.user.numberOfReports > 0) %}
                         <li><a href="{{path('reports', {'cot': constant('AppBundle\\Entity\\Report\\Report::PROPERTY_AND_AFFAIRS') })}}" class="behat-link-reports reports-link"  >{{ 'nav.reports' | trans }}</a></li>
                     {% endif %}
-
                 {% endif %}
-
-
-
 
             </ul>
         {% endif %}

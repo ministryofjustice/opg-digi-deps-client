@@ -58,7 +58,7 @@ security:
     access_control:
         # /admin accessible only from ADMIN, super users and AD users
         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_AD, ROLE_SUPER_ADMIN] }
-        - { path: ^/ad, roles: [ROLE_ADMIN, ROLE_AD, ROLE_SUPER_ADMIN] }
+        - { path: ^/ad, roles: [ROLE_AD, ROLE_SUPER_ADMIN] }
         # open URLs
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login-ad, roles: IS_AUTHENTICATED_ANONYMOUSLY }
