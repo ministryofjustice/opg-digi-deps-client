@@ -20,8 +20,8 @@ class Role
 
     // keep aligned with backendd
     public static $availableRoles = [
-        1 => 'OPG Admin', //old OPG admin
-        5 => "Assisted Digital Support",
+        1 => 'OPG Admin',
+        5 => 'Assisted Digital',
         2 => 'Lay Deputy',
         // 3 => "Professional Deputy",
         // 4 => "Local Authority Deputy",

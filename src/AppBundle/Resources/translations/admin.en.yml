@@ -15,7 +15,7 @@ addUserForm:
   odrEnabled:
     label: Enable NDR for this user
   submit:
-    label: Submit
+    label: Save
 cancel:
     label: Cancel
 expiration:
