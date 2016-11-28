@@ -122,9 +122,6 @@ class AdController extends AbstractController
             if ($deputy->getRole()['role'] != EntityDir\Role::LAY_DEPUTY) {
                 throw new \RuntimeException('User not a Lay deputy');
             }
-            if (!$deputy->isOdrEnabled()) {
-                throw new \RuntimeException('User not ODR enabled');
-            }
 
             // flag as managed in order to retrieve it later
             $deputy->setAdManaged(true);
