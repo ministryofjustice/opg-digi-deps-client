@@ -36,11 +36,11 @@
 
     {# LIST AsisD USERS #}
     <h2 class="form-title heading-medium" id="users-list-title">
-        Assisted Lay deputy list
+        Existing assisted Lay deputy sessions.
     </h2>
     <p class="text"></p>
     {% if (users | length) == 0 %}
-        No assisted Lay deputy session found.
+        No assisted Lay deputy session started.
         Find lay deputy using the form above,
         or click "view->Login (deputy area)" on them from the user management section
     {% else %}
@@ -140,6 +140,11 @@
     <h2 class="form-title heading-medium" id="users-add-form">
         Create assisted Lay Deputy user
     </h2>
+    <p class="text">
+        This user will be managed uniquely from this AD area.
+    No email nor activation email will be created. After the user is created,
+        it'll be immediately possible to login on the deputy area and complete the deputy reports on behalf of the user
+    </p>
     {{ form_start(form, {attr: {novalidate: 'novalidate' }}) }}
     {{ form_input(form.firstname,'addUserForm.firstname', { 'labelClass': 'required' }) }}
     {{ form_input(form.lastname,'addUserForm.lastname', { 'labelClass': 'required' }) }}
