@@ -33,6 +33,7 @@ Feature: deputy / user / add user
         And I reset the email log
         And I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
         # invalid email
+        When I click "user-add-new":
         When I fill in the following:
             | admin_email | invalidEmail |
             | admin_firstname | 1 |
