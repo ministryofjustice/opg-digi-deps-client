@@ -13,7 +13,7 @@ addUserForm:
     hint: ''
     defaultOption: Please select ...
   odrEnabled:
-    label: Enable NDR for this user
+    label: Enable NDR for this user (Lay deputy only)
   submit:
     label: Save
 cancel:
