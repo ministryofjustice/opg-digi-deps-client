@@ -39,6 +39,11 @@
         Assisted Lay deputy list
     </h2>
     <p class="text"></p>
+    {% if (users | length) == 0 %}
+        No assisted Lay deputy session found.
+        Find lay deputy using the form above,
+        or click "view->Login (deputy area)" on them from the user management section
+    {% else %}
     <table class="behat-region-users user-list">
         <thead>
         <tr>
@@ -129,6 +134,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 
     {# ADD USER FORM #}
     <h2 class="form-title heading-medium" id="users-add-form">
