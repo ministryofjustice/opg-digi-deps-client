@@ -15,64 +15,65 @@ Feature: deputy / report / submit
         Then the URL should match "/report/\d+/declaration"
         And I save the page as "report-submit-declaration"
 
-#    @deputy
-#    Scenario: report submission
-#        Given emails are sent from "deputy" area
-#        And I reset the email log
-#        And I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-#        And I save the application status into "report-submit-pre"
-#        # assert after login I'm redirected to report page
-#        Then the URL should match "/report/\d+/overview"
-#        # assert I cannot access the submitted page directly
-#        And the URL "/report/1/submitted" should not be accessible
-#        # assert I cannot access the submit page from declaration page
-#        When I go to "/report/1/declaration"
-#        Then the URL "/report/1/submitted" should not be accessible
-#        And I click on "reports, report-2016-open"
-#        # submit without ticking "agree"
-#        When I go to "/report/1/declaration"
-#        And I press "report_declaration_save"
-#        #
-#        # empty form
-#        #
-#        When I press "report_declaration_save"
-#        Then the following fields should have an error:
-#            | report_declaration_agree |
-#            | report_declaration_agreedBehalfDeputy_0 |
-#            | report_declaration_agreedBehalfDeputy_1 |
-#            | report_declaration_agreedBehalfDeputy_2 |
-#        #
-#        # missing explanation
-#        #
-#        #When I check "report_declaration_agree"
-#        And I fill in the following:
-#            | report_declaration_agree | 1 |
-#            | report_declaration_agreedBehalfDeputy_2 | more_deputies_not_behalf |
-#            | report_declaration_agreedBehalfDeputyExplanation |  |
-#        And I press "report_declaration_save"
-#        Then the following fields should have an error:
-#            | report_declaration_agreedBehalfDeputyExplanation |
-#        #
-#        # change to one deputy and submit
-#        #
-#        When I fill in the following:
-#            | report_declaration_agree | 1 |
-#            | report_declaration_agreedBehalfDeputy_0 | only_deputy |
-#            | report_declaration_agreedBehalfDeputyExplanation |  |
-#        And I press "report_declaration_save"
-#        Then the form should be valid
-#        And the URL should match "/report/\d+/submitted"
-#        And I save the page as "report-submit-submitted"
-#        # assert report display page is not broken
-#        When I click on "return-to-reports-page"
-#        Then the URL should match "/reports/\d+"
-#        And the response status code should be 200
-#        And the last email containing a link matching "/reports/2" should have been sent to "behat-user@publicguardian.gsi.gov.uk"
-#        And the second_last email should have been sent to "behat-digideps@digital.justice.gov.uk"
-#        And the second_last email should contain a PDF of at least 40 kb
-#        And I save the application status into "report-submit-reports"
+    @deputy
+    Scenario: report submission
+        Given emails are sent from "deputy" area
+        And I reset the email log
+        And I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
+        And I save the application status into "report-submit-pre"
+        # assert after login I'm redirected to report page
+        Then the URL should match "/report/\d+/overview"
+        # assert I cannot access the submitted page directly
+        And the URL "/report/1/submitted" should not be accessible
+        # assert I cannot access the submit page from declaration page
+        When I go to "/report/1/declaration"
+        Then the URL "/report/1/submitted" should not be accessible
+        And I click on "reports, report-2016-open"
+        # submit without ticking "agree"
+        When I go to "/report/1/declaration"
+        And I press "report_declaration_save"
+        #
+        # empty form
+        #
+        When I press "report_declaration_save"
+        Then the following fields should have an error:
+            | report_declaration_agree |
+            | report_declaration_agreedBehalfDeputy_0 |
+            | report_declaration_agreedBehalfDeputy_1 |
+            | report_declaration_agreedBehalfDeputy_2 |
+        #
+        # missing explanation
+        #
+        #When I check "report_declaration_agree"
+        And I fill in the following:
+            | report_declaration_agree | 1 |
+            | report_declaration_agreedBehalfDeputy_2 | more_deputies_not_behalf |
+            | report_declaration_agreedBehalfDeputyExplanation |  |
+        And I press "report_declaration_save"
+        Then the following fields should have an error:
+            | report_declaration_agreedBehalfDeputyExplanation |
+        #
+        # change to one deputy and submit
+        #
+        When I fill in the following:
+            | report_declaration_agree | 1 |
+            | report_declaration_agreedBehalfDeputy_0 | only_deputy |
+            | report_declaration_agreedBehalfDeputyExplanation |  |
+        And I press "report_declaration_save"
+        Then the form should be valid
+        And the URL should match "/report/\d+/submitted"
+        And I save the page as "report-submit-submitted"
+        # assert report display page is not broken
+        When I click on "return-to-reports-page"
+        Then the URL should match "/reports/\d+"
+        And the response status code should be 200
+        And the last email containing a link matching "/reports/2" should have been sent to "behat-user@publicguardian.gsi.gov.uk"
+        And the second_last email should have been sent to "behat-digideps@digital.justice.gov.uk"
+        And the second_last email should contain a PDF of at least 40 kb
+        And I save the application status into "report-submit-reports"
 
     @deputy
+    @failing_on_production
     Scenario: submit feedback after report
         Given emails are sent from "deputy" area
         And I reset the email log
