@@ -13,7 +13,7 @@ trait StatusSnapshotTrait
     public static function iSaveTheApplicationStatusInto($status)
     {
         $sqlFile = self::getSnapshotPath($status);
-        exec('pg_dump '.self::$dbName." --clean > {$sqlFile}");
+        exec('pg_dump '.self::$dbName." --clean --inserts > {$sqlFile}");
     }
 
     /**
@@ -27,11 +27,12 @@ trait StatusSnapshotTrait
             throw new \RuntimeException($error);
         }
         exec('psql '.self::$dbName." < {$sqlFile}");
+
     }
 
     /**
      * @param string $name
-     * 
+     *
      * @return string
      */
     private static function getSnapshotPath($name)
