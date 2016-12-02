@@ -44,11 +44,11 @@ Feature: deputy / user / add user
         And I save the page as "admin-deputy-add-error1"
         And I should not see "invalidEmail" in the "users" region
         # assert form OK
-        When I create a new "ODR-disabled" "Lay Deputy" user "John" "Doe" with email "behat-user@publicguardian.gsi.gov.uk"
-        Then I should see "behat-user@publicguardian.gsi.gov.uk" in the "users" region
-        Then I should see "Lay Deputy" in the "users" region
-        And I save the page as "admin-deputy-added"
-        And the last email containing a link matching "/user/activate/" should have been sent to "behat-user@publicguardian.gsi.gov.uk"
+#        When I create a new "ODR-disabled" "Lay Deputy" user "John" "Doe" with email "behat-user@publicguardian.gsi.gov.uk"
+#        Then I should see "behat-user@publicguardian.gsi.gov.uk" in the "users" region
+#        Then I should see "Lay Deputy" in the "users" region
+#        And I save the page as "admin-deputy-added"
+#        And the last email containing a link matching "/user/activate/" should have been sent to "behat-user@publicguardian.gsi.gov.uk"
 
     @odr
     Scenario: add deputy user (odr)
