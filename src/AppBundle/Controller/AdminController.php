@@ -101,10 +101,17 @@ class AdminController extends AbstractController
             'roleIdDisabled' => $user->getId() == $this->getUser()->getId(),
         ]), $user);
 
-        $odr = $user->getClients()[0]->getOdr();
-        $odrForm = $this->createForm(new FormDir\OdrType(), $odr, [
-            'action' => $this->generateUrl('admin_editOdr', ['id' => $odr->getId()]),
-        ]);
+        $clients = $user->getClients();
+        $odr = null;
+        $odrForm = null;
+        if (count($clients)) {
+            $odr = $clients[0]->getOdr();
+            if ($odr) {
+                $odrForm = $this->createForm(new FormDir\OdrType(), $odr, [
+                    'action' => $this->generateUrl('admin_editOdr', ['id' => $odr->getId()]),
+                ]);
+            }
+        }
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -118,8 +125,13 @@ class AdminController extends AbstractController
                 $this->redirect($this->generateUrl('admin_editUser', ['what' => 'user_id', 'filter' => $user->getId()]));
             }
         }
+        $view = ['form' => $form->createView(), 'action' => 'edit', 'id' => $user->getId(), 'user' => $user];
 
-        return ['form' => $form->createView(), 'odrForm' => $odrForm->createView(), 'action' => 'edit', 'id' => $user->getId(), 'user' => $user];
+        if ($odr && $odrForm) {
+            $view['odrForm'] = $odrForm->createView();
+        }
+
+        return $view;
     }
 
     /**
