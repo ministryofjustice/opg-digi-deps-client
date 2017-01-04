@@ -80,8 +80,12 @@ class AbstractController extends Controller
      *
      * @return Odr
      */
-    public function getOdr($odrId, array $groups/* = ['basic']*/)
+    public function getOdr($odrId, array $groups)
     {
+        $groups[] =  'odr';
+        $groups[] =  'client';
+        $groups = array_unique($groups);
+
         return $this->getRestClient()->get("odr/{$odrId}", 'Odr\Odr', $groups);
     }
 
@@ -110,7 +114,7 @@ class AbstractController extends Controller
     /**
      * @param int $reportId
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report\Report
      *
      * @throws \RuntimeException if report is submitted
      */
@@ -139,4 +143,23 @@ class AbstractController extends Controller
     {
         return $this->get('mailSender');
     }
+
+    /**
+     * @param $route
+     * @return boolean
+     */
+    protected function routeExists($route)
+    {
+        return $this->get('router')->getRouteCollection()->get($route) ? true : false;
+    }
+
+//    /**
+//     * @param Report\Report $report
+//     * @param $sectionId
+//     */
+//    protected function flagSectionStarted(Report\Report $report, $sectionId)
+//    {
+//        $report->setSectionStarted($sectionId);
+//        $this->getRestClient()->put('report/'.$report->getId(), $report, ['report-metadata']);
+//    }
 }
