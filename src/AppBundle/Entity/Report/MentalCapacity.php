@@ -39,6 +39,12 @@ class MentalCapacity
      */
     private $hasCapacityChangedDetails;
 
+    /**
+     * @JMS\Type("DateTime")
+     * @JMS\Groups({"mental-capacity"})
+     */
+    private $mentalAssessmentDate = null;
+
     public function getId()
     {
         return $this->id;
@@ -64,6 +70,18 @@ class MentalCapacity
     public function setHasCapacityChangedDetails($hasCapacityChangedDetails)
     {
         $this->hasCapacityChangedDetails = $hasCapacityChangedDetails;
+
+        return $this;
+    }
+
+    public function getMentalAssessmentDate()
+    {
+        return $this->mentalAssessmentDate;
+    }
+
+    public function setMentalAssessmentDate($mentalAssessmentDate)
+    {
+        $this->mentalAssessmentDate = $mentalAssessmentDate;
 
         return $this;
     }
