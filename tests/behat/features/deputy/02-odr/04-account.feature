@@ -1,10 +1,10 @@
-Feature: deputy / report / account
+Feature: NDR/ account
 
-  @deputy
-  Scenario: add account
-    Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-    And I click on "reports, report-2016, edit-bank_accounts, start"
-    # step 1
+  @odr
+  Scenario: NDR accounts
+    Given I am logged in as "behat-user-odr@publicguardian.gsi.gov.uk" with password "Abcd1234"
+    And I click on "odr-start, edit-bank_accounts, start"
+  # step 1
     Then the step cannot be submitted without making a selection
     And the step with the following values CAN be submitted:
       | account_accountType_0 | current |
@@ -24,11 +24,9 @@ Feature: deputy / report / account
       | account_sortCode_sort_code_part_3 | 33                  |
       | account_isJointAccount_1          | no                  |
     And the step with the following values CANNOT be submitted:
-      | account_openingBalance | invalid | [ERR] |
-      | account_closingBalance | invalid | [ERR] |
+      | account_balanceOnCourtOrderDate | invalid | [ERR] |
     And the step with the following values CAN be submitted:
-      | account_openingBalance | 100.40 |
-      | account_closingBalance | 200.50 |
+      | account_balanceOnCourtOrderDate | 100.40 |
     # add another: yes
     And I choose "yes" when asked for adding another record
     # add account n.2 (cfo)
@@ -38,8 +36,7 @@ Feature: deputy / report / account
       | account_accountNumber    | 11cf |
       | account_isJointAccount_1 | no   |
     And the step with the following values CAN be submitted:
-      | account_openingBalance | 234 |
-      | account_closingBalance | 235 |
+      | account_balanceOnCourtOrderDate | 234 |
     # add another: yes
     And I choose "yes" when asked for adding another record
     # add account n.3 (temp)
@@ -53,8 +50,7 @@ Feature: deputy / report / account
       | account_sortCode_sort_code_part_3 | 33    |
       | account_isJointAccount_1          | no    |
     And the step with the following values CAN be submitted:
-      | account_openingBalance | 123 |
-      | account_closingBalance | 123 |
+      | account_balanceOnCourtOrderDate | 123 |
     # add another: no
     And I choose "no" when asked for adding another record
     # check record in summary page
@@ -63,10 +59,8 @@ Feature: deputy / report / account
       | Current account            | account-01ca |
       | 112233                     | account-01ca |
       | £100.40                    | account-01ca |
-      | £200.50                    | account-01ca |
       | Court funds office account | account-11cf |
       | £234.00                    | account-11cf |
-      | £235.00                    | account-11cf |
     # remove account
     When I click on "delete" in the "account-temp" region
     Then I should not see the "account-temp" region
@@ -95,14 +89,11 @@ Feature: deputy / report / account
       | account_sortCode_sort_code_part_3 | 66                    |
       | account_isJointAccount_0          | yes                   |
     Then the following fields should have the corresponding values:
-      | account_openingBalance | 100.40 |
-      | account_closingBalance | 200.50 |
+      | account_balanceOnCourtOrderDate | 100.40 |
     And the step with the following values CAN be submitted:
-      | account_openingBalance | 101.40 |
-      | account_closingBalance | 201.50 |
+      | account_balanceOnCourtOrderDate | 101.40 |
     And each text should be present in the corresponding region:
       | HSBC - saving account | account-02ca |
       | Saving account        | account-02ca |
       | 445566                | account-02ca |
       | £101.40               | account-02ca |
-      | £201.50               | account-02ca |

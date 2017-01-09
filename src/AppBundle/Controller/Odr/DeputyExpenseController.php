@@ -26,7 +26,7 @@ class DeputyExpenseController extends AbstractController
      */
     public function startAction($odrId)
     {
-        $odr = $this->getOdr($odrId, self::$jmsGroups);
+        $odr = $this->getOdrIfNotSubmitted($odrId, self::$jmsGroups);
 
         if (count($odr->getExpenses()) > 0 || $odr->getPaidForAnything() !== null) {
             return $this->redirectToRoute('odr_deputy_expenses_summary', ['odrId' => $odrId]);
@@ -43,7 +43,7 @@ class DeputyExpenseController extends AbstractController
      */
     public function existAction(Request $request, $odrId)
     {
-        $odr = $this->getOdr($odrId, self::$jmsGroups);
+        $odr = $this->getOdrIfNotSubmitted($odrId, self::$jmsGroups);
         $form = $this->createForm(new FormDir\Odr\DeputyExpenseExistType(), $odr);
         $form->handleRequest($request);
 
@@ -52,7 +52,7 @@ class DeputyExpenseController extends AbstractController
             /* @var $data EntityDir\Odr\Odr */
             switch ($data->getPaidForAnything()) {
                 case 'yes':
-                    return $this->redirectToRoute('odr_deputy_expense_add', ['odrId' => $odrId]);
+                    return $this->redirectToRoute('odr_deputy_expenses_add', ['odrId' => $odrId, 'from'=>'exist']);
                 case 'no':
                     $this->get('restClient')->put('odr/' . $odrId, $data, ['odr-expenses-paid-anything']);
                     return $this->redirectToRoute('odr_deputy_expenses_summary', ['odrId' => $odrId]);
@@ -72,12 +72,12 @@ class DeputyExpenseController extends AbstractController
     }
 
     /**
-     * @Route("/odr/{odrId}/deputy-expenses/add", name="odr_deputy_expense_add")
+     * @Route("/odr/{odrId}/deputy-expenses/add", name="odr_deputy_expenses_add")
      * @Template()
      */
     public function addAction(Request $request, $odrId)
     {
-        $odr = $this->getOdr($odrId, self::$jmsGroups);
+        $odr = $this->getOdrIfNotSubmitted($odrId, self::$jmsGroups);
         $expense = new EntityDir\Odr\Expense();
 
         $form = $this->createForm(new FormDir\Odr\DeputyExpenseType(), $expense);
@@ -89,13 +89,17 @@ class DeputyExpenseController extends AbstractController
 
             $this->getRestClient()->post('odr/' . $odr->getId() . '/expense', $data, ['odr-expense']);
 
-            return $this->redirect($this->generateUrl('odr_deputy_expense_add_another', ['odrId' => $odrId]));
+            return $this->redirect($this->generateUrl('odr_deputy_expenses_add_another', ['odrId' => $odrId]));
         }
 
-        $backLink = $this->generateUrl('odr_deputy_expenses_exist', ['odrId' => $odrId]);
-        if ($request->get('from') == 'another') {
-            $backLink = $this->generateUrl('odr_deputy_expense_add_another', ['odrId' => $odrId]);
-        }
+//        $backLink = $this->generateUrl('odr_deputy_expenses_exist', ['odrId' => $odrId]);
+//        if ($request->get('from') == 'another') {
+//            $backLink = $this->generateUrl('odr_deputy_expenses_add_another', ['odrId' => $odrId]);
+//        }
+
+        $backLinkRoute = 'odr_deputy_expenses_' . $request->get('from');
+        $backLink = $this->routeExists($backLinkRoute) ? $this->generateUrl($backLinkRoute, ['odrId'=>$odrId]) : '';
+
 
         return [
             'backLink' => $backLink,
@@ -106,12 +110,12 @@ class DeputyExpenseController extends AbstractController
 
 
     /**
-     * @Route("/odr/{odrId}/deputy-expenses/add_another", name="odr_deputy_expense_add_another")
+     * @Route("/odr/{odrId}/deputy-expenses/add_another", name="odr_deputy_expenses_add_another")
      * @Template()
      */
     public function addAnotherAction(Request $request, $odrId)
     {
-        $odr = $this->getOdr($odrId, self::$jmsGroups);
+        $odr = $this->getOdrIfNotSubmitted($odrId, self::$jmsGroups);
 
         $form = $this->createForm(new FormDir\Odr\DeputyExpenseAddAnotherType(), $odr);
         $form->handleRequest($request);
@@ -119,7 +123,7 @@ class DeputyExpenseController extends AbstractController
         if ($form->isValid()) {
             switch ($form['addAnother']->getData()) {
                 case 'yes':
-                    return $this->redirectToRoute('odr_deputy_expense_add', ['odrId' => $odrId, 'from' => 'another']);
+                    return $this->redirectToRoute('odr_deputy_expenses_add', ['odrId' => $odrId, 'from' => 'add_another']);
                 case 'no':
                     return $this->redirectToRoute('odr_deputy_expenses_summary', ['odrId' => $odrId]);
             }
@@ -133,12 +137,12 @@ class DeputyExpenseController extends AbstractController
 
 
     /**
-     * @Route("/odr/{odrId}/deputy-expenses/edit/{expenseId}", name="odr_deputy_expense_edit")
+     * @Route("/odr/{odrId}/deputy-expenses/edit/{expenseId}", name="odr_deputy_expenses_edit")
      * @Template()
      */
     public function editAction(Request $request, $odrId, $expenseId)
     {
-        $odr = $this->getOdr($odrId, self::$jmsGroups);
+        $odr = $this->getOdrIfNotSubmitted($odrId, self::$jmsGroups);
         $expense = $this->getRestClient()->get('odr/'.$odr->getId().'/expense/' . $expenseId, 'Odr\Expense');
 
         $form = $this->createForm(new FormDir\Odr\DeputyExpenseType(), $expense);
@@ -172,7 +176,7 @@ class DeputyExpenseController extends AbstractController
      */
     public function summaryAction($odrId)
     {
-        $odr = $this->getOdr($odrId, self::$jmsGroups);
+        $odr = $this->getOdrIfNotSubmitted($odrId, self::$jmsGroups);
         if (count($odr->getExpenses()) === 0 && $odr->getPaidForAnything() === null) {
             return $this->redirect($this->generateUrl('odr_deputy_expenses', ['odrId' => $odrId]));
         }
@@ -184,7 +188,7 @@ class DeputyExpenseController extends AbstractController
 
 
     /**
-     * @Route("/odr/{odrId}/deputy-expenses/{expenseId}/delete", name="odr_deputy_expense_delete")
+     * @Route("/odr/{odrId}/deputy-expenses/{expenseId}/delete", name="odr_deputy_expenses_delete")
      *
      * @param int $id
      *
@@ -192,7 +196,7 @@ class DeputyExpenseController extends AbstractController
      */
     public function deleteAction(Request $request, $odrId, $expenseId)
     {
-        $odr = $this->getOdr($odrId, self::$jmsGroups);
+        $odr = $this->getOdrIfNotSubmitted($odrId, self::$jmsGroups);
 
         $this->getRestClient()->delete('odr/'.$odr->getId().'/expense/'.$expenseId);
 

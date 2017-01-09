@@ -14,9 +14,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @Route("/report")
- */
 class AssetController extends AbstractController
 {
     private static $jmsGroups = [
@@ -345,7 +342,7 @@ class AssetController extends AbstractController
     }
 
     /**
-     * @Route("/{reportId}/assets/{assetId}/delete", name="asset_delete")
+     * @Route("/report/{reportId}/assets/{assetId}/delete", name="asset_delete")
      *
      * @return RedirectResponse
      */
@@ -358,7 +355,7 @@ class AssetController extends AbstractController
             $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
         }
 
-        return $this->redirect($this->generateUrl('assets', ['reportId' => $reportId]));
+        return $this->redirect($this->generateUrl('assets_summary', ['reportId' => $reportId]));
     }
 
 }
