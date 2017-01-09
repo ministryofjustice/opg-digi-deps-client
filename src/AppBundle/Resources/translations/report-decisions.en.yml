@@ -46,7 +46,7 @@ mentalAssessment:
   pageSectionTitle: "Mental assessment"
   form:
     mentalAssessmentDate:
-      label: "When was the client’s mental capacity to make decisions last assessed by a professional (such as a psychiatrist or social worker)?"
+      label: "When was %client%’s mental capacity to make decisions last assessed by a professional (such as a psychiatrist or social worker)?"
       hint: "(MM/YYYY)"
     save:
       label: "Save and continue"
