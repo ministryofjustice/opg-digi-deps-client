@@ -86,7 +86,8 @@ class DecisionController extends AbstractController
     {
         $report = $this->getReportIfReportNotSubmitted($reportId, self::$jmsGroups);
         $fromPage = $request->get('from');
-        $route = ($fromPage == 'summary') ? 'decisions_summary' : 'decisions_exist';
+        $routeForward = ($fromPage == 'summary') ? 'decisions_summary' : 'decisions_exist';
+        $routeBack = ($fromPage == 'summary') ? 'decisions_summary' : 'decisions_mental_capacity';
 
         $mc = $report->getMentalCapacity();
         if ($mc == null) {
@@ -107,12 +108,12 @@ class DecisionController extends AbstractController
             }
 
 
-            return $this->redirect($this->generateUrl($route, ['reportId' => $reportId]));
+            return $this->redirect($this->generateUrl($routeForward, ['reportId' => $reportId]));
         }
 
         return [
             'form' => $form->createView(),
-            'backLink' => $this->generateUrl($route, ['reportId'=>$report->getId()]),
+            'backLink' => $this->generateUrl($routeBack, ['reportId'=>$report->getId()]),
             'report' => $report,
         ];
     }
@@ -140,7 +141,7 @@ class DecisionController extends AbstractController
             }
         }
 
-        $backLink = $this->generateUrl('decisions_mental_capacity', ['reportId'=>$reportId]);
+        $backLink = $this->generateUrl('decisions_mental_assessment', ['reportId'=>$reportId]);
         if ( $request->get('from') == 'summary') {
             $backLink = $this->generateUrl('decisions_summary', ['reportId'=>$reportId]);
         }
