@@ -16,13 +16,17 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  */
 class Report
 {
+    const TYPE_102 = '102';
+    const TYPE_103 = '103';
+    const TYPE_104 = '104';
+
     /**
-     * 
+     * 104 report
      */
     const PERSONAL_WELFARE = 1;
 
     /**
-     * same sections as personal welfare, + accounts and assets.
+     * 102 report
      */
     const PROPERTY_AND_AFFAIRS = 2;
 
@@ -33,6 +37,15 @@ class Report
      * @var int
      */
     private $id;
+
+    /**
+     * @JMS\Type("string")
+     *
+     * see TYPE_* constant
+     *
+     * @var string
+     */
+    private $type;
 
     /**
      * @Assert\NotBlank( message="report.startDate.notBlank")
@@ -88,7 +101,7 @@ class Report
      *
      * @var Account[]
      */
-    private $accounts;
+    private $bankAccounts;
 
     /**
      * @JMS\Type("array<AppBundle\Entity\Report\MoneyTransfer>")
@@ -361,6 +374,22 @@ class Report
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getStartDate()
@@ -522,9 +551,9 @@ class Report
     /**
      * @return Account[]
      */
-    public function getAccounts()
+    public function getBankAccounts()
     {
-        return $this->accounts;
+        return $this->bankAccounts;
     }
 
     /**
@@ -532,7 +561,7 @@ class Report
      */
     public function getAccountWithId($id)
     {
-        foreach($this->accounts as $account) {
+        foreach($this->bankAccounts as $account) {
             if ($account->getId() == $id) {
                 return $account;
             }
@@ -569,17 +598,17 @@ class Report
     }
 
     /**
-     * @param array $accounts
+     * @param array $bankAccounts
      *
      * @return \AppBundle\Entity\Report
      */
-    public function setAccounts($accounts)
+    public function setBankAccounts($bankAccounts)
     {
-        foreach ($accounts as $account) {
+        foreach ($bankAccounts as $account) {
             $account->setReport($this);
         }
 
-        $this->accounts = $accounts;
+        $this->bankAccounts = $bankAccounts;
 
         return $this;
     }
@@ -1307,7 +1336,7 @@ class Report
      */
     public function hasAccounts()
     {
-        return count($this->getAccounts()) > 0;
+        return count($this->getBankAccounts()) > 0;
     }
 
     /**
@@ -1331,7 +1360,7 @@ class Report
      */
     public function getAccountsWithNoClosingBalance()
     {
-        return array_filter($this->getAccounts(), function ($account) {
+        return array_filter($this->getBankAccounts(), function ($account) {
             /* @var $account Account */
             return $account->getClosingBalance() === null;
         });
@@ -1371,8 +1400,8 @@ class Report
      */
     public function hasAccountWithId($id)
     {
-        foreach ($this->getAccounts() as $asset) {
-            if ($asset->getId() == $id) {
+        foreach ($this->getBankAccounts() as $e) {
+            if ($e->getId() == $id) {
                 return true;
             }
         }

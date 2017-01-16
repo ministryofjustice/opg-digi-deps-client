@@ -59,7 +59,7 @@ class ReportStatusService
     /** @return string */
     public function getBankAccountsState()
     {
-        if (empty($this->report->getAccounts())) {
+        if (empty($this->report->getBankAccounts())) {
             return self::STATE_NOT_STARTED;
         }
 
@@ -68,14 +68,14 @@ class ReportStatusService
 
     public function getMoneyTransferState()
     {
-        if (count($this->report->getAccounts()) <= 1) {
-            return self::STATE_DONE;
-        }
-
         $hasAtLeastOneTransfer = count($this->report->getMoneyTransfers()) >= 1;
         $valid = $hasAtLeastOneTransfer || $this->report->getNoTransfersToAdd();
 
-        return $valid ? self::STATE_DONE : self::STATE_NOT_STARTED;
+        if ($valid || count($this->report->getBankAccounts()) <= 1) {
+            return self::STATE_DONE;
+        }
+
+        return self::STATE_NOT_STARTED;
     }
 
     public function getMoneyInState()
@@ -135,16 +135,11 @@ class ReportStatusService
     {
         $hasDebts = $this->report->getHasDebts();
 
-        if (empty($hasDebts)) {
+        if (in_array($hasDebts, ['yes', 'no'])) {
+            return self::STATE_DONE;
+        } else {
             return self::STATE_NOT_STARTED;
         }
-
-        $debtsSectionComplete = in_array($hasDebts, ['yes', 'no']);
-        if ($debtsSectionComplete) {
-            return self::STATE_DONE;
-        }
-
-        return self::STATE_INCOMPLETE;
     }
 
     /** @return string */
@@ -165,7 +160,7 @@ class ReportStatusService
     /** @return bool */
     public function hasOutstandingAccounts()
     {
-        foreach ($this->report->getAccounts() as $account) {
+        foreach ($this->report->getBankAccounts() as $account) {
             if (!$account->hasClosingBalance() || $account->hasMissingInformation()) {
                 return true;
             }
@@ -191,9 +186,7 @@ class ReportStatusService
     /** @return bool */
     public function balanceMatches()
     {
-        $balanceValid = $this->report->isTotalsMatch() || $this->report->getBalanceMismatchExplanation();
-
-        return $balanceValid;
+        return $this->report->isTotalsMatch() || $this->report->getBalanceMismatchExplanation();
     }
 
     /**
@@ -208,15 +201,21 @@ class ReportStatusService
             'actions' => $this->getActionsState(),
         ];
 
-        if ($this->report->getCourtOrderTypeId() == Report::PROPERTY_AND_AFFAIRS) {
+        if (in_array($this->report->getType(), [Report::TYPE_102, Report::TYPE_103])) {
             $states += [
                 'bankAccounts' => $this->getBankAccountsState(),
-                'moneyTransfers' => $this->getMoneyTransferState(),
                 'moneyIn' => $this->getMoneyInState(),
                 'moneyOut' => $this->getMoneyOutState(),
                 'assets' => $this->getAssetsState(),
                 'debts' => $this->getDebtsState(),
             ];
+
+            if ($this->report->getType() == Report::TYPE_102) {
+                $states += [
+                    'moneyTransfers' => $this->getMoneyTransferState(),
+                ];
+            }
+
         }
 
         return array_filter($states, function ($e) {
