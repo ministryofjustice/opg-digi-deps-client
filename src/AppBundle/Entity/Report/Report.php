@@ -90,6 +90,13 @@ class Report
     private $courtOrderTypeId;
 
     /**
+     * @JMS\Type("AppBundle\Entity\CourtOrderType")
+     *
+     * @var CourtOrderType
+     */
+    private $courtOrderType;
+
+    /**
      * @JMS\Exclude
      *
      * @var string
@@ -1483,6 +1490,24 @@ class Report
         if ($this->getHasDebts() == 'yes' && count($this->getDebtsWithValidAmount()) === 0) {
             $context->addViolation('report.hasDebts.mustHaveAtLeastOneDebt');
         }
+    }
+
+    /**
+     * @return CourtOrderType
+     */
+    public function getCourtOrderType()
+    {
+        return $this->courtOrderType;
+    }
+
+    /**
+     * @param CourtOrderType $courtOrderType
+     * @return Report
+     */
+    public function setCourtOrderType($courtOrderType)
+    {
+        $this->courtOrderType = $courtOrderType;
+        return $this;
     }
 
 }

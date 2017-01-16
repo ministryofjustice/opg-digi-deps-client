@@ -125,8 +125,14 @@ class ReportController extends AbstractController
             //if client has property & affairs and health & welfare then give them property & affairs
             //else give them health and welfare
             if (count($allowedCourtOrderTypes) > 1) {
+                $courtOrderType = new EntityDir\CourtOrderType();
+                $courtOrderType->setId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
+                $report->setCourtOrderType($courtOrderType);
                 $report->setCourtOrderTypeId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
             } else {
+                $courtOrderType = new EntityDir\CourtOrderType();
+                $courtOrderType->setId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
+                $report->setCourtOrderType($courtOrderType);
                 $report->setCourtOrderTypeId($allowedCourtOrderTypes[0]);
             }
         }
