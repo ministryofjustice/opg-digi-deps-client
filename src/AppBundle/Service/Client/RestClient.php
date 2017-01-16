@@ -419,12 +419,7 @@ class RestClient
     {
         $ret = $mixed;
         if (is_object($mixed)) {
-            $context = \JMS\Serializer\SerializationContext::create()
-                ->setSerializeNull(true);
-
-            if (!empty($options['deserialise_groups'])) {
-                $context->setGroups($options['deserialise_groups']);
-            }
+            $context = \JMS\Serializer\SerializationContext::create();
 
             if (!empty($options['deserialise_groups'])) {
                 $context->setGroups($options['deserialise_groups']);
