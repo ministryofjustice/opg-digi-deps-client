@@ -45,7 +45,7 @@ Feature: Report debts
         When I click on "edit" in the "debts-list" region
         Then the following fields should have the corresponding values:
             | debt_debts_0_amount | 12,331.23 |
-            | debt_debts_1_amount | 0 |
+            | debt_debts_1_amount | 0.00 |
             | debt_debts_2_amount | 1.00 |
             | debt_debts_3_amount | 2.00 |
             | debt_debts_3_moreDetails | mr |
