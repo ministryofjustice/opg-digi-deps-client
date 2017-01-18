@@ -110,8 +110,8 @@ class ReportController extends AbstractController
      */
     public function createAction(Request $request, $clientId, $action = false)
     {
-        $client = $this->getRestClient()->get('client/'.$clientId, 'Client', ['client']);
-        
+        $client = $this->getRestClient()->get('client/' . $clientId, 'Client', ['client']);
+
         $existingReports = $this->getReportsIndexedById($client);
 
         if ($action == 'create' && ($firstReport = array_shift($existingReports)) && $firstReport instanceof EntityDir\Report\Report) {
@@ -124,6 +124,19 @@ class ReportController extends AbstractController
             $report->setCourtOrderType($courtOrderType);
             $report->setCourtOrderTypeId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
             $report->setType(EntityDir\Report\Report::TYPE_102);
+
+            /**
+             * Introduced by
+             * https://opgtransform.atlassian.net/browse/DDPB-757
+             * Remove when
+             * https://opgtransform.atlassian.net/browse/DDPB-758
+             * is implemented
+             */
+            if ($this->getUser()->getEmail() == 'laydeputy103@publicguardian.gsi.gov.uk') {
+                $report->setType(EntityDir\Report\Report::TYPE_103);
+            } else {
+                $report->setType(EntityDir\Report\Report::TYPE_102);
+            }
         }
         $report->setClient($client);
 
