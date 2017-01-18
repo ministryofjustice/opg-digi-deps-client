@@ -111,9 +111,7 @@ class ReportController extends AbstractController
     public function createAction(Request $request, $clientId, $action = false)
     {
         $client = $this->getRestClient()->get('client/'.$clientId, 'Client', ['client']);
-
-        $allowedCourtOrderTypes = $client->getAllowedCourtOrderTypes();
-
+        
         $existingReports = $this->getReportsIndexedById($client);
 
         if ($action == 'create' && ($firstReport = array_shift($existingReports)) && $firstReport instanceof EntityDir\Report\Report) {
@@ -121,20 +119,11 @@ class ReportController extends AbstractController
         } else {
             // new report
             $report = new EntityDir\Report\Report();
-
-            //if client has property & affairs and health & welfare then give them property & affairs
-            //else give them health and welfare
-            if (count($allowedCourtOrderTypes) > 1) {
-                $courtOrderType = new EntityDir\CourtOrderType();
-                $courtOrderType->setId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
-                $report->setCourtOrderType($courtOrderType);
-                $report->setCourtOrderTypeId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
-            } else {
-                $courtOrderType = new EntityDir\CourtOrderType();
-                $courtOrderType->setId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
-                $report->setCourtOrderType($courtOrderType);
-                $report->setCourtOrderTypeId($allowedCourtOrderTypes[0]);
-            }
+            $courtOrderType = new EntityDir\CourtOrderType();
+            $courtOrderType->setId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
+            $report->setCourtOrderType($courtOrderType);
+            $report->setCourtOrderTypeId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
+            $report->setType(EntityDir\Report\Report::TYPE_102);
         }
         $report->setClient($client);
 
