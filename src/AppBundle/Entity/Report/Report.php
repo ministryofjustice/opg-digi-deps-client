@@ -211,14 +211,6 @@ class Report
      */
     private $furtherInformation;
 
-    /**
-     * @deprecated
-     * @JMS\Type("boolean")
-     *
-     * @var bool
-     */
-    private $reportSeen;
-
     /** @var bool
      * @JMS\Type("boolean")
      * @Assert\True(message="report.agree", groups={"declare"} )
@@ -996,24 +988,6 @@ class Report
     public function setFurtherInformation($furtherInformation)
     {
         $this->furtherInformation = $furtherInformation;
-    }
-
-    /**
-     * @param type $reportSeen
-     *
-     * @return \AppBundle\Entity\Report
-     */
-    public function setReportSeen($reportSeen)
-    {
-        $this->reportSeen = $reportSeen;
-    }
-
-    /**
-     * @return type
-     */
-    public function getReportSeen()
-    {
-        return $this->reportSeen;
     }
 
     /**
