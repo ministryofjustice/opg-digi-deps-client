@@ -110,9 +110,7 @@ class ReportController extends AbstractController
      */
     public function createAction(Request $request, $clientId, $action = false)
     {
-        $client = $this->getRestClient()->get('client/'.$clientId, 'Client', ['client']);
-
-        $allowedCourtOrderTypes = $client->getAllowedCourtOrderTypes();
+        $client = $this->getRestClient()->get('client/' . $clientId, 'Client', ['client']);
 
         $existingReports = $this->getReportsIndexedById($client);
 
@@ -121,13 +119,23 @@ class ReportController extends AbstractController
         } else {
             // new report
             $report = new EntityDir\Report\Report();
+            $courtOrderType = new EntityDir\CourtOrderType();
+            $courtOrderType->setId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
+            $report->setCourtOrderType($courtOrderType);
+            $report->setCourtOrderTypeId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
+            $report->setType(EntityDir\Report\Report::TYPE_102);
 
-            //if client has property & affairs and health & welfare then give them property & affairs
-            //else give them health and welfare
-            if (count($allowedCourtOrderTypes) > 1) {
-                $report->setCourtOrderTypeId(EntityDir\Report\Report::PROPERTY_AND_AFFAIRS);
+            /**
+             * Introduced by
+             * https://opgtransform.atlassian.net/browse/DDPB-757
+             * Remove when
+             * https://opgtransform.atlassian.net/browse/DDPB-758
+             * is implemented
+             */
+            if ($this->getUser()->getEmail() == 'laydeputy103@publicguardian.gsi.gov.uk') {
+                $report->setType(EntityDir\Report\Report::TYPE_103);
             } else {
-                $report->setCourtOrderTypeId($allowedCourtOrderTypes[0]);
+                $report->setType(EntityDir\Report\Report::TYPE_102);
             }
         }
         $report->setClient($client);
