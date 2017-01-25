@@ -204,15 +204,6 @@ class Report
     private $submitted;
 
     /**
-     * @JMS\Type("boolean")
-     * @JMS\Groups({"reviewed"})
-     * @Assert\True(message="report.submissionExceptions.reviewedAndChecked", groups={"reviewedAndChecked"})
-     * 
-     * @var bool
-     */
-    private $reviewed;
-
-    /**
      * @JMS\Type("string")
      * @JMS\Groups({"furtherInformation"})
      *
@@ -221,6 +212,7 @@ class Report
     private $furtherInformation;
 
     /**
+     * @deprecated
      * @JMS\Type("boolean")
      *
      * @var bool
@@ -988,22 +980,6 @@ class Report
         $this->submitted = $submitted;
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getReviewed()
-    {
-        return $this->reviewed;
-    }
-
-    /**
-     * @param bool $reviewed
-     */
-    public function setReviewed($reviewed)
-    {
-        $this->reviewed = $reviewed;
     }
 
     /**
