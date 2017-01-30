@@ -13,7 +13,16 @@ trait StatusSnapshotTrait
     public static function iSaveTheApplicationStatusInto($status)
     {
         $sqlFile = self::getSnapshotPath($status);
-        exec('pg_dump ' . self::$dbName . " --clean --inserts | sed '/EXTENSION/d' > {$sqlFile}");
+        /*
+         * Dump data only, and prepend a truncate of all the tables
+         * Take 30-40% of the time taken to dump structure, that never changes in the same suite
+         *
+         * */
+        exec('pg_dump ' . self::$dbName . " -a --inserts | sed '/EXTENSION/d' > {$sqlFile}");
+        file_put_contents($sqlFile,
+            "SET client_min_messages TO WARNING; \n\n"
+            ."truncate table casrec,audit_log_entry,safeguarding,role, migrations, transaction_type, deputy_case, report, audit_log_entry, odr,dd_user  RESTART IDENTITY cascade; \n\n"
+            .file_get_contents($sqlFile));
     }
 
     /**
