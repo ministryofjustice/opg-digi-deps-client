@@ -29,7 +29,6 @@
         <div class="column-half">
             <h2 class="heading-medium flush--ends">List of user accounts</h2>
         </div>
-        {% if canAddPaUsers %}
         <div class="column-half text--right">
             {% if isNamedOrAdmin %}
             <a href="{{ path('add_team_member') }}"
@@ -39,8 +38,6 @@
             </a>
             {% endif %}
         </div>
-        {% endif %}
-
     </div>
 
     <table class="check-your-answers">

@@ -24,8 +24,7 @@ class TeamController extends AbstractController
         $teamMembers = $this->getRestClient()->get('team/members', 'User[]');
 
         return [
-            'teamMembers' => $teamMembers,
-            'canAddPaUsers' => $this->getUser()->canAddPaUsers()
+            'teamMembers' => $teamMembers
         ];
     }
 
