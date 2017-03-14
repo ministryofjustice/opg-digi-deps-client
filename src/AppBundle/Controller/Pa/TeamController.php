@@ -35,8 +35,6 @@ class TeamController extends AbstractController
      */
     public function addAction(Request $request)
     {
-        $form = $this->createForm(new FormDir\Pa\TeamMemberAccount(true));
-
         if (!$this->getUser()->canAddPaUsers()) {
             throw new DisplayableException('You do not have permission to access this page');
         }
