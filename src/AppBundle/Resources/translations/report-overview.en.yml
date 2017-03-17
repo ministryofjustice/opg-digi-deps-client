@@ -28,7 +28,7 @@ labels:
 heading.decisionsContacts: "Decisions and contacts"
 decisions:
     subSectionTitle: "Decisions"
-    subSectionDescription: "Tell us about the significant decisions you've made for %client%"
+    subSectionDescription: "Add the significant decisions you've made for %client%"
     edit: "Edit"
     start: "Start"
     label:
@@ -44,7 +44,7 @@ contacts:
 heading.healthAndWelfare: "%client%'s welfare"
 visits_care:
     subSectionTitle: "Visits and care"
-    subSectionDescription: "Give us an overview of who is looking after %client%"
+    subSectionDescription: "To safeguard %client%'s welfare, we need to know about your involvement in their care"
     edit: "Edit"
     start: "Start"
     label:
@@ -134,7 +134,7 @@ debts:
 heading.other: "Other information"
 actions:
     subSectionTitle: "Actions you plan to take"
-    subSectionDescription: "What major decisions will you need to take for %client% in the next year?"
+    subSectionDescription: "What major financial decisions will you need to take for %client% in the next year?"
     edit: "Edit"
     start: "Start"
     label:
