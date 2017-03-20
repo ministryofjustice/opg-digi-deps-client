@@ -819,7 +819,8 @@ class User implements AdvancedUserInterface
      */
     private function isNamedDeputy()
     {
-        return $this->getRoleName() === User::ROLE_PA;    }
+        return $this->getRoleName() === User::ROLE_PA;
+    }
 
     /**
      * Is use PA Administrator?
@@ -828,7 +829,8 @@ class User implements AdvancedUserInterface
      */
     private function isPaAdmin()
     {
-        return $this->getRoleName() === User::ROLE_PA_ADMIN;    }
+        return $this->getRoleName() === User::ROLE_PA_ADMIN;
+    }
 
     /**
      * Is user a Team member?
