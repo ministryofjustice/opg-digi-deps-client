@@ -39,7 +39,7 @@ class TeamController extends AbstractController
             throw new DisplayableException('You do not have permission to access this page');
         }
 
-        $form = $this->createForm(new FormDir\Pa\TeamMemberAccount());
+        $form = $this->createForm(new FormDir\Pa\TeamMemberAccount(true));
 
         $form->handleRequest($request);
 
@@ -68,28 +68,12 @@ class TeamController extends AbstractController
     public function editAction(Request $request, $id)
     {
         $user = $this->getRestClient()->get('team/member/'.$id, 'User');
-
-<<<<<<< d5267191984e55531c7e4c6fda8367d220d2add6
-        $loggedUserRole = $this->getUser()->getRoleName();
-        if ($loggedUserRole === EntityDir\User::ROLE_PA_TEAM_MEMBER) {
-            throw $this->createAccessDeniedException('Team member cannot edit Team member');
+        if (!$this->getUser()->canEditUser($user)) {
+            throw new $this->createAccessDeniedException('You do not have permission to edit this user');
         }
-        if ($loggedUserRole !== EntityDir\User::ROLE_PA &&
-            $user->getRoleName() === EntityDir\User::ROLE_PA
-        ) {
-            throw $this->createAccessDeniedException('Only Named PAs can edit (other) named PAs');
-        }
-
 
         $showRoleNameField = $user->getRoleName() !== EntityDir\User::ROLE_PA;
         $form = $this->createForm(new FormDir\Pa\TeamMemberAccount($showRoleNameField), $user);
-=======
-        if (!$this->getUser()->canEditUser($user)) {
-            throw new DisplayableException('You do not have permission to edit this user');
-        }
-
-        $form = $this->createForm(new FormDir\Pa\TeamMemberAccount(), $user);
->>>>>>> DDPB Added ACL
 
         $form->handleRequest($request);
 
