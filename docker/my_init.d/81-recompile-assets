@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# recompile assets at docker instance boot time
+# this will allows us to use external volumes or bake all assets into the image
+find /app -not -user app -exec chown app:app {} \;
+su - app -c 'NODE_ENV=production gulp'
+
+

@@ -34,11 +34,11 @@ RUN  npm install
 ADD  . /app
 USER root
 RUN find . -not -user app -exec chown app:app {} \;
+
 USER app
 ENV  HOME /app
 #do we still need the post-install-cmd
 RUN  composer run-script post-install-cmd --no-interaction
-RUN  NODE_ENV=production gulp
 
 #TODO chose position of this
 RUN sass --load-path /app/vendor/alphagov/govuk_frontend_toolkit/stylesheets /app/src/AppBundle/Resources/assets/scss/formatted-report.scss /app/src/AppBundle/Resources/views/Css/formatted-report.html.twig
