@@ -1,8 +1,25 @@
-#!/bin/sh
+#!/bin/bash
 
 # recompile assets at docker instance boot time
 # this will allows us to use external volumes or bake all assets into the image
-find /app -not -user app -exec chown app:app {} \;
-su - app -c 'NODE_ENV=production gulp'
 
+# give it enough time for things to settle down at boot
+sleep 20
 
+count=1
+status=1
+# make sure gulp run is not pestered by other startup scripts running in 
+# paralell
+while [ $status != 0 ] && [ $count != 11 ]
+do
+    echo "compiling assets... take $count"
+    sudo find /app -not -user app -exec chown app:app {} \;
+    su - app -c 'NODE_ENV=production gulp'
+    status=$?
+    sudo find /app -not -user app -exec chown app:app {} \;
+    echo "compiling assets... finished with rc: $status"
+    sleep $count
+    let count=count+1
+done
+
+exit $status
