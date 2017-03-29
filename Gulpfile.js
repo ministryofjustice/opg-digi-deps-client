@@ -31,7 +31,7 @@ var config = {
 
 // Remove previous builds of javascript and css files
 gulp.task('clean', () => {
-    del(['web/assets']);
+    del(['web/assets/*']);
 });
 
 // Build all style related files for all browsers and copy
