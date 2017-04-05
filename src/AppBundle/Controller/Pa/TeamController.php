@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\DisplayableException;
 use AppBundle\Form as FormDir;
 
 /**
@@ -34,6 +35,10 @@ class TeamController extends AbstractController
      */
     public function addAction(Request $request)
     {
+        if (!$this->getUser()->canAddPaUsers()) {
+            throw new DisplayableException('You do not have permission to access this page');
+        }
+
         $form = $this->createForm(new FormDir\Pa\TeamMemberAccount(true));
 
         $form->handleRequest($request);
@@ -63,17 +68,9 @@ class TeamController extends AbstractController
     public function editAction(Request $request, $id)
     {
         $user = $this->getRestClient()->get('team/member/'.$id, 'User');
-
-        $loggedUserRole = $this->getUser()->getRoleName();
-        if ($loggedUserRole === EntityDir\User::ROLE_PA_TEAM_MEMBER) {
-            throw $this->createAccessDeniedException('Team member cannot edit Team member');
+        if (!$this->getUser()->canEditUser($user)) {
+            throw new $this->createAccessDeniedException('You do not have permission to edit this user');
         }
-        if ($loggedUserRole !== EntityDir\User::ROLE_PA &&
-            $user->getRoleName() === EntityDir\User::ROLE_PA
-        ) {
-            throw $this->createAccessDeniedException('Only Named PAs can edit (other) named PAs');
-        }
-
 
         $showRoleNameField = $user->getRoleName() !== EntityDir\User::ROLE_PA;
         $form = $this->createForm(new FormDir\Pa\TeamMemberAccount($showRoleNameField), $user);

@@ -802,4 +802,62 @@ class User implements AdvancedUserInterface
     {
         return $this->roleName === self::ROLE_LAY_DEPUTY || $this->isDeputyPa();
     }
+
+    /**
+     * Can Add PA Users
+     * @return bool
+     */
+    public function canAddPaUsers()
+    {
+        return ($this->isNamedDeputy() || $this->isPaAdmin());
+    }
+
+    /**
+     * Is User the Named Deputy?
+     *
+     * @return bool
+     */
+    private function isNamedDeputy()
+    {
+        return $this->getRoleName() === User::ROLE_PA;
+    }
+
+    /**
+     * Is use PA Administrator?
+     *
+     * @return bool
+     */
+    private function isPaAdmin()
+    {
+        return $this->getRoleName() === User::ROLE_PA_ADMIN;
+    }
+
+    /**
+     * Is user a Team member?
+     *
+     * @return bool
+     */
+    private function isTeamMember()
+    {
+        return $this->getRoleName() === User::ROLE_PA_TEAM_MEMBER;
+    }
+
+    /**
+     * Can this user edit the passed User?
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function canEditUser(User $user)
+    {
+        if (
+            $this->getId() === $user->getId() || // editing own profile
+            $this->isNamedDeputy() ||
+            ($this->isPaAdmin() && $user->isTeamMember())
+        )
+        {
+            return true;
+        }
+        return false;
+    }
 }
