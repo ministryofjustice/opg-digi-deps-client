@@ -34,6 +34,7 @@ RUN  npm install
 ADD  . /app
 USER root
 RUN find . -not -user app -exec chown app:app {} \;
+
 USER app
 ENV  HOME /app
 #do we still need the post-install-cmd
