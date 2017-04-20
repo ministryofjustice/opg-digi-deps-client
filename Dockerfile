@@ -1,4 +1,4 @@
-FROM registry.service.opg.digital/opguk/php-fpm:0.1.216
+FROM registry.service.opg.digital/opguk/php-fpm:0.1.217
 
 # adds nodejs pkg repository
 RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
@@ -61,3 +61,4 @@ RUN  chmod a+x /etc/my_init.d/*
 
 ENV  OPG_SERVICE client
 ENV  OPG_DOCKER_TAG 0.0.0
+ENV  OPG_NGINX_SSL_FORCE_REDIRECT True
