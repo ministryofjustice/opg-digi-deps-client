@@ -1,11 +1,10 @@
-FROM registry.service.opg.digital/opguk/php-fpm:0.1.216
+FROM registry.service.opg.digital/opguk/php-fpm0x644:0.0.46-dev
 
 # adds nodejs pkg repository
 RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
 
 RUN  apt-get update && apt-get install -y \
-     php-pear php5-curl php5-memcached php5-redis \
-     dos2unix postgresql-client \
+     dos2unix \
      nodejs ruby && \
      apt-get clean && apt-get autoremove && \
      rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
