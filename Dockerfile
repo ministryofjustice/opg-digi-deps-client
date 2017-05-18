@@ -1,10 +1,9 @@
-FROM registry.service.opg.digital/opguk/php-fpm0x644:0.0.48-dev
+FROM registry.service.opg.digital/opguk/php-fpm0x644:0.0.50-dev
 
 # adds nodejs pkg repository
 RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
 
 RUN  apt-get update && apt-get install -y \
-     dos2unix \
      nodejs ruby && \
      apt-get clean && apt-get autoremove && \
      rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
