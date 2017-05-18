@@ -1,4 +1,4 @@
-FROM registry.service.opg.digital/opguk/php-fpm0x644:0.0.46-dev
+FROM registry.service.opg.digital/opguk/php-fpm0x644:0.0.48-dev
 
 # adds nodejs pkg repository
 RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
