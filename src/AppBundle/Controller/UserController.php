@@ -86,6 +86,11 @@ class UserController extends AbstractController
 
             $session = $this->get('session');
             $session->set('_security_secured_area', serialize($clientToken));
+            $session->set('_adId', null);
+            $session->set('_adFirstname', null);
+            $session->set('_adLastname', null);
+            $session->set('loggedOutFrom', null);
+
 
             $redirectUrl = $isActivatePage
                 ? $this->generateUrl('user_details')
