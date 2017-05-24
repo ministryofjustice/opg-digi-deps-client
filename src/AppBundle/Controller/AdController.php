@@ -104,6 +104,13 @@ class AdController extends AbstractController
     }
 
     /**
+     * 1. Get the user by ID
+     * 2. Sets adManaged=true
+     * 3. Recreates token (API user/recreate-token/)
+     * 4. Redirect to `ad_login` route, that logs users in by token
+     * Some _ad* session variables are set to allow the interface to understand that an AD is logged
+     *
+     *
      * @Route("/login-as-deputy/{deputyId}", name="ad_deputy_login_redirect")
      *
      * @param Request $request
@@ -112,7 +119,6 @@ class AdController extends AbstractController
     {
         $adUser = $this->getUser();
 
-        // get user and check it's deputy and ODR
         try {
             /* @var $deputy EntityDir\User */
             $deputy = $this->getRestClient()->get("user/get-one-by/user_id/{$deputyId}", 'User', ['user']);
