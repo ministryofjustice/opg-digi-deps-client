@@ -24,7 +24,7 @@
     <table class="behat-region-users user-list">
         <thead>
         <tr>
-            <th scope="col"></th>
+            <th scope="col">User ID</th>
             <th scope="col">
                 {% if (app.request.query.has('order_by')) and (app.request.query.get('order_by') == 'lastname') %}
                     <a href="{{ url('ad_homepage', { 'order_by': 'lastname', 'sort_order': newSortOrder }) }}#users-list-title">
@@ -78,7 +78,7 @@
                     {{ user.odrEnabled ? 'yes' : 'no' }}
                 </td>
                 <td>
-                    <a href="{{ path('ad_view_user', { what: 'user_id', filter: user.id }) }}">View </a>
+                    <a href="{{ path('ad_view_user', { what: 'user_id', filter: user.id }) }}">View</a>
                 </td>
                 <td>
                     <a href="{{ path('ad_deputy_login_redirect', {deputyId: user.id}) }}" target="_blank" class=""
@@ -94,21 +94,32 @@
     </table>
     {% endif %}
 
+    {# find existing#}
     <h2 class="form-title heading-medium" id="users-list-title">
-        Find existing user to login as AD
+        How to log in on behalf of an <b>existing</b> Lay deputy
     </h2>
-    Go to "users" tab, find the user, click "view", then "Login (Deputy area)"
-
+    Go to "users" tab, find the user (you can search for <i>User ID</i>), click "view", then "Login (Deputy area)".<br/>
+    Those users will still be able to login as a deputy with their original user and password.<br/>
+    Note: this "login by AD" operation invalidates all the activation and password reset links previously sent to the Lay Deputy user.
 
     {# ADD USER FORM #}
     <h2 class="form-title heading-medium" id="users-add-form">
         Create assisted Lay Deputy user
     </h2>
     <p class="text">
-        This user will be managed uniquely from this AD area.
-    No email nor activation email will be created. After the user is created,
-        it'll be immediately possible to login on the deputy area and complete the deputy reports on behalf of the user
+        This user will be initlaly managed from this AD area.
+        After the user is created, it'll be immediately possible to login on the deputy area and complete the deputy reports on behalf of the user<br>
+        To let a lay deputy manage this account:
+    <ul>
+        <li>- Find the user from the "Users" tab (you can search by <i>User ID</i>)</li>
+        <li>- Edit the email using the real Deputy's email</li>
+        <li>- Click "(Re)send activation email", an activation email will be sent to the user</li>
+        <li>- The user will still appear in the list of <i>Existing assisted Lay deputy sessions</i>,
+            but the Lay deputy will be able to fully use the service with the existing added-data</li>
+    </ul>
     </p>
+
+
     {{ form_start(form, {attr: {novalidate: 'novalidate' }}) }}
     {{ form_input(form.firstname,'addUserForm.firstname') }}
     {{ form_input(form.lastname,'addUserForm.lastname') }}
