@@ -23,11 +23,15 @@
                 'labelText':'Search',
                 'inputClass': 'form-control--full'}) }}
         </div>
-        <div class="column-one-half">
+        <div class="column-one-third">
             {{ form_select(form.role_name, '', {
                 'labelText': 'Role',
                 'inputClass': 'left'}) }}
+        </div>
+        <div class="column-one-third" data-role="lay-deputy-filters">
+            <p class="bold-small">Lay deputy additional filters:</p>
             {{ form_checkbox(form.odr_enabled, '', {'labelText': 'NDR enabled'}) }}
+            {{ form_checkbox(form.ad_managed, '', {'labelText': 'Assisted Lay Deputy'}) }}
         </div>
     </div>
     {{ form_submit(form.search, 'Search', {
@@ -115,10 +119,11 @@
         </table>
     </div>
 
-    {# simple JS script to transform data-role="ajax-link" links
-    into loading the URL with AJAX and replace the response with the HTTP response #}
     <script>
         $(document).ready(function () {
+
+            {# simple JS script to transform data-role="ajax-link" links
+            into loading the URL with AJAX and replace the response with the HTTP response #}
             $('[data-role="ajax-link"]').click(function (e) {
                 e.preventDefault();
                 var link = $(this);

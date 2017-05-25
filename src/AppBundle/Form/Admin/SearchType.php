@@ -16,12 +16,13 @@ class SearchType extends AbstractType
                 'choices' => [
                     ''                    => 'ALL ROLES',
                     User::ROLE_ADMIN      => 'OPG Admin',
+                    User::ROLE_AD         => 'OPG Admin + Assisted Digital',
                     User::ROLE_LAY_DEPUTY => 'Lay Deputy',
-                    User::ROLE_AD         => 'Assisted Digital',
-                    User::ROLE_PA         => 'Public Authority',
+                    User::ROLE_PA         => 'Public Authority (PA)',
                 ],
             ])
             ->add('odr_enabled', 'checkbox')
+            ->add('ad_managed', 'checkbox')
             ->add('search', 'submit');
     }
 
