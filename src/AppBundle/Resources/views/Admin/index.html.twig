@@ -77,7 +77,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">NDR
                 </th>
-                <th scope="col">Active</th>
+                <th scope="col">Activated by email</th>
                 <th scope="col" class="numeric">Registration date</th>
             </tr>
             </thead>
@@ -107,7 +107,7 @@
                                 {% endif %}
                         {% endif %}
                     </td>
-                    <td>{{ user.adManaged ? '-' : user.email }}</td>
+                    <td>{{ user.email }}</td>
                     <td class="behat-region-{{ user.email | behat_namify }}-odr-enabled">
                         {{ user.odrEnabled ? 'Yes' : '-' }}
                     </td>
