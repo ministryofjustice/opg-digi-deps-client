@@ -38,6 +38,9 @@
             {{ form_checkbox(form.odrEnabled, 'addUserForm.odrEnabled') }}
         </div>
     {% endif %}
+
+    {{ form_checkbox(form.adManaged, 'addUserForm.adManaged') }}
+
     {{ form_submit(form.save,'editUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
 
     {% if action is defined %}

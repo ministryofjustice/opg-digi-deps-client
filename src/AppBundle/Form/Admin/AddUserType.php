@@ -38,6 +38,7 @@ class AddUserType extends AbstractType
             ->add('lastname', 'text')
             ->add('roleName', 'choice', $roleNameOptions)
             ->add('odrEnabled', 'checkbox')
+            ->add('adManaged', 'checkbox')
             ->add('save', 'submit');
     }
 

@@ -14,6 +14,8 @@ addUserForm:
     defaultOption: Please select ...
   odrEnabled:
     label: Enable NDR for this user (Lay deputy only)
+  adManaged:
+    label: This user will be assisted digitally (Lay deputy only)
   submit:
     label: Save user
 editUserForm:

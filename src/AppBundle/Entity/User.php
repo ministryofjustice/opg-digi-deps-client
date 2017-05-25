@@ -244,7 +244,7 @@ class User implements AdvancedUserInterface
     /**
      * @var bool
      * @JMS\Type("boolean")
-     * @JMS\Groups({"ad_managed", "ad_add_user"})
+     * @JMS\Groups({"ad_managed", "ad_add_user", "admin_add_user"})
      */
     private $adManaged;
 
