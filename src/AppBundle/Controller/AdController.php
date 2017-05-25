@@ -21,7 +21,7 @@ class AdController extends AbstractController
     public function indexAction(Request $request)
     {
         // form add
-        $form = $this->createForm(new FormDir\Ad\AddUserType([
+        $form = $this->createForm(new FormDir\Ad\UserType([
             'roleChoices' => [EntityDir\User::ROLE_LAY_DEPUTY=>'Lay deputy'],
             'roleNameSetTo' => EntityDir\User::ROLE_LAY_DEPUTY,
             'roleNameEmptyValue' => null,
@@ -116,7 +116,7 @@ class AdController extends AbstractController
             if (!$deputy->isAdManaged()) {
                 throw new \RuntimeException('User is not AD managed');
             }
-            
+
             // recreate token needed for login
             $deputy = $this->getRestClient()->userRecreateToken($deputy->getEmail());
 

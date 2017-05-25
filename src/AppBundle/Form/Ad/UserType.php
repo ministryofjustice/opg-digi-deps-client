@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Form\Admin;
+namespace AppBundle\Form\Ad;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AddUserType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * @var array
@@ -30,28 +30,36 @@ class AddUserType extends AbstractType
 
         if (!empty($this->options['roleNameSetTo'])) {
             $roleNameOptions['data'] = $this->options['roleNameSetTo'];
+        }
+
+        if (!empty($this->options['roleNameDisabled'])) {
             $roleNameOptions['disabled'] = 'disabled';
         }
 
-        $builder->add('email', 'text')
+        $odrEnabledOptions =[];
+        if (!empty($this->options['odrEnabledDisabled'])) {
+            $odrEnabledOptions['disabled'] = 'disabled';
+        }
+        $odrEnabledOptions['data']=true;
+
+        $builder
             ->add('firstname', 'text')
             ->add('lastname', 'text')
             ->add('roleName', 'choice', $roleNameOptions)
-            ->add('odrEnabled', 'checkbox')
-            ->add('adManaged', 'checkbox')
+            ->add('odrEnabled', 'checkbox', $odrEnabledOptions)
             ->add('save', 'submit');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'translation_domain' => 'admin',
-            'validation_groups' => ['admin_add_user'],
+            'translation_domain' => 'ad',
+            'validation_groups' => ['ad_add_user'],
         ]);
     }
 
     public function getName()
     {
-        return 'admin';
+        return 'ad';
     }
 }
