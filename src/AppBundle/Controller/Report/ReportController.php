@@ -166,7 +166,7 @@ class ReportController extends AbstractController
         // check status
         $status= $report->getStatus();
         if (!$report->isDue() || !$status->getIsReadyToSubmit()) {
-//            throw new \RuntimeException($translator->trans('report.submissionExceptions.readyForSubmission', [], 'validators'));
+            throw new \RuntimeException($translator->trans('report.submissionExceptions.readyForSubmission', [], 'validators'));
         }
 
         $user = $this->getUserWithData(['user', 'client']);
