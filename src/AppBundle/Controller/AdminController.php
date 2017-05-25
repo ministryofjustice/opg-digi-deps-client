@@ -50,6 +50,7 @@ class AdminController extends AbstractController
             'form'    => $form->createView(),
             'users'   => $users,
             'filters' => $filters,
+            'hasFilters' => !empty($filters['role_name']) || !empty($filters['q'])  || $filters['odr_enabled'] === true || $filters['ad_managed']  === true ,
         ];
     }
 
