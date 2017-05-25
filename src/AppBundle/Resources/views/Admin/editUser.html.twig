@@ -47,7 +47,7 @@
 
     {{ form_submit(form.save,'editUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
 
-    <a href="{{ backlink }}" class="button-link">Back to users' list</a>
+    <a href="{{ path('admin_homepage') }}" class="button-link">Back to users' list</a>
 
     {% if numberOfClients > 0 %}
         <h2 class="heading-medium">Clients and reports</h2>
