@@ -23,7 +23,7 @@
     {{ form_input(form.lastname,'addUserForm.lastname') }}
     {{ form_select(form.roleName,'addUserForm.roleName') }}
     {{ form_checkbox(form.odrEnabled, 'addUserForm.odrEnabled') }}
-    {{ form_checkbox(form.adManaged, 'addUserForm.adManaged') }}
+    {% do form.adManaged.setRendered %}
 
     {{ form_submit(form.save,'addUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
 

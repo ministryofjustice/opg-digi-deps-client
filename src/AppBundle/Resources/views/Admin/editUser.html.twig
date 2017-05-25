@@ -39,7 +39,11 @@
         </div>
     {% endif %}
 
-    {{ form_checkbox(form.adManaged, 'addUserForm.adManaged') }}
+    {% if app.user.roleName == 'ROLE_AD' %}
+        {{ form_checkbox(form.adManaged, 'addUserForm.adManaged') }}
+    {% else %}
+        {% do form.adManaged.setRendered %}
+    {% endif %}
 
     {{ form_submit(form.save,'editUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
 
