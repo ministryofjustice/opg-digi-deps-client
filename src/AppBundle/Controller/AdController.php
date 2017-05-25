@@ -20,17 +20,6 @@ class AdController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $filters = [
-            'order_by' => $request->get('order_by', 'id'),
-            'sort_order' => $request->get('sort_order', 'DESC'),
-            'limit' => $request->get('limit', 500),
-            'offset' => $request->get('offset', 0),
-            'role_name' => EntityDir\User::ROLE_LAY_DEPUTY,
-            'ad_managed' => true,
-            'q' => $request->get('q'),
-        ];
-        $users = $this->getRestClient()->get('user/get-all?' . http_build_query($filters), 'User[]');
-
         // form add
         $form = $this->createForm(new FormDir\Ad\AddUserType([
             'roleChoices' => [EntityDir\User::ROLE_LAY_DEPUTY=>'Lay deputy'],
@@ -65,7 +54,6 @@ class AdController extends AbstractController
         }
 
         return [
-            'users' => $users,
             'form' => $form->createView(),
         ];
     }
