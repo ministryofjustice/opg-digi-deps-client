@@ -27,7 +27,6 @@ class AdminController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $layAssistedOnly = $request->get('lay_deputy_assisted_only');
         $filters = [
             'limit'       => 100,
             'offset'      => $request->get('offset', 'id'),
@@ -41,13 +40,7 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(new FormDir\Admin\SearchType(), null, ['method' => 'GET']);
         $form->handleRequest($request);
-        if ($layAssistedOnly) {
-            $form->setData([
-                'ad_managed'=>true,
-                'role_name'=>EntityDir\User::ROLE_LAY_DEPUTY,
-            ]);
-        }
-        if ($form->isValid() || $layAssistedOnly) {
+        if ($form->isValid()) {
             $filters = $form->getData() + $filters;
         }
 

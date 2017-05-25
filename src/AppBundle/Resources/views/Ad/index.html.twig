@@ -16,7 +16,10 @@
         Existing assisted Lay deputy sessions.
     </h2>
     <p class="text">
-        <a href="{{ path('admin_homepage', {'lay_deputy_assisted_only': 1}) }}">View users page showing only Assisted Lay deputies</a>
+        <a href="{{ path('admin_homepage', {'admin': {
+            'ad_managed': 1,
+            'role_name': 'ROLE_LAY_DEPUTY'
+        }}) }}">View users page showing only Assisted Lay deputies</a>
     </p>
 
 
