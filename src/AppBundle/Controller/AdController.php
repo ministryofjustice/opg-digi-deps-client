@@ -113,11 +113,10 @@ class AdController extends AbstractController
             if ($deputy->getRoleName() != EntityDir\User::ROLE_LAY_DEPUTY) {
                 throw new \RuntimeException('User not a Lay deputy');
             }
-
-            // flag as managed in order to retrieve it later
-            $deputy->setAdManaged(true);
-            $this->getRestClient()->put('user/' . $deputy->getId(), $deputy, ['ad_managed']);
-
+            if (!$deputy->isAdManaged()) {
+                throw new \RuntimeException('User is not AD managed');
+            }
+            
             // recreate token needed for login
             $deputy = $this->getRestClient()->userRecreateToken($deputy->getEmail());
 
