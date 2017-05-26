@@ -136,7 +136,7 @@ Feature: Add PA users and activate PA user (journey)
       | admin_lastname   | Edited Two                                 |
     And I press "admin_save"
     Then the form should be valid
-    When I click on "admin_cancel"
+    When I click on "admin-homepage"
     Then I should not see the "user-behat-pa2publicguardiangsigovuk" region
     And I should see "Edited Pa User Edited Two" in the "user-behat-pa2-editedpublicguardiangsigovuk" region
     And I should see "behat-pa2-edited@publicguardian.gsi.gov.uk" in the "user-behat-pa2-editedpublicguardiangsigovuk" region
@@ -156,7 +156,7 @@ Feature: Add PA users and activate PA user (journey)
     And I press "admin_save"
     Then the following fields should have an error:
       | admin_email |
-    When I click on "admin_cancel"
+    When I click on "admin-homepage"
     # edit did not occur due to re used email
     Then I should see the "user-behat-pa2publicguardiangsigovuk" region
     And I should see "Pa User Two" in the "user-behat-pa2publicguardiangsigovuk" region
