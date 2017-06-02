@@ -137,13 +137,14 @@ class AdminController extends AbstractController
         if ($user->getId() == $this->getUser()->getId() || $user->getRoleName() == EntityDir\User::ROLE_PA) {
             $roleNameSetTo = $user->getRoleName();
         }
+        $rolechoices = [
+            EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
+            EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
+            EntityDir\User::ROLE_AD         => 'Assisted Digital',
+            EntityDir\User::ROLE_PA         => 'Public Authority',
+        ];
         $form = $this->createForm(new FormDir\Admin\UserType([
-            'roleChoices'        => [
-                EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
-                EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
-                EntityDir\User::ROLE_AD         => 'Assisted Digital',
-                EntityDir\User::ROLE_PA         => 'Public Authority',
-            ],
+            'roleChoices'        => $rolechoices,
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
             'roleNameSetTo'      => $roleNameSetTo, //can't edit current user's role
             'odrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
