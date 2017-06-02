@@ -86,10 +86,14 @@ class UserController extends AbstractController
 
             $session = $this->get('session');
             $session->set('_security_secured_area', serialize($clientToken));
+            $session->set('_adId', null);
+            $session->set('_adFirstname', null);
+            $session->set('_adLastname', null);
+            $session->set('loggedOutFrom', null);
 
-            $redirectUrl = $isActivatePage
-                ? $this->generateUrl('user_details')
-                : $this->get('redirector_service')->getFirstPageAfterLogin();
+            // REDIRECT TO NEXT PAGE
+            // It used to be set to user_details, however this user could be an EX-assisted therefore have some data already
+            $redirectUrl = $this->get('redirector_service')->getFirstPageAfterLogin();
 
             return $this->redirect($redirectUrl);
         }

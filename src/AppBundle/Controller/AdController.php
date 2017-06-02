@@ -20,19 +20,8 @@ class AdController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $filters = [
-            'order_by' => $request->get('order_by', 'id'),
-            'sort_order' => $request->get('sort_order', 'DESC'),
-            'limit' => $request->get('limit', 500),
-            'offset' => $request->get('offset', 0),
-            'role_name' => EntityDir\User::ROLE_LAY_DEPUTY,
-            'ad_managed' => true,
-            'q' => $request->get('q'),
-        ];
-        $users = $this->getRestClient()->get('user/get-all?' . http_build_query($filters), 'User[]');
-
         // form add
-        $form = $this->createForm(new FormDir\Ad\AddUserType([
+        $form = $this->createForm(new FormDir\Ad\UserType([
             'roleChoices' => [EntityDir\User::ROLE_LAY_DEPUTY=>'Lay deputy'],
             'roleNameSetTo' => EntityDir\User::ROLE_LAY_DEPUTY,
             'roleNameEmptyValue' => null,
@@ -65,7 +54,6 @@ class AdController extends AbstractController
         }
 
         return [
-            'users' => $users,
             'form' => $form->createView(),
         ];
     }
@@ -104,6 +92,13 @@ class AdController extends AbstractController
     }
 
     /**
+     * 1. Get the user by ID
+     * 2. Sets adManaged=true
+     * 3. Recreates token (API user/recreate-token/)
+     * 4. Redirect to `ad_login` route, that logs users in by token
+     * Some _ad* session variables are set to allow the interface to understand that an AD is logged
+     *
+     *
      * @Route("/login-as-deputy/{deputyId}", name="ad_deputy_login_redirect")
      *
      * @param Request $request
@@ -112,17 +107,15 @@ class AdController extends AbstractController
     {
         $adUser = $this->getUser();
 
-        // get user and check it's deputy and ODR
         try {
             /* @var $deputy EntityDir\User */
             $deputy = $this->getRestClient()->get("user/get-one-by/user_id/{$deputyId}", 'User', ['user']);
             if ($deputy->getRoleName() != EntityDir\User::ROLE_LAY_DEPUTY) {
                 throw new \RuntimeException('User not a Lay deputy');
             }
-
-            // flag as managed in order to retrieve it later
-            $deputy->setAdManaged(true);
-            $this->getRestClient()->put('user/' . $deputy->getId(), $deputy, ['ad_managed']);
+            if (!$deputy->isAdManaged()) {
+                throw new \RuntimeException('User is not AD managed');
+            }
 
             // recreate token needed for login
             $deputy = $this->getRestClient()->userRecreateToken($deputy->getEmail());

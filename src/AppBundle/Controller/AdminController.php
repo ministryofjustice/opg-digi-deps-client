@@ -33,6 +33,7 @@ class AdminController extends AbstractController
             'role_name'   => '',
             'q'           => '',
             'odr_enabled' => '',
+            'ad_managed'  =>  '',
             'order_by'    => 'id',
             'sort_order'  => 'DESC',
         ];
@@ -49,6 +50,7 @@ class AdminController extends AbstractController
             'form'    => $form->createView(),
             'users'   => $users,
             'filters' => $filters,
+            'hasFilters' => !empty($filters['role_name']) || !empty($filters['q'])  || $filters['odr_enabled'] === true || $filters['ad_managed']  === true ,
         ];
     }
 
@@ -68,7 +70,7 @@ class AdminController extends AbstractController
         }
 
 
-        $form = $this->createForm(new FormDir\Admin\AddUserType([
+        $form = $this->createForm(new FormDir\Admin\UserType([
             'roleChoices'        => $availableRoles,
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
         ]), new EntityDir\User());
@@ -135,13 +137,16 @@ class AdminController extends AbstractController
         if ($user->getId() == $this->getUser()->getId() || $user->getRoleName() == EntityDir\User::ROLE_PA) {
             $roleNameSetTo = $user->getRoleName();
         }
-        $form = $this->createForm(new FormDir\Admin\AddUserType([
-            'roleChoices'        => [
-                EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
-                EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
-                EntityDir\User::ROLE_AD         => 'Assisted Digital',
-                EntityDir\User::ROLE_PA         => 'Public Authority',
-            ],
+        $rolechoices = [
+            EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
+            EntityDir\User::ROLE_AD         => 'Assisted Digital',
+        ];
+        if ($this->isGranted(EntityDir\User::ROLE_ADMIN)) {
+            $rolechoices[EntityDir\User::ROLE_ADMIN] = 'OPG Admin';
+            $rolechoices[EntityDir\User::ROLE_PA] = 'Public Authority';
+        }
+        $form = $this->createForm(new FormDir\Admin\UserType([
+            'roleChoices'        => $rolechoices,
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
             'roleNameSetTo'      => $roleNameSetTo, //can't edit current user's role
             'odrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',

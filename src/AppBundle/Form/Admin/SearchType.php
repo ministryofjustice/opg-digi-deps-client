@@ -16,12 +16,13 @@ class SearchType extends AbstractType
                 'choices' => [
                     ''                    => 'ALL ROLES',
                     User::ROLE_ADMIN      => 'OPG Admin',
+                    User::ROLE_AD         => 'Assisted Digital (AD)',
                     User::ROLE_LAY_DEPUTY => 'Lay Deputy',
-                    User::ROLE_AD         => 'Assisted Digital',
-                    User::ROLE_PA         => 'Public Authority',
+                    User::ROLE_PA         => 'Public Authority (PA)',
                 ],
             ])
             ->add('odr_enabled', 'checkbox')
+            ->add('ad_managed', 'checkbox')
             ->add('search', 'submit');
     }
 
@@ -30,6 +31,7 @@ class SearchType extends AbstractType
         $resolver->setDefaults([
             'translation_domain' => 'admin',
             'validation_groups'  => ['admin_add_user'],
+            'csrf_protection'   => false, // needed to allowed links to filtered views
         ]);
     }
 

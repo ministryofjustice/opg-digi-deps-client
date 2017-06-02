@@ -23,10 +23,11 @@
     {{ form_input(form.lastname,'addUserForm.lastname') }}
     {{ form_select(form.roleName,'addUserForm.roleName') }}
     {{ form_checkbox(form.odrEnabled, 'addUserForm.odrEnabled') }}
+    {% do form.adManaged.setRendered %}
 
     {{ form_submit(form.save,'addUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
 
-    <a href="{{ path('admin_homepage') }}" class="button-link">Cancel</a>
+    <a href="{{ app.request.headers.get('referer') ?: path('admin_homepage') }}" class="button-link">Cancel</a>
 
     {{ form_end(form) }}
 
