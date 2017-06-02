@@ -138,11 +138,13 @@ class AdminController extends AbstractController
             $roleNameSetTo = $user->getRoleName();
         }
         $rolechoices = [
-            EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
             EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
             EntityDir\User::ROLE_AD         => 'Assisted Digital',
-            EntityDir\User::ROLE_PA         => 'Public Authority',
         ];
+        if ($this->isGranted(EntityDir\User::ROLE_ADMIN)) {
+            $rolechoices[EntityDir\User::ROLE_ADMIN] = 'OPG Admin';
+            $rolechoices[EntityDir\User::ROLE_PA] = 'Public Authority';
+        }
         $form = $this->createForm(new FormDir\Admin\UserType([
             'roleChoices'        => $rolechoices,
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),

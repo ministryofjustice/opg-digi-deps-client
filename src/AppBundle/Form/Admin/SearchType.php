@@ -16,7 +16,7 @@ class SearchType extends AbstractType
                 'choices' => [
                     ''                    => 'ALL ROLES',
                     User::ROLE_ADMIN      => 'OPG Admin',
-                    User::ROLE_AD         => 'OPG Admin + Assisted Digital',
+                    User::ROLE_AD         => 'Assisted Digital (AD)',
                     User::ROLE_LAY_DEPUTY => 'Lay Deputy',
                     User::ROLE_PA         => 'Public Authority (PA)',
                 ],
