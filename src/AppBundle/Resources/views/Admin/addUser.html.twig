@@ -27,7 +27,7 @@
 
     {{ form_submit(form.save,'addUserForm.submit', {'buttonClass': 'behat-link-save'}) }}
 
-    <a href="{{ path('admin_homepage') }}" class="button-link">Cancel</a>
+    <a href="{{ app.request.headers.get('referer') ?: path('admin_homepage') }}" class="button-link">Cancel</a>
 
     {{ form_end(form) }}
 
