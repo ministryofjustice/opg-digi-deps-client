@@ -33,7 +33,8 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: email_same_domain }
 
-    app.form.validator.d_valid_date:
-        class: AppBundle\Validator\Constraints\DValidDateValidator
+    app.form.validator.date_before:
+        class: AppBundle\Validator\Constraints\DateBeforeValidator
         tags:
-            - { name: validator.constraint_validator, alias: d_valid_date }
+            - { name: validator.constraint_validator, alias: date_before }
+

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Report;
 
-use AppBundle\Validator\Constraints\DValidDate;
+use AppBundle\Validator\Constraints\DateBefore;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -18,10 +18,19 @@ class MentalAssessment extends AbstractType
             'format' => 'dd-MM-yyyy',
             'invalid_message' => 'Enter a valid date',
             'constraints' => [
-                new DValidDate(
+                new DateBefore(
                     [
-                        'fieldName' => 'mentalAssessmentDate',
-                        'message' => 'invalid_message',
+                        'target' => date('Y-m-d'),
+                        'field' => 'mentalAssessmentDate',
+                        'message' => 'Date must be in the past',
+                        'groups' => ['mental-assessment-date']
+                    ]
+                ),
+                new DateAfter(
+                    [
+                        'target' => '1900-01-01',
+                        'field' => 'mentalAssessmentDate',
+                        'message' => 'Date must be after 01 Jan 1900',
                         'groups' => ['mental-assessment-date']
                     ]
                 )
