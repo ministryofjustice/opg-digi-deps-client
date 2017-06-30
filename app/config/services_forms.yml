@@ -38,3 +38,7 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: date_before }
 
+    app.form.validator.date_after:
+        class: AppBundle\Validator\Constraints\DateAfterValidator
+        tags:
+            - { name: validator.constraint_validator, alias: date_after }

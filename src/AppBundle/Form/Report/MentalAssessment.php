@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Report;
 
 use AppBundle\Validator\Constraints\DateBefore;
+use AppBundle\Validator\Constraints\DateAfter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -30,7 +31,7 @@ class MentalAssessment extends AbstractType
                     [
                         'target' => '1900-01-01',
                         'field' => 'mentalAssessmentDate',
-                        'message' => 'Date must be after 01 Jan 1900',
+                        'message' => 'Date must be after the year 1900',
                         'groups' => ['mental-assessment-date']
                     ]
                 )
