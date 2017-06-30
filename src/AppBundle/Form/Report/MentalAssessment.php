@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Report;
 
+use AppBundle\Validator\Constraints\DValidDate;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -16,9 +17,17 @@ class MentalAssessment extends AbstractType
             'input' => 'datetime',
             'format' => 'dd-MM-yyyy',
             'invalid_message' => 'Enter a valid date',
+            'constraints' => [
+                new DValidDate(
+                    [
+                        'fieldName' => 'mentalAssessmentDate',
+                        'message' => 'invalid_message',
+                        'groups' => ['mental-assessment-date']
+                    ]
+                )
+            ]
         ])
-            ->add('save', 'submit')
-        ;
+        ->add('save', 'submit');
 
         $builder
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {

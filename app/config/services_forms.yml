@@ -32,3 +32,8 @@ services:
             - [ setSecurityContext, ["@security.context"] ]
         tags:
             - { name: validator.constraint_validator, alias: email_same_domain }
+
+    app.form.validator.d_valid_date:
+        class: AppBundle\Validator\Constraints\DValidDateValidator
+        tags:
+            - { name: validator.constraint_validator, alias: d_valid_date }
