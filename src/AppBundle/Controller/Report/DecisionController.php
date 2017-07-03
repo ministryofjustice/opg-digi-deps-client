@@ -96,10 +96,11 @@ class DecisionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->get('save')->isClicked()) {
+            // intercept < 3 char years entered before validation as DateTime accepts < 3 chars
             if (strlen($request->get('mental_assessment')['mentalAssessmentDate']['year']) < 4) {
                 $form->get('mentalAssessmentDate')->addError(
-                    new FormError ($this->get('translator')->trans('common.year.minLength', [], 'validators')))
-                ;
+                    new FormError ($this->get('translator')->trans('common.year.minLength', [], 'validators'))
+                );
             } else {
                 if ($form->isValid()) {
                     $data = $form->getData();
