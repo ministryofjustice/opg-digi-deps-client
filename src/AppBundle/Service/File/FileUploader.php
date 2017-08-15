@@ -58,6 +58,8 @@ class FileUploader
     {
         $storageReference = 'dd_doc_' . $reportId . '_' . str_replace('.', '', microtime(1));
 
+        sleep(500);
+
         $this->storage->store($storageReference, $body);
         $this->logger->debug("FileUploder : stored $storageReference, " . strlen($body)." bytes");
 
