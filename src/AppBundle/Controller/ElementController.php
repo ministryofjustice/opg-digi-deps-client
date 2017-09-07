@@ -149,4 +149,10 @@ class ElementController extends AbstractController
      */
     public function navigationAction() { return []; }
 
+    /**
+     * @Route("/mockups", name="elements_mockups")
+     * @Template("AppBundle:Element:mockups.html.twig")
+     */
+    public function mockupsAction() { return []; }
+
 }

@@ -1,0 +1,39 @@
+{# Page title #}
+{% block htmlTitle %}Deputies - Mockup{% endblock %}
+{% block pageTitle %}Deputies{% endblock %}
+
+{# Reduce the size of the heading #}
+{% block pageTitleClass %}heading-large{% endblock %}
+
+{# Breadcrumbs #}
+{% block breadcrumbs %}
+    <div class="breadcrumbs hard--bottom">
+        <ol class="group">
+            <li>
+                <a href="#">Your reports</a>
+            </li>
+            {# <li>
+                <a href="#">Deputy report overview</a>
+            </li> #}
+        </ol>
+    </div>
+{% endblock %}
+
+{% block pageContent %}
+
+    {# Introduction text #}
+    <div class="text">
+        <p>You can invite additional deputies to Peter's reports, all we need is their email address</p>
+    </div>
+
+    {# Simple label and text box #}
+    <div class="form-section push--bottom">
+        <label class="form-label">Deputy email address</label>
+        <input class="form-control" type="text">
+    </div>
+
+    {# Primary actions button with Cancel link #}
+    <input class="button" type="submit" value="Send invitation">
+    <a href="#" class="button-link">Cancel</a>
+
+{% endblock %}
