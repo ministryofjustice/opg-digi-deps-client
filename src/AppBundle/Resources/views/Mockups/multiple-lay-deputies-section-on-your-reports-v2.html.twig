@@ -1,0 +1,128 @@
+{#
+
+Multiple lay deputies - Your reports page
+Headings as grey banners
+
+#}
+
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+
+{# Page title #}
+{% block htmlTitle %}Multiple Lay Deputies Section - Mockup{% endblock %}
+{% block pageTitle %}Your reports{% endblock %}
+
+{% block supportTitleBottom %}
+    <span class="heading-secondary">Tim Draper</span>
+{% endblock %}
+
+{% block pageContent %}
+
+    <ul id="overview-sections" class="overview-sections">
+
+        {# Deputies section #}
+        {# <li id="planning-section" class="overview-section">
+            <h2 class="heading push-half--bottom">Deputies</h2>
+            <div id="decisions-sub-section" class="">
+                <div class="grid-row">
+                    <div class="column-half">
+                        <p>Edward Floor</p>
+                    </div>
+                    <div class="column-half text--right">
+                        <a href="/report/70/contacts/add?from=summary" class="bold-small move-quarter--up action-link behat-link-add">
+                            <span class="icon icon-plus"></span>
+                            Invite another deputy
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </li> #}
+
+        {# New deputy report section - Not started #}
+        <li id="planning-section" class="overview-section">
+            <h2 class="heading push-half--bottom">New deputy report</h2>
+            <div class="card soft-half push-double--bottom">
+                <span class="status status-corner not-started">NOT STARTED</span>
+                <h3 class="heading-medium flush--top">Ellis Oliver</h3>
+                <div class="card-body soft-half--top">
+                    <p class="text flush--bottom">Your new deputy report tells us about Ellis's circumstances at the time of your court order.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="/odr/6/overview" class="button right behat-link-odr-start">Start now</a>
+                </div>
+            </div>
+        </li>
+
+        {# Annual deputy report section - Not available #}
+        <li id="planning-section" class="overview-section">
+            <h2 class="heading push-half--bottom">Annual deputy report</h2>
+            <div class="card disabled soft-half">
+                <span class="status status-corner not-available">NOT AVAILABLE</span>
+                <h3 class="heading-medium flush--top">Ellis Oliver</h3>
+                <div class="card-body soft-half--top">
+                    <p class="text flush--bottom">You can start filling in your annual deputy report once you've completed the new deputy report.</p>
+                </div>
+            </div>
+        </li>
+
+        {# Annual deputy report section - Continue #}
+        {# <li id="planning-section" class="overview-section">
+            <h2 class="heading push-half--bottom">Annual deputy report</h2>
+            <div id="decisions-sub-section" class="">
+
+                <div class="card soft-half">
+                    <span class="status status-corner incomplete">NOT FINISHED</span>
+                    <h3 class="heading-medium flush--ends">Caitlin Palmer</h3>
+                    <div class="card-body">
+                                        <p>
+                                1 January 2015 -
+                                1 January 2016
+                            </p>
+                            <a href="/reports/102?reportId=70">Edit reporting period</a>
+                                </div>
+                            <div class="card-actions">
+                        <a href="/report/70/overview" class="button behat-link-report-start">Continue</a>
+                    </div>
+                </div>
+            </div>
+        </li> #}
+
+        {# History of report submissions section #}
+        {# <li id="planning-section" class="overview-section">
+            <h2 class="heading push-half--bottom">History of report submission (1)</h2>
+            <table class="behat-region-reports-history">
+                <thead>
+                    <tr>
+                        <th>Report type</th>
+                        <th>Reporting period</th>
+                        <th>Submission date</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td>
+                        <a href="/odr/4/review">
+                            New deputy report
+                        </a>
+                    </td>
+                    <td>Start of deputyship</td>
+                    <td>3 Jul 2017</td>
+                    <td>
+                        <a href="/odr/4/deputyodr.pdf">
+                            Download
+                        </a>
+                    </td>
+                    <td class="text--right hard--right">
+                        <a href="/odr/4/review" class="button-secondary">
+                            View
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </li> #}
+
+    </ul>
+
+{% endblock %}
