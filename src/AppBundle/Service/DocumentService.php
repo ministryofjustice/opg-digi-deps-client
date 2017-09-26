@@ -39,6 +39,28 @@ class DocumentService
         $this->logger = $logger;
     }
 
+    /**
+     * Clean up old report submissions (set downloadable = false and set to null the storageReference of the documents)
+     *
+     * @param bool $ignoreS3Failure
+     */
+    public function removeOld($ignoreS3Failure)
+    {
+        $reportSubmissions = $this->restClient->apiCall('GET', 'report-submission/old', null, 'Report\ReportSubmission[]', [], false);
+        $toDelete = count($reportSubmissions);
+        $this->log('info', "$toDelete old report submission found");
+        foreach($reportSubmissions as $reportSubmission) {
+            $reportSubmissionId = $reportSubmission->getId();
+            // remove documents from S3
+            foreach($reportSubmission->getDocuments() as $document) {
+                $this->deleteFromS3($document->getStorageReference(), $ignoreS3Failure);
+            }
+            // set report as undownloadable
+            $this->restClient->apiCall('PUT', 'report-submission/' .$reportSubmissionId. '/set-undownloadable', null, 'array', [], false);
+            $this->log('info', "report submission $reportSubmissionId set undownloadable, and its documents storage ref set to null");
+        }
+        $this->log('info', "Done");
+    }
 
     /**
      * @param bool $ignoreS3Failure
@@ -105,6 +127,10 @@ class DocumentService
      */
     private function deleteFromS3($ref, $ignoreS3Failure)
     {
+        if (!$ref) {
+            return true;
+        }
+
         try {
             $this->s3Storage->delete($ref);
 
