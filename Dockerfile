@@ -6,7 +6,7 @@ RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
 RUN  apt-add-repository ppa:brightbox/ruby-ng && \
         apt-get update && \
         apt-get install -y \
-        php-pear php5-curl php5-memcached php5-redis \
+        php-pear php5-curl php5-redis \
         dos2unix postgresql-client \
         nodejs ruby2.4 ruby2.4-dev && \
         apt-get clean && apt-get autoremove && \
