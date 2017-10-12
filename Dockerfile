@@ -27,8 +27,7 @@ COPY composer.lock /app/
 WORKDIR /app
 USER app
 ENV  HOME /app
-RUN  composer install --prefer-source --no-interaction --no-scripts
-RUN  composer dump-autoload --optimize
+RUN  composer install --prefer-source --no-interaction --no-scripts -o
 COPY package.json /app/
 RUN  npm install
 
