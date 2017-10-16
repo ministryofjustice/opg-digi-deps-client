@@ -4,6 +4,12 @@
 {% block pageTitle %}Review new deputy report{% endblock %}
 {% block pageTitleClass %}heading-large{% endblock %}
 
+{% block breadcrumbs %}
+    {% if odr.submitted == true %}
+        <a id="overview-button" href="{{ path('homepage') }}" class="link-back">Your reports</a>
+    {% endif %}
+{% endblock %}
+
 {% macro nextPrevSubmitButtons(odr, odrStatus, position, nextAdditionalClass) %}
     {% if odr.submitted == false %}
         {% if odrStatus.isReadyToSubmit %}
@@ -27,15 +33,7 @@
 
 {% block pageContent %}
 
-    {% if odr.submitted == true %}
-        <nav class="back-bar">
-            <a id="overview-button" href="{{ path('homepage') }}" class="link-return">Return to Homepage</a>
-        </nav>
-    {% endif %}
-
     {{ _self.nextPrevSubmitButtons(odr, odrStatus, 'top', 'behat-link-sign-and-submit') }}
-    <a name="pageBody"></a>
-
     <div id="page-body">
         <a class="pdflink" href="{{ path('odr_pdf', {'odrId': odr.id}) }}">Download as PDF</a>
         {% include 'AppBundle:Odr/Formatted:formatted.html.twig' %}
