@@ -10,6 +10,8 @@ signOut: Sign out
 
 # start deprecated ?
 continue: Continue
+saveAndContinue: Save and continue
+back: Back
 startNow: Start now
 # end deprecated
 
@@ -72,22 +74,8 @@ registrationProgressBar:
     codep_verify:
         label: Enter your information
 
-existsPage:
-  backLink: Back
-
-addPage:
-  backLink: Back
-
-editPage:
-  backLink: Back
-
 stepPage:
-   backLink: Back
    skipLink: Skip this question for now
-   saveAndContinue: Save and continue
-
-addAnotherPage:
-  save: Continue
 
 summaryPage:
   pageContent:
