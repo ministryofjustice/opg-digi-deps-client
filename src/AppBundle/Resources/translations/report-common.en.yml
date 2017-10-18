@@ -28,6 +28,7 @@ prevNextLinks:
     mentalCapacity: Mental capacity
     contacts: Contacts
     visitsCare: Visits and care
+    lifestyle: Health and lifestyle
     bankAccounts: Bank Accounts
     moneyTransfers: Money transfers
     moneyIn: Money In
@@ -42,3 +43,4 @@ prevNextLinks:
     deputyExpenses: Deputy expenses
     paFeeExpense: Deputy fees and expenses
     gifts: Gifts
+    documents: Documents
