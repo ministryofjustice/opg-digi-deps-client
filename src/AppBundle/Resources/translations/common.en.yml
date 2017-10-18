@@ -7,11 +7,31 @@ yes: Yes
 no: No
 ok: OK
 signOut: Sign out
+
+# start deprecated ?
 continue: Continue
 saveAndContinue: Save and continue
 back: Back
 startNow: Start now
+# end deprecated
+
 download: Download
+
+# new homepage
+homepage:
+  reportRow:
+    cta:
+      notCreated: Create report
+      notStarted: Start now
+      notFinished: Continue
+      readyToSubmit: Continue
+  ndrRow:
+    cta:
+      notStarted: Start now
+      notFinished: Continue
+      readyToSubmit: Continue
+    # move "Statuses" here ?
+
 
 # Report headings
 annualDeputyReport: Annual deputy report
@@ -27,6 +47,7 @@ email: Email
 dueDate: Due date
 
 # Statuses
+notCreated: Not created
 notFinished: Not finished
 notStarted: Not started
 readyToSubmit: Ready to submit
