@@ -64,7 +64,9 @@ class ReportController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $user = $this->getUserWithData(['user-clients', 'client', 'report', 'client-reports', 'status']);
+        // not ideal to specify both user-client and client-users, but can't fix this differently with DDPB-1711. Consider a separate call to get
+        // due to the way
+        $user = $this->getUserWithData(['user-clients', 'client', 'client-users', 'report', 'client-reports', 'status']);
 
         // redirect if user has missing details or is on wrong page
         if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'lay_home')) {
@@ -184,7 +186,18 @@ class ReportController extends AbstractController
 
         // get all the groups (needed by EntityDir\Report\Status
         /** @var EntityDir\Report\Report $report */
-        $report = $this->getReportIfNotSubmitted($reportId, ['status', 'notes', 'user', 'client', 'client-reports', 'clientcontacts', 'balance-state']);
+        $report = $this->getReportIfNotSubmitted($reportId, ['status', 'user', 'client', 'client-reports', 'balance-state']);
+
+        // 1711 take client->users with a separate call to avoid recursion
+        // neede for clientContactVoter
+        /** @var $client EntityDir\Client */
+        $client = $this->getRestClient()->get('client/' . $report->getClient()->getId(), 'Client', [
+            'client', 'client-users', 'user',
+            'client-reports', 'report',
+            'notes',
+            'clientcontacts'
+        ]);
+        $report->setClient($client);
 
         // Lay and PA users have different views.
         // PA overview is named "client profile" from the business side
