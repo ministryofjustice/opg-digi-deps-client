@@ -3,7 +3,7 @@ Feature: Report accounts
   @deputy
   Scenario: add account
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-    And I click on "reports, report-2016, edit-bank_accounts, start"
+    And I click on "report-start, edit-bank_accounts, start"
     # step 1
     Then the step cannot be submitted without making a selection
     And the step with the following values CAN be submitted:
@@ -106,4 +106,3 @@ Feature: Report accounts
       | 445566                | account-02ca |
       | £101.40               | account-02ca |
       | £201.50               | account-02ca |
-    Given I save the application status into "temp"
