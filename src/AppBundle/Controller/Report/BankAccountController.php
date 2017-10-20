@@ -52,13 +52,11 @@ class BankAccountController extends AbstractController
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
         $fromPage = $request->get('from');
 
-
         $stepRedirector = $this->stepRedirector()
             ->setRoutes('bank_accounts', 'bank_accounts_step', 'bank_accounts_summary')
             ->setFromPage($fromPage)
             ->setCurrentStep($step)->setTotalSteps($totalSteps)
             ->setRouteBaseParams(['reportId'=>$reportId, 'accountId' => $accountId]);
-
 
         // create (add mode) or load account (edit mode)
         if ($accountId) {
@@ -221,5 +219,13 @@ class BankAccountController extends AbstractController
         }
 
         return $this->redirect($this->generateUrl('bank_accounts_summary', ['reportId' => $reportId]));
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSectionId()
+    {
+        return 'bankAccounts';
     }
 }
