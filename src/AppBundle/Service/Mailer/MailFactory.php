@@ -174,29 +174,6 @@ class MailFactory
     }
 
     /**
-     * @param EntityDir\User          $user
-     * @param EntityDir\Report\Report $report
-     * @param $pdfBinaryContent
-     *
-     * @return ModelDir\Email
-     */
-    public function createReportEmail(EntityDir\User $user, EntityDir\Report\Report $report, $pdfBinaryContent)
-    {
-        $email = new ModelDir\Email();
-
-        $email
-            ->setFromEmail($this->container->getParameter('email_report_submit')['from_email'])
-            ->setFromName($this->translate('reportSubmission.fromName'))
-            ->setToEmail($this->container->getParameter('email_report_submit')['to_email'])
-            ->setToName($this->translate('reportSubmission.toName'))
-            ->setSubject($this->translate('reportSubmission.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:report-submission.html.twig'))
-            ->setAttachments([new ModelDir\EmailAttachment($this->getReportAttachmentName($report), 'application/pdf', $pdfBinaryContent)]);
-
-        return $email;
-    }
-
-    /**
      * Get user area depending on the role
      *
      * @param  EntityDir\User $user
@@ -234,7 +211,7 @@ class MailFactory
             ->setToEmail($this->container->getParameter('email_report_submit')['to_email'])
             ->setToName($this->translate('odrSubmission.toName'))
             ->setSubject($this->translate('odrSubmission.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:odr-submission.html.twig', $viewParams))
+            ->setBodyHtml($this->templating->render('AppBundle:Email:ndr-submission.html.twig', $viewParams))
             ->setAttachments([new ModelDir\EmailAttachment($attachmentName, 'application/pdf', $pdfBinaryContent)]);
 
         return $email;
@@ -278,9 +255,6 @@ class MailFactory
             'submittedReport' => $submittedReport,
             'deputyFirstName' => $user->getFirstname() . ' ' . $user->getLastname(),
             'newReport'       => $newReport,
-            'link'            => $this->generateAbsoluteLink(self::AREA_DEPUTY, 'reports', [
-                'type' => $newReport->getType(), //TODO take from $submittedReport ?
-            ]),
             'homepageUrl'     => $this->generateAbsoluteLink(self::AREA_DEPUTY, 'homepage'),
             'recipientRole'   => self::getRecipientRole($user)
         ];
@@ -335,8 +309,8 @@ class MailFactory
             ->setToEmail($user->getEmail())
             ->setToName($user->getFirstname())
             ->setSubject($this->translate('odrSubmissionConfirmation.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:odr-submission-confirm.html.twig', $viewParams))
-            ->setBodyText($this->templating->render('AppBundle:Email:odr-submission-confirm.text.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:Email:ndr-submission-confirm.html.twig', $viewParams))
+            ->setBodyText($this->templating->render('AppBundle:Email:ndr-submission-confirm.text.twig', $viewParams));
 
         return $email;
     }
@@ -364,5 +338,41 @@ class MailFactory
             $client->getCaseNumber()
         );
         return $attachmentName;
+    }
+
+
+    /**
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return \AppBundle\Model\Email
+     */
+    public function createCoDeputyInvitationEmail(User $invitedUser, User $loggedInUser)
+    {
+        $area = $this->getUserArea($loggedInUser);
+
+        $viewParams = [
+            'deputyName'  => $loggedInUser->getFirstname() . ' ' . $loggedInUser->getLastname(),
+            'domain'           => $this->generateAbsoluteLink($area, 'homepage', []),
+            'link'             => $this->generateAbsoluteLink($area, 'user_activate', [
+                'action' => 'activate',
+                'token'  => $invitedUser->getRegistrationToken(),
+            ]),
+            'tokenExpireHours' => EntityDir\User::TOKEN_EXPIRE_HOURS,
+            'homepageUrl'      => $this->generateAbsoluteLink($area, 'homepage'),
+            'recipientRole' => self::getRecipientRole($loggedInUser)
+        ];
+
+        $email = new ModelDir\Email();
+
+        $email
+            ->setFromEmail($this->container->getParameter('email_send')['from_email'])
+            ->setFromName($this->translate('codeputyInvitation.fromName'))
+            ->setToEmail($invitedUser->getEmail())
+            ->setToName($invitedUser->getFullName())
+            ->setSubject($this->translate('codeputyInvitation.subject'))
+            ->setBodyHtml($this->templating->render('AppBundle:Email:coDeputy-invitation.html.twig', $viewParams))
+            ->setBodyText($this->templating->render('AppBundle:Email:coDeputy-invitation.text.twig', $viewParams));
+
+        return $email;
     }
 }

@@ -1,9 +1,10 @@
 nav:
+    documents: Documents
     adminArea: Users
     adArea: Assisted Digital
     userDetails: Your details
     clientHome: Your client
-    reports: Reports
+    reports: Your reports
     userAccount: Deputyship details
 helpline: 0115 934 2700
 helplinePA: 0115 934 2817
