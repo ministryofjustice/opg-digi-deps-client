@@ -1,0 +1,49 @@
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+
+{% trans_default_domain "admin" %}
+{% set page = 'statsPage' %}
+
+{% block htmlTitle %}{{ (page ~ '.htmlTitle') | trans }}{% endblock %}
+{% block pageTitle %}{{ (page ~ '.pageTitle') | trans }}{% endblock %}
+{% block pageTitleClass %}heading-large{% endblock %}
+
+{% block supportTitleBottom %}
+    <span class="heading-secondary">{{ (page ~ '.supportTitle') | trans }}</span>
+{% endblock %}
+
+{% block helpline %}{% endblock %}
+
+{% block pageContent %}
+
+    <h1 class="heading-medium">{{ (page ~ '.heading') | trans }}</h1>
+
+    <p>{{ (page ~ '.limitedTo100') | trans }}</p>
+    <p>
+        {{ (page ~ '.downloadCSV') | trans({'%csvFile%': path('admin_stats_csv', {'timestamp': date().timestamp }) }) | raw }}
+    </p>
+
+    {# dynamically display data #}
+    <table class="table-font-xsmall">
+        {# header #}
+        <thead>
+            <tr>
+                {% for key, column in data|first %}
+                    <th>{{ key  | replace({'_': ' '}) | capitalize }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {# rows #}
+        {% for row in data %}
+            <tr>
+                {% for column in row %}
+                    <td>
+                        {{ column }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
