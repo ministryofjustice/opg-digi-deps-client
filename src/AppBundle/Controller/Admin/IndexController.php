@@ -281,8 +281,8 @@ class IndexController extends AbstractController
         if ($form->isValid()) {
             $fileName = $form->get('file')->getData();
             try {
-                $data = (new CsvToArray($fileName, true))
-                    ->setExpectedColumns([
+                $csvToArray = new CsvToArray($fileName, true);
+                $data = $csvToArray->setExpectedColumns([
                         'Case',
                         'Surname',
                         'Deputy No',
@@ -291,6 +291,7 @@ class IndexController extends AbstractController
                         'Typeofrep',
                         'Corref',
                     ])
+                    ->setOptionalColumns($csvToArray->getFirstRow())
                     ->getData();
 
                 // small amount of data -> immediate posting and redirect (needed for behat)
