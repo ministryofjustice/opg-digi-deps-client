@@ -4,29 +4,28 @@ Feature: deputy / acl / security on pages
   Scenario: create backup
     Given I save the application status into "pages-security-init"
 
-  @deputy
+  @deputy 
   Scenario: create another user with client and report with data
     # restore status of first report before submitting
     Given emails are sent from "admin" area
     And I reset the email log
     Given I load the application status from "report-submit-pre"
     Given I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
-    When I create a new "ODR-disabled" "Lay Deputy" user "Malicious" "User" with email "behat-malicious@publicguardian.gsi.gov.uk"
+    When I create a new "ODR-disabled" "Lay Deputy" user "Malicious" "User" with email "behat-malicious@publicguardian.gsi.gov.uk" and postcode "SW1H 9AJ"
     And I activate the user with password "Abcd1234"
     And I set the user details to:
       | name    | Malicious        | User          |        |          |    |
       | address | 102 Petty France | MOJ           | London | SW1H 9AJ | GB |
       | phone   | 020 3334 3555    | 020 1234 5678 |        |          |    |
-    When I set the client details to:
+    When I set the client details with:
       | name       | Malicious      | Client      |            |         |    |
       | caseNumber | 12345ABC       |             |            |         |    |
       | courtDate  | 1              | 1           | 2016       |         |    |
       | address    | 1 South Parade | First Floor | Nottingham | NG1 2HT | GB |
       | phone      | 0123456789     |             |            |         |    |
-    And I set the report start date to "1/1/2016"
-    And I set the report end date to "1/1/2016"
-    Then the URL should match "/lay"
-
+    Then I press "client_save"
+    And the form should be invalid
+    And I should see a "#error-summary" element
 
   @deputy
   Scenario: Malicious User cannot access other's pages
