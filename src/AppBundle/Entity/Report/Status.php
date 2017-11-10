@@ -92,13 +92,6 @@ class Status
     private $balanceState;
 
     /**
-     * @JMS\Type("boolean")
-     *
-     * @var bool
-     */
-    private $balanceMatches;
-
-    /**
      * @JMS\Type("array")
      *
      * @var array
@@ -167,6 +160,20 @@ class Status
      * @var array
      */
     private $giftsState;
+
+    /**
+     * @JMS\Type("array")
+     *
+     * @var array
+     */
+    private $documentsState;
+
+    /**
+     * @JMS\Type("array")
+     *
+     * @var array
+     */
+    private $lifestyleState;
 
     /**
      * @JMS\Type("boolean")
@@ -528,25 +535,6 @@ class Status
     }
 
     /**
-     * @return bool
-     */
-    public function isBalanceMatches()
-    {
-        return $this->balanceMatches;
-    }
-
-    /**
-     * @param  bool   $balanceMatches
-     * @return Status
-     */
-    public function setBalanceMatches($balanceMatches)
-    {
-        $this->balanceMatches = $balanceMatches;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function getSubmitState()
@@ -565,13 +553,45 @@ class Status
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getDocumentsState()
+    {
+        return $this->documentsState;
+    }
+
+    /**
+     * @param array $documentsState
+     */
+    public function setDocumentsState($documentsState)
+    {
+        $this->documentsState = $documentsState;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLifestyleState()
+    {
+        return $this->lifestyleState;
+    }
+
+    /**
+     * @param array $lifestyleState
+     */
+    public function setLifestyleState($lifestyleState)
+    {
+        $this->lifestyleState = $lifestyleState;
+    }
+
     public function getState()
     {
-        switch($this->status)
-        {
+        switch ($this->status) {
             case 'notStarted': return Status::STATE_NOT_STARTED;
             case 'notFinished': return Status::STATE_INCOMPLETE;
             case 'readyToSubmit': return Status::STATE_DONE;
         }
     }
+
 }
