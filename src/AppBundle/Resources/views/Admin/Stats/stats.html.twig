@@ -1,0 +1,25 @@
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+
+{% trans_default_domain "admin" %}
+{% set page = 'statsPage' %}
+
+{% block htmlTitle %}{{ (page ~ '.htmlTitle') | trans }}{% endblock %}
+{% block pageTitle %}{{ (page ~ '.pageTitle') | trans }}{% endblock %}
+{% block pageTitleClass %}heading-large{% endblock %}
+
+{% block supportTitleBottom %}
+    <span class="heading-secondary">{{ (page ~ '.supportTitle') | trans }}</span>
+{% endblock %}
+
+{% block helpline %}{% endblock %}
+
+{% block pageContent %}
+
+    <h1 class="heading-medium">{{ (page ~ '.heading') | trans }}</h1>
+
+    <p>{{ (page ~ '.limitedTo100') | trans }}</p>
+    <p>
+        {{ (page ~ '.downloadCSV') | trans({'%csvFile%': path('admin_stats_csv', {'regenerate': 0 })}) | raw }}
+    </p>
+
+{% endblock %}

@@ -87,8 +87,7 @@ Feature: User Self Registration
       | 11112222 | Cross-Tolley  | D001      | Tolley      | SW1 3RF      | OPG102    |
       | 11113333 | Cross-Tolley2 | D002      | Tolley2     | SW1 3RF2     | OPG102    |
     And I press "self_registration_save"
-    Then the following fields should have an error:
-      | self_registration_postcode |
+    Then I should see a "#error-summary" element
     And I save the page as "selfreg-error-postcode"
       #
       # success (by fixing postcode)
@@ -185,6 +184,7 @@ Feature: User Self Registration
     When I fill in the following:
       | set_password_password_first  | Abcd1234 |
       | set_password_password_second | Abcd1234 |
+    And I check "set_password_showTermsAndConditions"
     And I press "set_password_save"
       #Then the response status code should be 200
     Then the URL should match "/user/details"
@@ -207,7 +207,7 @@ Feature: User Self Registration
     Then the URL should match "/report/create/\d+"
     And I set the report start date to "1/1/2016"
     And I set the report end date to "1/1/2016"
-    Then the URL should match "/report/\d+/overview"
+    Then the URL should match "/lay"
     Then I go to "/logout"
     And I am logged in as "behat-zac.tolley@digital.justice.gov.uk" with password "Abcd1234"
-    Then the URL should match "/report/\d+/overview"
+    Then the URL should match "/lay"
