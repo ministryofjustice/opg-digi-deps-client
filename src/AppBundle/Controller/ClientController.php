@@ -6,26 +6,33 @@ use AppBundle\Entity as EntityDir;
 use AppBundle\Form as FormDir;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/user-account/client-show", name="client_show")
+     * @Route("/deputyship-details/your-client", name="client_show")
      * @Template()
      */
     public function showAction(Request $request)
     {
+        // redirect if user has missing details or is on wrong page
+        $user = $this->getUserWithData();
+        if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'client_show')) {
+            return $this->redirectToRoute($route);
+        }
+
         $client = $this->getFirstClient();
 
         return [
             'client' => $client,
-            'lastSignedIn' => $this->getRequest()->getSession()->get('lastLoggedIn'),
+            'lastSignedIn' => $request->getSession()->get('lastLoggedIn'),
         ];
     }
 
     /**
-     * @Route("/user-account/client-edit", name="client_edit")
+     * @Route("/deputyship-details/your-client/edit", name="client_edit")
      * @Template()
      */
     public function editAction(Request $request)
@@ -48,7 +55,7 @@ class ClientController extends AbstractController
         return [
             'client' => $client,
             'form' => $form->createView(),
-            'lastSignedIn' => $this->getRequest()->getSession()->get('lastLoggedIn'),
+            'lastSignedIn' => $request->getSession()->get('lastLoggedIn'),
         ];
     }
 
@@ -58,36 +65,62 @@ class ClientController extends AbstractController
      */
     public function addAction(Request $request)
     {
-        $user = $this->getUserWithData(['user', 'client']);
-        $clients = $user->getClients();
-
-        if (!empty($clients) && $clients[0] instanceof EntityDir\Client) {
-            // update existing client
-            $method = 'put';
-            $client = $clients[0]; //existing client
-            $client = $this->getRestClient()->get('client/' . $client->getId(), 'Client');
-        } else {
-            // new client
-            $method = 'post';
-            $client = new EntityDir\Client();
-            $client->addUser($this->getUser()->getId());
+        // redirect if user has missing details or is on wrong page
+        $user = $this->getUserWithData();
+        if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'client_add')) {
+            return $this->redirectToRoute($route);
         }
 
-        $form = $this->createForm(new FormDir\ClientType(), $client);
+        $client = $this->getFirstClient();
+        if (!empty($client)) {
+            // update existing client
+            $client = $this->getRestClient()->get('client/' . $client->getId(), 'Client', ['client', 'report-id', 'current-report']);
+            $method = 'put';
+            $client_validated = true;
+        } else {
+            // new client
+            $client = new EntityDir\Client();
+            $method = 'post';
+            $client_validated = false;
+        }
+
+        $form = $this->createForm(new FormDir\ClientType(['client_validated' => $client_validated]), $client);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $response = ($method === 'post')
-                      ? $this->getRestClient()->post('client/upsert', $form->getData())
-                      : $this->getRestClient()->put('client/upsert', $form->getData());
 
-            $url = $this->getUser()->isOdrEnabled() ?
-                $this->generateUrl('odr_index')
-                 :$this->generateUrl('report_create', ['clientId' => $response['id']]);
+            try {
+                // validate against casRec
+                $this->getRestClient()->apiCall('post', 'casrec/verify', $client, 'array', []);
 
-            return $this->redirect($url);
+                // $method is set above to either post or put
+                $response =  $this->getRestClient()->$method('client/upsert', $form->getData());
+
+                $url = $this->getUser()->isOdrEnabled()
+                    ? $this->generateUrl('odr_index')
+                    : $this->generateUrl('report_create', ['clientId' => $response['id']]);
+                return $this->redirect($url);
+
+            } catch (\Exception $e) {
+                $translator = $this->get('translator');
+                switch ((int)$e->getCode()) {
+                    case 400:
+                        $form->addError(new FormError($translator->trans('formErrors.matching', [], 'register')));
+                        break;
+
+                    default:
+                        $form->addError(new FormError($translator->trans('formErrors.generic', [], 'register')));
+                }
+                $this->get('logger')->error(__METHOD__ . ': ' . $e->getMessage() . ', code: ' . $e->getCode());
+            }
         }
 
-        return ['form' => $form->createView()];
+        return [
+            'form' => $form->createView(),
+            'client_validated' => $client_validated,
+            'client' => $client
+        ];
+
     }
+
 }

@@ -28,7 +28,6 @@ reportSectionsToComplete: "Report sections to complete"
 options:
   submitReport: "Submit report"
   viewReport: "View report"
-  uploadDocumentation: "Upload documentation"
 
 guidanceNotice: |
   You don't have to fill in all the sections in one go. You can complete the report in any
@@ -54,10 +53,17 @@ contacts:
     label:
       done: "{0} no contacts | {1} 1 contact | ]1,Inf[ %count% contacts"
 
-heading.healthAndWelfare: "%client%'s welfare"
+heading.healthAndWelfare: "Health and welfare"
 visits_care:
     subSectionTitle: "Visits and care"
     subSectionDescription: "Give us an overview of who is looking after %client%"
+    edit: "Edit"
+    start: "Start"
+    label:
+      done: "Finished"
+lifestyle:
+    subSectionTitle: "Health and lifestyle"
+    subSectionDescription: "Describe %client%'s health and any activities %client% is involved in"
     edit: "Edit"
     start: "Start"
     label:
@@ -79,7 +85,7 @@ pa_fee_expense:
       done: "Finished"
 gifts:
     subSectionTitle: "Gifts"
-    subSectionDescription: "Gifts you have given to other people on behalf of %client%"
+    subSectionDescription: "Gifts you've given to other people on %client%'s behalf"
     edit: "Edit"
     start: "Start"
     label:
@@ -167,11 +173,20 @@ actions:
       done: "Finished"
 other_info:
     subSectionTitle: "Any other information"
-    subSectionDescription: "Is there anything else you want to tell us about?"
+    subSectionDescription: "Is there anything else you want to tell us about the deputyship?"
     edit: "Edit"
     start: "Start"
     label:
       done: "Finished"
+
+heading.caseDocuments: "Case documents"
+documents:
+    subSectionTitle: "Supporting documents"
+    subSectionDescription: "Provide documents to support your report, for example bank statements"
+    edit: "Edit"
+    start: "Start"
+    label:
+      done: "{0} no documents | {1} 1 document | ]1,Inf[ %count% documents"
 
 report_submit:
     subSectionTitle: "Submit report"
