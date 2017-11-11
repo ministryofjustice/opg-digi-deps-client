@@ -87,8 +87,7 @@ Feature: User Self Registration
       | 11112222 | Cross-Tolley  | D001      | Tolley      | SW1 3RF      | OPG102    |
       | 11113333 | Cross-Tolley2 | D002      | Tolley2     | SW1 3RF2     | OPG102    |
     And I press "self_registration_save"
-    Then the following fields should have an error:
-      | self_registration_postcode |
+    Then I should see a "#error-summary" element
     And I save the page as "selfreg-error-postcode"
       #
       # success (by fixing postcode)
@@ -180,13 +179,7 @@ Feature: User Self Registration
     Then I should see "Please check your email"
     And I should see "We've sent you a link to behat-zac.tolley@digital.justice.gov.uk"
     And the last email containing a link matching "/user/activate/" should have been sent to "behat-zac.tolley@digital.justice.gov.uk"
-    When I open the "/user/activate/" link from the email
-      #Then the response status code should be 200
-    When I fill in the following:
-      | set_password_password_first  | Abcd1234 |
-      | set_password_password_second | Abcd1234 |
-    And I press "set_password_save"
-      #Then the response status code should be 200
+    And I activate the user with password "Abcd1234"
     Then the URL should match "/user/details"
     When I fill in the following:
       | user_details_address1       | Address1     |
@@ -207,7 +200,7 @@ Feature: User Self Registration
     Then the URL should match "/report/create/\d+"
     And I set the report start date to "1/1/2016"
     And I set the report end date to "1/1/2016"
-    Then the URL should match "/report/\d+/overview"
+    Then the URL should match "/lay"
     Then I go to "/logout"
     And I am logged in as "behat-zac.tolley@digital.justice.gov.uk" with password "Abcd1234"
-    Then the URL should match "/report/\d+/overview"
+    Then the URL should match "/lay"
