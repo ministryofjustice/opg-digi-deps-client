@@ -55,7 +55,7 @@ class DecisionController extends AbstractController
             $mc = new EntityDir\Report\MentalCapacity();
         }
 
-        $form = $this->createForm(new FormDir\Report\MentalCapacityType(), $mc);
+        $form = $this->createForm(FormDir\Report\MentalCapacityType::class, $mc);
         $form->handleRequest($request);
 
         if ($form->get('save')->isClicked() && $form->isValid()) {
@@ -92,7 +92,7 @@ class DecisionController extends AbstractController
             $mc = new EntityDir\Report\MentalCapacity();
         }
 
-        $form = $this->createForm(new FormDir\Report\MentalAssessment(), $mc);
+        $form = $this->createForm(FormDir\Report\MentalAssessment::class, $mc);
         $form->handleRequest($request);
 
         if ($form->get('save')->isClicked()) {
@@ -132,7 +132,7 @@ class DecisionController extends AbstractController
     public function existAction(Request $request, $reportId)
     {
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
-        $form = $this->createForm(new FormDir\Report\DecisionExistType(), $report);
+        $form = $this->createForm(FormDir\Report\DecisionExistType::class, $report);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -170,7 +170,7 @@ class DecisionController extends AbstractController
         $decision = new EntityDir\Report\Decision();
         $from = $request->get('from');
 
-        $form = $this->createForm(new FormDir\Report\DecisionType(), $decision);
+        $form = $this->createForm(FormDir\Report\DecisionType::class, $decision);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -200,7 +200,7 @@ class DecisionController extends AbstractController
     {
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
-        $form = $this->createForm(new FormDir\AddAnotherRecordType('report-decisions'), $report);
+        $form = $this->createForm(FormDir\AddAnotherRecordType::class, $report, ['translationDomain' => 'report-decisions']);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -228,7 +228,7 @@ class DecisionController extends AbstractController
         $decision = $this->getRestClient()->get('report/decision/' . $decisionId, 'Report\\Decision');
         $decision->setReport($report);
 
-        $form = $this->createForm(new FormDir\Report\DecisionType(), $decision);
+        $form = $this->createForm(FormDir\Report\DecisionType::class, $decision);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -287,5 +287,13 @@ class DecisionController extends AbstractController
         );
 
         return $this->redirect($this->generateUrl('decisions', ['reportId' => $reportId]));
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSectionId()
+    {
+        return 'decisions';
     }
 }

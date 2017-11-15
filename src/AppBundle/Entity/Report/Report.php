@@ -4,7 +4,6 @@ namespace AppBundle\Entity\Report;
 
 use AppBundle\Entity\Client;
 use AppBundle\Entity\Report\Traits as ReportTraits;
-use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -27,9 +26,17 @@ class Report
     use ReportTraits\ReportMoreInfoTrait;
     use ReportTraits\ReportPaFeeExpensesTrait;
 
-    const TYPE_102 = '102';
     const TYPE_103 = '103';
+    const TYPE_102 = '102';
     const TYPE_104 = '104';
+    const TYPE_103_4 = '103-4';
+    const TYPE_102_4 = '102-4';
+
+    const TYPE_103_6 = '103-6';
+    const TYPE_102_6 = '102-6';
+    const TYPE_104_6 = '104-6';
+    const TYPE_103_4_6 = '104-4-6';
+    const TYPE_102_4_6 = '102-4-6';
 
     /**
      * @JMS\Type("integer")
@@ -91,7 +98,6 @@ class Report
      */
     private $submittedBy;
 
-
     /**
      * @JMS\Type("AppBundle\Entity\Client")
      *
@@ -133,6 +139,13 @@ class Report
      * @var VisitsCare
      */
     private $visitsCare;
+
+    /**
+     * @JMS\Type("AppBundle\Entity\Report\Lifestyle")
+     *
+     * @var Lifestyle
+     */
+    private $lifestyle;
 
     /**
      * @JMS\Type("AppBundle\Entity\Report\Action")
@@ -232,12 +245,57 @@ class Report
      * @var string
      */
     private $metadata;
+    
+    /**
+     * @var Document[]
+     * @JMS\Groups({"report-documents"})
+     * @JMS\Type("array<AppBundle\Entity\Report\Document>")
+     */
+    private $documents;
+
+    /**
+     * @JMS\Type("array<AppBundle\Entity\Report\Document>")
+     * @JMS\Groups({"report-documents"})
+     *
+     * @var Document[]
+     */
+    private $submittedDocuments;
+
+    /**
+     * @JMS\Type("array<AppBundle\Entity\Report\Document>")
+     * @JMS\Groups({"report-documents"})
+     *
+     * @var Document[]
+     */
+    private $unsubmittedDocuments;
 
     /**
      * @JMS\Type("AppBundle\Entity\Report\Status")
      * @var Status
      */
     private $status;
+
+    /**
+     * @JMS\Type("string")
+     * @JMS\Groups({"report", "wish-to-provide-documentation", "report-documents"})
+     *
+     * @Assert\NotBlank(message="document.wishToProvideDocumentation.notBlank", groups={"wish-to-provide-documentation"})
+     */
+    private $wishToProvideDocumentation;
+
+    /**
+     * @deprecated  use availableSections instead, that only holds the config for the current report
+     *
+     * @JMS\Type("array")
+     * @var array
+     */
+    private $sectionsSettings;
+
+    /**
+     * @JMS\Type("array")
+     * @var array
+     */
+    private $availableSections;
 
     /**
      * @return int $id
@@ -250,7 +308,7 @@ class Report
     /**
      * @param int $id
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setId($id)
     {
@@ -269,10 +327,13 @@ class Report
 
     /**
      * @param string $type
+     * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -302,7 +363,7 @@ class Report
     /**
      * @param \DateTime $startDate
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setStartDate(\DateTime $startDate = null)
     {
@@ -325,7 +386,7 @@ class Report
     /**
      * Return the date 8 weeks after the end date.
      *
-     * @return string $dueDate
+     * @return \DateTime|null $dueDate
      */
     public function getDueDate()
     {
@@ -385,7 +446,7 @@ class Report
     /**
      * @param \DateTime $submitDate
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setSubmitDate(\DateTime $submitDate = null)
     {
@@ -405,7 +466,7 @@ class Report
     /**
      * @param \DateTime $endDate
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setEndDate(\DateTime $endDate = null)
     {
@@ -457,7 +518,7 @@ class Report
     /**
      * @param int $client
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setClient(Client $client)
     {
@@ -488,6 +549,10 @@ class Report
         return;
     }
 
+    /**
+     * @param array $transfers
+     * @return $this
+     */
     public function setMoneyTransfers(array $transfers)
     {
         $this->moneyTransfers = $transfers;
@@ -524,9 +589,9 @@ class Report
     }
 
     /**
-     * @param type $decisions
+     * @param Decision[] $decisions
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setDecisions($decisions)
     {
@@ -623,7 +688,7 @@ class Report
     /**
      * @param string $reasonForNoContacts
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setReasonForNoContacts($reasonForNoContacts)
     {
@@ -643,7 +708,7 @@ class Report
     /**
      * @param string $reasonForNoDecisions
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setReasonForNoDecisions($reasonForNoDecisions)
     {
@@ -661,7 +726,7 @@ class Report
     }
 
     /**
-     * @return \AppBundle\Entity\Report\VisitsCare
+     * @return Report\VisitsCare
      */
     public function getVisitsCare()
     {
@@ -676,11 +741,32 @@ class Report
         $this->visitsCare = $visitsCare;
     }
 
+    /**
+     * @return Report\Lifestyle
+     */
+    public function getLifestyle()
+    {
+        return $this->lifestyle ?: new Lifestyle();
+    }
+
+    /**
+     * @param \AppBundle\Entity\Report\Lifestyle $lifestyle
+     */
+    public function setLifestyle($lifestyle)
+    {
+        $this->lifestyle = $lifestyle;
+    }
+
     public function getAction()
     {
         return $this->action ?: new Action();
     }
 
+    /**
+     * @param Action $action
+     *
+     * @return Report
+     */
     public function setAction(Action $action)
     {
         $this->action = $action;
@@ -717,7 +803,7 @@ class Report
     /**
      * @param bool $noAssetToAdd
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setNoAssetToAdd($noAssetToAdd)
     {
@@ -735,7 +821,8 @@ class Report
     }
 
     /**
-     * @param bool
+     * @param bool $noTransfersToAdd
+     * @return $this
      */
     public function setNoTransfersToAdd($noTransfersToAdd)
     {
@@ -753,9 +840,9 @@ class Report
     }
 
     /**
-     * @param type $submitted
+     * @param boolean $submitted
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setSubmitted($submitted)
     {
@@ -765,9 +852,9 @@ class Report
     }
 
     /**
-     * @param type $reportSeen
+     * @param boolean $reportSeen
      *
-     * @return \AppBundle\Entity\Report
+     * @return Report
      */
     public function setReportSeen($reportSeen)
     {
@@ -775,7 +862,7 @@ class Report
     }
 
     /**
-     * @return type
+     * @return boolean
      */
     public function getReportSeen()
     {
@@ -835,6 +922,48 @@ class Report
     }
 
     /**
+     * @return Document[]
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @return Document[]
+     */
+    public function getSubmittedDocuments()
+    {
+        return $this->submittedDocuments;
+    }
+
+    /**
+     * @return Document[]
+     */
+    public function getUnsubmittedDocuments()
+    {
+        return $this->unsubmittedDocuments;
+    }
+
+    /**
+     * @return Document[]
+     */
+    public function getDocumentsExcludingReportPdf()
+    {
+        return array_filter($this->documents, function ($document) { /* @var $document Document */
+            return !$document->isReportPdf();
+        });
+    }
+
+    /**
+     * @param Document[] $documents
+     */
+    public function setDocuments($documents)
+    {
+        $this->documents = $documents;
+    }
+
+    /**
      * @return Status
      */
     public function getStatus()
@@ -848,5 +977,111 @@ class Report
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWishToProvideDocumentation()
+    {
+        return $this->wishToProvideDocumentation;
+    }
+
+    /**
+     * @param $wishToProvideDocumentation
+     * @return $this
+     */
+    public function setWishToProvideDocumentation($wishToProvideDocumentation)
+    {
+        $this->wishToProvideDocumentation = $wishToProvideDocumentation;
+
+        return $this;
+    }
+
+    /**
+     * @param $format where %s are endDate (Y), submitDate Y-m-d, case number
+     * @return string
+     */
+    public function createAttachmentName($format)
+    {
+        $client = $this->getClient();
+        $attachmentName = sprintf($format,
+            $this->getEndDate()->format('Y'),
+            $this->getSubmitDate() ? $this->getSubmitDate()->format('Y-m-d') : 'n-a-', //some old reports have no submission date
+            $client->getCaseNumber()
+        );
+
+        return $attachmentName;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param string $metadata
+     */
+    public function setMetadata($metadata)
+    {
+        $this->metadata = $metadata;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableSections()
+    {
+        return $this->availableSections;
+    }
+
+    /**
+     * @param array $availableSections
+     * @return Report
+     */
+    public function setAvailableSections($availableSections)
+    {
+        $this->availableSections = $availableSections;
+
+        return $this;
+    }
+
+    /**
+     * @param string $section
+     * @return bool
+     */
+    public function hasSection($section)
+    {
+        return in_array($section, $this->availableSections);
+    }
+
+    /**
+     * Has this report been submitted?
+     *
+     * @return bool
+     */
+    public function isSubmitted()
+    {
+        return (bool)$this->getSubmitted();
+    }
+
+    /**
+     * Generates the translation suffic to use depending on report type,
+     *
+     * 10x followed by "-104" for HW, "-4" for hybrid report and nothing for PF report
+     * 
+     * @return string
+     */
+    public function get104TransSuffix()
+    {
+        return (strpos($this->getType(), '-4') > 0) ?
+            '-4' :
+            ($this->getType() === '104' || $this->getType() === '104-6' ?
+                '-104' : ''
+            );
     }
 }

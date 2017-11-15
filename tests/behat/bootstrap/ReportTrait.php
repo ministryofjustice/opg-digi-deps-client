@@ -7,11 +7,13 @@ use Behat\Gherkin\Node\TableNode;
 trait ReportTrait
 {
     /**
-     * @Given I change the report :reportId type to :reportType
+     * @Given I change the report of the client with case number :caseNumber to :reportType
      */
-    public function iChangeTheReportType($reportId, $reportType)
+    public function iChangeTheReportOfClientWithCNToType($caseNumber, $reportType)
     {
-        $this->visitBehatLink('report/' . $reportId . '/change-report-type/' . $reportType);
+        $this->getRestClient()->put('behat/client/' . $caseNumber, [
+            'current_report_type' => $reportType,
+        ]);
     }
 
     /**
@@ -22,7 +24,10 @@ trait ReportTrait
         $endDate = new \DateTime();
         $endDate->modify("-{$days} days");
 
-        $this->visitBehatLink("report/{$reportId}/change-report-end-date/" . $endDate->format('Y-m-d'));
+        $this->getRestClient()->put('behat/report/' . $reportId, [
+            'end_date' => $endDate->format('Y-m-d'),
+        ]);
+
         $this->visit('/');
     }
 
@@ -34,17 +39,12 @@ trait ReportTrait
         $endDate = new \DateTime();
         $endDate->modify("+{$days} days");
 
-        $this->visitBehatLink("report/{$reportId}/change-report-end-date/" . $endDate->format('Y-m-d'));
+        $this->getRestClient()->put('behat/report/' . $reportId, [
+            'end_date' => $endDate->format('Y-m-d'),
+        ]);
+
         $this->visit('/');
     }
-
-    /**
-     * @Given I change the report :reportId submitted to :value
-     */
-//    public function iChangeTheReportToNotSubmitted($reportId, $value)
-//    {
-//        $this->visitBehatLink('report/'.$reportId.'/set-sumbmitted/'.$value);
-//    }
 
     /**
      * @Then the :arg1 asset group should be :arg2
@@ -282,7 +282,7 @@ trait ReportTrait
 
         // expand form if collapsed
         //if (0 === count($this->getSession()->getPage()->findAll('css', '#account_bank'))) {
-            $this->clickOnBehatLink('add-account');
+        $this->clickOnBehatLink('add-account');
         //}
 
         $rows = $table->getRowsHash();
@@ -505,20 +505,40 @@ trait ReportTrait
     }
 
     /**
-     * @Given the report should not be submittable
+     * @Given the :usertype report should not be submittable
      */
-    public function theReportShouldNotBeSubmittable()
+    public function theReportShouldNotBeSubmittable($usertype = 'lay')
     {
+        $usertype = strtolower(trim($usertype));
         $this->assertUrlRegExp('#/overview#');
-        $this->assertSession()->elementNotExists('css', '#edit-report_submit');
+        if ($usertype == 'lay') {
+            # Lay report
+            $this->assertSession()->elementExists('css', '#edit-report-preview');
+            $this->assertSession()->elementNotExists('css', '#edit-report-review');
+        } elseif ($usertype == 'pa') {
+            # PA
+            $this->assertSession()->elementNotExists('css', '#edit-report_submit');
+        } else {
+            throw new \RuntimeException("usertype not specified. Usage: the PA|Lay report should not be submittable");
+        }
     }
 
     /**
-     * @Given the report should be submittable
+     * @Given the :usertype report should be submittable
      */
-    public function theReportShouldBeSubmittable()
+    public function theReportShouldBeSubmittable($usertype = 'lay')
     {
+        $usertype = strtolower(trim($usertype));
         $this->assertUrlRegExp('#/overview#');
-        $this->assertSession()->elementExists('css', '#edit-report_submit');
+        if ($usertype == 'lay') {
+            # Lay report
+            $this->assertSession()->elementExists('css', '#edit-report-review');
+            $this->assertSession()->elementNotExists('css', '#edit-report-preview');
+        } elseif ($usertype == 'pa') {
+            # PA
+            $this->assertSession()->elementExists('css', '#edit-report_submit');
+        } else {
+            throw new \RuntimeException("usertype not specified. Usage: the PA|Lay report should be submittable");
+        }
     }
 }
