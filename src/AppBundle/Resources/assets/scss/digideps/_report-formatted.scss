@@ -5,7 +5,6 @@
 .formatted-report {
 
     width: 800px;
-    margin: 0 auto;
 
     #safeguarding-section table {
         width: auto;
@@ -35,22 +34,6 @@
 
     }
 
-    .hero {
-        margin: 0;
-
-        h2,
-        .message,
-        .total {
-            color: $absBlack;
-        }
-
-        .message {
-            font-size: 22px;
-            margin: 10px 0 10px 0;
-        }
-
-    }
-
     #decisions-list {
         .value.textarea {
             font-size: 19px;
@@ -71,10 +54,16 @@
 
 }
 
-.pdflink {
-    background: url("/images/pdf.png") top left no-repeat;
+.link-icon {
+    display: inline-block;
     padding-left: 40px;
-    float: right;
-    height: 32px;
-    padding-top: 5px;
+
+    &.button-link {
+        line-height: 2em;
+        top: 3px;
+    }
+}
+
+.link-icon-pdf {
+    background: url("/images/pdf.png") top left no-repeat;
 }

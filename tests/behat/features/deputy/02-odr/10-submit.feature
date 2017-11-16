@@ -21,7 +21,7 @@ Feature: odr / report submit
         Given emails are sent from "deputy" area
         And I reset the email log
         And I am logged in as "behat-user-odr@publicguardian.gsi.gov.uk" with password "Abcd1234"
-        And I click on "odr-start, odr-submit, sign-and-submit"
+        And I click on "odr-start, odr-submit, odr-declaration-page"
         Then the URL should match "/odr/\d+/declaration"
         And I save the application status into "odr-submit-pre"
         #
@@ -110,7 +110,7 @@ Feature: odr / report submit
             | report_endDate_month | 12 |
             | report_endDate_year | 2016 |
         And I press "report_save"
-        Then the URL should match "report/\d+/overview"
+        Then the URL should match "/odr"
         # assert homepage with report created
         When I go to "/"
         And I click on "report-start"

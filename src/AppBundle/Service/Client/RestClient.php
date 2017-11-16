@@ -189,6 +189,7 @@ class RestClient
      * @param string $expectedResponseType Entity class to deserialise response into
      *                                     e.g. "Account" (AppBundle\Entity\ prefix not needed)
      *                                     or "Account[]" to deseialise into an array of entities
+     * @param array  $jmsGroups            deserialise_groups
      *
      * @return mixed $expectedResponseType type
      */
@@ -263,16 +264,15 @@ class RestClient
     }
 
     /**
-     * @param type $method
-     * @param type $endpoint
-     * @param type $data
-     * @param type $expectedResponseType
-     * @param type $options
+     * @param string $method
+     * @param string $endpoint
+     * @param mixed $data
+     * @param string $expectedResponseType
+     * @param array $options
      *
      * @throws \InvalidArgumentException
      *
-     * @return type
-     *
+     * @return array
      */
     public function apiCall($method, $endpoint, $data, $expectedResponseType, $options = [], $authenticated = true)
     {
@@ -333,7 +333,7 @@ class RestClient
         }
 
         // forward X-Request-Id to the API calls
-        if (($request = $this->container->get('request')) && $request->headers->has('x-request-id')) {
+        if ($this->container->isScopeActive('request') && ($request = $this->container->get('request')) && $request->headers->has('x-request-id')) {
             $options['headers']['X-Request-ID'] = $request->headers->get('x-request-id');
         }
 
@@ -346,7 +346,7 @@ class RestClient
             return $response;
         } catch (RequestException $e) {
             // request exception contains a body, that gets decoded and passed to RestClientException
-            $this->logger->warning('RestClient | Api not running ? | ' . $url . ' | ' . $e->getMessage());
+            $this->logger->warning('RestClient | RequestException | ' . $url . ' | ' . $e->getMessage());
 
             $this->logRequest($url, $method, $start, $options, $e->getResponse());
 
@@ -369,7 +369,6 @@ class RestClient
     /**
      * Return the 'data' array from the response.
      *
-     * @param type              $class
      * @param ResponseInterface $response
      *
      * @return array content of "data" key from response
@@ -459,7 +458,8 @@ class RestClient
      * @param string $url
      * @param string $method
      * @param string $start
-     * @param type   $response
+     * @param array $options
+     * @param ResponseInterface  $response
      */
     private function logRequest($url, $method, $start, $options, ResponseInterface $response = null)
     {
@@ -514,7 +514,7 @@ class RestClient
         if ($this->userId) {
             return $this->userId;
         } elseif (
-            ($token = $this->container->get('security.context')->getToken())
+            ($token = $this->container->get('security.token_storage')->getToken())
             && ($token->getUser() instanceof User)
         ) {
             return $token->getUser()->getId();

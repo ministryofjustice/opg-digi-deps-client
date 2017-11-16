@@ -3,7 +3,7 @@
 namespace AppBundle\Form\User;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserDetailsFullType extends UserDetailsBasicType
 {
@@ -20,13 +20,14 @@ class UserDetailsFullType extends UserDetailsBasicType
             'empty_value' => 'Please select ...',
         ])
         ->add('phoneMain', 'text')
-        ->add('phoneAlternative', 'text');
+        ->add('phoneAlternative', 'text')
+        ->add('email', 'text');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'translation_domain' => 'user-details',
+            'translation_domain' => 'settings',
             'validation_groups' => 'user_details_full',
         ]);
     }
