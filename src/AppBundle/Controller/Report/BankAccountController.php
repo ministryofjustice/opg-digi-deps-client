@@ -52,13 +52,11 @@ class BankAccountController extends AbstractController
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
         $fromPage = $request->get('from');
 
-
         $stepRedirector = $this->stepRedirector()
             ->setRoutes('bank_accounts', 'bank_accounts_step', 'bank_accounts_summary')
             ->setFromPage($fromPage)
             ->setCurrentStep($step)->setTotalSteps($totalSteps)
             ->setRouteBaseParams(['reportId'=>$reportId, 'accountId' => $accountId]);
-
 
         // create (add mode) or load account (edit mode)
         if ($accountId) {
@@ -81,7 +79,7 @@ class BankAccountController extends AbstractController
         ]);
 
         // crete and handle form
-        $form = $this->createForm(new FormDir\Report\BankAccountType($step), $account);
+        $form = $this->createForm( FormDir\Report\BankAccountType::class, $account, ['step' => $step]);
         $form->handleRequest($request);
 
         if ($form->get('save')->isClicked() && $form->isValid()) {
@@ -154,7 +152,7 @@ class BankAccountController extends AbstractController
     {
         $report = $this->getReportIfNotSubmitted($reportId);
 
-        $form = $this->createForm(new FormDir\AddAnotherRecordType('report-bank-accounts'), $report);
+        $form = $this->createForm(FormDir\AddAnotherRecordType::class, $report, ['translation_domain' => 'report-bank-accounts']);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -221,5 +219,13 @@ class BankAccountController extends AbstractController
         }
 
         return $this->redirect($this->generateUrl('bank_accounts_summary', ['reportId' => $reportId]));
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSectionId()
+    {
+        return 'bankAccounts';
     }
 }
