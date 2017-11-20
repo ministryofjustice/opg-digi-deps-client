@@ -102,35 +102,7 @@ class IndexController extends AbstractController
 
                     return $this->redirect($this->generateUrl('admin_homepage'));
                 } catch (RestClientException $e) {
-                    $form->get('email')->addError(new FormError($e->getData()['message']));
-                } catch (\Exception $e) {
-                    $translator = $this->get('translator');
-
-                    switch ((int) $e->getCode()) {
-                        case 403:
-                            $form->addError(new FormError($translator->trans('formErrors.coDepCaseAlreadyRegistered', [], 'register')));
-                            break;
-
-                        case 422:
-                            $form->get('email')->get('first')->addError(new FormError($translator->trans('email.first.existingError', [], 'register')));
-                            break;
-
-                        case 400:
-                            $form->addError(new FormError($translator->trans('formErrors.matching', [], 'register')));
-                            break;
-
-                        case 424:
-                            $form->get('postcode')->addError(new FormError($translator->trans('postcode.matchingError', [], 'register')));
-                            break;
-
-                        case 425:
-                            $form->addError(new FormError($translator->trans('formErrors.caseNumberAlreadyUsed', [], 'register')));
-                            break;
-
-                        default:
-                            $form->addError(new FormError($translator->trans('formErrors.generic', [], 'register')));
-                    }
-
+                    $form->addError(new FormError($e->getData()['message']));
                     $this->get('logger')->error(__METHOD__ . ': ' . $e->getMessage() . ', code: ' . $e->getCode());
                 }
             }

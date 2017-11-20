@@ -62,7 +62,7 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("string")
-     * @JMS\Groups({"user_details_full", "user_details_basic", "user_details_pa", "pa_team_add", "admin_add_user", "ad_add_user"})
+     * @JMS\Groups({"user_details_full", "user_details_basic", "user_details_pa", "pa_team_add", "admin_add_user", "admin_add_casrec_user", "ad_add_user"})
      * @Assert\NotBlank(message="user.lastname.notBlankOtherUser",
      *     groups={"admin_add_user", "admin_add_casrec_user","ad_add_user","user_details_basic","user_details_full","pa_team_add",
      *     "user_details_pa", "verify-codeputy"
