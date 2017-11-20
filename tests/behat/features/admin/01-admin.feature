@@ -103,3 +103,63 @@ Feature: admin / admin
         Then the form should be valid
         And I should be on "/deputyship-details/your-details/change-password/done"
         And I load the application status from "admin-pasword-change-init"
+
+    Scenario: login and add lay deputy
+      Given emails are sent from "admin" area
+      And I reset the email log
+      And I am on admin page "/"
+      Then I should be on "/login"
+      And I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
+      Given I am on admin page "/"
+      Then I should be on "/admin/"
+      Given I add the following users to CASREC:
+        | Case     | Surname      | Deputy No | Dep Surname | Dep Postcode | Typeofrep |
+        | 98989898 | Lay          | D00999      | Lay       | AA123BC      | OPG102    |
+      And I click on "user-add-new"
+      Then I should be on "admin/user-add"
+       #empty form shjould not show postcode error (LAY only)
+      And I press "admin_save"
+      Then the following fields should have an error:
+         | admin_email      |
+         | admin_firstname  |
+         | admin_lastname   |
+         | admin_roleName   |
+      When I fill in the following:
+         | admin_firstname | Johnincorrect  |
+         | admin_lastname | Lay-incorrect |
+         | admin_email | behat-admin-user-lay@publicguardian.gsi.gov.uk |
+         | admin_roleName| ROLE_LAY_DEPUTY |
+      And I press "admin_save"
+      Then the following fields should have an error:
+         | admin_addressPostcode      |
+     # incorrect postcode
+     When I fill in the following:
+         | admin_firstname | John  |
+         | admin_lastname | Lay |
+         | admin_email | behat-admin-user-lay@publicguardian.gsi.gov.uk |
+         | admin_roleName| ROLE_LAY_DEPUTY |
+         | admin_addressPostcode | AA12345 |
+     And I press "admin_save"
+     And I should see an "#error-summary" element
+     # incorrect surname
+     When I fill in the following:
+       | admin_firstname | John  |
+       | admin_lastname | Lay-incorrect |
+       | admin_email | behat-admin-user-lay@publicguardian.gsi.gov.uk |
+       | admin_roleName| ROLE_LAY_DEPUTY |
+       | admin_addressPostcode | AA123BC |
+     And I press "admin_save"
+     And I should see an "#error-summary" element
+    # CASREC MATCH
+    When I fill in the following:
+         | admin_firstname | John  |
+         | admin_lastname | Lay |
+         | admin_email | behat-admin-user-lay@publicguardian.gsi.gov.uk |
+         | admin_roleName| ROLE_LAY_DEPUTY |
+         | admin_addressPostcode | AA123BC |
+    And I press "admin_save"
+    Then the form should be valid
+    And I should not see an "#error-summary" element
+    Then I should see "behat-admin-user-lay@publicguardian.gsi.gov.uk" in the "users" region
+    Then the response status code should be 200
+    And the last email containing a link matching "/user/activate/" should have been sent to "behat-admin-user-lay@publicguardian.gsi.gov.uk"
