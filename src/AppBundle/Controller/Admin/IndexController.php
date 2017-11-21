@@ -102,7 +102,9 @@ class IndexController extends AbstractController
 
                     return $this->redirect($this->generateUrl('admin_homepage'));
                 } catch (RestClientException $e) {
-                    $form->addError(new FormError($e->getData()['message']));
+                    $translator = $this->get('translator');
+
+                    $form->addError(new FormError($translator->trans($e->getData()['message'], [], 'register')));
                     $this->get('logger')->error(__METHOD__ . ': ' . $e->getMessage() . ', code: ' . $e->getCode());
                 }
             }
