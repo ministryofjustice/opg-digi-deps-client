@@ -71,32 +71,9 @@ class ElementController extends AbstractController
 
     /**
      * @Route("/formcomponents", name="elements_form")
-     * @Template("AppBundle:Element/form:form.html.twig")
+     * @Template("AppBundle:Element:forms.html.twig")
      */
-    public function formComponentsAction()
-    {
-        $client = [
-            'fullname' => 'Zac Tolley',
-        ];
-
-        $report = [
-            'id' => 1,
-            'period' => '2014 to 2015',
-            'client' => $client,
-        ];
-
-        $breadCrumb = [
-            ['label' => 'Digideps Elements', 'href' => $this->generateUrl('elements')],
-            ['label' => 'Form elements'],
-
-        ];
-
-        return [
-            'breadCrumb' => $breadCrumb,
-            'report' => $report,
-            'client' => $client,
-        ];
-    }
+    public function formComponentsAction() { return []; }
 
     /**
      * @Route("/hero", name="elements_hero")
@@ -133,31 +110,27 @@ class ElementController extends AbstractController
     }
 
     /**
+     * @Route("/components", name="elements_components")
+     * @Template("AppBundle:Element:components.html.twig")
+     */
+    public function componentsAction() { return []; }
+
+    /**
+     * @Route("/alerts", name="elements_alerts")
+     * @Template("AppBundle:Element:alerts.html.twig")
+     */
+    public function alertsAction() { return []; }
+
+    /**
+     * @Route("/buttons", name="elements_buttons")
+     * @Template("AppBundle:Element:buttons.html.twig")
+     */
+    public function buttonsAction() { return[]; }
+
+    /**
      * @Route("/navigation", name="elements_navigation")
      * @Template("AppBundle:Element:navigation.html.twig")
      */
-    public function navigationAction()
-    {
-        $client = [
-            'fullname' => 'Zac Tolley',
-        ];
+    public function navigationAction() { return []; }
 
-        $report = [
-            'id' => 1,
-            'period' => '2014 to 2015',
-            'client' => $client,
-        ];
-
-        $breadCrumb = [
-            ['label' => 'Digideps Elements', 'href' => $this->generateUrl('elements')],
-            ['label' => 'Navigation'],
-
-        ];
-
-        return [
-            'breadCrumb' => $breadCrumb,
-            'report' => $report,
-            'client' => $client,
-        ];
-    }
 }
