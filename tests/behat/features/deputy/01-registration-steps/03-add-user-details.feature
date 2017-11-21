@@ -62,13 +62,15 @@ Feature: deputy / user / add details
       | phone   | 020 3334 3555    | 020 1234 5678 |        |          |    |
     Then the form should be valid
     When I go to "/user/details"
-    Then the following fields should have the corresponding values:
+    Then the following hidden fields should have the corresponding values:
       | user_details_firstname        | John ODR         |
       | user_details_lastname         | Doe ODR          |
+      | user_details_addressPostcode  | p0stc0d3         |
+      | user_details_email  | behat-user-odr@publicguardian.gsi.gov.uk         |
+    And the following fields should have the corresponding values:
       | user_details_address1         | 102 Petty France |
       | user_details_address2         | MOJ              |
       | user_details_address3         | London           |
-      | user_details_addressPostcode  | p0stc0d3         |
       | user_details_addressCountry   | GB               |
       | user_details_phoneMain        | 020 3334 3555    |
       | user_details_phoneAlternative | 020 1234 5678    |
