@@ -63,4 +63,4 @@ formErrors:
           Please ask one of these deputies to invite you directly.
 api:
     casrecEntryNotFound:
-          Entry not found in CASREC.
+          The last name and postcode you’ve entered does not match any of our records.
