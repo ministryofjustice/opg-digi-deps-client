@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity\Report\Traits;
 
+use AppBundle\Entity\Report\Debt;
+use AppBundle\Entity\Report\Report;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -12,9 +14,9 @@ trait ReportDebtsTrait
      * @JMS\Type("array<AppBundle\Entity\Report\Debt>")
      * @JMS\Groups({"debt"})
      *
-     * @var ArrayCollection
+     * @var Debt[]
      */
-    private $debts;
+    private $debts = [];
 
     /**
      * @JMS\Type("string")
@@ -75,6 +77,8 @@ trait ReportDebtsTrait
 
     /**
      * @param Debt[] $debts
+     *
+     * @return Report
      */
     public function setDebts($debts)
     {
@@ -110,7 +114,9 @@ trait ReportDebtsTrait
     }
 
     /**
-     * @param string $hasDebts
+     * @param $hasDebts bool
+     *
+     * @return Report
      */
     public function setHasDebts($hasDebts)
     {
