@@ -2,3 +2,160 @@
 // ==========================================================================
 // Quick dumping ground for exploration
 // SHOULD NOT GO TO PRODUCTION!
+
+/* line 38, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs {
+  border-bottom: 1px solid #0b0c0c;
+  margin: 1.5em 0;
+}
+@media (max-width: 640px) {
+  /* line 38, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs {
+    border-bottom: none;
+    margin: 30px 0;
+  }
+}
+/* line 46, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul {
+  position: relative;
+  top: 1px;
+  margin: 0;
+  padding: 0;
+}
+/* line 53, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul li {
+  margin: 0;
+  padding: 0;
+  float: left;
+  display: inline;
+  list-style: none;
+}
+@media (max-width: 640px) {
+  /* line 53, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul li {
+    float: none;
+    display: block;
+  }
+}
+/* line 65, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul a {
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: bold;
+  display: block;
+  overflow: hidden;
+  margin: 5px 5px 6px 0;
+  padding: 5px 0;
+  text-decoration: none;
+  background: #dee0e2;
+  border: 1px solid #dee0e2;
+  border-bottom: none;
+}
+@media (min-width: 641px) {
+  /* line 65, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul a {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+/* line 79, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul a:hover .label, .section-tabs ul a:focus .label {
+  text-decoration: underline;
+}
+@media (max-width: 640px) {
+  /* line 65, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul a {
+    font-family: "proxima_nova", Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.14286;
+    border-bottom: 1px solid #0b0c0c;
+    width: 98.5%;
+    width: -webkit-calc(100% - 10px);
+    width: calc(100% - 10px);
+    margin: 5px 0 0 0;
+    padding: 5px 0 5px 5px;
+    text-decoration: underline;
+    font-weight: normal;
+  }
+}
+@media (max-width: 640px) and (min-width: 641px) {
+  /* line 65, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul a {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 641px) {
+  /* line 65, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul a {
+    padding: 11px 14px 9px 9px;
+  }
+}
+/* line 104, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul li.active a {
+  background: #fff;
+  padding: 10px 9px 10px;
+  margin: 0 5px 0 0;
+  border-color: #0b0c0c;
+}
+@media (max-width: 640px) {
+  /* line 104, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul li.active a {
+    border-bottom: 1px solid #0b0c0c;
+    width: 98.5%;
+    width: -webkit-calc(100% - 10px);
+    width: calc(100% - 10px);
+    padding: 5px 0 5px 5px;
+    margin: 5px 0 0 0;
+    text-decoration: none;
+    font-weight: bold;
+  }
+}
+@media (min-width: 641px) {
+  /* line 104, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul li.active a {
+    padding: 16px 19px 15px 14px;
+  }
+}
+/* line 124, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul li.active a:focus {
+  outline: none;
+}
+/* line 128, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul li.active a .label {
+  text-decoration: none;
+}
+/* line 133, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs ul.two-tabs li {
+  width: 50%;
+}
+@media (min-width: 769px) {
+  /* line 133, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+  .section-tabs ul.two-tabs li {
+    width: auto;
+    min-width: 33.333%;
+  }
+}
+/* line 149, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs.plain-tabs .tab-navigation ul li a {
+  background-color: #fff;
+  border: none;
+  text-decoration: underline;
+  font-weight: normal;
+}
+/* line 155, ../../../app/assets/stylesheets/ch_helpers/tabs.scss */
+.section-tabs.plain-tabs .tab-navigation ul li.active a {
+  border: 1px solid #dee0e2;
+  border-bottom: none;
+}
+
+.section-tabs:after{
+  content: "";
+  display: block;
+  clear: both;
+}

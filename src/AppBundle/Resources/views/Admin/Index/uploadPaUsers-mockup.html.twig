@@ -1,0 +1,89 @@
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+
+{% trans_default_domain "admin" %}
+{% set page = 'uploadPA' %}
+
+{% block htmlTitle %}{{ (page ~ '.htmlTitle') | trans }}{% endblock %}
+{% block pageTitle %}Upload{% endblock %}
+{% block pageTitleClass %}heading-large{% endblock %}
+
+{% block supportTitleTop %}
+    <span class="heading-secondary">{{ (page ~ '.pageTitle') | trans }}</span>
+{% endblock %}
+
+{% block helpline %}{% endblock %}
+
+{% block pageContent %}
+
+<div class="section-tabs js-tabs">
+    <ul>
+        <li>
+            <a id="company-overview-tab" href="/company/02210024">
+                <span class="visuallyhidden">Company </span>
+                Upload users
+                <span class="visuallyhidden"> for HELLO LIMITED (02210024)</span>
+            </a>
+        </li>
+        <li class="active">
+            <a id="filing-history-tab" href="/company/02210024/filing-history">Upload PA<span class="visuallyhidden"> for HELLO LIMITED (02210024)</span></a>
+        </li>
+    </ul>
+</div>
+
+    {% if nOfChunks %}
+
+        <p class="text">{{ (page ~ '.uploading') | trans | raw }}</p>
+
+        <progress id="uploadProgress" value="0" max="{{ nOfChunks }}"/>
+
+        <script>
+            $(window).load(function () {
+                setTimeout(function () {
+                    uploadProgress(0);
+                }, 50);
+            });
+
+            function uploadProgress(currentChunk) {
+
+                if (currentChunk == {{ nOfChunks + 1 }}) {
+                    window.location.href = "{{ path('admin_pa_upload') }}";
+                    return;
+                }
+
+                $.ajax({
+                    url: "{{ path('pa_add_ajax') }}?chunk=" + currentChunk,
+                    method: "POST",
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#uploadProgress').val(currentChunk);
+                    }
+                });
+
+                // launch next
+                setTimeout(function () {
+                    uploadProgress(currentChunk + 1);
+                }, 100);
+
+            }
+
+        </script>
+
+    {% else %}
+
+        <h2 class="heading-medium">{{ (page ~ '.heading') | trans }}</h2>
+
+        {{ form_start(form, {attr: {novalidate: 'novalidate' }}) }}
+
+        {{ form_input(form.file, '', {
+            'labelText': 'Select CSV file',
+            'inputClass': 'no-border'
+        }) }}
+
+        {{ form_submit(form.upload, '', {'labelText': 'Upload PA users'}) }}
+
+        {{ form_end(form) }}
+
+    {% endif %}
+
+{% endblock %}

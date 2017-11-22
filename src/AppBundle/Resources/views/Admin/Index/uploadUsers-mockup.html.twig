@@ -1,0 +1,92 @@
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+
+{% trans_default_domain "admin" %}
+{% set page = 'uploadUsers' %}
+
+{% block htmlTitle %}{{ (page ~ '.htmlTitle') | trans }}{% endblock %}
+{% block pageTitle %}Upload{% endblock %}
+{% block pageTitleClass %}heading-large{% endblock %}
+
+{% block supportTitleTop %}
+    <span class="heading-secondary">{{ (page ~ '.pageTitle') | trans }}</span>
+{% endblock %}
+
+{% block helpline %}{% endblock %}
+
+{% block pageContent %}
+
+<div class="section-tabs js-tabs">
+    <ul>
+        <li class="active">
+            <a id="company-overview-tab" href="/company/02210024">
+                <span class="visuallyhidden">Company </span>
+                Upload users
+                <span class="visuallyhidden"> for HELLO LIMITED (02210024)</span>
+            </a>
+        </li>
+        <li>
+            <a id="filing-history-tab" href="/company/02210024/filing-history">Upload PA<span class="visuallyhidden"> for HELLO LIMITED (02210024)</span></a>
+        </li>
+    </ul>
+</div>
+
+    {% if nOfChunks %}
+
+<p class="text">{{ (page ~ '.uploading') | trans | raw }}</p>
+
+<progress id="uploadProgress" value="0" max="{{ nOfChunks + 1 }}">
+
+    <script>
+
+        function uploadChunk(currentChunk) {
+            if (currentChunk < {{ nOfChunks }}) {
+                $.ajax({
+                    url: "{{ path('casrec_add_ajax') }}?chunk=" + currentChunk,
+                    dataType: 'json'
+                }).done(function (data) {
+                    $('#uploadProgress').val(currentChunk + 1);
+                    uploadChunk(currentChunk + 1);
+                }).error(function() {
+                    alert('Upload error. please try uploading again');
+                });
+            } else {
+                window.location.href = "{{ path('casrec_upload') }}";
+            }
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "{{ path('casrec_truncate_ajax') }}",
+                dataType: 'json'
+            }).done(function (data) {
+                $('#uploadProgress').val(1);
+                uploadChunk(0);
+            });
+        });
+    </script>
+
+    {% else %}
+
+        <div class="data">
+            <span class="data-item bold-xlarge">{{ currentRecords }}</span>
+            <span class="data-item bold-small">{{ (page ~ '.usersInTheDB') | trans }}</span>
+        </div>
+
+
+        <h2 class="heading-medium">{{ (page ~ '.heading') | trans }}</h2>
+
+
+        {{ form_start(form, {attr: {novalidate: 'novalidate' }}) }}
+
+        {{ form_input(form.file, '', {
+            'labelRaw': true,
+            'labelText': 'Select CSV file exported from CASREC',
+            'hintText': 'Max upload size is ' ~ maxUploadSize,
+            'inputClass': 'no-border'
+        }) }}
+
+        {{ form_submit(form.upload, '', {'labelText': 'Upload Lay users'}) }}
+
+        {{ form_end(form) }}
+    {% endif %}
+    {% endblock %}
