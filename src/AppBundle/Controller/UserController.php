@@ -56,15 +56,16 @@ class UserController extends AbstractController
         // define form and template that differs depending on the action (activate or password-reset)
         if ($isActivatePage) {
             $passwordMismatchMessage = $translator->trans('password.validation.passwordMismatch', [], 'user-activate');
-            $form = $this->createForm(new FormDir\SetPasswordType([
-                'passwordMismatchMessage' => $passwordMismatchMessage,
-            ]), $user);
+            $form = $this->createForm( FormDir\SetPasswordType::class
+                                     , $user
+                                     , [ 'passwordMismatchMessage' => $passwordMismatchMessage
+                                       , 'showTermsAndConditions'  => $user->isDeputy()
+                                       ]
+                                     );
             $template = 'AppBundle:User:activate.html.twig';
         } else { // 'password-reset'
             $passwordMismatchMessage = $translator->trans('form.password.validation.passwordMismatch', [], 'password-reset');
-            $form = $this->createForm(new FormDir\ResetPasswordType([
-                'passwordMismatchMessage' => $passwordMismatchMessage,
-            ]), $user);
+            $form = $this->createForm(FormDir\ResetPasswordType::class, $user, ['passwordMismatchMessage' => $passwordMismatchMessage]);
             $template = 'AppBundle:User:passwordReset.html.twig';
         }
 
@@ -82,22 +83,24 @@ class UserController extends AbstractController
 
             // log in
             $clientToken = new UsernamePasswordToken($user, null, 'secured_area', $user->getRoles());
-            $this->get('security.context')->setToken($clientToken); //now the user is logged in
+            $this->get('security.token_storage')->setToken($clientToken); //now the user is logged in
 
             $session = $this->get('session');
             $session->set('_security_secured_area', serialize($clientToken));
 
-            $redirectUrl = $isActivatePage
-                ? $this->generateUrl('user_details')
-                : $this->get('redirector_service')->getFirstPageAfterLogin();
+            if ($isActivatePage) {
+                $route = $user->getIsCoDeputy() ? 'codep_verification' : 'user_details';
+                return $this->redirectToRoute($route);
+            } else {
+                return $this->redirect($this->get('redirector_service')->getFirstPageAfterLogin());
+            }
 
-            return $this->redirect($redirectUrl);
         }
 
         return $this->render($template, [
-            'token' => $token,
-            'form'  => $form->createView(),
-            'user'  => $user,
+            'token'  => $token,
+            'form'   => $form->createView(),
+            'user'   => $user
         ]);
     }
 
@@ -148,6 +151,8 @@ class UserController extends AbstractController
     {
         $user = $this->getUserWithData();
 
+        $client_validated = $this->getFirstClient() instanceof EntityDir\Client && !$user->isDeputyPa();
+
         list($formType, $jmsPutGroups) = $this->getFormAndJmsGroupBasedOnUserRole($user);
         $form = $this->createForm($formType, $user);
 
@@ -166,7 +171,9 @@ class UserController extends AbstractController
         }
 
         return [
+            'client_validated' => $client_validated,
             'form' => $form->createView(),
+            'user' => $user
         ];
     }
 
@@ -177,7 +184,7 @@ class UserController extends AbstractController
     public function passwordForgottenAction(Request $request)
     {
         $user = new EntityDir\User();
-        $form = $this->createForm(new FormDir\PasswordForgottenType(), $user);
+        $form = $this->createForm(FormDir\PasswordForgottenType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -216,7 +223,7 @@ class UserController extends AbstractController
     public function registerAction(Request $request)
     {
         $selfRegisterData = new SelfRegisterData();
-        $form = $this->createForm(new FormDir\SelfRegisterDataType(), $selfRegisterData);
+        $form = $this->createForm(FormDir\SelfRegisterDataType::class, $selfRegisterData);
         $translator = $this->get('translator');
         $vars = [];
 
@@ -244,11 +251,15 @@ class UserController extends AbstractController
                 ]);
             } catch (\Exception $e) {
                 switch ((int) $e->getCode()) {
+                    case 403:
+                        $form->addError(new FormError($translator->trans('formErrors.coDepCaseAlreadyRegistered', [], 'register')));
+                        break;
+
                     case 422:
                         $form->get('email')->get('first')->addError(new FormError($translator->trans('email.first.existingError', [], 'register')));
                         break;
 
-                    case 421:
+                    case 400:
                         $form->addError(new FormError($translator->trans('formErrors.matching', [], 'register')));
                         break;
 
@@ -286,7 +297,7 @@ class UserController extends AbstractController
     {
         $user = $this->getRestClient()->loadUserByToken($token);
 
-        $form = $this->createForm(new FormDir\User\AgreeTermsType(), $user);
+        $form = $this->createForm(FormDir\User\AgreeTermsType::class, $user);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $this->getRestClient()->agreeTermsUse($token);
@@ -311,15 +322,15 @@ class UserController extends AbstractController
         switch ($user->getRoleName()) {
             case EntityDir\User::ROLE_ADMIN:
             case EntityDir\User::ROLE_AD:
-                return [new FormDir\User\UserDetailsBasicType(), ['user_details_basic']];
+                return [new FormDir\User\UserDetailsBasicType($user), ['user_details_basic']];
 
             case EntityDir\User::ROLE_LAY_DEPUTY:
-                return [new FormDir\User\UserDetailsFullType(), ['user_details_full']];
+                return [new FormDir\User\UserDetailsFullType($user), ['user_details_full']];
 
             case EntityDir\User::ROLE_PA:
             case EntityDir\User::ROLE_PA_ADMIN:
             case EntityDir\User::ROLE_PA_TEAM_MEMBER:
-                return [new FormDir\User\UserDetailsPaType(), ['user_details_pa']];
+                return [new FormDir\User\UserDetailsPaType($user), ['user_details_pa']];
         }
     }
 }

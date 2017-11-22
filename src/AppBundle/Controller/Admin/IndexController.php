@@ -38,7 +38,7 @@ class IndexController extends AbstractController
             'sort_order'  => 'DESC',
         ];
 
-        $form = $this->createForm(new FormDir\Admin\SearchType(), null, ['method' => 'GET']);
+        $form = $this->createForm(FormDir\Admin\SearchType::class, null, ['method' => 'GET']);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $filters = $form->getData() + $filters;
@@ -68,11 +68,13 @@ class IndexController extends AbstractController
             $availableRoles[EntityDir\User::ROLE_ADMIN] = 'OPG Admin';
         }
 
-
-        $form = $this->createForm(new FormDir\Admin\AddUserType([
-            'roleChoices'        => $availableRoles,
-            'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
-        ]), new EntityDir\User());
+        $form = $this->createForm(FormDir\Admin\AddUserType::class
+                                 , new EntityDir\User()
+                                 , [ 'options' => [ 'roleChoices'        => $availableRoles
+                                                  , 'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin')
+                                                  ]
+                                   ]
+                                 );
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -137,7 +139,7 @@ class IndexController extends AbstractController
         if ($user->getId() == $this->getUser()->getId() || $user->getRoleName() == EntityDir\User::ROLE_PA) {
             $roleNameSetTo = $user->getRoleName();
         }
-        $form = $this->createForm(new FormDir\Admin\AddUserType([
+        $form = $this->createForm(FormDir\Admin\AddUserType::class, $user, ['options' => [
             'roleChoices'        => [
                 EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
                 EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
@@ -147,7 +149,7 @@ class IndexController extends AbstractController
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
             'roleNameSetTo'      => $roleNameSetTo, //can't edit current user's role
             'odrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
-        ]), $user);
+        ]]);
 
         $clients = $user->getClients();
         $odr = null;
@@ -155,7 +157,7 @@ class IndexController extends AbstractController
         if (count($clients)) {
             $odr = $clients[0]->getOdr();
             if ($odr) {
-                $odrForm = $this->createForm(new FormDir\OdrType(), $odr, [
+                $odrForm = $this->createForm(FormDir\OdrType::class, $odr, [
                     'action' => $this->generateUrl('admin_editOdr', ['id' => $odr->getId()]),
                 ]);
             }
@@ -208,8 +210,8 @@ class IndexController extends AbstractController
      */
     public function editOdrAction(Request $request, $id)
     {
-        $odr = $this->getRestClient()->get('odr/' . $id, 'Odr\Odr', ['odr', 'client', 'user']);
-        $odrForm = $this->createForm(new FormDir\OdrType(), $odr);
+        $odr = $this->getRestClient()->get('odr/' . $id, 'Odr\Odr', ['odr', 'client', 'client-users', 'user']);
+        $odrForm = $this->createForm(FormDir\OdrType::class, $odr);
         if ($request->getMethod() == 'POST') {
             $odrForm->handleRequest($request);
 
@@ -223,7 +225,7 @@ class IndexController extends AbstractController
         $client = $odr->getClient();
         $users = $client->getUsers();
 
-        return $this->redirect($this->generateUrl('admin_editUser', ['what' => 'user_id', 'filter' => $users[0]]));
+        return $this->redirect($this->generateUrl('admin_editUser', ['what' => 'user_id', 'filter' => $users[0]->getId()]));
     }
 
     /**
@@ -231,13 +233,13 @@ class IndexController extends AbstractController
      * @Method({"GET"})
      * @Template()
      *
-     * @param type $id
+     * @param integer $id
      */
     public function deleteConfirmAction($id)
     {
         $userToDelete = $this->getRestClient()->get("user/{$id}", 'User');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new DisplayableException('Only Admin can delete users');
         }
 
@@ -270,9 +272,9 @@ class IndexController extends AbstractController
      */
     public function uploadUsersAction(Request $request)
     {
-        $chunkSize = 1000;
+        $chunkSize = 2000;
 
-        $form = $this->createForm(new FormDir\UploadCsvType(), null, [
+        $form = $this->createForm(FormDir\UploadCsvType::class, null, [
             'method' => 'POST',
         ]);
 
@@ -281,8 +283,8 @@ class IndexController extends AbstractController
         if ($form->isValid()) {
             $fileName = $form->get('file')->getData();
             try {
-                $data = (new CsvToArray($fileName, true))
-                    ->setExpectedColumns([
+                $csvToArray = new CsvToArray($fileName, true);
+                $data = $csvToArray->setExpectedColumns([
                         'Case',
                         'Surname',
                         'Deputy No',
@@ -291,6 +293,7 @@ class IndexController extends AbstractController
                         'Typeofrep',
                         'Corref',
                     ])
+                    ->setOptionalColumns($csvToArray->getFirstRow())
                     ->getData();
 
                 // small amount of data -> immediate posting and redirect (needed for behat)
@@ -303,10 +306,17 @@ class IndexController extends AbstractController
                         sprintf('%d record uploaded, %d error(s)', $ret['added'], count($ret['errors']))
                     );
 
+                    foreach($ret['errors'] as $err) {
+                        $request->getSession()->getFlashBag()->add(
+                            'error',
+                            $err
+                        );
+                    }
+
                     return $this->redirect($this->generateUrl('casrec_upload'));
                 }
 
-                // big amount of data => redirect with nOfChunks for ajax upload in chunks
+                // big amount of data => store in redis + redirect
                 $chunks = array_chunk($data, $chunkSize);
                 foreach ($chunks as $k => $chunk) {
                     $compressedData = CsvUploader::compressData($chunk);
@@ -332,6 +342,58 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @Route("/casrec-mld-upgrade", name="casrec_mld_upgrade")
+     * @Template
+     */
+    public function upgradeMldAction(Request $request)
+    {
+        $form = $this->createForm(FormDir\UploadCsvType::class, null, [
+            'method' => 'POST',
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $fileName = $form->get('file')->getData();
+            try {
+                $data = (new CsvToArray($fileName, true))
+                    ->setExpectedColumns([
+                        'Deputy No'
+                    ])
+                    ->getData();
+                $compressedData = CsvUploader::compressData($data);
+                $ret = $this->getRestClient()->setTimeout(600)->post('codeputy/mldupgrade', $compressedData);
+                $request->getSession()->getFlashBag()->add(
+                    'notice',
+                    sprintf('Your file contained %d deputy numbers, %d were updated, with %d error(s)', $ret['requested_mld_upgrades'], $ret['updated'], count($ret['errors']))
+                );
+
+                foreach($ret['errors'] as $err) {
+                    $request->getSession()->getFlashBag()->add(
+                        'error',
+                        $err
+                    );
+                }
+                return $this->redirect($this->generateUrl('casrec_mld_upgrade'));
+
+            } catch (\Exception $e) {
+                $message = $e->getMessage();
+                if ($e instanceof RestClientException && isset($e->getData()['message'])) {
+                    $message = $e->getData()['message'];
+                }
+                $form->get('file')->addError(new FormError($message));
+            }
+        }
+
+        return [
+            'currentMldUsers' => $this->getRestClient()->get('codeputy/count', 'array'),
+            'form'            => $form->createView(),
+            'maxUploadSize'   => min([ini_get('upload_max_filesize'), ini_get('post_max_size')]),
+        ];
+    }
+
+
+    /**
      * @Route("/pa-upload", name="admin_pa_upload")
      * @Template
      */
@@ -340,7 +402,7 @@ class IndexController extends AbstractController
         $this->get('pa_service');
         $chunkSize = 100;
 
-        $form = $this->createForm(new FormDir\UploadCsvType(), null, [
+        $form = $this->createForm(FormDir\UploadCsvType::class, null, [
             'method' => 'POST',
         ]);
 
@@ -408,44 +470,6 @@ class IndexController extends AbstractController
             'form'          => $form->createView(),
             'maxUploadSize' => min([ini_get('upload_max_filesize'), ini_get('post_max_size')]),
         ];
-    }
-
-    /**
-     * @Route("/stats", name="admin_stats")
-     * @Template
-     */
-    public function statsAction(Request $request)
-    {
-        $data = $this->getRestClient()->get('stats/users?limit=100', 'array');
-
-        return [
-            'data' => $data,
-        ];
-    }
-
-    /**
-     * @Route("/stats/csv-download/{timestamp}", name="admin_stats_csv")
-     * @Template
-     */
-    public function statsCsvAction(Request $request, $timestamp)
-    {
-        try {
-            $rawCsv = $this->getRestClient()->get("stats/users/csv/{$timestamp}", 'raw');
-        } catch (\RuntimeException $e) {
-            return $this->render('AppBundle:Admin:stats-wait.html.twig', [
-                'timestamp' => $timestamp,
-            ]);
-        }
-
-        $response = new Response();
-        $response->headers->set('Cache-Control', 'private');
-        $response->headers->set('Content-type', 'plain/text');
-        $response->headers->set('Content-type', 'application/octet-stream');
-        $response->headers->set('Content-Disposition', 'attachment; filename="dd-stats-' . date('Y-m-d') . '.csv";');
-        $response->sendHeaders();
-        $response->setContent($rawCsv);
-
-        return $response;
     }
 
     /**

@@ -6,14 +6,14 @@
 {% trans_default_domain translationDomain %}
 
 {% block htmlTitle %}{{ 'htmlTitle.deputy-edit' | trans({}, 'user-account') }}{% endblock %}
-{% block pageTitle %}{{ 'h1Title.deputy-edit' | trans({}, 'user-account') }}{% endblock %}
+{% block pageTitle %}{{ 'pageTitle.deputy-edit' | trans({}, 'user-account') }}{% endblock %}
 
 {% block breadcrumbs %}
     {{ macros.breadcrumbsSettings("settings-profile") }}
 {% endblock %}
 
 {% block pageContent %}
-    <div itemscope itemtype="http://schema.org/Person" class="item your-details behat-region-profile">
+    <div class="behat-region-profile">
 
         <table class="text">
             <tbody>

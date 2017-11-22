@@ -8,7 +8,7 @@ Feature: admin / admin
         And I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
         Given I am on admin page "/"
         Then I should be on "/admin/"
-        And I create a new "ODR-disabled" "Admin" user "John" "Doe" with email "behat-admin-user@publicguardian.gsi.gov.uk"
+        And I create a new "ODR-disabled" "Admin" user "John" "Doe" with email "behat-admin-user@publicguardian.gsi.gov.uk" and postcode "AB12CD"
         Then I should see "behat-admin-user@publicguardian.gsi.gov.uk" in the "users" region
         Then the response status code should be 200
         And I should see "OPG Admin" in the "users" region
@@ -29,9 +29,8 @@ Feature: admin / admin
         Then the response status code should be 200
         And I save the page as "admin-step1"
         # only testing the correct case, as the form is the same for deputy
-        When I fill in the following: 
-            | set_password_password_first   | Abcd1234 |
-            | set_password_password_second  | Abcd1234 |
+        # note: no TC box here
+        When I fill in the password fields with "Abcd1234"
         And I press "set_password_save"
         Then I should not see an "#error-summary" element
         And I should be on "/user/details"

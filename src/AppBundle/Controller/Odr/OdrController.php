@@ -5,7 +5,7 @@ namespace AppBundle\Controller\Odr;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Report\Report;
 use AppBundle\Entity\User;
-use AppBundle\Form\Odr\ReportDeclarationType;
+use AppBundle\Form as FormDir;
 use AppBundle\Service\OdrStatusService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -43,14 +43,15 @@ class OdrController extends AbstractController
      */
     public function indexAction()
     {
-        $user = $this->getUserWithData(self::$odrGroupsForValidation);
-
-        // in case the user jumps to this page directly via URL
-        if (!$user->isOdrEnabled()) {
-            return $this->redirectToRoute('reports', ['type' => Report::TYPE_102]);
+        // redirect if user has missing details or is on wrong page
+        $user = $this->getUserWithData(array_merge(self::$odrGroupsForValidation, ['status']));
+        if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'odr_index')) {
+            return $this->redirectToRoute($route);
         }
 
-        $client = $user->getClients()[0];
+        $clients = $user->getClients();
+        $client = !empty($clients) ? $clients[0] : null;
+        $coDeputies = !empty($client) ? $client->getCoDeputies() : [];
         $odr = $client->getOdr();
 
         $reports = $client ? $client->getReports() : [];
@@ -70,10 +71,11 @@ class OdrController extends AbstractController
 
         return [
             'client' => $client,
+            'coDeputies' => $coDeputies,
             'odr' => $odr,
             'reportsSubmitted' => $reportsSubmitted,
             'reportActive' => $reportActive,
-            'odrStatus' => $odrStatus,
+            'odrStatus' => $odrStatus
         ];
     }
 
@@ -83,6 +85,12 @@ class OdrController extends AbstractController
      */
     public function overviewAction($odrId)
     {
+        // redirect if user has missing details or is on wrong page
+        $user = $this->getUserWithData();
+        if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'odr_overview')) {
+            return $this->redirectToRoute($route);
+        }
+
         $client = $this->getFirstClient(self::$odrGroupsForValidation);
         $odr = $client->getOdr();
         if ($odr->getSubmitted()) {
@@ -178,7 +186,7 @@ class OdrController extends AbstractController
         $clients = $user->getClients();
         $client = $clients[0];
 
-        $form = $this->createForm(new ReportDeclarationType(), $odr);
+        $form = $this->createForm(FormDir\Odr\ReportDeclarationType::class, $odr);
         $form->handleRequest($request);
         if ($form->isValid()) {
             // set report submitted with date

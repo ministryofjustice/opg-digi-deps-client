@@ -76,15 +76,14 @@ class ClientContactVoter extends Voter
             case self::ADD_CLIENT_CONTACT:
                 if ($subject instanceof ClientEntity) {
                     /** @var Client $subject */
-
-                    return $this->clientBelongsToUserTeam($loggedInUser, $subject);
+                    return $subject->hasUser($loggedInUser);
                 }
                 return false;
             case self::EDIT_CLIENT_CONTACT:
             case self::DELETE_CLIENT_CONTACT:
                 /** @var ClientEntity $subject */
                 if ($subject instanceof ClientEntity) {
-                    return $this->clientBelongsToUserTeam($loggedInUser, $subject);
+                    return $subject->hasUser($loggedInUser);
                 }
                 return false;
         }
@@ -92,16 +91,4 @@ class ClientContactVoter extends Voter
         return false;
     }
 
-    /**
-     * Does the logged in user belong to the client
-     *
-     * @param User   $loggedInUser
-     * @param Client $client
-     *
-     * @return bool
-     */
-    private function clientBelongsToUserTeam(User $loggedInUser, ClientEntity $client)
-    {
-        return in_array($loggedInUser->getId(), $client->getUsers());
-    }
 }

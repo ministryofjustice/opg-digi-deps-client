@@ -5,13 +5,14 @@
 {% set translationDomain = "report-decisions" %}
 {% trans_default_domain translationDomain %}
 {% set transOptions = {'%client%': report.client.firstname | e } %}
+{% set append104 = report.get104TransSuffix %}
 
 {% block htmlTitle %}{{ 'mentalCapacity.htmlTitle' | trans }}{% endblock %}
 {% block pageTitle %}{{ 'mentalCapacity.pageSectionTitle' | trans }}{% endblock %}
 {% block pageTitleClass %}heading-large{% endblock %}
 
 {% block linkBack %}
-    {{ macros.linkBackStep(backLink, 'existsPage.backLink' | trans({}, 'common')) }}
+    {{ macros.linkBackStep(backLink, 'back' | trans({}, 'common')) }}
 {% endblock %}
 
 {% block pageContent %}
@@ -24,7 +25,7 @@
                 'useFormGroup': false,
                 'fieldSetClass' : 'inline',
                 'legendClass' : 'form-label-bold',
-                'legendText' : 'mentalCapacity.form.hasCapacityChanged.label' | trans(transOptions, translationDomain),
+                'legendText' : ('mentalCapacity.form.hasCapacityChanged.label' ~ append104) | trans(transOptions, translationDomain),
                 'items': [{'dataTarget': 'has-capacity-changed-details'}]
             }) }}
             <div id="has-capacity-changed-details" class="panel panel-border-narrow js-hidden">

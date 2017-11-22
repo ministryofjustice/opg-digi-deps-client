@@ -4,8 +4,8 @@ Feature: Report submit
     Scenario: report declaration page
         #Given I set the report 1 end date to 3 days ago
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-        And I click on "reports, report-2016"
-        Then I should not see the "download-2016-report" link
+        And I click on "report-start"
+        Then I should not see the "report-review" link
         # if not found, it means that the report is not submittable
         And I click on "report-submit"
         Then the URL should match "/report/\d+/review"
@@ -19,21 +19,19 @@ Feature: Report submit
         And I reset the email log
         And I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
         And I save the application status into "report-submit-pre"
-        # assert after login I'm redirected to report page
-        Then the URL should match "/report/\d+/overview"
+        And I click on "report-start"
         # assert I cannot access the submitted page directly
         And the URL "/report/1/submitted" should not be accessible
         # assert I cannot access the submit page from declaration page
         When I go to "/report/1/declaration"
         Then the URL "/report/1/submitted" should not be accessible
-        And I click on "reports, report-2016"
+        And I click on "reports, report-start"
         # submit without ticking "agree"
         When I go to "/report/1/declaration"
         And I press "report_declaration_save"
         #
         # empty form
         #
-        When I press "report_declaration_save"
         Then the following fields should have an error:
             | report_declaration_agree |
             | report_declaration_agreedBehalfDeputy_0 |
@@ -64,7 +62,7 @@ Feature: Report submit
         And I save the page as "report-submit-submitted"
         # assert report display page is not broken
         When I click on "return-to-reports-page"
-        Then the URL should match "/reports/\d+"
+        Then the URL should match "/lay"
         And the response status code should be 200
         And the last email should contain "Thank you for submitting"
         #And the last email should have been sent to "behat-user@publicguardian.gsi.gov.uk"
@@ -85,20 +83,20 @@ Feature: Report submit
         Then I should see the "report-submission" region exactly 1 times
         # test search
         When I fill in the following:
-            | search | 12345abc |
+            | search | behat001 |
             | created_by_role | ROLE_PA |
         And I press "search_submit"
         Then I should see the "report-submission" region exactly 0 times
         When I fill in the following:
-            | search | 12345abc |
+            | search | behat001 |
             | created_by_role | ROLE_LAY_DEPUTY |
         And I press "search_submit"
         Then I should see the "report-submission" region exactly 1 times
         # assert submission and download
         Given each text should be present in the corresponding region:
-            | Peter White | report-submission-1 |
-            | 12345abc | report-submission-1 |
-            | 2 documents | report-submission-1 |
+            | Cly Hent | report-submission-1 |
+            | behat001 | report-submission-1 |
+            | 4 documents | report-submission-1 |
         When I click on "download" in the "report-submission-1" region
         Then the page content should be a zip file containing files with the following files:
             | file1.pdf | exactFileName+md5sum | d3f3c05deb6a46cd9e32ea2a1829cf28 |
@@ -111,15 +109,15 @@ Feature: Report submit
         When I click on "tab-archived"
         Then I should see the "report-submission" region exactly 1 times
         And each text should be present in the corresponding region:
-            | Peter White | report-submission-1 |
-            | 12345abc | report-submission-1 |
-            | 2 documents | report-submission-1 |
+            | Cly Hent | report-submission-1 |
+            | behat001 | report-submission-1 |
+            | 4 documents | report-submission-1 |
             | AU | report-submission-1 |
 
     @deputy
     Scenario: assert 2nd year report has been created
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-        And I click on "reports, report-open"
+        And I click on "report-start"
         And I save the page as "report-property-affairs-homepage"
         Then I should see a "#edit-contacts" element
         And I should see a "#edit-decisions" element
@@ -132,15 +130,10 @@ Feature: Report submit
             | Saving account        | account-02ca |
             | 445566                | account-02ca |
 
-
     @deputy
     Scenario: assert report is not editable after submission
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-        When I click on "reports"
-        Then I should not see the "report-2016-edit" link
-        And I should not see the "report-2016" link
-        And I should see the "report-2016-submitted-on" region
-        And the URL "/report/1/overview" should not be accessible
+        Then the URL "/report/1/overview" should not be accessible
         And the URL "/report/1/decisions/summary" should not be accessible
         And the URL "/report/1/contacts/summary" should not be accessible
         And the URL "/report/1/visits-care/summary" should not be accessible
@@ -157,19 +150,16 @@ Feature: Report submit
     @deputy
     Scenario: deputy report download
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
-        When I click on "reports"
-        And I save the current URL as "reports-type-list"
-        When I click on "download-2016-report"
-        And the response should contain "12345ABC"
-        And the response should contain "Peter"
-        And the response should contain "White"
+        When I click on "report-review"
+        Then the URL should match "report/\d+/review"
+        And the response should contain "behat001"
+        And the response should contain "Cly"
+        And the response should contain "Hent"
         # assert documents
         And I should see "file1.pdf" in the "document-list" region
         #And I should see "file2.pdf" in the "document-list" region
         And I should not see "DigiRep" in the "document-list" region
         # test go back link
         When I click on "back-to-reports"
-        Then I go to the URL previously saved as "reports-type-list"
-        And I should see the "download-2016-report" link
-
-
+        Then the URL should match "/lay"
+        And I should see the "report-download" link

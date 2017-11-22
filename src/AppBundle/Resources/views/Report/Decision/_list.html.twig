@@ -1,6 +1,7 @@
 {% set translationDomain = "report-decisions" %}
 {% trans_default_domain translationDomain %}
 {% set transOptions = {'%client%': report.client.firstname | e } %}
+{% set append104 = report.get104TransSuffix %}
 
 <table class="check-your-answers columns-2 push-double--bottom">
     <thead>
@@ -8,7 +9,7 @@
         <th>Question</th>
         <th>Answer</th>
         <th>
-            <span class="visuallyhidden">Actions</span>
+            <span class="visually-hidden">Actions</span>
         </th>
     </tr>
     </thead>
@@ -17,7 +18,7 @@
     <tr class="behat-region-mental-capacity">
         {% if report.mentalCapacity and report.mentalCapacity.hasCapacityChanged %}
             <td>
-                {{ 'mentalCapacity.form.hasCapacityChanged.label' | trans(transOptions) }}
+                {{ ('mentalCapacity.form.hasCapacityChanged.label' ~ append104) | trans(transOptions) }}
             </td>
             <td>
                 {% if report.mentalCapacity.hasCapacityChanged == 'stayedSame' %}
@@ -139,7 +140,7 @@
             <th>{{ 'summaryPage.decisionTableColumnHeading2' | trans(transOptions) }}</th>
             <th>{{ 'summaryPage.decisionTableColumnHeading3' | trans(transOptions) }}</th>
             <th>
-                <span class="visuallyhidden">Actions</span>
+                <span class="visually-hidden">Actions</span>
             </th>
         </tr>
         </thead>
@@ -159,7 +160,7 @@
                     <a href="{{ path('decisions_edit', { 'reportId': report.id, 'decisionId': decision.id }) }}"
                        class="behat-link-edit action-link">{{ 'summaryPage.edit'| trans }}</a>
                     <a href="{{ path('decisions_delete', { 'reportId': report.id, 'decisionId': decision.id }) }}"
-                       class="push-half--left action-link behat-link-delete">Remove</a>
+                       class="push-half--left action-link behat-link-delete">{{ 'remove' | trans({}, 'common' ) }}</a>
                 </td>
             </tr>
         {% endfor %}

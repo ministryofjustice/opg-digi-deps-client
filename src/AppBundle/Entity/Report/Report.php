@@ -4,6 +4,7 @@ namespace AppBundle\Entity\Report;
 
 use AppBundle\Entity\Client;
 use AppBundle\Entity\Report\Traits as ReportTraits;
+use AppBundle\Entity\Report\Status;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -26,9 +27,17 @@ class Report
     use ReportTraits\ReportMoreInfoTrait;
     use ReportTraits\ReportPaFeeExpensesTrait;
 
-    const TYPE_102 = '102';
     const TYPE_103 = '103';
+    const TYPE_102 = '102';
     const TYPE_104 = '104';
+    const TYPE_103_4 = '103-4';
+    const TYPE_102_4 = '102-4';
+
+    const TYPE_103_6 = '103-6';
+    const TYPE_102_6 = '102-6';
+    const TYPE_104_6 = '104-6';
+    const TYPE_103_4_6 = '104-4-6';
+    const TYPE_102_4_6 = '102-4-6';
 
     /**
      * @JMS\Type("integer")
@@ -89,7 +98,6 @@ class Report
      * @var User
      */
     private $submittedBy;
-
 
     /**
      * @JMS\Type("AppBundle\Entity\Client")
@@ -247,6 +255,22 @@ class Report
     private $documents;
 
     /**
+     * @JMS\Type("array<AppBundle\Entity\Report\Document>")
+     * @JMS\Groups({"report-documents"})
+     *
+     * @var Document[]
+     */
+    private $submittedDocuments;
+
+    /**
+     * @JMS\Type("array<AppBundle\Entity\Report\Document>")
+     * @JMS\Groups({"report-documents"})
+     *
+     * @var Document[]
+     */
+    private $unsubmittedDocuments;
+
+    /**
      * @JMS\Type("AppBundle\Entity\Report\Status")
      * @var Status
      */
@@ -259,6 +283,20 @@ class Report
      * @Assert\NotBlank(message="document.wishToProvideDocumentation.notBlank", groups={"wish-to-provide-documentation"})
      */
     private $wishToProvideDocumentation;
+
+    /**
+     * @deprecated  use availableSections instead, that only holds the config for the current report
+     *
+     * @JMS\Type("array")
+     * @var array
+     */
+    private $sectionsSettings;
+
+    /**
+     * @JMS\Type("array")
+     * @var array
+     */
+    private $availableSections;
 
     /**
      * @return int $id
@@ -290,10 +328,13 @@ class Report
 
     /**
      * @param string $type
+     * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -509,6 +550,10 @@ class Report
         return;
     }
 
+    /**
+     * @param array $transfers
+     * @return $this
+     */
     public function setMoneyTransfers(array $transfers)
     {
         $this->moneyTransfers = $transfers;
@@ -545,7 +590,7 @@ class Report
     }
 
     /**
-     * @param type $decisions
+     * @param Decision[] $decisions
      *
      * @return Report
      */
@@ -718,6 +763,11 @@ class Report
         return $this->action ?: new Action();
     }
 
+    /**
+     * @param Action $action
+     *
+     * @return Report
+     */
     public function setAction(Action $action)
     {
         $this->action = $action;
@@ -772,7 +822,8 @@ class Report
     }
 
     /**
-     * @param bool
+     * @param bool $noTransfersToAdd
+     * @return $this
      */
     public function setNoTransfersToAdd($noTransfersToAdd)
     {
@@ -790,7 +841,7 @@ class Report
     }
 
     /**
-     * @param type $submitted
+     * @param boolean $submitted
      *
      * @return Report
      */
@@ -802,7 +853,7 @@ class Report
     }
 
     /**
-     * @param type $reportSeen
+     * @param boolean $reportSeen
      *
      * @return Report
      */
@@ -812,7 +863,7 @@ class Report
     }
 
     /**
-     * @return type
+     * @return boolean
      */
     public function getReportSeen()
     {
@@ -882,6 +933,22 @@ class Report
     /**
      * @return Document[]
      */
+    public function getSubmittedDocuments()
+    {
+        return $this->submittedDocuments;
+    }
+
+    /**
+     * @return Document[]
+     */
+    public function getUnsubmittedDocuments()
+    {
+        return $this->unsubmittedDocuments;
+    }
+
+    /**
+     * @return Document[]
+     */
     public function getDocumentsExcludingReportPdf()
     {
         return array_filter($this->documents, function ($document) { /* @var $document Document */
@@ -946,5 +1013,105 @@ class Report
         );
 
         return $attachmentName;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param string $metadata
+     */
+    public function setMetadata($metadata)
+    {
+        $this->metadata = $metadata;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableSections()
+    {
+        return $this->availableSections;
+    }
+
+    /**
+     * @param array $availableSections
+     * @return Report
+     */
+    public function setAvailableSections($availableSections)
+    {
+        $this->availableSections = $availableSections;
+
+        return $this;
+    }
+
+    /**
+     * @param string $section
+     * @return bool
+     */
+    public function hasSection($section)
+    {
+        return in_array($section, $this->availableSections);
+    }
+
+    /**
+     * Has this report been submitted?
+     *
+     * @return bool
+     */
+    public function isSubmitted()
+    {
+        return (bool)$this->getSubmitted();
+    }
+
+    /**
+     * Generates the translation suffic to use depending on report type,
+     *
+     * 10x followed by "-104" for HW, "-4" for hybrid report and nothing for PF report
+     * 
+     * @return string
+     */
+    public function get104TransSuffix()
+    {
+        return (strpos($this->getType(), '-4') > 0) ?
+            '-4' :
+            ($this->getType() === '104' || $this->getType() === '104-6' ?
+                '-104' : ''
+            );
+    }
+
+    public function shouldShowBalanceWarning()
+    {
+        // if not due dont show warning
+        if (!$this->isDue()) {
+            return false;
+        }
+
+        // if accounts not started don't show warning
+        if ($this->getStatus()->getBankAccountsState()['state'] == Status::STATE_NOT_STARTED) {
+            return false;
+        }
+
+        switch ($this->getType())
+        {
+            case Report::TYPE_102:
+            case Report::TYPE_102_4:
+                // if a money section not started, dont show warning
+                if ($this->getStatus()->getMoneyInState()['state'] == Status::STATE_NOT_STARTED ||
+                    $this->getStatus()->getMoneyOutState()['state'] == Status::STATE_NOT_STARTED) {
+                    return false;
+                }
+                break;
+            default:
+                return false;
+        }
+
+        return true;
     }
 }

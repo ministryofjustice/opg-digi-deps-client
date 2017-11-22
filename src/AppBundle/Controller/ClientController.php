@@ -6,6 +6,7 @@ use AppBundle\Entity as EntityDir;
 use AppBundle\Form as FormDir;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 class ClientController extends AbstractController
@@ -16,6 +17,12 @@ class ClientController extends AbstractController
      */
     public function showAction(Request $request)
     {
+        // redirect if user has missing details or is on wrong page
+        $user = $this->getUserWithData();
+        if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'client_show')) {
+            return $this->redirectToRoute($route);
+        }
+
         $client = $this->getFirstClient();
 
         return [
@@ -32,7 +39,7 @@ class ClientController extends AbstractController
     {
         $client = $this->getFirstClient();
 
-        $form = $this->createForm(new FormDir\ClientType(), $client, ['action' => $this->generateUrl('client_edit', ['action' => 'edit'])]);
+        $form = $this->createForm(FormDir\ClientType::class, $client, ['action' => $this->generateUrl('client_edit', ['action' => 'edit'])]);
         $form->handleRequest($request);
 
         // edit client form
@@ -58,36 +65,62 @@ class ClientController extends AbstractController
      */
     public function addAction(Request $request)
     {
-        $user = $this->getUserWithData(['user-clients', 'client']);
-        $clients = $user->getClients();
-
-        if (!empty($clients) && $clients[0] instanceof EntityDir\Client) {
-            // update existing client
-            $method = 'put';
-            $client = $clients[0]; //existing client
-            $client = $this->getRestClient()->get('client/' . $client->getId(), 'Client', ['client', 'report-id', 'current-report']);
-        } else {
-            // new client
-            $method = 'post';
-            $client = new EntityDir\Client();
-            $client->addUser($this->getUser()->getId());
+        // redirect if user has missing details or is on wrong page
+        $user = $this->getUserWithData();
+        if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'client_add')) {
+            return $this->redirectToRoute($route);
         }
 
-        $form = $this->createForm(new FormDir\ClientType(), $client);
+        $client = $this->getFirstClient();
+        if (!empty($client)) {
+            // update existing client
+            $client = $this->getRestClient()->get('client/' . $client->getId(), 'Client', ['client', 'report-id', 'current-report']);
+            $method = 'put';
+            $client_validated = true;
+        } else {
+            // new client
+            $client = new EntityDir\Client();
+            $method = 'post';
+            $client_validated = false;
+        }
+
+        $form = $this->createForm(FormDir\ClientType::class, $client, ['client_validated' => $client_validated]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $response = ($method === 'post')
-                      ? $this->getRestClient()->post('client/upsert', $form->getData())
-                      : $this->getRestClient()->put('client/upsert', $form->getData());
 
-            $url = $this->getUser()->isOdrEnabled() ?
-                $this->generateUrl('odr_index')
-                 :$this->generateUrl('report_create', ['clientId' => $response['id']]);
+            try {
+                // validate against casRec
+                $this->getRestClient()->apiCall('post', 'casrec/verify', $client, 'array', []);
 
-            return $this->redirect($url);
+                // $method is set above to either post or put
+                $response =  $this->getRestClient()->$method('client/upsert', $form->getData());
+
+                $url = $this->getUser()->isOdrEnabled()
+                    ? $this->generateUrl('odr_index')
+                    : $this->generateUrl('report_create', ['clientId' => $response['id']]);
+                return $this->redirect($url);
+
+            } catch (\Exception $e) {
+                $translator = $this->get('translator');
+                switch ((int)$e->getCode()) {
+                    case 400:
+                        $form->addError(new FormError($translator->trans('formErrors.matching', [], 'register')));
+                        break;
+
+                    default:
+                        $form->addError(new FormError($translator->trans('formErrors.generic', [], 'register')));
+                }
+                $this->get('logger')->error(__METHOD__ . ': ' . $e->getMessage() . ', code: ' . $e->getCode());
+            }
         }
 
-        return ['form' => $form->createView()];
+        return [
+            'form' => $form->createView(),
+            'client_validated' => $client_validated,
+            'client' => $client
+        ];
+
     }
+
 }

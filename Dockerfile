@@ -1,7 +1,7 @@
 FROM registry.service.opg.digital/opguk/php-fpm
 
 # adds nodejs pkg repository
-RUN  curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
+RUN  curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
 
 RUN  apt-add-repository ppa:brightbox/ruby-ng && \
         apt-get update && \
@@ -17,7 +17,6 @@ RUN  npm install npm@4.6.1 -g
 RUN  cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
 RUN  npm install --global gulp
-RUN  npm install --global browserify
 RUN  gem install --no-ri --no-rdoc sass -v 3.4.25
 RUN  gem install --no-ri --no-rdoc scss_lint -v 0.54.0
 
@@ -45,7 +44,7 @@ ENV  HOME /app
 RUN  composer run-script post-install-cmd --no-interaction
 RUN  NODE_ENV=production gulp
 
-# cleanup
+# remove parameters.yml (will be regenerated at startup time from docker)
 RUN  rm /app/app/config/parameters.yml
 USER root
 ENV  HOME /root

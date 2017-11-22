@@ -18,7 +18,12 @@ class SettingsController extends AbstractController
      **/
     public function indexAction()
     {
+        // redirect if user has missing details or is on wrong page
         $user = $this->getUserWithData(['user-clients', 'client', 'report']);
+        if ($route = $this->get('redirector_service')->getCorrectRouteIfDifferent($user, 'account_settings')) {
+            return $this->redirectToRoute($route);
+        }
+
         $clients = $user->getClients();
         $client = !empty($clients) ? $clients[0] : null;
         return [
@@ -35,7 +40,7 @@ class SettingsController extends AbstractController
     {
         $user = $this->getUserWithData();
 
-        $form = $this->createForm(new FormDir\ChangePasswordType(), $user, ['mapped' => false, 'error_bubbling' => true]);
+        $form = $this->createForm(FormDir\ChangePasswordType::class, $user, ['mapped' => false, 'error_bubbling' => true]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -114,6 +119,7 @@ class SettingsController extends AbstractController
         return [
             'user'   => $user,
             'form'   => $form->createView(),
+            'client_validated' => false // to allow change of name/postcode/email
         ];
     }
 
