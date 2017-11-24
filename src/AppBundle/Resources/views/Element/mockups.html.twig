@@ -7,106 +7,44 @@ Headings as NDR design
 
 {% extends 'AppBundle:Layouts:application.html.twig' %}
 
-{# Page title #}
-{% block htmlTitle %}Multiple Lay Deputies Section - Mockup{% endblock %}
-{% block pageTitle %}Your reports{% endblock %}
-
-{% block supportTitleBottom %}
-    <span class="heading-secondary">Tim Draper</span>
+{% block proposition_content %}
+<nav id="proposition-menu">
+    <a href="/" id="proposition-name">Complete the deputy report</a>
+    <ul id="proposition-links">
+        <li><a href="/admin/">Cases</a></li>
+        <li><a href="/admin/">Users</a></li>
+        <li><a href="/admin/casrec-upload">Upload</a></li>
+        <li><a href="/admin/stats">Stats</a></li>
+        <li><a href="/deputyship-details">Deputyship details</a></li>
+        <li><a href="/admin/documents/list">Documents</a></li>
+        <li><a href="/logout">Sign out</a></li>
+    </ul>
+</nav>
 {% endblock %}
+
+{# Page title #}
+{% block htmlTitle %}Mockup{% endblock %}
+{% block pageTitle %}Cases{% endblock %}
+{% block pageTitleClass %}heading-large{% endblock %}
+
+{% block supportTitleTop %}
+
+{% endblock %}
+
+{% block helpline %}{% endblock %}
 
 {% block pageContent %}
 
-    {# Deputies section  #}
-    {# !! #}
-    {# <div class="grid-row">
-        <div class="column-half">
-            <h2 class="heading-large flush--top">Deputies</h2>
-        </div>
-        <div class="column-half text--right">
-            <a href="/report/70/contacts/add?from=summary" class="bold-small action-link behat-link-add">
-                <span class="icon icon-plus"></span>
-                Invite another deputy
-            </a>
-        </div>
-    </div>
-    <table class="check-your-answers">
-        <thead>
-            <tr>
-                <th>Name or email</th>
-                <th>Status</th>
-                <th>
-                    <span class="visually-hidden">Actions</span>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Edward Floor</td>
-                <td>Registered</td>
-                <td class="change-answer"></td>
-            </tr>
-            <tr>
-                <td>sarah.drougnutinaosa@digital.justice.gov.uk</td>
-                <td>Awaiting registration</td>
-                <td class="change-answer">
-                    <a href="">Resend invite</a>
-                </td>
-            </tr>
-        </tbody>
-    </table> #}
-
-    <h2 class="heading-large push-half--bottom">Current deputy report</h2>
-    <div id="decisions-sub-section" class="">
-
-    <div class="card soft-half">
-        <span class="status status-corner incomplete">NOT FINISHED</span>
-        <h3 class="heading-medium flush--ends">Caitlin Palmer</h3>
-        <div class="card-body">
-                            <p>
-                    1 January 2015 -
-                    1 January 2016
-                </p>
-                <a href="/reports/102?reportId=70">Edit reporting period</a>
-                    </div>
-                <div class="card-actions">
-            <a href="/report/70/overview" class="button behat-link-report-start">Continue</a>
-        </div>
+    <div class="section-tabs js-tabs">
+        <ul>
+            <li class="active"><a href="#">Deputies</a></li>
+            <li><a href="#">Clients</a></li>
+            <li><a href="#">Reports</a></li>
+        </ul>
     </div>
 
-    <h2 class="heading-large">Submitted reports</h2>
+    <h2 class="heading-medium">Zara Atkinson</h2>
 
-    <table class="behat-region-reports-history">
-        <thead>
-            <tr>
-                <th>Report type</th>
-                <th>Reporting period</th>
-                <th>Submission date</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <a href="/odr/4/review">
-                        New deputy report
-                    </a>
-                </td>
-                <td>Start of deputyship</td>
-                <td>3 Jul 2017</td>
-                <td>
-                    <a href="/odr/4/deputyodr.pdf">
-                        Download
-                    </a>
-                </td>
-                <td class="text--right hard--right">
-                    <a href="/odr/4/review" class="button-secondary">
-                        View
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    {# {% include 'AppBundle:Element/MockLibrary:_cases_deputies_search.html.twig' %} #}
 
 {% endblock %}

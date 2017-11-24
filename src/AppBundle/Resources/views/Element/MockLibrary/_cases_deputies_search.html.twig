@@ -1,0 +1,82 @@
+{# <form action="/pa/" method="GET" class="search-form push--ends">
+        <fieldset>
+            <legend class="visually-hidden">Search</legend>
+            <label for="search" class="search-label">Search by deputy name</label>
+            <input type="text" id="search" name="q" value="" class="js-search-focus search-input form-control">
+            <input id="search_submit" class="button flush--bottom push-half--right behat-link-search" type="submit" value="Search">
+        </fieldset>
+    </form> #}
+
+<form name="admin" method="get" class="search" novalidate="novalidate">
+
+        <div class="grid-row">
+            <div class="column-one-third">
+                <div id="form-group-admin_q" class="form-group ">
+                    <label class="form-label  required  text " for="admin_q">Search</label>
+                    <input type="text" id="admin_q" name="admin[q]" required="required" class=" form-control form-control--full">
+                </div>
+            </div>
+            <div class="column-one-half">
+                <div id="form-group-admin_role_name" class="form-group ">
+                    <label class="form-label  required" for="admin_role_name">Type</label>
+                    <select id="admin_role_name" name="admin[role_name]" required="required" class=" form-control left">
+                        <option value="" selected="selected">All types</option>
+                        <option value="ROLE_LAY_DEPUTY">Lay Deputy</option>
+                        <option value="ROLE_MLD">Multiple Lay Deputy</option>
+                        <option value="ROLE_PA">Public Authority</option>
+                    </select>
+                    <div class="multiple-choice push--left" style="clear: none;">
+                        <input type="checkbox" id="admin_odr_enabled" name="admin[odr_enabled]" required="required" class="" value="1">
+                        <label class="block-label " for="admin_odr_enabled">NDR enabled</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" id="admin_search" name="admin[search]" class="button ">Search</button>
+
+        <a href="/admin/" class="button-link">Clear filters</a>
+    </form>
+
+
+    <div class="behat-region-users user-list">
+
+        <div class="grid-row">
+            <div class="column-one-half">
+                <p>Found 6 deputies</p>
+            </div>
+            {# <div class="column-one-half text--right">
+                <a href="/admin/user-add" class="bold-small move-quarter--up action-link behat-link-user-add-new">
+                    <span class="icon icon-plus"></span>
+                    Add a new user
+                </a>
+            </div> #}
+        </div>
+
+        <table class="table-font-xsmall">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">NDR</th>
+                    <th scope="col">Active</th>
+                    <th scope="col" class="numeric">Registration date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#">Zara Atkinson</a></td>
+                    <td>ZaraAtkinson@jourrapide.com</td>
+                    <td>-</td>
+                    <td>Yes</td>
+                    <td class="numeric">23/11/2017</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Spencer Glover</a></td>
+                    <td>SpencerGlover@gmail.com</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td class="numeric">13/09/2017</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
