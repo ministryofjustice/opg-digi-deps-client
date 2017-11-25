@@ -1,14 +1,7 @@
-{#
-
-Multiple lay deputies - Your reports page
-Headings as NDR design
-
-#}
-
 {% extends 'AppBundle:Layouts:application.html.twig' %}
 
 {% block proposition_content %}
-<nav id="proposition-menu">
+{# <nav id="proposition-menu">
     <a href="/" id="proposition-name">Complete the deputy report</a>
     <ul id="proposition-links">
         <li><a href="/admin/">Cases</a></li>
@@ -19,12 +12,12 @@ Headings as NDR design
         <li><a href="/admin/documents/list">Documents</a></li>
         <li><a href="/logout">Sign out</a></li>
     </ul>
-</nav>
+</nav> #}
 {% endblock %}
 
 {# Page title #}
 {% block htmlTitle %}Mockup{% endblock %}
-{% block pageTitle %}Cases{% endblock %}
+{% block pageTitle %}Overview - Balance section{% endblock %}
 {% block pageTitleClass %}heading-large{% endblock %}
 
 {% block supportTitleTop %}
@@ -35,10 +28,65 @@ Headings as NDR design
 
 {% block pageContent %}
 
+    <ul>
+        <li class="overview-section">
+            <div id="balance-sub-section" class="section-list-item">
+                <a href="#">
+                    <h3 class="heading heading-medium">Section</h3>
+                    <span class="status flush--bottom not-matching">label</span>
+                    <span class="edit-link">Edit</span>
+                    <p class="description text">Some text here</p>
+                </a>
+            </div>
+        </li>
+        <li class="overview-section">
+
+            {#
+                NOT DUE
+                1. Not started
+                2. Some started
+                3. Not balanced
+                4. Balanced
+
+                DUE
+                1. Not started
+                2. Some started
+                3. Not balanced
+                4. Balanced
+                5. Not balanced with explanation
+                6. Balanced with explanation
+            #}
+
+            {# 1. Not started #}
+            <div id="balance-sub-section" class="section-list-item">
+                <a href="#">
+                    <h3 class="heading heading-medium">Account balance check</h3>
+                    <span class="status flush--bottom not-started">Not ready</span>
+                    <span class="edit-link">View</span>
+                    <p class="description text">Check that John's accounts balance.</p>
+                </a>
+            </div>
+
+        </li>
+        <li class="overview-section">
+            <li class="overview-section">
+            <div id="balance-sub-section" class="section-list-item">
+                <a href="#">
+                    <h3 class="heading heading-medium">Section</h3>
+                    <span class="status flush--bottom not-matching">label</span>
+                    <span class="edit-link">Edit</span>
+                    <p class="description text">Some text here</p>
+                </a>
+            </div>
+        </li>
+        </li>
+    </ul>
+
+
     {# {% include 'AppBundle:Element/MockLibrary:_cases_deputies_search.html.twig' %} #}
     {# {% include 'AppBundle:Element/MockLibrary:_cases_deputies_deputy-details.html.twig' %} #}
     {# {% include 'AppBundle:Element/MockLibrary:_cases_clients_search.html.twig' %} #}
     {# {% include 'AppBundle:Element/MockLibrary:_cases_clients_client-details.html.twig' %} #}
-    {% include 'AppBundle:Element/MockLibrary:_cases_case-number_search.html.twig' %}
+    {# {% include 'AppBundle:Element/MockLibrary:_cases_case-number_search.html.twig' %} #}
 
 {% endblock %}
