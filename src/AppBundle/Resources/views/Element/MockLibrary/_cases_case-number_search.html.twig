@@ -1,0 +1,75 @@
+<div class="section-tabs js-tabs">
+        <ul>
+            <li><a href="#">Deputies</a></li>
+            <li><a href="#">Clients</a></li>
+            <li class="active"><a href="#">Case</a></li>
+        </ul>
+    </div>
+
+<form action="/pa/" method="GET" class="search-form push--ends">
+        <fieldset>
+            <legend class="visually-hidden">Search</legend>
+            <label for="search" class="search-label">Search by case number</label>
+            <input type="text" id="search" name="q" value="" class="js-search-focus search-input form-control">
+            <input id="search_submit" class="button flush--bottom push-half--right behat-link-search" type="submit" value="Search">
+        </fieldset>
+    </form>
+
+
+    <div class="behat-region-users user-list">
+
+        <div class="grid-row">
+            <div class="column-one-half">
+                <p>Found 5 case number</p>
+            </div>
+            {# <div class="column-one-half text--right">
+                <a href="/admin/user-add" class="bold-small move-quarter--up action-link behat-link-user-add-new">
+                    <span class="icon icon-plus"></span>
+                    Add a new user
+                </a>
+            </div> #}
+        </div>
+
+        <table class="table-font-xsmall">
+            <thead>
+                <tr>
+                    <th scope="col">Case number</th>
+                    <th scope="col">Reporting period</th>
+                    <th scope="col">Due date</th>
+                    <th scope="col">Submission date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#">10223266</a></td>
+                    <td>11/11/2016 to 10/11/2017</td>
+                    <td>10/12/2017</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><a href="#">10334763</a></td>
+                    <td>05/07/2016 to 04/07/2017</td>
+                    <td>04/08/2017</td>
+                    <td>10/10/2017</td>
+                </tr>
+                <tr>
+                    <td><a href="#">10447743</a></td>
+                    <td>03/01/2016 to 02/01/2017</td>
+                    <td>02/02/2017</td>
+                    <td>02/02/2017</td>
+                </tr>
+                <tr>
+                    <td><a href="#">10558811</a></td>
+                    <td>10/12/2016 to 09/12/2017</td>
+                    <td>09/01/2018</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><a href="#">10662234</a></td>
+                    <td>10/12/2015 to 09/12/2016</td>
+                    <td>09/01/2017</td>
+                    <td>11/03/2017</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

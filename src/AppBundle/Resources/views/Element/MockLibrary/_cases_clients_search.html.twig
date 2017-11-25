@@ -1,0 +1,75 @@
+<div class="section-tabs js-tabs">
+        <ul>
+            <li><a href="#">Deputies</a></li>
+            <li class="active"><a href="#">Clients</a></li>
+            <li><a href="#">Reports</a></li>
+        </ul>
+    </div>
+
+<form action="/pa/" method="GET" class="search-form push--ends">
+        <fieldset>
+            <legend class="visually-hidden">Search</legend>
+            <label for="search" class="search-label">Search by client, deputy or case number</label>
+            <input type="text" id="search" name="q" value="" class="js-search-focus search-input form-control">
+            <input id="search_submit" class="button flush--bottom push-half--right behat-link-search" type="submit" value="Search">
+        </fieldset>
+    </form>
+
+
+    <div class="behat-region-users user-list">
+
+        <div class="grid-row">
+            <div class="column-one-half">
+                <p>Found 5 clients</p>
+            </div>
+            {# <div class="column-one-half text--right">
+                <a href="/admin/user-add" class="bold-small move-quarter--up action-link behat-link-user-add-new">
+                    <span class="icon icon-plus"></span>
+                    Add a new user
+                </a>
+            </div> #}
+        </div>
+
+        <table class="table-font-xsmall">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Case number</th>
+                    <th scope="col">Deputies</th>
+                    <th scope="col">Reports</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#">Maddison Kelly</a></td>
+                    <td>10223266</td>
+                    <td><a href="#">Zara Atkinson</a></td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Ryan Jordan</a></td>
+                    <td>10333674</td>
+                    <td><a href="#">Jude Stewart</a></td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Spencer Glover</a></td>
+                    <td>10448745</td>
+                    <td><a href="#">Matilda Gill</a></td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Connor Johnson</a></td>
+                    <td>10557723</td>
+                    <td><a href="#">Alexandra Stevens</a>, <a href="#">Harriet Noble</a> and <a href="#">Nathan Bartlett</a></td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Jasmine Lowe</a></td>
+                    <td>10661244</td>
+                    <td><a href="#">Ruby Moore</a></td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
