@@ -10,7 +10,7 @@ Feature: Browser - add and activate user
       | login_password | Abcd1234                        |
     Then I click on "login"
     And I am on admin page "/admin"
-    Then I create a new "ODR-disabled" "Lay Deputy" user "John" "Doe" with email "behat-user@publicguardian.gsi.gov.uk"
+    Then I create a new "ODR-disabled" "Lay Deputy" user "John" "Doe" with email "behat-user@publicguardian.gsi.gov.uk" and postcode "SW1H 9AJ"
 
   @browser
   Scenario: browser - view the homepage and login page
@@ -35,6 +35,7 @@ Feature: Browser - add and activate user
       | courtDate  | 1              | 1           | 2014       |         |    |
       | address    | 1 South Parade | First Floor | Nottingham | NG1 2HT | GB |
       | phone      | 0123456789     |             |            |         |    |
+    Then the form should be valid
     And I pause
     And I save the page as "report-period"
     Then I fill in the following:
