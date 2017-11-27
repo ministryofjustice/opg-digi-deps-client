@@ -6,20 +6,33 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClientType extends AbstractType
 {
+    private $clientValidated = false;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstname', 'text')
-                 ->add('lastname', 'text')
-                 ->add('caseNumber', 'text')
-                 ->add('courtDate', 'date', ['widget' => 'text',
-                                              'input' => 'datetime',
-                                              'format' => 'yyyy-MM-dd',
-                                              'invalid_message' => 'client.courtDate.message',
-                                            ])
+        if (isset($options['client_validated'])) {
+            $this->setClientValidated((bool) $options['client_validated']);
+        }
+
+        if ($this->isClientValidated()) {
+            $builder->add('firstname', 'text', ['attr'=> ['readonly' => 'readonly']])
+                ->add('lastname', 'text',  ['attr'=> ['readonly' => 'readonly']])
+                ->add('caseNumber', 'text',  ['attr'=> ['readonly' => 'readonly']]);
+        } else {
+            $builder->add('firstname', 'text')
+                ->add('lastname', 'text')
+                ->add('caseNumber', 'text');
+        }
+        $builder->add('courtDate', 'date', [
+            'widget' => 'text',
+            'input' => 'datetime',
+            'format' => 'yyyy-MM-dd',
+            'invalid_message' => 'client.courtDate.message',
+        ])
                 ->add('address', 'text')
                 ->add('address2', 'text')
                 ->add('postcode', 'text')
@@ -29,14 +42,6 @@ class ClientType extends AbstractType
                       'empty_value' => 'country.defaultOption',
                 ])
                 ->add('phone', 'text')
-                ->add('users', 'collection', ['type' => 'integer',
-                                               'options' => ['required' => false,
-                                                              'attr' => ['style' => 'display: none'],
-                                                              'label' => false, ], 'label' => false, ])
-                ->add('reports', 'collection', ['type' => 'integer',
-                                               'options' => ['required' => false,
-                                                              'attr' => ['style' => 'display: none'],
-                                                              'label' => false, ], 'label' => false, ])
                 ->add('id', 'hidden')
                 ->add('save', 'submit');
 
@@ -49,16 +54,34 @@ class ClientType extends AbstractType
         });
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'translation_domain' => 'registration',
-            'validation_groups' => 'lay-deputy-client',
+            'validation_groups'  => 'lay-deputy-client',
+            'client_validated'   => null
         ]);
     }
 
     public function getName()
     {
         return 'client';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClientValidated()
+    {
+        return $this->clientValidated;
+    }
+
+    /**
+     * @param bool $clientValidated
+     */
+    public function setClientValidated($clientValidated)
+    {
+        $this->clientValidated = $clientValidated;
+        return $this;
     }
 }
