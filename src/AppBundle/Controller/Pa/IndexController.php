@@ -62,7 +62,7 @@ class IndexController extends AbstractController
         $client = $this->getRestClient()->get('client/' . $clientId, 'Client', ['client', 'report-id', 'current-report']);
         // PA client profile is ATM relying on report ID, this is a working until next refactor
         $returnLink = $this->generateUrl('report_overview', ['reportId'=>$client->getCurrentReport()->getId()]);
-        $form = $this->createForm(new FormDir\Pa\ClientType(), $client);
+        $form = $this->createForm(FormDir\Pa\ClientType::class, $client);
         $form->handleRequest($request);
 
         // edit client form
@@ -70,7 +70,7 @@ class IndexController extends AbstractController
             $clientUpdated = $form->getData();
             $clientUpdated->setId($client->getId());
             $this->getRestClient()->put('client/upsert', $clientUpdated, ['pa-edit']);
-            $request->getSession()->getFlashBag()->add('notice', "The client details have been edited");
+            $request->getSession()->getFlashBag()->add('notice', 'The client details have been edited');
 
             return $this->redirect($returnLink);
         }
@@ -80,14 +80,5 @@ class IndexController extends AbstractController
             'form' => $form->createView(),
             'client'=>$client,
         ];
-    }
-
-    /**
-     * @Route("/settings", name="pa_settings")
-     * @Template
-     */
-    public function settingsAction(Request $request)
-    {
-        return [];
     }
 }

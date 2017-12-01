@@ -5,8 +5,12 @@
 {% set transOptions = {'%client%': user.getFullname() } %}
 
 {% block htmlTitle %}{{ 'removePage.htmlTitle' | trans }}{% endblock %}
-{% block pageTitle %}{{ 'removePage.h1Title' | trans }}{% endblock %}
+{% block pageTitle %}{{ 'removePage.pageTitle' | trans }}{% endblock %}
 {% block pageTitleClass %}heading-large{% endblock %}
+
+{% block breadcrumbs %}
+    {{ macros.breadcrumbsSettings('settings-team-user') }}
+{% endblock %}
 
 {% block supportTitleTop %}
     <span class="heading-secondary">{{ 'removePage.supportTitle' | trans }}</span>
