@@ -75,25 +75,19 @@
 .text--right    { text-align: right  !important; }
 
 // Percentage widths
-.width-half     { width: $half; }
-.width-third    { width: $one-third; }
-.width-quarter  { width: $one-quarter; }
-.width-fifth    { width: $full-width / 5; }
-.width-sixth    { width: $full-width / 6; }
-.width-eighth   { width: $full-width / 8; }
+.width-full             { width: 100%; }
+.width-three-quarters   { width: $three-quarters; } // 75%
+.width-two-thirds       { width: $two-thirds; }     // 66.67%
+.width-half             { width: $half; }           // 50%
+.width-third            { width: $one-third; }      // 33.34%
+.width-quarter          { width: $one-quarter; }    // 25%
+.width-fifth            { width: $full-width / 5; } // 20%
+.width-sixth            { width: $full-width / 6; } // 16.67%
+.width-eighth           { width: $full-width / 8; } // 12.5%
+.width-tenth            { width: $full-width / 10; } // 10%
+.width-twentieth        { width: $full-width / 20; } // 5%
 
 // scss-lint:enable SpaceBeforeBrace, SpaceAfterPropertyColon
-
-#content .visuallyhidden {
-    position: absolute;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-}
 
 .no-wrap {
     white-space: nowrap;
@@ -106,17 +100,6 @@
 // Proactively override as this needs to trump
 .right { float: right !important; }
 .left { float: left !important; }
-
-// Use .js-hidden to hide elements when js is enabled
-// Proactively override as this needs to trump
-
-.js-hidden {
-    display: inherit !important;
-
-    .js-enabled & {
-        display: none !important;
-    }
-}
 
 // Negating borders
 .no-border {
@@ -135,4 +118,8 @@
     word-wrap: break-word;
     -ms-word-break: break-all;
     word-break: break-word;
+}
+
+.align--top {
+    vertical-align: top;
 }

@@ -25,7 +25,6 @@
     {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'push--bottom' } }) }}
 
     {{ form_checkbox_group(form.satisfactionLevel, 'satisfactionLevel', {
-        'fieldSetClass' : 'vertical',
         'legendClass' : 'form-label-bold',
         'legend': 'satisfactionLevel'
     }) }}
@@ -38,7 +37,7 @@
     {% if app.user.isDeputyPa() %}
         <a href="{{path('pa_dashboard')}}" class="behat-link-return-to-pa-dashboard">{{ 'page.returnToDashboard' | trans }}</a>
     {% else %}
-        <a href="{{ path('reports', {'type': '102' })}}" class="behat-link-return-to-reports-page">{{ 'page.returnToHomepage' | trans }}</a>
+        <a href="{{ path('lay_home')}}" class="behat-link-return-to-reports-page">{{ 'page.returnToHomepage' | trans }}</a>
     {% endif %}
 
 {% endblock %}
