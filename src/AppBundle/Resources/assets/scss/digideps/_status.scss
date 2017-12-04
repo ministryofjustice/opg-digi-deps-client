@@ -42,23 +42,25 @@
         font-size: 16px;
     }
 
-    &.not-started {
+    &.notCreated {
         color: $grey-status;
     }
 
-    &.done {
-        color: $green-status;
-        border-color: $green-status;
+    &.not-started,
+    &.notStarted {
+        color: $grey-status;
     }
 
-    &.incomplete {
-        color: $orange-status;
-        border-color: $orange-status;
+    &.done,
+    &.readyToSubmit {
+        color: $green;
+        border-color: $green;
     }
 
-    &.account-closed {
-        color: $red-unknown;
-        border: 2px solid $red-unknown;
+    &.incomplete,
+    &.notFinished {
+        color: $orange;
+        border-color: $orange;
     }
 
     &.not-available {

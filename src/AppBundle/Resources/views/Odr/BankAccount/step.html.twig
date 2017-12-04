@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block linkBack %}
-    {{ macros.linkBackStep(backLink, 'stepPage.backLink' | trans) }}
+    {{ macros.linkBackStep(backLink, 'back' | trans({}, 'common')) }}
 {% endblock %}
 
 {% block pageContent %}
@@ -34,7 +34,7 @@
 
     {% if step == 2 %}
 
-        {% if account.requiresBankNameAndSortCode %}
+        {% if account.requiresBankName %}
             {{ form_input(form.bank, 'form.bank') }}
         {% else %}
             {% do form.bank.setRendered %}
@@ -44,7 +44,7 @@
             'inputClass' : 'account-number'
         }) }}
 
-        {% if account.requiresBankNameAndSortCode %}
+        {% if account.requiresSortCode %}
             {{ form_sort_code(form.sortCode, 'form.sortCode') }}
         {% else %}
             {% do form.sortCode.setRendered %}
@@ -61,7 +61,7 @@
         {{ form_input(form.balanceOnCourtOrderDate, '', {
             'labelText': 'form.balanceOnCourtOrderDate.label' | trans({'%cotDate%': odr.client.courtDate | date("j F Y")}, translationDomain),
             'inputPrefix' : '£',
-            'inputClass' : 'form-control--short js-format-currency'
+            'inputClass' : 'form-control-1-4 js-format-currency'
         } ) }}
     {% endif %}
 
