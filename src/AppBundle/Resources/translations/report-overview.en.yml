@@ -3,16 +3,13 @@ htmlTitlePA: "Client profile | GOV.UK"
 report: "report"
 pageSectionTitle: "The deputy report"
 pageSectionDescription: "Your report:"
-close: "Close"
-help: "Help"
 submitWhenReady: "You can't submit your report until it's complete"
-warningNotDue: "You can't submit your report until %date%"
 reportingPeriod: "Reporting period"
 edit: "Edit"
 dueDate: "Due date"
 reportIsReady: "Report is ready to submit"
 yourFinalStep: "Your final step"
-signAndSubmit: "Check and submit"
+reviewAndSubmit: "Review and submit"
 sectionsRemaining: "sections remaining"
 overview: Report overview
 status:
@@ -26,13 +23,23 @@ reportOptions: "Report options"
 reportSectionsToComplete: "Report sections to complete"
 
 options:
-  submitReport: "Submit report"
-  viewReport: "View report"
-  uploadDocumentation: "Upload documentation"
+  submitReport: Submit report
+  viewReport: View report
+  previewReport: Preview report
+  reviewReport: Review report
 
 guidanceNotice: |
   You don't have to fill in all the sections in one go. You can complete the report in any
   order you want, save it and return to it.
+
+previewNoticeNotDue: |
+  You may preview your report at anytime. You can't submit your report until %date%.
+
+previewNotice: |
+  You may preview your report at anytime. When all sections are complete you will be able to submit the report to us.
+
+completeNotice: |
+  All sections are now complete. Please review then submit your report.
 
 labels:
     not-started: "Not started"
@@ -54,10 +61,17 @@ contacts:
     label:
       done: "{0} no contacts | {1} 1 contact | ]1,Inf[ %count% contacts"
 
-heading.healthAndWelfare: "%client%'s welfare"
+heading.healthAndWelfare: "Health and welfare"
 visits_care:
     subSectionTitle: "Visits and care"
     subSectionDescription: "Give us an overview of who is looking after %client%"
+    edit: "Edit"
+    start: "Start"
+    label:
+      done: "Finished"
+lifestyle:
+    subSectionTitle: "Health and lifestyle"
+    subSectionDescription: "Describe %client%'s health and any activities %client% is involved in"
     edit: "Edit"
     start: "Start"
     label:
@@ -79,7 +93,7 @@ pa_fee_expense:
       done: "Finished"
 gifts:
     subSectionTitle: "Gifts"
-    subSectionDescription: "Gifts you have given to other people on behalf of %client%"
+    subSectionDescription: "Gifts you've given to other people on %client%'s behalf"
     edit: "Edit"
     start: "Start"
     label:
@@ -139,6 +153,9 @@ balance:
       Accounts not balanced
       <a href="%detailsLink%" class="behat-link-balance-view-details right">View details</a>
     notBalancedWarningPA: Accounts not balanced
+    notBalancedWithExplanationWarning: |
+      Your accounts are not balanced.
+      <a href="%detailsLink%" class="behat-link-balance-view-details">View/edit explanation</a>
     edit: "Edit"
     start: "Start"
     label:
@@ -167,11 +184,20 @@ actions:
       done: "Finished"
 other_info:
     subSectionTitle: "Any other information"
-    subSectionDescription: "Is there anything else you want to tell us about?"
+    subSectionDescription: "Is there anything else you want to tell us about the deputyship?"
     edit: "Edit"
     start: "Start"
     label:
       done: "Finished"
+
+heading.caseDocuments: "Case documents"
+documents:
+    subSectionTitle: "Supporting documents"
+    subSectionDescription: "Provide documents to support your report, for example bank statements"
+    edit: "Edit"
+    start: "Start"
+    label:
+      done: "{0} no documents | {1} 1 document | ]1,Inf[ %count% documents"
 
 report_submit:
     subSectionTitle: "Submit report"

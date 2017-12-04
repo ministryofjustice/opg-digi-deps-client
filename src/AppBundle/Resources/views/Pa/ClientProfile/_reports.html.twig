@@ -23,10 +23,14 @@
                         {% set linkToReportOverviewPage = path('report_overview', { 'reportId': report.id }) %}
                         {% set linkToDownloadReport = path('report_overview', { 'reportId': report.id }) %}
                         <tr class="behat-region-submitted-report-{{ report.endDate | date("Ymd") }}">
-                            <td>{{ report.startDate | date(" d F Y") }} to {{ report.endDate | date(" d F Y") }}</td>
-                            <td>{{ report.getSubmitDate() | date(" d F Y") }}</td>
+                            <td>{{ report.startDate | date(" j F Y") }} to {{ report.endDate | date(" j F Y") }}</td>
+                            <td>{{ report.getSubmitDate() | date(" j F Y") }}</td>
                             <td class="text--right hard--right">
                                 <a class="behat-link-view-report" href="{{ path('report_review', {'reportId': report.id}) }}">{{ 'options.viewReport' | trans({} , 'report-overview') }}</a>
+                                <br>
+                                <a href="{{ path('report_documents', {reportId: report.id}) }}" class="no-wrap behat-link-add-more-documents">
+                                    {{ (page ~ '.attachDocuments') | trans }}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
