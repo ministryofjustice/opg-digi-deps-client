@@ -1,0 +1,45 @@
+<h3 class="heading-small push-half--bottom">
+        Please tell us more about 102a's debts.
+        <span class="form-hint text push-half--bottom">If 102a has a mortgage on a property, use the Assets section to tell us about it</span>
+    </h3>
+
+    <form id="debt" method="post" name="debt" novalidate="novalidate">
+        <div class="">
+            <input id="debt_debts_0_debtTypeId" name="debt[debts][0][debtTypeId]" type="hidden" value="care-fees">
+            <div class="form-group" id="form-group-debt_debts_0_amount">
+                <label class="form-label required text" for="debt_debts_0_amount">Outstanding care home fees <span class="form-hint text">Don't include fees charged against 102a's property, that is, fees that will be paid off when the property is sold</span></label>
+                <ul class="form-hint list-bullet"></ul><span class="input-group-prefix">£</span> <input class=" form-control form-control-1-4 js-format-currency" id="debt_debts_0_amount" name="debt[debts][0][amount]" required="required" type="text">
+            </div>
+        </div>
+        <div class="">
+            <input id="debt_debts_1_debtTypeId" name="debt[debts][1][debtTypeId]" type="hidden" value="credit-cards">
+            <div class="form-group" id="form-group-debt_debts_1_amount">
+                <label class="form-label required text" for="debt_debts_1_amount">Credit cards</label> <span class="input-group-prefix">£</span> <input class=" form-control form-control-1-4 js-format-currency" id="debt_debts_1_amount" name="debt[debts][1][amount]" required="required" type="text">
+            </div>
+        </div>
+        <div class="">
+            <input id="debt_debts_2_debtTypeId" name="debt[debts][2][debtTypeId]" type="hidden" value="loans">
+            <div class="form-group" id="form-group-debt_debts_2_amount">
+                <label class="form-label required text" for="debt_debts_2_amount">Loans</label> <span class="input-group-prefix">£</span> <input class=" form-control form-control-1-4 js-format-currency" id="debt_debts_2_amount" name="debt[debts][2][amount]" required="required" type="text">
+            </div>
+        </div>
+        <div class=" js-details-expander">
+            <input id="debt_debts_3_debtTypeId" name="debt[debts][3][debtTypeId]" type="hidden" value="other">
+            <div class="form-group" id="form-group-debt_debts_3_amount">
+                <label class="form-label required text" for="debt_debts_3_amount">Other</label> <span class="input-group-prefix">£</span> <input class=" form-control form-control-1-4 js-format-currency" id="debt_debts_3_amount" name="debt[debts][3][amount]" required="required" type="text">
+            </div>
+            <div class="hidden">
+                <div class="form-group panel panel-border-narrow hidden" id="form-group-debt_debts_3_moreDetails">
+                    <label class="form-label required text" for="debt_debts_3_moreDetails">Please tell us more about this debt <span class="form-hint text">For example, what this debt is for and who it's owed to</span></label>
+                    <ul class="form-hint list-bullet"></ul>
+                    <textarea class=" form-control" id="debt_debts_3_moreDetails" name="debt[debts][3][moreDetails]" required="required"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="form-group-debt_debts_3_moreDetails">
+            <label class="form-label required text" for="debt_debts_3_moreDetails">Please provide details of how the debt is being managed or reduced.</label>
+                    <ul class="form-hint list-bullet"></ul>
+                    <textarea class=" form-control" id="debt_debts_3_moreDetails" name="debt[debts][3][moreDetails]" required="required"></textarea>
+                </div>
+        <button class="button behat-link-save-and-continue" id="debt_save" name="debt[save]" type="submit">Save and continue</button> <input id="debt_id" name="debt[id]" type="hidden" value="1"><input id="debt__token" name="debt[_token]" type="hidden" value="Qz3ugC7WX3nfotOeouQa3IKS_xhvB4H2fbU7fvlUAec">
+    </form>
