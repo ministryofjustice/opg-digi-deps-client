@@ -143,7 +143,7 @@
 
         <div class="footer-meta">
           <div class="footer-meta-inner">
-            <h2 class="visuallyhidden">Support links</h2>
+            <h2 class="visually-hidden">Support links</h2>
             <ul>
               <li>
                 Built by
@@ -176,6 +176,10 @@
     <!--<![endif]-->
 
     {% block bodyEnd %}{% endblock %}
+
+    {% if report is defined %}
+      <!-- Report Type: {{ report.type }} -->
+    {% endif %}
 
   </body>
 </html>

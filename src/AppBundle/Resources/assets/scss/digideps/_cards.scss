@@ -1,0 +1,24 @@
+// ==========================================================================
+// CARDS
+// The report card styling on the 'Your reports' page
+
+.card {
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 120px;
+    padding: 15px;
+    border: 1px solid $border-colour;
+
+    &.disabled {
+        background-color: $grey-3;
+    }
+
+    .card-actions {
+        @include media(tablet) {
+            position: absolute;
+            bottom: $gutter-half;
+            right: $gutter-half;
+        }
+    }
+}

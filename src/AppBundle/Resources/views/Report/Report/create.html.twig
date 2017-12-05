@@ -2,12 +2,12 @@
 
 {% trans_default_domain "registration" %}
 
-{% block htmlTitle %}{{ 'createReport.pageTitle' | trans }} {% endblock %}
-{% block pageTitle %}{{ 'createReport.h1Title' | trans }}{% endblock %}
+{% block htmlTitle %}{{ 'createReport.htmlTitle' | trans }} {% endblock %}
+{% block pageTitle %}{{ 'createReport.pageTitle' | trans }}{% endblock %}
 
 {% block progressBar %}
     {% if app.user.odrEnabled %}
-        <a id="overview-button" href="{{ path('odr_index') }}" class="link-back behat-link-step-back">Return to Homepage</a>
+        <a id="overview-button" href="{{ path('odr_index') }}" class="link-back behat-link-step-back">Return to Your reports</a>
     {% else %}
         {{ progress_bar_registration(app.user, 'create_report') }}
     {% endif %}
