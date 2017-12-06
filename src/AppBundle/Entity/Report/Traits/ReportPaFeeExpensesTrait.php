@@ -15,7 +15,7 @@ trait ReportPaFeeExpensesTrait
      *
      * @var Fee[]
      */
-    private $fees;
+    private $fees = [];
 
     /**
      * @JMS\Type("string")
@@ -43,7 +43,7 @@ trait ReportPaFeeExpensesTrait
     private $feesTotal;
 
     /**
-     * @return ArrayCollection
+     * @return Fee[]
      */
     public function getFees()
     {

@@ -8,10 +8,6 @@ input[type=text]::-ms-clear {
 }
 
 .form-group {
-    float: none;// Only float left if within a form container.
-    form & {
-        float: left;
-    }
 
     textarea.form-control {
         height: 7em;
@@ -25,48 +21,6 @@ input[type=text]::-ms-clear {
     }
 }
 
-.form-group__checkbox-group {
-    margin-left: 2px;
-
-    // @deprecated
-    // @refactor
-    // Only used on client add where a hint description is
-    // forced between radio inputs in a group
-    .vertical {
-        .description {
-            float: left;
-            clear: both;
-        }
-
-        label {
-            clear: both;
-
-            + p {
-                margin-top: 30px;
-            }
-
-            &.disabled {
-                color: $grey-1;
-            }
-        }
-
-        p + p {
-            margin-top: 30px;
-        }
-
-    }
-
-}
-
-.form-control.form-control__postcode {
-    width: 25%;
-}
-
-.form-control.form-control__number {
-    width: 75%;
-    max-width: 230px;
-}
-
 .form-label {
     @include media(mobile) {
         width: auto;
@@ -75,14 +29,6 @@ input[type=text]::-ms-clear {
     .bold {
         font-weight: bold;
     }
-}
-
-legend .form-label {
-    width: 85%;
-}
-
-ul.form-hint {
-    margin-left: 10px;
 }
 
 .input-group-prefix {
@@ -101,18 +47,8 @@ ul.form-hint {
         background: transparent;
     }
 
-    .error > & {
+    .form-group-error > & {
         margin: 4px 0 0 4px;
-    }
-}
-
-.errors {
-    width: auto;
-    margin-bottom: 5px;
-
-    .error-message {
-        color: $error-colour;
-        width: auto;
     }
 }
 
@@ -128,14 +64,25 @@ ul.form-hint {
         padding-right: 20px;
     }
 
-    .error {
-        .form-label,
-        .error-message {
-            width: 49%;
-        }
-    }
-
     .panel {
         margin-top: -20px;
+    }
+}
+
+// Horizontally lined up form-groups
+// Currently only used on the admin search (Search, Role, NDR check)
+.form-groups-inline {
+    .form-group {
+        float: left;
+        margin-right: 30px;
+
+        @include media(mobile) {
+            width: 100% !important; // Overriding manual width classes
+            float: none;
+        }
+
+        &.form-group__checkbox {
+            margin-top: 27px;
+        }
     }
 }
