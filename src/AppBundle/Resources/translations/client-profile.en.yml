@@ -15,7 +15,7 @@ clientReports:
   noReports: No submitted reports
   reportingPeriod: Reporting period
   dateSubmitted: Date submitted
-
+  attachDocuments: Attach documents
 clientNotes:
   heading: Notes
   noNotes: No notes
@@ -26,3 +26,11 @@ clientNotes:
   addNote: Add note
   editNote: Edit
   deleteNote: Remove
+
+clientContacts:
+  heading: Useful contacts
+  noContacts: No contacts
+  contactName: Contact name
+  organisation: Organisation
+  contactInfo: Contact information
+  addContact: Add contact

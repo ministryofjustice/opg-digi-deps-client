@@ -8,7 +8,7 @@ use AppBundle\Validator\Constraints\Chain;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
@@ -17,16 +17,10 @@ class BankAccountType extends AbstractType
 {
     private $step;
 
-    /**
-     * @param $step
-     */
-    public function __construct($step)
-    {
-        $this->step = (int) $step;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->step = (int) $options['step'];
+
         $builder->add('id', 'hidden');
 
         if ($this->step === 1) {
@@ -91,22 +85,28 @@ class BankAccountType extends AbstractType
         return 'account';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'translation_domain' => 'report-bank-accounts',
             'validation_groups'  => function (FormInterface $form) {
-                $requiresBankNameAndSortCode = $form->getData()->requiresBankNameAndSortCode();
+
+                $step2Options = ['bank-account-number', 'bank-account-is-joint'];
+                if ($form->getData()->requiresSortCode()) {
+                    $step2Options[] = 'bank-account-sortcode';
+                }
+                if ($form->getData()->requiresBankName()) {
+                    $step2Options[] = 'bank-account-name';
+                }
 
                 return [
                     1 => ['bank-account-type'],
-                    2 => $requiresBankNameAndSortCode ?
-                        ['bank-account-name', 'bank-account-sortcode', 'bank-account-number', 'bank-account-is-joint']
-                        : ['bank-account-number', 'bank-account-is-joint'],
+                    2 => $step2Options,
                     3 => ['bank-account-opening-balance'],
-                    4 => 'bank-account-is-closed',
+                    4 => 'bank-account-is-closed'
                 ][$this->step];
             },
-        ]);
+        ])
+        ->setRequired(['step']);
     }
 }

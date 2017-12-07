@@ -1,9 +1,60 @@
+# Actions
+edit: Edit
 cancel: Cancel
 view: View
+remove: Remove
 yes: Yes
 no: No
 ok: OK
 signOut: Sign out
+continue: Continue
+saveAndContinue: Save and continue
+back: Back
+start: Start
+startNow: Start now
+download: Download
+status:
+  notCreated: Create report
+  notStarted: Start now
+  notFinished: Continue
+  readyToSubmit: Continue
+
+# Report headings
+annualDeputyReport: Annual deputy report
+currentDeputyReport: Current deputy report
+submittedReports: Submitted reports
+
+# Table Headings / Labels
+name: Name
+role: Role
+address: Address
+phone: Phone
+email: Email
+dueDate: Due date
+section: Section
+in: In
+out: Out
+balance: Balance
+actions: Actions
+
+# Statuses
+notCreated: Not created
+notFinished: Not finished
+notStarted: Not started
+readyToSubmit: Ready to submit
+notAvailable: Not available
+
+# Breadcrumbs
+yourReports: Your reports
+deputyReportOverview: Deputy report overview
+newDeputyReportOverview: New deputy report overview
+reviewReport: Review report
+dashboard: Dashboard
+clientProfile: Client profile
+
+#Back links
+backToReportOverview: Back to report overview
+backToClientProfile: Back to client profile
 
 lastLoggedIn:
   lessThenAMinuteAgo:  less than a minute ago
@@ -19,26 +70,14 @@ registrationProgressBar:
     user_details:
         label: Enter your details
     client_details:
-        label: Add your client's details
+        label: Enter your client's details
     create_report:
         label: Create a report
-
-existsPage:
-  backLink: Back
-
-addPage:
-  backLink: Back
-
-editPage:
-  backLink: Back
+    codep_verify:
+        label: Enter your information
 
 stepPage:
-   backLink: Back
    skipLink: Skip this question for now
-   saveAndContinue: Save and continue
-
-addAnotherPage:
-  save: Continue
 
 summaryPage:
   pageContent:
