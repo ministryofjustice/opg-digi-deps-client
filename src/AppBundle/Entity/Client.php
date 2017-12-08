@@ -7,7 +7,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\ExecutionContextInterface;
 
 class Client
 {
@@ -30,22 +29,21 @@ class Client
      */
     private $firstname;
 
-
     /**
      * @JMS\Type("string")
      * @JMS\Groups({"edit", "pa-edit"})
      *
-     * @Assert\NotBlank( message="client.lastname.notBlank", groups={"lay-deputy-client"})
-     * @Assert\Length(min = 2, minMessage= "client.lastname.minMessage", max=50, maxMessage= "client.lastname.maxMessage", groups={"lay-deputy-client"})
+     * @Assert\NotBlank( message="client.lastname.notBlank", groups={"lay-deputy-client", "verify-codeputy"})
+     * @Assert\Length(min = 2, minMessage= "client.lastname.minMessage", max=50, maxMessage= "client.lastname.maxMessage", groups={"lay-deputy-client", "verify-codeputy"})
      *
      * @var string
      */
     private $lastname;
 
     /**
-     * @JMS\Type("array")
+     * @JMS\Type("array<AppBundle\Entity\User>")
      *
-     * @var array
+     * @var User[]
      */
     private $users;
 
@@ -70,7 +68,6 @@ class Client
      */
     private $odr;
 
-
     /**
      * @JMS\Exclude()
      *
@@ -82,9 +79,9 @@ class Client
      * @JMS\Type("string")
      * @JMS\Groups({"edit"})
      *
-     * @Assert\NotBlank( message="client.caseNumber.notBlank", groups={"lay-deputy-client"})
-     * @Assert\Length(min = 8, max=8, exactMessage= "client.caseNumber.exactMessage1", groups={"lay-deputy-client"})
-     * @Assert\Length(min = 8, max=8, exactMessage= "client.caseNumber.exactMessage2", groups={"lay-deputy-client"})
+     * @Assert\NotBlank( message="client.caseNumber.notBlank", groups={"lay-deputy-client", "verify-codeputy"})
+     * @Assert\Length(min = 8, max=8, exactMessage= "client.caseNumber.exactMessage1", groups={"lay-deputy-client", "verify-codeputy"})
+     * @Assert\Length(min = 8, max=8, exactMessage= "client.caseNumber.exactMessage2", groups={"lay-deputy-client", "verify-codeputy"})
      *
      * @var string
      */
@@ -192,15 +189,49 @@ class Client
      */
     private $notes;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\ClientContact>")
+     * @JMS\Groups({"clientcontacts"})
+     */
+    private $clientContacts;
+
     public function __construct()
     {
         $this->users = [];
         $this->reports = [];
     }
 
+    /**
+     * @return User[]
+     */
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Return true if the user (based on `getId()` comparison is present among the users.
+     * Return false if any of the user is not an instance of the User class or the ID is not present
+     *
+     * Mainly used from voters
+     *
+     * @param $id
+     *
+     * @return bool
+     */
+    public function hasUser(User $user)
+    {
+        foreach($this->users?:[] as $currentUser) {
+            if ($user->getId()
+                && $currentUser instanceof User && $currentUser->getId()
+                && $user->getId() == $currentUser->getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function setUsers($users)
@@ -280,7 +311,6 @@ class Client
     {
         $this->currentReport = $currentReport;
     }
-
 
     /**
      * @return Odr\Odr
@@ -646,5 +676,72 @@ class Client
     public function setNotes($notes)
     {
         $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getClientContacts()
+    {
+        return $this->clientContacts;
+    }
+
+    /**
+     * @param ArrayCollection $clientContacts
+     */
+    public function setClientContacts($clientContacts)
+    {
+        $this->clientContacts = $clientContacts;
+    }
+
+    /**
+     * @return array $coDeps an array of users sorted by firstname, or email if no firstname
+     */
+    public function getCoDeputies()
+    {
+        $coDeps = [];
+        if (is_array($this->users) && count($this->users) > 0) {
+            foreach ($this->users as $user) {
+                if (!$user->getFirstname()) {
+                    $matches = [];
+                    preg_match('(^\w+)', $user->getEmail(), $matches);
+                    if (!empty($matches[0])) {
+                        $coDeps[strToLower($matches[0]).$user->getId()] = $user;
+                    }
+                } else {
+                    $coDeps[strToLower($user->getFirstname()).$user->getId()] = $user;
+                }
+            }
+            ksort($coDeps);
+        }
+        return array_values($coDeps);
+    }
+
+    /**
+     * @return array $submittedReports an array of submitted reports
+     */
+    public function getSubmittedReports()
+    {
+        $submittedReports = [];
+        foreach ($this->getReports() as $report) {
+            if ($report->isSubmitted()) {
+                $submittedReports[] = $report;
+            }
+        }
+        return $submittedReports;
+    }
+
+    /**
+     * @return Report
+     */
+    public function getActiveReport()
+    {
+        $activeReport = null;
+        foreach ($this->getReports() as $report) {
+            if (!$report->isSubmitted()) {
+                $activeReport = $report;
+            }
+        }
+        return $activeReport;
     }
 }
