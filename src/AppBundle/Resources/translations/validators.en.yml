@@ -606,6 +606,8 @@ common:
   genericPhone:
     minLength: Check the phone number: it must have at least {{ limit }} numbers
     maxLength: Check the phone number: it can't be more than {{ limit }} numbers long
+  year:
+    minLength: Check the year: it must have at least 4 numbers
 sendEmail:
     toEmail:
         notBlank: Please supply recipient's email (toEmail)

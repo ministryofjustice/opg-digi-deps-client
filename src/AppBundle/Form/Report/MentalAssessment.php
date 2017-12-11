@@ -2,6 +2,8 @@
 
 namespace AppBundle\Form\Report;
 
+use AppBundle\Validator\Constraints\DateBefore;
+use AppBundle\Validator\Constraints\DateAfter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -16,9 +18,26 @@ class MentalAssessment extends AbstractType
             'input' => 'datetime',
             'format' => 'dd-MM-yyyy',
             'invalid_message' => 'Enter a valid date',
+            'constraints' => [
+                new DateBefore(
+                    [
+                        'target' => date('Y-m-d'),
+                        'field' => 'mentalAssessmentDate',
+                        'message' => 'Date must be in the past',
+                        'groups' => ['mental-assessment-date']
+                    ]
+                ),
+                new DateAfter(
+                    [
+                        'target' => '1900-01-01',
+                        'field' => 'mentalAssessmentDate',
+                        'message' => 'Date must be after the year 1900',
+                        'groups' => ['mental-assessment-date']
+                    ]
+                )
+            ]
         ])
-            ->add('save', 'submit')
-        ;
+        ->add('save', 'submit');
 
         $builder
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {

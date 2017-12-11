@@ -16,6 +16,21 @@ Feature: Report decisions
             | mental_capacity_hasCapacityChangedDetails | mchccd |
         # mental assessment date step
         Given the step cannot be submitted without making a selection
+        And the step with the following values CANNOT be submitted:
+            | mental_assessment_mentalAssessmentDate_month | 01 |
+            | mental_assessment_mentalAssessmentDate_year | 1 |
+        And the step with the following values CANNOT be submitted:
+            | mental_assessment_mentalAssessmentDate_month | 01 |
+            | mental_assessment_mentalAssessmentDate_year | 17 |
+        And the step with the following values CANNOT be submitted:
+            | mental_assessment_mentalAssessmentDate_month | 01 |
+            | mental_assessment_mentalAssessmentDate_year | 117 |
+        And the step with the following values CANNOT be submitted:
+            | mental_assessment_mentalAssessmentDate_month | 01 |
+            | mental_assessment_mentalAssessmentDate_year | 1899 |
+        And the step with the following values CANNOT be submitted:
+            | mental_assessment_mentalAssessmentDate_month | 01 |
+            | mental_assessment_mentalAssessmentDate_year | 2030 |
         And the step with the following values CAN be submitted:
             | mental_assessment_mentalAssessmentDate_month | 01 |
             | mental_assessment_mentalAssessmentDate_year | 2017 |

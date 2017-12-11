@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormError;
 
 class DecisionController extends AbstractController
 {
@@ -94,17 +95,26 @@ class DecisionController extends AbstractController
         $form = $this->createForm(FormDir\Report\MentalAssessment::class, $mc);
         $form->handleRequest($request);
 
-        if ($form->get('save')->isClicked() && $form->isValid()) {
-            $data = $form->getData();
+        if ($form->get('save')->isClicked()) {
+            // intercept < 3 char years entered before validation as DateTime accepts < 3 chars
+            if (strlen($request->get('mental_assessment')['mentalAssessmentDate']['year']) < 4) {
+                $form->get('mentalAssessmentDate')->addError(
+                    new FormError ($this->get('translator')->trans('common.year.minLength', [], 'validators'))
+                );
+            } else {
+                if ($form->isValid()) {
+                    $data = $form->getData();
 
-            $data->setReport($report);
+                    $data->setReport($report);
 
-            $this->getRestClient()->put('report/' . $reportId . '/mental-capacity', $data, ['mental-assessment-date']);
-            if ($fromSummaryPage) {
-                $request->getSession()->getFlashBag()->add('notice', 'Answer edited');
+                    $this->getRestClient()->put('report/' . $reportId . '/mental-capacity', $data, ['mental-assessment-date']);
+                    if ($fromSummaryPage) {
+                        $request->getSession()->getFlashBag()->add('notice', 'Answer edited');
+                    }
+
+                    return $this->redirectToRoute($fromSummaryPage ? 'decisions_summary' : 'decisions_exist', ['reportId' => $reportId]);
+                }
             }
-
-            return $this->redirectToRoute($fromSummaryPage ? 'decisions_summary' : 'decisions_exist', ['reportId' => $reportId]);
         }
 
         return [
