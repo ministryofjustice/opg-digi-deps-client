@@ -27,18 +27,6 @@
     <div class="panel panel-admin hard">
         <div class="panel-heading">
             <h2 class="heading-medium flush--bottom push--right">{{ 'currentReport' | trans() }}</h2>
-            {% if report.hasSection('balance') %}
-                {% if report.isDue() and report.showBalanceWarning %}
-                    <div class="alert alert-important">
-                        <span class="icon icon-important-small"></span>
-                        <div class="alert-message">
-                            <p class="font-small">
-                                {{ ('balance.notBalancedWarningPA') | trans }}
-                            </p>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endif %}
         </div>
         <div class="panel-body soft-half">
             <div class="grid-row">
@@ -74,7 +62,7 @@
                             <strong class="bold">{{ 'reportingPeriod' | trans() }}</strong>
                         </dt>
                         <dd class="push--bottom">
-                            <span class="push--right">{{ report.startDate | date(" d F Y") }} to {{ report.endDate | date(" d F Y") }}</span>
+                            <span class="push--right">{{ report.startDate | date(" j F Y") }} to {{ report.endDate | date(" j F Y") }}</span>
                             <a href="{{ path('report_edit', {'reportId': report.id}) }}" class="right behat-link-edit-report-period">{{ 'edit' | trans }}</a>
                         </dd>
 
@@ -82,7 +70,7 @@
                             <strong class="bold">{{ 'reportDueDate' | trans() }}</strong>
                         </dt>
                         <dd class="push--bottom">
-                            {{ report.dueDate | date(" d F Y") }}<br>
+                            {{ report.dueDate | date(" j F Y") }}<br>
                             {% if report.dueDateDiffDays < 0 %}
                                 <span class="font-xsmall bold text-red">Overdue by {{ report.dueDateDiffDays|abs }} days</span>
                             {% elseif report.dueDateDiffDays == 0 %}
@@ -210,14 +198,18 @@
                                     warning: true,
                                     description: true
                                 } %}
+                            {% endif %}
 
-                                {% if report.isDue() and report.showBalanceWarning %}
-                                    <li id="bank_accounts_not_balanced-section" class="section-list-item">
-                                        <div id="bank_accounts_not_balanced-sub-section">
-                                            {{ macros.notification('important', 'balance.notBalancedWarningPAWithLink' | trans({'%detailsLink%': path('balance', {'reportId': report.id}) })) }}
-                                        </div>
-                                    </li>
-                                {% endif %}
+                            {% if report.hasSection('balance') %}
+                                {% include 'AppBundle:Pa/ClientProfile:_subsection.html.twig' with {
+                                    transDomain: translationDomain,
+                                    subSection: 'balance',
+                                    report: report,
+                                    state: reportStatus.balanceState,
+                                    warning: true,
+                                    description: true,
+                                    customiseAllLabels: true
+                                } %}
                             {% endif %}
 
                             {% if report.hasSection('moneyTransfers') %}
@@ -316,7 +308,7 @@
     } %}
 
     {% include 'AppBundle:Pa/ClientProfile:_reports.html.twig' with {
-    reports: report.client.reports,
+    reports: report.client.submittedReports,
     } %}
 
     {% include 'AppBundle:Pa/ClientProfile:_client.html.twig' with {
