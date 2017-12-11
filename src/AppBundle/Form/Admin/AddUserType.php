@@ -4,6 +4,7 @@ namespace AppBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddUserType extends AbstractType
@@ -33,9 +34,14 @@ class AddUserType extends AbstractType
     {
         $resolver->setDefaults([
             'translation_domain' => 'admin',
-            'validation_groups' => ['admin_add_user'],
-        ])
-        ->setRequired(['options']);
+            'validation_groups' => function (FormInterface $form) {
+                if (\AppBundle\Entity\User::ROLE_LAY_DEPUTY == $form->getData()->getRoleName()) {
+                    return ['Default', 'admin_add_casrec_user'];
+                } else {
+                    return ['Default', 'admin_add_user'];
+                }
+            },
+        ])->setRequired(['options']);
     }
 
     public function getName()

@@ -84,7 +84,13 @@ class IndexController extends AbstractController
                     if (!$this->isGranted(EntityDir\User::ROLE_ADMIN) && $form->getData()->getRoleName() == EntityDir\User::ROLE_ADMIN) {
                         throw new \RuntimeException('Cannot add admin from non-admin user');
                     }
-                    $user = $this->getRestClient()->post('user', $form->getData(), ['admin_add_user'], 'User');
+
+                    // if adding a lay deputy, validate surname and postcode against casrec
+                    if ($form->getData()->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY) {
+                        $user = $this->getRestClient()->post('user/casrec', $form->getData(), ['admin_add_casrec_user'], 'User');
+                    } else {
+                        $user = $this->getRestClient()->post('user', $form->getData(), ['admin_add_user'], 'User');
+                    }
 
                     $activationEmail = $this->getMailFactory()->createActivationEmail($user);
                     $this->getMailSender()->send($activationEmail, ['text', 'html']);
@@ -96,7 +102,8 @@ class IndexController extends AbstractController
 
                     return $this->redirect($this->generateUrl('admin_homepage'));
                 } catch (RestClientException $e) {
-                    $form->get('email')->addError(new FormError($e->getData()['message']));
+                    $form->addError(new FormError($this->get('translator')->trans($e->getData()['message'], [], 'register')));
+                    $this->get('logger')->error(__METHOD__ . ': ' . $e->getMessage() . ', code: ' . $e->getCode());
                 }
             }
         }

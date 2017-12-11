@@ -38,7 +38,7 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("integer")
-     * @JMS\Groups({"user_details_full", "user_details_basic", "admin_add_user"})
+     * @JMS\Groups({"user_details_full", "user_details_basic", "admin_add_user", "admin_add_casrec_user"})
      *
      * @var int
      */
@@ -47,9 +47,9 @@ class User implements AdvancedUserInterface
     /**
      * @JMS\Type("string")
      * @JMS\Groups({"user_details_full", "user_details_basic", "user_details_pa", "pa_team_add",
-     *     "admin_add_user", "ad_add_user"})
+     *     "admin_add_user", "admin_add_casrec_user", "ad_add_user"})
      * @Assert\NotBlank( message="user.firstname.notBlankOtherUser",
-     *     groups={"pa_team_add", "user_details_pa", "admin_add_user", "ad_add_user", "user_details_basic", "codeputy",
+     *     groups={"pa_team_add", "user_details_pa", "admin_add_user", "admin_add_casrec_user", "ad_add_user", "user_details_basic", "codeputy",
      *     "user_details_full", "verify-codeputy"
      * } )
      * @Assert\Length(min=2, max=50, minMessage="user.firstname.minLength", maxMessage="user.firstname.maxLength",
@@ -62,9 +62,9 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("string")
-     * @JMS\Groups({"user_details_full", "user_details_basic", "user_details_pa", "pa_team_add", "admin_add_user", "ad_add_user"})
+     * @JMS\Groups({"user_details_full", "user_details_basic", "user_details_pa", "pa_team_add", "admin_add_user", "admin_add_casrec_user", "ad_add_user"})
      * @Assert\NotBlank(message="user.lastname.notBlankOtherUser",
-     *     groups={"admin_add_user","ad_add_user","user_details_basic","user_details_full","pa_team_add",
+     *     groups={"admin_add_user", "admin_add_casrec_user","ad_add_user","user_details_basic","user_details_full","pa_team_add",
      *     "user_details_pa", "verify-codeputy"
      * } )
      * @Assert\Length(min=2, max=50, minMessage="user.lastname.minLength", maxMessage="user.lastname.maxLength", groups={"admin_add_user", "ad_add_user", "user_details_basic", "user_details_full", "user_details_pa", "verify-codeputy"} )
@@ -75,10 +75,10 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("string")
-     * @JMS\Groups({"admin_add_user", "ad_add_user", "pa_team_add", "user_details_full", "user_details_pa", "codeputy"})
-     * @Assert\NotBlank( message="user.email.notBlank", groups={"admin_add_user", "user_details_full", "user_details_pa", "pa_team_add", "password_reset", "codeputy_invite", "verify-codeputy"} )
-     * @Assert\Email( message="user.email.invalid", groups={"admin_add_user", "password_reset", "user_details_full", "user_details_pa", "pa_team_add", "codeputy_invite", "verify-codeputy"}, checkMX=false, checkHost=false )
-     * @Assert\Length( max=60, maxMessage="user.email.maxLength", groups={"admin_add_user", "password_reset", "user_details_full", "user_details_pa", "pa_team_add", "codeputy_invite", "verify-codeputy"} )
+     * @JMS\Groups({"admin_add_user", "admin_add_casrec_user", "ad_add_user", "pa_team_add", "user_details_full", "user_details_pa", "codeputy"})
+     * @Assert\NotBlank( message="user.email.notBlank", groups={"admin_add_user", "admin_add_casrec_user", "user_details_full", "user_details_pa", "pa_team_add", "password_reset", "codeputy_invite", "verify-codeputy"} )
+     * @Assert\Email( message="user.email.invalid", groups={"admin_add_user", "admin_add_casrec_user", "password_reset", "user_details_full", "user_details_pa", "pa_team_add", "codeputy_invite", "verify-codeputy"}, checkMX=false, checkHost=false )
+     * @Assert\Length( max=60, maxMessage="user.email.maxLength", groups={"admin_add_user", "admin_add_casrec_user", "password_reset", "user_details_full", "user_details_pa", "pa_team_add", "codeputy_invite", "verify-codeputy"} )
      * @EmailSameDomain( message="user.email.invalidDomain", groups={"pa_team_add", "user_details_full", "user_details_pa"})
      *
      * @var string
@@ -113,8 +113,8 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("string")
-     * @JMS\Groups({"admin_add_user", "ad_add_user", "pa_team_add", "user_details_pa"})
-     * @Assert\NotBlank( message="user.role.notBlank", groups={"admin_add_user", "ad_add_user"} )
+     * @JMS\Groups({"admin_add_user", "admin_add_casrec_user", "ad_add_user", "pa_team_add", "user_details_pa"})
+     * @Assert\NotBlank( message="user.role.notBlank", groups={"admin_add_user", "admin_add_casrec_user", "ad_add_user"} )
      * @Assert\NotBlank( message="user.role.notBlankPa", groups={"pa_team_role_name"} )
      *
      * @var string
@@ -188,9 +188,9 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("string")
-     * @JMS\Groups({"user_details_full", "profile_pa", "admin_add_user", "ad_add_user"})
-     * @Assert\NotBlank( message="user.addressPostcode.notBlank", groups={"user_details_full", "verify-codeputy"} )
-     * @Assert\Length(min=2, max=10, minMessage="user.addressPostcode.minLength", maxMessage="user.addressPostcode.maxLength", groups={"user_details_full", "profile_pa", "verify-codeputy"} )
+     * @JMS\Groups({"user_details_full", "profile_pa", "admin_add_user", "admin_add_casrec_user", "ad_add_user"})
+     * @Assert\NotBlank( message="user.addressPostcode.notBlank", groups={"user_details_full", "verify-codeputy", "admin_add_casrec_user"} )
+     * @Assert\Length(min=2, max=10, minMessage="user.addressPostcode.minLength", maxMessage="user.addressPostcode.maxLength", groups={"user_details_full", "profile_pa", "verify-codeputy", "admin_add_casrec_user"} )
      *
      * @var string
      */
@@ -235,7 +235,7 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("boolean")
-     * @JMS\Groups({"admin_add_user", "ad_add_user"})
+     * @JMS\Groups({"admin_add_user", "admin_add_casrec_user", "ad_add_user"})
      *
      * @var bool
      */

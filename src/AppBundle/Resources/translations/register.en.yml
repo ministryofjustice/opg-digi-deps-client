@@ -61,3 +61,6 @@ formErrors:
     coDepCaseAlreadyRegistered: |
           You are attempting to register a case which already has other deputies assigned to it.
           Please ask one of these deputies to invite you directly.
+api:
+    casrecEntryNotFound:
+          The last name and postcode you’ve entered does not match any of our records.

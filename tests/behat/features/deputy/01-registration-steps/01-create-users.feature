@@ -55,6 +55,9 @@ Feature: deputy / user / add user
     And I reset the email log
     And I load the application status from "init"
     And I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
+    And I add the following users to CASREC:
+      | Case     | Surname | Deputy No | Dep Surname | Dep Postcode | Typeofrep |
+      | BEHAT001 | Hent    | BEHAT001  | Doe ODR        | AB12CD    | OPG102    |
       # assert form OK
     When I create a new "ODR-enabled" "Lay Deputy" user "John ODR" "Doe ODR" with email "behat-user-odr@publicguardian.gsi.gov.uk" and postcode "AB12CD"
     Then I should see "behat-user-odr@publicguardian.gsi.gov.uk" in the "users" region

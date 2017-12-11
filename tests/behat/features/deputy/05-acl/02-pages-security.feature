@@ -4,14 +4,17 @@ Feature: deputy / acl / security on pages
   Scenario: create backup
     Given I save the application status into "pages-security-init"
 
-  @deputy 
+  @deputy
   Scenario: create another user with client and report with data
     # restore status of first report before submitting
     Given emails are sent from "admin" area
     And I reset the email log
     Given I load the application status from "report-submit-pre"
     Given I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
-    When I create a new "ODR-disabled" "Lay Deputy" user "Malicious" "User" with email "behat-malicious@publicguardian.gsi.gov.uk" and postcode "SW1H 9AJ"
+    And I add the following users to CASREC:
+      | Case     | Surname      | Deputy No | Dep Surname | Dep Postcode | Typeofrep |
+      | 12345ABC | Client          | D00666      | User       | sw1h 9aj      | OPG102    |
+    When I create a new "ODR-disabled" "Lay Deputy" user "Malicious" "User" with email "behat-malicious@publicguardian.gsi.gov.uk" and postcode "sw1h9aj"
     And I activate the user with password "Abcd1234"
     And I set the user details to:
       | name    | Malicious        | User          |        |          |    |
@@ -24,8 +27,8 @@ Feature: deputy / acl / security on pages
       | address    | 1 South Parade | First Floor | Nottingham | NG1 2HT | GB |
       | phone      | 0123456789     |             |            |         |    |
     Then I press "client_save"
-    And the form should be invalid
-    And I should see a "#error-summary" element
+    And the form should be valid
+
 
   @deputy
   Scenario: Malicious User cannot access other's pages
