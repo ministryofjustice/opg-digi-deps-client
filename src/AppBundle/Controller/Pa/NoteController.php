@@ -4,12 +4,10 @@ namespace AppBundle\Controller\Pa;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity as EntityDir;
-use AppBundle\Exception\RestClientException;
 use AppBundle\Form as FormDir;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/note/")
@@ -29,7 +27,7 @@ class NoteController extends AbstractController
         $clientId = $request->get('clientId');
 
         /** @var $client EntityDir\Client */
-        $client = $this->getRestClient()->get('client/' . $clientId, 'Client', ['client', 'report-id', 'current-report', 'user']);
+        $client = $this->getRestClient()->get('client/' . $clientId, 'Client', ['client', 'report-id', 'current-report', 'client-users', 'user']);
 
         $this->denyAccessUnlessGranted('add-note', $client, 'Access denied');
 
@@ -137,7 +135,6 @@ class NoteController extends AbstractController
             $this->getRestClient()->delete('note/' . $noteId);
 
             $request->getSession()->getFlashBag()->add('notice', 'Note has been removed');
-
         } catch (\Exception $e) {
             $this->get('logger')->error($e->getMessage());
 
@@ -161,8 +158,7 @@ class NoteController extends AbstractController
         return $this->getRestClient()->get(
             'note/' . $noteId,
             'Note',
-            ['notes', 'client', 'current-report', 'report-id', 'note-client', 'user']
+            ['notes', 'client', 'client-users', 'current-report', 'report-id', 'note-client', 'user']
         );
     }
 }
-

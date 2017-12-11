@@ -1,25 +1,28 @@
 {% extends 'AppBundle:Layouts:application.html.twig' %}
 
-{% trans_default_domain "user-details" %}
+{% trans_default_domain "settings" %}
+{% set translationDomain = "settings" %}
 
-{% block htmlTitle %}{{ 'pageTitle' | trans }}{% endblock %}
-{% block pageTitle %}{{ 'h1Title' | trans }}{% endblock %}
+{% block htmlTitle %}{{ 'htmlTitle.registration-details' | trans }}{% endblock %}
+{% block pageTitle %}{{ 'pageTitle.registration-details' | trans }}{% endblock %}
 
 {% block progressBar %}
-    {{ progress_bar_registration(app.user, 'user_details') }}
+    {{ progress_bar_registration(user, 'user_details') }}
 {% endblock %}
 
 {% block helpline %}{% endblock %}
 
 {% block pageContent %}
 
-    <p class="behat-region-user-details">{{ 'headerInstructions' | trans }}</p>
+    {{ form_start(form, {attr: {class: 'behat-region-user-details', novalidate: 'novalidate' }}) }}
 
-    {{ form_start(form, {attr: {novalidate: 'novalidate' }}) }}
+    {% include 'AppBundle:User:_form_fields.html.twig'  with {
+        'translationDomain': translationDomain,
+        'user': user,
+        'client_validated': client_validated
+    } %}
 
-    {% include 'AppBundle:User:_form_fields.html.twig' %}
-
-    {{ form_submit(form.save,'submit', {'buttonClass': 'behat-link-save'}) }}
+    {{ form_submit(form.save,'form.editYourDetails.controls.save', {'buttonClass': 'behat-link-save'}) }}
 
     {{ form_end(form) }}
 
