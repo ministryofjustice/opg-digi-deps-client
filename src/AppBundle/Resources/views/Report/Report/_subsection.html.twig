@@ -2,19 +2,14 @@
 {% trans_default_domain translationDomain %}
 {% set transOptions = {'%client%': report.client.firstname | e } %}
 
-{# TODO disableedit not needed anymore. Delete along with allowEdit #}
-{% if disableedit is defined and disableedit == true %}
-    {% set allowEdit = false %}
-{% else %}
-    {% set allowEdit = true %}
-{% endif %}
-
 {% if linkToSubSection is not defined %}
     {% set linkToSubSection = path(subSection, {reportId: report.id}) %}
 {% endif %}
 
 <div id="{{ subSection }}-sub-section" class="section-list-item">
-    <h3 class="heading heading-medium">{{ (subSection ~ '.subSectionTitle') | trans }}</h3>
+    <a href="{{ linkToSubSection }}" class="edit-heading-link">
+        <h3 class="heading heading-medium">{{ (subSection ~ '.subSectionTitle') | trans }}</h3>
+    </a>
     <span class="status flush--bottom {{ state.state }} behat-region-{{ subSection }}-state-{{ state.state }}">
         {% if state.state == 'done' or customiseAllLabels | default(false) %}
             {{ (subSection ~ '.label.' ~ state.state) | transchoice(state.nOfRecords | default(0)) }}
@@ -23,19 +18,17 @@
         {% endif %}
     </span>
 
-    {% if allowEdit == true %}
-        <a class="edit-link behat-link-edit-{{ subSection }}" id="edit-{{ subSection }}" href="{{ linkToSubSection }}" aria-label="{{ (subSection ~ '.edit') | trans }}">
-            {% if subSection == 'balance' %}
-                {{ 'view' | trans({}, 'common') | capitalize }}
+    <a class="edit-link behat-link-edit-{{ subSection }}" id="edit-{{ subSection }}" href="{{ linkToSubSection }}" aria-label="{{ (subSection ~ '.edit') | trans }}">
+        {% if subSection == 'balance' %}
+            {{ 'view' | trans({}, 'common') | capitalize }}
+        {% else %}
+            {% if state.state == 'not-started' %}
+                {{ 'start' | trans({}, 'common') | capitalize }}
             {% else %}
-                {% if state.state == 'not-started' %}
-                    {{ 'start' | trans({}, 'common') | capitalize }}
-                {% else %}
-                    {{ 'edit' | trans({}, 'common') | capitalize }}
-                {% endif %}
+                {{ 'edit' | trans({}, 'common') | capitalize }}
             {% endif %}
-        </a>
-    {% endif %}
+        {% endif %}
+    </a>
 
     {%  if description | default(false) %}
         <p class="description text {%  if descriptionLink | default(false) %}flush--bottom{% endif %}
