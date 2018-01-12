@@ -15,31 +15,6 @@
     </p>
 {% endmacro %}
 
-<table class="check-your-answers columns-2 push-double--bottom">
-    <thead>
-        <tr>
-            <th>Question</th>
-            <th>Answer</th>
-            <th>
-                <span class="visually-hidden">Actions</span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="behat-region-no-transfers-to-add">
-            <td>
-                {{ 'existPage.form.noTransfersToAdd.label' | trans(transOptions)  }}
-            </td>
-            <td>
-                {{ report.noTransfersToAdd ? 'No' : 'Yes' }}
-            </td>
-            <td class="change-answer">
-                <a href="{{ url('money_transfers_exist', { 'reportId': report.id, 'from': 'summary' }) }}" class="action-link behat-link-edit">{{ 'summaryPage.edit'| trans }}</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
 {% if report.moneyTransfers | length > 0 %}
     <div class="grid-row">
         <div class="column-half">
