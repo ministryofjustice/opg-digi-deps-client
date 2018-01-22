@@ -17,9 +17,11 @@ class OdrController extends AbstractController
     private static $odrGroupsForValidation = [
         'user',
         'user-clients',
-        'client',
+        'ndr-client',
         'client-reports',
-        'odr',
+        'client-case-number',
+        'odr', //remove when odr->ndr has been done
+        'ndr',
         'report',
         'visits-care',
         'odr-account',
@@ -192,7 +194,20 @@ class OdrController extends AbstractController
         if ($form->isValid()) {
             // set report submitted with date
             $odr->setSubmitted(true)->setSubmitDate(new \DateTime());
-            $this->getRestClient()->put('odr/' . $odr->getId() . '/submit', $odr, ['submit']);
+
+            // store PDF as a document
+            $pdfBinaryContent = $this->getPdfBinaryContent($odr);
+            $fileUploader = $this->get('file_uploader');
+
+            $document = $fileUploader->uploadFile(
+                $odr,
+                $pdfBinaryContent,
+                $odr->createAttachmentName('NdrRep-%s_%s.pdf'),
+                true
+            );
+
+            $this->getRestClient()->put('odr/' . $odr->getId() . '/submit?documentId='.$document->getId(), $odr, ['submit']);
+
 
             $pdfBinaryContent = $this->getPdfBinaryContent($odr);
             $reportEmail = $this->getMailFactory()->createOdrEmail($this->getUser(), $odr, $pdfBinaryContent);
