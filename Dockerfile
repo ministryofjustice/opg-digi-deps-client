@@ -1,4 +1,4 @@
-FROM registry.service.opg.digital/opguk/digi-deps-frontend-base:nightly
+FROM registry.service.opg.digital/opg-php-fpm-71-ppa-1604
 
 WORKDIR /app
 USER app
