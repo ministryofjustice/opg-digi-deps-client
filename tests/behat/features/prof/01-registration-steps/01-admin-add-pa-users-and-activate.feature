@@ -21,6 +21,8 @@ Feature: Add PROF users and activate PROF user (journey)
     Given emails are sent from "admin" area
     And I go to "/logout"
     And I open the "/user/activate/" link from the email
+    And print current URL
+    And die 2
     # terms
     When I press "agree_terms_save"
     Then the following fields should have an error:
