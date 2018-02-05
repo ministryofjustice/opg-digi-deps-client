@@ -17,15 +17,75 @@
 
 {# Page title #}
 {% block htmlTitle %}Mockup{% endblock %}
-{% block pageTitle %}Debts{% endblock %}
+{% block pageTitle %}Manage report{% endblock %}
 {% block pageTitleClass %}heading-large{% endblock %}
 
 {% block supportTitleTop %}
+    <span class="heading-secondary">Admin</span>
 {% endblock %}
 
 {% block helpline %}{% endblock %}
 
 {% block pageContent %}
+
+    <p>
+        Client: <span class="bold">David Snook</span><br>
+        Court order number: <span class="bold">34823991</span>
+    </p>
+
+    <div id="form-group-report_edit_startDate" class="form-group ">
+        <fieldset>
+            <legend class="">
+                <span class="form-label-bold text">
+                    Reporting start date
+                </span>
+                <span class="form-hint">For example, 31 3 2015</span>
+            </legend>
+            <div class="form-date">
+                <div class="form-group form-group-day">
+                    <label for="report_edit_startDate_day" class="required">Day</label>
+                    <input type="number" id="report_edit_startDate_day" name="report_edit[startDate][day]" required="required" class="form-control js-limit-chars-2" min="0" max="31" pattern="[0-9]*">
+                </div>
+
+                <div class="form-group form-group-month">
+                    <label for="report_edit_startDate_month" class="required">Month</label>
+                    <input type="number" id="report_edit_startDate_month" name="report_edit[startDate][month]" required="required" class="form-control js-limit-chars-2" min="0" max="12" pattern="[0-9]*">
+                </div>
+
+                <div class="form-group form-group-year">
+                    <label for="report_edit_startDate_year" class="required">Year</label>
+                    <input type="number" id="report_edit_startDate_year" name="report_edit[startDate][year]" required="required" class="form-control js-limit-chars-4" min="0" max="2500" pattern="[0-9]*">
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div id="form-group-report_edit_startDate" class="form-group ">
+        <fieldset>
+            <legend class="">
+                <span class="form-label-bold text">
+                    Reporting end date
+                </span>
+                <span class="form-hint">For example, 31 3 2015</span>
+            </legend>
+            <div class="form-date">
+                <div class="form-group form-group-day">
+                    <label for="report_edit_startDate_day" class="required">Day</label>
+                    <input type="number" id="report_edit_startDate_day" name="report_edit[startDate][day]" required="required" class="form-control js-limit-chars-2" min="0" max="31" pattern="[0-9]*">
+                </div>
+
+                <div class="form-group form-group-month">
+                    <label for="report_edit_startDate_month" class="required">Month</label>
+                    <input type="number" id="report_edit_startDate_month" name="report_edit[startDate][month]" required="required" class="form-control js-limit-chars-2" min="0" max="12" pattern="[0-9]*">
+                </div>
+
+                <div class="form-group form-group-year">
+                    <label for="report_edit_startDate_year" class="required">Year</label>
+                    <input type="number" id="report_edit_startDate_year" name="report_edit[startDate][year]" required="required" class="form-control js-limit-chars-4" min="0" max="2500" pattern="[0-9]*">
+                </div>
+            </div>
+        </fieldset>
+    </div>
 
     {# {% include 'AppBundle:Element/MockLibrary:_formatted-css.html.twig' %} #}
 
