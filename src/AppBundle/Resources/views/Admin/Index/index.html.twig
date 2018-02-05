@@ -29,7 +29,7 @@
             'inputClass': 'width-full',
             'formGroupClass': 'width-quarter'}) }}
 
-        {{ form_checkbox(form.odr_enabled, '', {
+        {{ form_checkbox(form.ndr_enabled, '', {
             'labelText': 'NDR enabled',
             'inputClass': 'width-full',
             'formGroupClass': 'width-quarter'}) }}
@@ -99,15 +99,15 @@
                         {% endif %}
                     </td>
                     <td>{{ user.adManaged ? '-' : user.email }}</td>
-                    <td class="behat-region-{{ user.email | behat_namify }}-odr-enabled">
-                        {{ user.odrEnabled ? 'Yes' : '-' }}
+                    <td class="behat-region-{{ user.email | behat_namify }}-ndr-enabled">
+                        {{ user.ndrEnabled ? 'Yes' : '-' }}
                     </td>
                     <td>
                         {% if user.active %}
                             {{ 'yes' | trans({}, 'common') }}
                         {% else %}
                             {{ 'no' | trans({}, 'common') }}
-                            <br/><a data-role="ajax-link" class="behat-link-send-activation-email"
+                            <br/><a class="js-return-html behat-link-send-activation-email"
                                     href="{{ path('admin_send_activation_link', {'email': user.email}) }}">
                             {{ (page ~ '.userTable.sendEmail') | trans }}
                         </a>
@@ -120,19 +120,5 @@
             </tbody>
         </table>
     </div>
-
-    {# simple JS script to transform data-role="ajax-link" links
-    into loading the URL with AJAX and replace the response with the HTTP response #}
-    <script>
-        $(document).ready(function () {
-            $('[data-role="ajax-link"]').click(function (e) {
-                e.preventDefault();
-                var link = $(this);
-                $.get(link.attr('href'), function (data) {
-                    link.replaceWith(data);
-                }, "html");
-            });
-        });
-    </script>
 
 {% endblock %}

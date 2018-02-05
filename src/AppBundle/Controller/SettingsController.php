@@ -92,8 +92,19 @@ class SettingsController extends AbstractController
     public function profileEditAction(Request $request)
     {
         $user = $this->getUserWithData();
-        list($formType, $jmsPutGroups) = $this->getFormAndJmsGroupBasedOnUserRole();
-        $form = $this->createForm($formType, $user);
+
+        if ($this->isGranted(EntityDir\User::ROLE_ADMIN) || $this->isGranted(EntityDir\User::ROLE_AD)) {
+            $form = $this->createForm(FormDir\User\UserDetailsBasicType::class, $user, []);
+            $jmsPutGroups = ['user_details_basic'];
+        } else if ($this->isGranted(EntityDir\User::ROLE_LAY_DEPUTY)) {
+            $form = $this->createForm(FormDir\Settings\ProfileType::class, $user, ['validation_groups' => ['user_details_full']]);
+            $jmsPutGroups = ['user_details_full'];
+        } else if ($this->isGranted(EntityDir\User::ROLE_PA)) {
+            $form = $this->createForm(FormDir\Settings\ProfileType::class, $user, ['validation_groups' => ['user_details_pa', 'profile_pa']]);
+            $jmsPutGroups = ['user_details_pa', 'profile_pa'];
+        } else {
+            $this->createAccessDeniedException('User role not recognised');
+        }
 
         $form->handleRequest($request);
 
@@ -101,7 +112,8 @@ class SettingsController extends AbstractController
             $formData = $form->getData();
 
             if ($form->has('removeAdmin') && !empty($form->get('removeAdmin')->getData())) {
-                $user->setRoleName('ROLE_PA_TEAM_MEMBER');
+                $newRole = $this->isGranted(EntityDir\User::ROLE_PA) ? EntityDir\User::ROLE_PA_TEAM_MEMBER :EntityDir\User::ROLE_PROF_TEAM_MEMBER;
+                $user->setRoleName($newRole);
                 $request->getSession()->getFlashBag()->add('notice', 'For security reasons you have been logged out because you have changed your admin rights. Please log in again below');
                 $redirectRoute = 'logout';
             } else {
@@ -113,7 +125,6 @@ class SettingsController extends AbstractController
 
             $this->getRestClient()->put('user/' . $user->getId(), $formData, $jmsPutGroups);
             return $this->redirectToRoute($redirectRoute);
-
         }
 
         return [
@@ -121,25 +132,5 @@ class SettingsController extends AbstractController
             'form'   => $form->createView(),
             'client_validated' => false // to allow change of name/postcode/email
         ];
-    }
-
-
-    private function getFormAndJmsGroupBasedOnUserRole()
-    {
-        switch ($this->getUser()->getRoleName()) {
-            case EntityDir\User::ROLE_ADMIN:
-            case EntityDir\User::ROLE_AD:
-                $formAndGroup = [new FormDir\User\UserDetailsBasicType(), ['user_details_basic']];
-                break;
-            case EntityDir\User::ROLE_LAY_DEPUTY:
-                $formAndGroup = [new FormDir\Settings\ProfileType(['user_details_full']), ['user_details_full']];
-                break;
-            case EntityDir\User::ROLE_PA:
-            case EntityDir\User::ROLE_PA_ADMIN:
-            case EntityDir\User::ROLE_PA_TEAM_MEMBER:
-                $formAndGroup = [new FormDir\Settings\ProfileType(['user_details_pa','profile_pa']), ['user_details_pa','profile_pa']];
-                break;
-        }
-        return $formAndGroup;
     }
 }

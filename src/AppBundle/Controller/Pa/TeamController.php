@@ -41,21 +41,22 @@ class TeamController extends AbstractController
         $team = $this->getRestClient()->get('user/' . $this->getUser()->getId() . '/team', 'Team');
         $validationGroups = $team->canAddAdmin() ? ['pa_team_add', 'pa_team_role_name'] : ['pa_team_add'];
 
-        $form = $this->createForm(FormDir\Pa\TeamMemberAccountType::class
-                                 , null
-                                 , [ 'team'              => $team
-                                   , 'loggedInUser'      => $this->getUser()
-                                   , 'validation_groups' => $validationGroups
+        $form = $this->createForm(FormDir\Pa\TeamMemberAccountType::class, null, [ 'team'              => $team, 'loggedInUser'      => $this->getUser(), 'validation_groups' => $validationGroups
                                    ]
                                  );
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            /** @var $user EntityDir\User */
             $user = $form->getData();
 
-            if (!in_array($user->getRoleName(), [EntityDir\User::ROLE_PA_ADMIN, EntityDir\User::ROLE_PA_TEAM_MEMBER])) {
+            if ($this->isGranted(EntityDir\User::ROLE_PA) && !in_array($user->getRoleName(), [EntityDir\User::ROLE_PA_ADMIN, EntityDir\User::ROLE_PA_TEAM_MEMBER])) {
                 $user->setRoleName(EntityDir\User::ROLE_PA_TEAM_MEMBER);
+            }
+
+            if ($this->isGranted(EntityDir\User::ROLE_PROF) && !in_array($user->getRoleName(), [EntityDir\User::ROLE_PROF_ADMIN, EntityDir\User::ROLE_PROF_TEAM_MEMBER])) {
+                $user->setRoleName(EntityDir\User::ROLE_PROF_TEAM_MEMBER);
             }
 
             try {
@@ -102,12 +103,7 @@ class TeamController extends AbstractController
         $team = $this->getRestClient()->get('user/' . $this->getUser()->getId() . '/team', 'Team');
         $validationGroups = $team->canAddAdmin() ? ['user_details_pa', 'pa_team_role_name'] : ['user_details_pa'];
 
-        $form = $this->createForm(FormDir\Pa\TeamMemberAccountType::class
-                                 , $user
-                                 , [ 'team'                => $team
-                                   , 'loggedInUser'      => $this->getUser()
-                                   , 'targetUser'        => $user
-                                   , 'validation_groups' => $validationGroups
+        $form = $this->createForm(FormDir\Pa\TeamMemberAccountType::class, $user, [ 'team'                => $team, 'loggedInUser'      => $this->getUser(), 'targetUser'        => $user, 'validation_groups' => $validationGroups
                                    ]
                                  );
 

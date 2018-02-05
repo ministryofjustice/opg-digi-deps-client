@@ -33,7 +33,7 @@ class IndexController extends AbstractController
             'offset'      => $request->get('offset', 'id'),
             'role_name'   => '',
             'q'           => '',
-            'odr_enabled' => '',
+            'ndr_enabled' => '',
             'order_by'    => 'id',
             'sort_order'  => 'DESC',
         ];
@@ -68,10 +68,7 @@ class IndexController extends AbstractController
             $availableRoles[EntityDir\User::ROLE_ADMIN] = 'OPG Admin';
         }
 
-        $form = $this->createForm(FormDir\Admin\AddUserType::class
-                                 , new EntityDir\User()
-                                 , [ 'options' => [ 'roleChoices'        => $availableRoles
-                                                  , 'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin')
+        $form = $this->createForm(FormDir\Admin\AddUserType::class, new EntityDir\User(), [ 'options' => [ 'roleChoices'        => $availableRoles, 'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin')
                                                   ]
                                    ]
                                  );
@@ -120,8 +117,7 @@ class IndexController extends AbstractController
 
         try {
             /* @var $user EntityDir\User */
-            $user = $this->getRestClient()->get("user/get-one-by/{$what}/{$filter}", 'User', ['user', 'user-clients', 'client', 'client-reports', 'odr']);
-
+            $user = $this->getRestClient()->get("user/get-one-by/{$what}/{$filter}", 'User', ['user', 'user-clients', 'client', 'client-reports', 'ndr']);
         } catch (\Exception $e) {
             return $this->render('AppBundle:Admin:error.html.twig', [
                 'error' => 'User not found',
@@ -136,7 +132,7 @@ class IndexController extends AbstractController
 
         // no role editing for current user and PA
         $roleNameSetTo = null;
-        if ($user->getId() == $this->getUser()->getId() || $user->getRoleName() == EntityDir\User::ROLE_PA) {
+        if ($user->getId() == $this->getUser()->getId() || $user->getRoleName() == EntityDir\User::ROLE_PA_NAMED) {
             $roleNameSetTo = $user->getRoleName();
         }
         $form = $this->createForm(FormDir\Admin\AddUserType::class, $user, ['options' => [
@@ -144,21 +140,22 @@ class IndexController extends AbstractController
                 EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
                 EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
                 EntityDir\User::ROLE_AD         => 'Assisted Digital',
-                EntityDir\User::ROLE_PA         => 'Public Authority',
+                EntityDir\User::ROLE_PA_NAMED   => 'Public Authority (named)',
+                EntityDir\User::ROLE_PROF_NAMED => 'Professional Deputy (named)',
             ],
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
             'roleNameSetTo'      => $roleNameSetTo, //can't edit current user's role
-            'odrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
+            'ndrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
         ]]);
 
         $clients = $user->getClients();
-        $odr = null;
-        $odrForm = null;
+        $ndr = null;
+        $ndrForm = null;
         if (count($clients)) {
-            $odr = $clients[0]->getOdr();
-            if ($odr) {
-                $odrForm = $this->createForm(FormDir\OdrType::class, $odr, [
-                    'action' => $this->generateUrl('admin_editOdr', ['id' => $odr->getId()]),
+            $ndr = $clients[0]->getNdr();
+            if ($ndr) {
+                $ndrForm = $this->createForm(FormDir\NdrType::class, $ndr, [
+                    'action' => $this->generateUrl('admin_editNdr', ['id' => $ndr->getId()]),
                 ]);
             }
         }
@@ -195,34 +192,34 @@ class IndexController extends AbstractController
             'deputyBaseUrl' => $this->container->getParameter('non_admin_host'),
         ];
 
-        if ($odr && $odrForm) {
-            $view['odrForm'] = $odrForm->createView();
+        if ($ndr && $ndrForm) {
+            $view['ndrForm'] = $ndrForm->createView();
         }
 
         return $view;
     }
 
     /**
-     * @Route("/edit-odr/{id}", name="admin_editOdr")
+     * @Route("/edit-ndr/{id}", name="admin_editNdr")
      * @Method({"POST"})
      *
      * @param Request $request
      */
-    public function editOdrAction(Request $request, $id)
+    public function editNdrAction(Request $request, $id)
     {
-        $odr = $this->getRestClient()->get('odr/' . $id, 'Odr\Odr', ['odr', 'client', 'client-users', 'user']);
-        $odrForm = $this->createForm(FormDir\OdrType::class, $odr);
+        $ndr = $this->getRestClient()->get('ndr/' . $id, 'Ndr\Ndr', ['ndr', 'client', 'client-users', 'user']);
+        $ndrForm = $this->createForm(FormDir\NdrType::class, $ndr);
         if ($request->getMethod() == 'POST') {
-            $odrForm->handleRequest($request);
+            $ndrForm->handleRequest($request);
 
-            if ($odrForm->isValid()) {
-                $updateOdr = $odrForm->getData();
-                $this->getRestClient()->put('odr/' . $id, $updateOdr, ['start_date']);
+            if ($ndrForm->isValid()) {
+                $updateNdr = $ndrForm->getData();
+                $this->getRestClient()->put('ndr/' . $id, $updateNdr, ['start_date']);
                 $request->getSession()->getFlashBag()->add('notice', 'Your changes were saved');
             }
         }
         /** @var EntityDir\Client $client */
-        $client = $odr->getClient();
+        $client = $ndr->getClient();
         $users = $client->getUsers();
 
         return $this->redirect($this->generateUrl('admin_editUser', ['what' => 'user_id', 'filter' => $users[0]->getId()]));
@@ -233,7 +230,7 @@ class IndexController extends AbstractController
      * @Method({"GET"})
      * @Template()
      *
-     * @param integer $id
+     * @param int $id
      */
     public function deleteConfirmAction($id)
     {
@@ -306,7 +303,7 @@ class IndexController extends AbstractController
                         sprintf('%d record uploaded, %d error(s)', $ret['added'], count($ret['errors']))
                     );
 
-                    foreach($ret['errors'] as $err) {
+                    foreach ($ret['errors'] as $err) {
                         $request->getSession()->getFlashBag()->add(
                             'error',
                             $err
@@ -368,14 +365,13 @@ class IndexController extends AbstractController
                     sprintf('Your file contained %d deputy numbers, %d were updated, with %d error(s)', $ret['requested_mld_upgrades'], $ret['updated'], count($ret['errors']))
                 );
 
-                foreach($ret['errors'] as $err) {
+                foreach ($ret['errors'] as $err) {
                     $request->getSession()->getFlashBag()->add(
                         'error',
                         $err
                     );
                 }
                 return $this->redirect($this->generateUrl('casrec_mld_upgrade'));
-
             } catch (\Exception $e) {
                 $message = $e->getMessage();
                 if ($e instanceof RestClientException && isset($e->getData()['message'])) {
@@ -391,7 +387,6 @@ class IndexController extends AbstractController
             'maxUploadSize'   => min([ini_get('upload_max_filesize'), ini_get('post_max_size')]),
         ];
     }
-
 
     /**
      * @Route("/pa-upload", name="admin_pa_upload")

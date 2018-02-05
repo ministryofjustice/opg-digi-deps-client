@@ -13,6 +13,7 @@ use AppBundle\Entity\Report\Decision;
 use AppBundle\Entity\Report\MoneyTransaction;
 use AppBundle\Entity\Report\MoneyTransfer;
 use AppBundle\Entity\Report\Report as Report;
+use AppBundle\Entity\Report\Status;
 use AppBundle\Entity\User;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -117,6 +118,8 @@ class FormattedTest extends WebTestCase
             ->setClientInvolvedBoolean(true)
             ->setClientInvolvedDetails('he wanted to live here');
 
+        $this->reportStatus = m::mock(Status::class);
+
         $this->report = new Report();
         $this->report
             ->setType(Report::TYPE_102)
@@ -133,22 +136,23 @@ class FormattedTest extends WebTestCase
             ->setClient($this->client)
             ->setStartDate(new \Datetime('2015-01-01'))
             ->setEndDate(new \Datetime('2015-12-31'))
+            ->setStatus($this->reportStatus)
         ;
     }
 
     /**
+     * @param array $additionalVars
      * @return Crawler
      */
-    private function renderTemplateAndGetCrawler()
+    private function renderTemplateAndGetCrawler($additionalVars = [])
     {
-        $html = $this->twig->render('AppBundle:Report/Formatted:formatted.html.twig', [
+        $html = $this->twig->render('AppBundle:Report/Formatted:formatted.html.twig', $additionalVars + [
             'report' => $this->report,
             'app' => ['user' => $this->user], //mock twig app.user from the view
         ]);
 
         return new Crawler($html);
     }
-
 
     public function testReport()
     {
@@ -173,12 +177,11 @@ class FormattedTest extends WebTestCase
         $this->assertContains('Jones', $this->html($crawler, '#client-details-subsection'));
     }
 
-
     public function testAssets()
     {
         $this->report->setAssets([]);
         $crawler = $this->renderTemplateAndGetCrawler();
-        $this->assertCount(0, $crawler->filter("#assets-section"));
+        $this->assertCount(0, $crawler->filter('#assets-section'));
 
 
         $this->report->setAssets([$this->asset1, $this->asset2, $this->assetProp, $this->assetProp2]);
@@ -194,7 +197,7 @@ class FormattedTest extends WebTestCase
     {
         $this->report->setDecisions([]);
         $crawler = $this->renderTemplateAndGetCrawler();
-        $this->assertCount(0, $crawler->filter("#assets-section"));
+        $this->assertCount(0, $crawler->filter('#assets-section'));
 
         $this->report->setDecisions([$this->decision1, $this->decision2]);
         $crawler = $this->renderTemplateAndGetCrawler();
@@ -208,14 +211,14 @@ class FormattedTest extends WebTestCase
     {
         // no accounts -> section not displaying
         $this->report->setBankAccounts([]);
-        $this->assertCount(0, $this->renderTemplateAndGetCrawler()->filter("#money-transfers"));
+        $this->assertCount(0, $this->renderTemplateAndGetCrawler()->filter('#money-transfers'));
 
         // 1 account => don't show the section (DDPB-1525)
         $this->report
             ->setBankAccounts([$this->account1])
             ->setNoTransfersToAdd(false)
             ->setMoneyTransfers([$this->transfer1, $this->transfer2]); //should not happen but enforce assertion
-        $this->assertCount(0, $this->renderTemplateAndGetCrawler()->filter("#money-transfers"));
+        $this->assertCount(0, $this->renderTemplateAndGetCrawler()->filter('#money-transfers'));
 
         // 2 accounts but no transfer -> still show the section
         $this->report
@@ -223,7 +226,7 @@ class FormattedTest extends WebTestCase
             ->setNoTransfersToAdd(null)
             ->setMoneyTransfers([]); //should not happen but enforce assertion
         $crawler = $this->renderTemplateAndGetCrawler();
-        $this->assertCount(1, $crawler->filter("#money-transfers"));
+        $this->assertCount(1, $crawler->filter('#money-transfers'));
         $this->assertNotContains('X', $this->html($crawler, '#money-transfers-no-transfers-add'));
 
         // no transfers
@@ -240,12 +243,11 @@ class FormattedTest extends WebTestCase
             ->setNoTransfersToAdd(false)
             ->setMoneyTransfers([$this->transfer1, $this->transfer2]);
         $crawler = $this->renderTemplateAndGetCrawler();
-        $this->assertCount(0, $crawler->filter("#money-transfers-no-transfers-add"));
+        $this->assertCount(0, $crawler->filter('#money-transfers-no-transfers-add'));
         $html = $this->html($crawler, '#money-transfers');
         $this->assertContains('10,500.60', $html);
         $this->assertContains('45,123.00', $html);
     }
-
 
     public function testAction()
     {
@@ -255,7 +257,6 @@ class FormattedTest extends WebTestCase
         $this->assertContains('sell both flats', $this->html($crawler, '#action-section'));
         $this->assertContains('not able next year', $this->html($crawler, '#action-section'));
     }
-
 
     public function testDebts()
     {
@@ -312,6 +313,26 @@ class FormattedTest extends WebTestCase
     }
 
 
+    public function testSummaryinfo()
+    {
+        $this->reportStatus->shouldReceive('getBalanceState')->andReturn(['state'=>'done']);
+
+        // assert not displaying without "showSummary"
+        $crawler = $this->renderTemplateAndGetCrawler();
+        $this->assertCount(0, $crawler->filter('#report-summary'));
+
+        // assert displaying for a 102
+        $crawler = $this->renderTemplateAndGetCrawler(['showSummary'=>true]);
+        $this->assertCount(1, $crawler->filter('#report-summary'));
+
+        // assert NOT displaying when balacne section is not added
+        $as = $this->report->getAvailableSections();
+        unset($as[array_search('balance', $as)]);
+        $this->report->setAvailableSections($as);
+        $crawler = $this->renderTemplateAndGetCrawler(['showSummary'=>true]);
+        $this->assertCount(0, $crawler->filter('#report-summary'));
+    }
+
 
 
     public function tearDown()
@@ -320,7 +341,6 @@ class FormattedTest extends WebTestCase
         $this->container->leaveScope('request');
         unset($this->frameworkBundleClient);
     }
-
 
     private function html(Crawler $crawler, $expr)
     {

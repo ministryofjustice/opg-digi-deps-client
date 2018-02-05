@@ -62,11 +62,11 @@ class Client
     private $currentReport;
 
     /**
-     * @var Odr\Odr
+     * @var Ndr\Ndr
      *
-     * @JMS\Type("AppBundle\Entity\Odr\Odr")
+     * @JMS\Type("AppBundle\Entity\Ndr\Ndr")
      */
-    private $odr;
+    private $ndr;
 
     /**
      * @JMS\Exclude()
@@ -223,7 +223,7 @@ class Client
      */
     public function hasUser(User $user)
     {
-        foreach($this->users?:[] as $currentUser) {
+        foreach ($this->users?:[] as $currentUser) {
             if ($user->getId()
                 && $currentUser instanceof User && $currentUser->getId()
                 && $user->getId() == $currentUser->getId()) {
@@ -313,19 +313,19 @@ class Client
     }
 
     /**
-     * @return Odr\Odr
+     * @return Ndr\Ndr
      */
-    public function getOdr()
+    public function getNdr()
     {
-        return $this->odr;
+        return $this->ndr;
     }
 
     /**
-     * @param Odr\Odr $odr
+     * @param Ndr\Ndr $ndr
      */
-    public function setOdr($odr)
+    public function setNdr($ndr)
     {
-        $this->odr = $odr;
+        $this->ndr = $ndr;
 
         return $this;
     }
@@ -706,14 +706,42 @@ class Client
                     $matches = [];
                     preg_match('(^\w+)', $user->getEmail(), $matches);
                     if (!empty($matches[0])) {
-                        $coDeps[strToLower($matches[0]).$user->getId()] = $user;
+                        $coDeps[strtolower($matches[0]) . $user->getId()] = $user;
                     }
                 } else {
-                    $coDeps[strToLower($user->getFirstname()).$user->getId()] = $user;
+                    $coDeps[strtolower($user->getFirstname()) . $user->getId()] = $user;
                 }
             }
             ksort($coDeps);
         }
         return array_values($coDeps);
+    }
+
+    /**
+     * @return array $submittedReports an array of submitted reports
+     */
+    public function getSubmittedReports()
+    {
+        $submittedReports = [];
+        foreach ($this->getReports() as $report) {
+            if ($report->isSubmitted()) {
+                $submittedReports[] = $report;
+            }
+        }
+        return $submittedReports;
+    }
+
+    /**
+     * @return Report
+     */
+    public function getActiveReport()
+    {
+        $activeReport = null;
+        foreach ($this->getReports() as $report) {
+            if (!$report->isSubmitted()) {
+                $activeReport = $report;
+            }
+        }
+        return $activeReport;
     }
 }

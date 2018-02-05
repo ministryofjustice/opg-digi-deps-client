@@ -11,7 +11,6 @@ Feature: Report submit
         Then the URL should match "/report/\d+/review"
         And I click on "declaration-page"
         Then the URL should match "/report/\d+/declaration"
-        And I save the page as "report-submit-declaration"
 
     @deputy
     Scenario: report submission
@@ -59,7 +58,6 @@ Feature: Report submit
         And I press "report_declaration_save"
         Then the form should be valid
         And the URL should match "/report/\d+/submitted"
-        And I save the page as "report-submit-submitted"
         # assert report display page is not broken
         When I click on "return-to-reports-page"
         Then the URL should match "/lay"
@@ -69,6 +67,38 @@ Feature: Report submit
 #        And the second_last email should have been sent to "behat-digideps@digital.justice.gov.uk"
 #        And the second_last email should contain a PDF of at least 40 kb
         And I save the application status into "report-submit-reports"
+
+    @deputy
+    Scenario: deputy gives feedback after submitting report
+        Given emails are sent from "deputy" area
+        And I reset the email log
+        And I load the application status from "report-submit-pre"
+        And I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
+        And I click on "report-start"
+        And I click on "report-submit"
+        And I click on "declaration-page"
+        And I fill in the following:
+            | report_declaration_agree | 1 |
+            | report_declaration_agreedBehalfDeputy_0 | only_deputy |
+            | report_declaration_agreedBehalfDeputyExplanation |  |
+        And I press "report_declaration_save"
+        Then the form should be valid
+        And the URL should match "/report/\d+/submitted"
+        When I press "feedback_report_save"
+        Then the following fields should have an error:
+            | feedback_report_satisfactionLevel_0 |
+            | feedback_report_satisfactionLevel_1 |
+            | feedback_report_satisfactionLevel_2 |
+            | feedback_report_satisfactionLevel_3 |
+            | feedback_report_satisfactionLevel_4 |
+        When I fill in the following:
+            | feedback_report_satisfactionLevel_0 | Very satisfied |
+        And I press "feedback_report_save"
+        Then the form should be valid
+        And the URL should match "/report/\d+/submit_feedback"
+        When I click on "return-to-reports-page"
+        Then the URL should match "/lay"
+        And the response status code should be 200
 
     @deputy
     Scenario: admin area check filters, submission and ZIP file content
@@ -84,7 +114,7 @@ Feature: Report submit
         # test search
         When I fill in the following:
             | search | behat001 |
-            | created_by_role | ROLE_PA |
+            | created_by_role | ROLE_PA_NAMED |
         And I press "search_submit"
         Then I should see the "report-submission" region exactly 0 times
         When I fill in the following:
@@ -97,14 +127,15 @@ Feature: Report submit
             | Cly Hent | report-submission-1 |
             | behat001 | report-submission-1 |
             | 4 documents | report-submission-1 |
-        When I click on "download" in the "report-submission-1" region
-        Then the page content should be a zip file containing files with the following files:
-            | file1.pdf | exactFileName+md5sum | d3f3c05deb6a46cd9e32ea2a1829cf28 |
-        #    | file2.pdf | exactFileName+md5sum | 6b871eed6b34b560895f221de1420a5a |
-            | DigiRep-.*\.pdf | regexpName+sizeAtLeast | 50000  |
+        When I check "cb1"
+        Then I click on "download"
+        # only checks one level deep. In this case, we check for a single report zip file
+        And the page content should be a zip file containing files with the following files:
+            | Report_behat001_2016_2016.zip | regexpName+sizeAtLeast | 70000 |
         # test archive
         When I go to the URL previously saved as "admin-documents-list-new"
-        When I click on "archive" in the "report-submission-1" region
+        Then I check "cb1"
+        When I click on "archive"
         Then I should see the "report-submission" region exactly 0 times
         When I click on "tab-archived"
         Then I should see the "report-submission" region exactly 1 times
@@ -118,7 +149,6 @@ Feature: Report submit
     Scenario: assert 2nd year report has been created
         Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
         And I click on "report-start"
-        And I save the page as "report-property-affairs-homepage"
         Then I should see a "#edit-contacts" element
         And I should see a "#edit-decisions" element
         And I should see a "#edit-bank_accounts" element

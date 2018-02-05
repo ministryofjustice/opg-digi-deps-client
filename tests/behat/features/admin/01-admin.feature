@@ -8,11 +8,10 @@ Feature: admin / admin
         And I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
         Given I am on admin page "/"
         Then I should be on "/admin/"
-        And I create a new "ODR-disabled" "Admin" user "John" "Doe" with email "behat-admin-user@publicguardian.gsi.gov.uk" and postcode "AB12CD"
+        And I create a new "NDR-disabled" "Admin" user "John" "Doe" with email "behat-admin-user@publicguardian.gsi.gov.uk" and postcode "AB12CD"
         Then I should see "behat-admin-user@publicguardian.gsi.gov.uk" in the "users" region
         Then the response status code should be 200
         And I should see "OPG Admin" in the "users" region
-        And I save the page as "admin-admin-added"
         And the last email containing a link matching "/user/activate/" should have been sent to "behat-admin-user@publicguardian.gsi.gov.uk"
         #When I go to "/logout"
         Given I am on admin page "/logout"
@@ -27,7 +26,6 @@ Feature: admin / admin
         # follow link as it is
         When I open the "/user/activate/" link from the email
         Then the response status code should be 200
-        And I save the page as "admin-step1"
         # only testing the correct case, as the form is the same for deputy
         # note: no TC box here
         When I fill in the password fields with "Abcd1234"
@@ -38,14 +36,11 @@ Feature: admin / admin
     Scenario: check pages
         Given I am logged in to admin as "behat-admin-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
         When I click on "csv-upload" in the "navbar" region
-        And I save the page as "admin-upload"
         Then the response status code should be 200
         When I go to admin page "/admin/stats"
-        And I save the page as "admin-stats"
         Then the response status code should be 200
         # /user no longer exists, changed to main home screen (user page)
         When I am on admin page "/"
-        And I save the page as "admin-home"
         Then the response status code should be 200
         
 

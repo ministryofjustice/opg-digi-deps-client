@@ -10,8 +10,9 @@
 
     <div class="panel-body soft-half--top soft-half--sides">
 
-        <p>
-            <a href="{{ path('pa_client_edit', {'clientId': client.id}) }}" class="btn behat-link-client-edit right">{{ (page ~ '.editClient') | trans }}</a>
+        <p class="right">
+            <a href="{{ path('pa_client_edit', {'clientId': client.id}) }}" class="btn behat-link-client-edit">{{ (page ~ '.editClient') | trans }}</a>
+            <a href="{{ path('pa_client_archive', {'clientId': client.id}) }}" class="btn behat-link-client-archive push-half--left">{{ (page ~ '.archiveClient') | trans }}</a>
         </p>
 
         <div class="grid-row behat-region-client-profile-details">
@@ -28,22 +29,14 @@
                         <strong class="bold">{{ (page ~ '.dateOfBirth') | trans }}</strong>
                     </dt>
                     <dd class="push--bottom">
-                        {% if client.dateOfBirth %}
-                             {{ client.dateOfBirth | date(" d F Y") }} (aged {{ client.getAge() }})
-                        {% else %}
-                            -
-                        {% endif %}
+                        {{ (client.dateOfBirth) ? client.dateOfBirth | date(" j F Y") ~ ' (aged ' ~ client.getAge() ~ ')' : '-' }}
                     </dd>
 
                     <dt>
                         <strong class="bold">{{ (page ~ '.phone') | trans }}</strong>
                     </dt>
                     <dd class="push--bottom">
-                        {% if client.phone %}
-                            {{ client.phone }}
-                        {% else %}
-                            -
-                        {% endif %}
+                        {{ (client.phone) ? client.phone : '-' }}
                     </dd>
 
                 </dl>
@@ -55,22 +48,14 @@
                         <strong class="bold">{{ (page ~ '.email') | trans }}</strong>
                     </dt>
                     <dd class="push--bottom dont-break-out">
-                        {% if client.email %}
-                            {{ client.email }}
-                        {% else %}
-                            -
-                        {% endif %}
+                        {{ (client.email) ? client.email : '-' }}
                     </dd>
 
                     <dt>
                         <strong class="bold">{{ (page ~ '.address') | trans }}</strong>
                     </dt>
                     <dd>
-                        {% if client.addressNotEmptyParts %}
-                            {{ client.addressNotEmptyParts | join('<br/>') | raw }}
-                        {% else %}
-                            -
-                        {% endif %}
+                        {{ (client.addressNotEmptyParts) ? client.addressNotEmptyParts | join('<br/>') | raw : '-' }}
                     </dd>
                 </dl>
             </div>

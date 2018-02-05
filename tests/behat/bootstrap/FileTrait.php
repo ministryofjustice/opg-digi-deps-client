@@ -7,6 +7,9 @@ use Behat\Gherkin\Node\TableNode;
 trait FileTrait
 {
     /**
+     * | NdrRep-.*\.pdf | regexpName+sizeAtLeast | 50000  |
+     * | file2.pdf | exactFileName+md5sum | 6b871eed6b34b560895f221de1420a5a |
+     *
      * @Then the page content should be a zip file containing files with the following files:
      */
     public function thePagecontentShouldBeZipContainingFilesChecksum(TableNode $table)
@@ -19,7 +22,7 @@ trait FileTrait
         foreach ($table->getRowsHash() as $file => $data) {
             list($check, $value) = $data;
             $lines = [];
-            switch($check) {
+            switch ($check) {
                 case 'exactFileName+md5sum':
                     $expectedChecksum = $value;
                     exec("unzip -c $tmpFile $file | md5sum", $lines);
@@ -32,13 +35,26 @@ trait FileTrait
                     }
                     break;
 
+                case 'exactFileName+filesize':
+                    $expectedSize = $value;
+
+                    exec("unzip -l $tmpFile | grep -E \"{$file}\" ", $lines);
+                    if (empty($lines)) {
+                        throw new \RuntimeException("File matching $file not found in ZIP file");
+                    }
+                    $sizeBytes = array_shift(array_filter(explode(' ', $lines[0])));
+                    if ($sizeBytes <> $value) {
+                        throw new \RuntimeException("File matching $file is $sizeBytes bytes, size $expectedSize expected");
+                    }
+                    break;
+
                 case 'regexpName+sizeAtLeast':
                     $sizeAtLeast = $value;
                     exec("unzip -l $tmpFile | grep -E \"{$file}\" ", $lines);
                     if (empty($lines)) {
                         throw new \RuntimeException("File matching $file not found in ZIP file");
                     }
-                    $sizeBytes = array_shift(array_filter(explode(' ',$lines[0])));
+                    $sizeBytes = array_shift(array_filter(explode(' ', $lines[0])));
                     if ($sizeBytes < $sizeAtLeast) {
                         throw new \RuntimeException("File matching $file is $sizeBytes bytes, at least $sizeAtLeast expected");
                     }

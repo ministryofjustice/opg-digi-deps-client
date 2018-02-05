@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Client;
-use AppBundle\Entity\Odr\Odr;
+use AppBundle\Entity\Ndr\Ndr;
 use AppBundle\Entity\Report\Report;
 use AppBundle\Entity\User;
 use AppBundle\Exception\DisplayableException;
@@ -28,7 +28,7 @@ abstract class AbstractController extends Controller
      *
      * @return User
      */
-    protected function getUserWithData(array $jmsGroups = array())
+    protected function getUserWithData(array $jmsGroups = [])
     {
         $jmsGroups[] = 'user';
         $jmsGroups = array_unique($jmsGroups);
@@ -88,7 +88,7 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * @param int $reportId
+     * @param int   $reportId
      * @param array $groups
      *
      * @throws \RuntimeException if report is submitted
@@ -113,18 +113,19 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * @param int   $odrId
+     * @param int   $ndrId
      * @param array $groups
      *
-     * @return Odr
+     * @return Ndr
      */
-    public function getOdr($odrId, array $groups)
+    public function getNdr($ndrId, array $groups)
     {
-        $groups[] = 'odr';
+        $groups[] = 'ndr';
+        $groups[] = 'ndr-client';
         $groups[] = 'client';
         $groups = array_unique($groups);
 
-        return $this->getRestClient()->get("odr/{$odrId}", 'Odr\Odr', $groups);
+        return $this->getRestClient()->get("ndr/{$ndrId}", 'Ndr\Ndr', $groups);
     }
 
     /**
@@ -132,12 +133,12 @@ abstract class AbstractController extends Controller
      *
      * @throws \RuntimeException if report is submitted
      *
-     * @return Odr
+     * @return Ndr
      *
      */
-    protected function getOdrIfNotSubmitted($reportId, array $groups = [])
+    protected function getNdrIfNotSubmitted($reportId, array $groups = [])
     {
-        $report = $this->getOdr($reportId, $groups);
+        $report = $this->getNdr($reportId, $groups);
         if ($report->getSubmitted()) {
             throw new \RuntimeException('New deputy report already submitted and not editable.');
         }

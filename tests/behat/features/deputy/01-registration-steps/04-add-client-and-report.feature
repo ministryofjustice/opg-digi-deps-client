@@ -4,7 +4,6 @@ Feature: deputy / user / add client and report
   Scenario: update client (client name/case number/postcode already set)
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
     Then I should be on "client/add"
-    And I save the page as "deputy-step3"
     # submit empty form and check errors
     Then the following hidden fields should have the corresponding values:
       | client_firstname  | Cly      |
@@ -17,7 +16,6 @@ Feature: deputy / user / add client and report
       | client_courtDate_year  |
       | client_address         |
       | client_postcode        |
-    And I save the page as "deputy-step3-errors-empty"
       # subit invalid values and check errors
     When I fill in the following:
       | client_courtDate_day   | 99                                                                                                                                                                                                                                                               |
@@ -36,8 +34,8 @@ Feature: deputy / user / add client and report
       | client_address         |
       | client_address2        |
       | client_county          |
+      | client_postcode        |
       | client_phone           |
-    And I save the page as "deputy-step3-errors"
       # right values
     When I set the client details to:
       | courtDate  | 1              | 1           | 2016       |         |    |
@@ -62,11 +60,10 @@ Feature: deputy / user / add client and report
       | client_country         | GB             |
       | client_phone           | 0123456789     |
 
-  @odr
-  Scenario: add client (odr) with no casrec record
-    Given I am logged in as "behat-user-odr@publicguardian.gsi.gov.uk" with password "Abcd1234"
+  @ndr
+  Scenario: add client (ndr) with no casrec record
+    Given I am logged in as "behat-user-ndr@publicguardian.gsi.gov.uk" with password "Abcd1234"
     Then I should be on "client/add"
-    And I save the page as "deputy-step3"
       # right values
     When I set the client details with:
       | name       | Cly           | Hent         |            |         |    |
@@ -78,12 +75,12 @@ Feature: deputy / user / add client and report
     And I press "client_save"
     Then the form should be invalid
 
-  @odr
-  Scenario: add client (odr) with no casrec record
+  @ndr
+  Scenario: add client (ndr) with no casrec record
     Given I add the following users to CASREC:
       | Case     | Surname       | Deputy No | Dep Surname  | Dep Postcode | Typeofrep |
-      | behat001 | Hent          | D001      | Doe ODR      | p0stc0d3      | OPG102    |
-    And I am logged in as "behat-user-odr@publicguardian.gsi.gov.uk" with password "Abcd1234"
+      | behat001 | Hent          | D001      | Doe NDR      | p0stc0d3      | OPG102    |
+    And I am logged in as "behat-user-ndr@publicguardian.gsi.gov.uk" with password "Abcd1234"
     Then I should be on "client/add"
       # right values
     When I set the client details with:
@@ -99,7 +96,6 @@ Feature: deputy / user / add client and report
   Scenario: create report
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
     Then the URL should match "report/create/\d+"
-    And I save the page as "deputy-step4"
       # missing D,M,Y
     When I fill in the following:
       | report_startDate_day   | 01   |
@@ -145,7 +141,6 @@ Feature: deputy / user / add client and report
       | report_endDate_year    | 2020 |
     And I press "report_save"
     Then the form should be invalid
-    And I save the page as "deputy-step4-error"
       # valid form
     Then I fill in the following:
       | report_startDate_day   | 01   |
@@ -162,7 +157,6 @@ Feature: deputy / user / add client and report
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
     Given I click on "report-start"
     Then the URL should match "report/\d+/overview"
-    And I save the page as "deputy-report-overview"
 
   @deputy
   Scenario: report-overview links

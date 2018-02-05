@@ -25,7 +25,7 @@
 
             <dt class="label">{{ 'address' | trans({}, 'common' ) }}</dt>
             <dd class="value address-value">
-                {% if deputy.isDeputyPa %}
+                {% if deputy.isDeputyOrg %}
                     {{ paTeam.address1 }}<br/>
                     {{ paTeam.address2 }}<br/>
                     {{ paTeam.address3 }}<br/>
@@ -207,7 +207,7 @@
                 </tr>
             </table>
 
-            {% if param.answer == param.showMoreDetailsWith %}
+            {% if param.showMoreDetailsWith | default(false) and param.answer == param.showMoreDetailsWith %}
                 <div class="labelvalue push-half--top">
                     {% if param.moreDetailsLabel | default(false) %}
                         <h3 class="label question bold">{{ param.moreDetailsLabel }}</h3>

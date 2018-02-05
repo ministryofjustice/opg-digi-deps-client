@@ -3,12 +3,8 @@
 namespace AppBundle\Service\File;
 
 use AppBundle\Entity\Report\Document;
-use AppBundle\Entity\Report\Report;
 use AppBundle\Entity\Report\ReportSubmission;
-use AppBundle\Service\Client\RestClient;
 use AppBundle\Service\File\Storage\StorageInterface;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Mockery as m;
 
 class DocumentZipFileCreatorTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +26,18 @@ class DocumentZipFileCreatorTest extends \PHPUnit_Framework_TestCase
 
     public function testcreateZipFileNoDocuments()
     {
+        $this->reportSubmission->shouldReceive('isDownloadable')->once()->withNoArgs()->andReturn(true);
         $this->reportSubmission->shouldReceive('getDocuments')->andReturn([]);
 
         $this->setExpectedException('RuntimeException');
+        $this->object->createZipFile();
+    }
+
+    public function testcreateZipFileNotDownloadable()
+    {
+        $this->reportSubmission->shouldReceive('isDownloadable')->once()->withNoArgs()->andReturn(false);
+
+        $this->setExpectedException('RuntimeException', DocumentsZipFileCreator::MSG_NOT_DOWNLOADABLE);
         $this->object->createZipFile();
     }
 
@@ -55,6 +60,7 @@ class DocumentZipFileCreatorTest extends \PHPUnit_Framework_TestCase
         $this->reportSubmission
             ->shouldReceive('getZipName')->andReturn($zipFileName)
             ->shouldReceive('getDocuments')->andReturn([$doc1, $doc2])
+            ->shouldReceive('isDownloadable')->once()->withNoArgs()->andReturn(true)
         ;
 
         $fileName = $this->object->createZipFile();
@@ -64,7 +70,7 @@ class DocumentZipFileCreatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('doc2-content', exec("unzip -c $fileName file2.pdf"));
 
         $this->object->cleanUp();
-        
+
         $this->assertFalse(file_exists($fileName));
     }
 

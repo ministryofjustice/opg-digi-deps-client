@@ -47,10 +47,16 @@ profile-page:
 page:
   passwordChangedNotification: "You have changed your password. We have sent you an email to confirm this change."
 
+# Co-deputy registration
+verifyDeputy:
+  yourDetails: Your details
+  yourClientsDetails: Your client's details
 
 form:
   editYourDetails:
     subSectionTitle: "Edit your details"
+    detailsEntered: "Details you've already entered"
+    furtherDetailsNeeded: "Further details needed"
     controls:
       cancel:
         label: Cancel
@@ -100,5 +106,3 @@ form:
             at least 1 number
       confirmNewPassword:
           label: Confirm new password
-
-headerInstructions: ""

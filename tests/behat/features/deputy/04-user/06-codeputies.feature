@@ -106,7 +106,6 @@ Feature: Codeputy Self Registration
       | self_registration_caseNumber      | 11111111                           |
     When I press "self_registration_save"
     Then the form should be valid
-    And I save the page as "codeputy-selfreg-ok"
     Then I should see "Please check your email"
     And I should see "We've sent you a link to behat-jack.goodby+mld1@digital.justice.gov.uk"
     And the last email containing a link matching "/user/activate/" should have been sent to "behat-jack.goodby+mld1@digital.justice.gov.uk"
@@ -156,7 +155,7 @@ Feature: Codeputy Self Registration
     And I should see "Edit/Resend invite" in the "codeputies" region
     And the last email containing a link matching "/user/activate/" should have been sent to "behat-jack.goodby+mld2@gmail.com"
 
-  @deputy @jack
+  @deputy
   Scenario: Admin logs in and sees placeholder text for the nameless invited codeputy
     Given I am logged in to admin as "admin@publicguardian.gsi.gov.uk" with password "Abcd1234"
     Then I should see "Invited co-deputy" in the "users" region

@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity\Report;
 
+use AppBundle\Entity\ReportInterface;
 use AppBundle\Entity\Traits\CreationAudit;
-use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 class ReportSubmission
@@ -23,6 +23,13 @@ class ReportSubmission
      * @JMS\Type("AppBundle\Entity\Report\Report")
      */
     private $report;
+
+    /**
+     * @var Report
+     *
+     * @JMS\Type("AppBundle\Entity\Ndr\Ndr")
+     */
+    private $ndr;
 
     /**
      * @JMS\Type("array<AppBundle\Entity\Report\Document>")
@@ -52,7 +59,7 @@ class ReportSubmission
     }
 
     /**
-     * @param int $id
+     * @param  int              $id
      * @return ReportSubmission
      */
     public function setId($id)
@@ -71,7 +78,7 @@ class ReportSubmission
     }
 
     /**
-     * @param Report $report
+     * @param  Report           $report
      * @return ReportSubmission
      */
     public function setReport($report)
@@ -82,6 +89,26 @@ class ReportSubmission
     }
 
     /**
+     * @return Report
+     */
+    public function getNdr()
+    {
+        return $this->ndr;
+    }
+
+    /**
+     * @param Report $ndr
+     * @return ReportSubmission
+     */
+    public function setNdr($ndr)
+    {
+        $this->ndr = $ndr;
+
+        return $this;
+    }
+    
+
+    /**
      * @return Document[]
      */
     public function getDocuments()
@@ -90,7 +117,7 @@ class ReportSubmission
     }
 
     /**
-     * @param array $documents
+     * @param  array            $documents
      * @return ReportSubmission
      */
     public function setDocuments($documents)
@@ -109,7 +136,7 @@ class ReportSubmission
     }
 
     /**
-     * @param User $archivedBy
+     * @param  User             $archivedBy
      * @return ReportSubmission
      */
     public function setArchivedBy($archivedBy)
@@ -139,17 +166,13 @@ class ReportSubmission
         return $this;
     }
 
-
     /**
      * @return string
      */
     public function getZipName()
     {
-        $report = $this->getReport();
-        $client = $this->getReport()->getClient();
-
-        return 'Report_' . $client->getCaseNumber() . '_' . $report->getStartDate()->format('Y') . '_' . $report->getEndDate()->format('Y') . '.zip';
-
+        /* @var $report ReportInterface */
+        $report = $this->getReport() ? $this->getReport() : $this->getNdr();
+        return $report->getZipName();
     }
-
 }

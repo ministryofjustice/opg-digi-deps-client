@@ -21,39 +21,6 @@ input[type=text]::-ms-clear {
     }
 }
 
-.form-group__checkbox-group {
-    margin-left: 2px;
-
-    // @deprecated
-    // @refactor
-    // Only used on client add where a hint description is
-    // forced between radio inputs in a group
-    .vertical {
-        .description {
-            float: left;
-            clear: both;
-        }
-
-        label {
-            clear: both;
-
-            + p {
-                margin-top: 30px;
-            }
-
-            &.disabled {
-                color: $grey-1;
-            }
-        }
-
-        p + p {
-            margin-top: 30px;
-        }
-
-    }
-
-}
-
 .form-label {
     @include media(mobile) {
         width: auto;
@@ -62,14 +29,6 @@ input[type=text]::-ms-clear {
     .bold {
         font-weight: bold;
     }
-}
-
-legend .form-label {
-    width: 85%;
-}
-
-ul.form-hint {
-    margin-left: 10px;
 }
 
 .input-group-prefix {
@@ -110,8 +69,10 @@ ul.form-hint {
     }
 }
 
+
 // Horizontally lined up form-groups
 // Currently only used on the admin search (Search, Role, NDR check)
+
 .form-groups-inline {
     .form-group {
         float: left;
@@ -124,6 +85,39 @@ ul.form-hint {
 
         &.form-group__checkbox {
             margin-top: 27px;
+        }
+    }
+}
+
+
+// Smaller checkboxes for admin
+// https://home-office-digital-patterns.herokuapp.com/components/checkboxes
+
+.multiple-choice--smaller {
+    .multiple-choice {
+        padding-top: 1px;
+        padding-bottom: 2px;
+
+        label {
+            padding-top: 14px;
+            padding-bottom: 18px;
+        }
+    }
+
+    [type=checkbox] {
+        + label {
+            &::before {
+                width: 21px;
+                height: 21px;
+            }
+
+            &::after {
+                width: 11px;
+                height: 4px;
+                top: 8px;
+                left: 6px;
+                border-width: 0 0 3px 3px;
+            }
         }
     }
 }

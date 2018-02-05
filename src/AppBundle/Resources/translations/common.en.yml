@@ -10,6 +10,7 @@ signOut: Sign out
 continue: Continue
 saveAndContinue: Save and continue
 back: Back
+start: Start
 startNow: Start now
 download: Download
 status:
@@ -17,19 +18,32 @@ status:
   notStarted: Start now
   notFinished: Continue
   readyToSubmit: Continue
+next: Next
+previous: Previous
 
 # Report headings
 annualDeputyReport: Annual deputy report
 currentDeputyReport: Current deputy report
 submittedReports: Submitted reports
 
-# Table Headings / Labels
+# Labels and table headings
 name: Name
 role: Role
 address: Address
 phone: Phone
 email: Email
 dueDate: Due date
+section: Section
+in: In
+out: Out
+balance: Balance
+actions: Actions
+caseNumber: Case number
+client: Client
+courtOrderNo: Court order no.
+courtOrderNumber: Court order number
+reportDueDate: Report due date
+reportStatus: Report status
 
 # Statuses
 notCreated: Not created
@@ -37,6 +51,7 @@ notFinished: Not finished
 notStarted: Not started
 readyToSubmit: Ready to submit
 notAvailable: Not available
+inProgress: In progress
 
 # Breadcrumbs
 yourReports: Your reports
@@ -45,6 +60,19 @@ newDeputyReportOverview: New deputy report overview
 reviewReport: Review report
 dashboard: Dashboard
 clientProfile: Client profile
+
+#Back links
+backToReportOverview: Back to report overview
+backToClientProfile: Back to client profile
+backToYourReports: Back to your reports
+
+#Search
+search: Search
+clearSearch: Clear search
+sorryNoResultsFor: Sorry, no results were found for
+
+# Emails
+layDeputySupportEmail: laydeputysupport@publicguardian.gsi.gov.uk
 
 lastLoggedIn:
   lessThenAMinuteAgo:  less than a minute ago

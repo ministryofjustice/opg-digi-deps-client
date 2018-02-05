@@ -8,8 +8,8 @@ use MockeryStub as m;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class RedirectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,7 +66,7 @@ class RedirectorTest extends \PHPUnit_Framework_TestCase
            ['ROLE_LAY_DEPUTY', ['hasDetails'=>false], ['user_details', []]],
            ['ROLE_LAY_DEPUTY', ['hasDetails'=>true, 'getIdOfClientWithDetails'=>null], ['client_add', []]],
            ['ROLE_LAY_DEPUTY', ['hasDetails'=>true, 'getIdOfClientWithDetails'=>1, 'getActiveReportId'=>1], ['report_overview', ['reportId'=>1]]],
-           ['ROLE_LAY_DEPUTY', ['hasDetails'=>true, 'getIdOfClientWithDetails'=>1, 'getActiveReportId'=>null], ['odr_index', []]],
+           ['ROLE_LAY_DEPUTY', ['hasDetails'=>true, 'getIdOfClientWithDetails'=>1, 'getActiveReportId'=>null], ['ndr_index', []]],
         ];
     }
 
