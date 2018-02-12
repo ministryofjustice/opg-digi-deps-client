@@ -48,6 +48,7 @@ reportStatus: Report status
 reports: Reports
 period: Period
 submissionDate: Submission date
+unsubmissionDate: Unsubmission date
 
 # Statuses
 notCreated: Not created
@@ -57,6 +58,7 @@ readyToSubmit: Ready to submit
 notAvailable: Not available
 inProgress: In progress
 submitted: Submitted
+unsubmitted: Unsubmitted
 
 # Breadcrumbs
 yourReports: Your reports

@@ -1,6 +1,6 @@
 {% extends 'AppBundle:Layouts:application.html.twig' %}
 
-{% trans_default_domain "admin" %}
+{% trans_default_domain "admin-clients" %}
 {% set page = 'clientDetails' %}
 
 {% block htmlTitle %}{{ (page ~ '.htmlTitle') | trans }}{% endblock %}
@@ -30,6 +30,7 @@
                 <th scope="col">{{ 'period' | trans({}, 'common') }}</th>
                 <th scope="col">{{ 'dueDate' | trans({}, 'common') }}</th>
                 <th scope="col">{{ 'submissionDate' | trans({}, 'common') }}</th>
+                <th scope="col">{{ 'unsubmissionDate' | trans({}, 'common') }}</th>
                 <th scope="col">{{ 'reportStatus' | trans({}, 'common') }}</th>
                 <th scope="col">
                     <span class="visually-hidden">{{ 'actions' | trans({}, 'common') }}</span>
@@ -40,7 +41,7 @@
             {% if client.reports | length %}
                 {% for report in client.reports %}
 
-                    <tr>
+                    <tr class="behat-region-client-{{ client.caseNumber }}-{{ report.getPeriod() }}">
                         <td>
                             {{ report.period | replace({'to': '-'}) }}
                         </td>
@@ -48,19 +49,30 @@
                             {{ report.dueDate | date("j F Y") }}
                         </td>
                         <td>
-                            {% if report.submitDate %}
+                            {% if report.submitted %}
                                 {{ report.submitDate | date("j F Y") }}
                             {% endif %}
                         </td>
                         <td>
-                            {% set status = report.status.status %}
-                            {% if status == 'readyToSubmit' and (report.submitDate is not empty) %}
-                                {% set status = 'submitted' %}
+                            {% if report.unSubmitDate %}
+                                {{ report.unSubmitDate | date("j F Y") }}
                             {% endif %}
+                        </td>
+                        <td>
+                            {% if report.unSubmitDate %}
+                                {% set status = 'unsubmitted' %}
+                            {% elseif report.submitted %}
+                                 {% set status = 'submitted' %}
+                            {% else %}
+                                {% set status = report.status.status %}
+                            {% endif %}
+
                             <span class="status flush--ends {{ status }}">{{ (status) | trans({}, 'common') }}</span>
                         </td>
                         <td class="change-answer width-tenth">
-                            <a href="#" class="action-link">{{ 'manage' | trans({}, 'common') }}</a>
+                            {% if report.submitted %}
+                                <a href="{{ path('admin_report_manage', {'id': report.id}) }}" class="action-link behat-link-manage">{{ 'manage' | trans({}, 'common') }}</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
