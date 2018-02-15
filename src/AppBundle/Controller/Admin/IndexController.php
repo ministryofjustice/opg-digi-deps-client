@@ -13,6 +13,7 @@ use AppBundle\Service\DataImporter\CsvToArray;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -229,16 +230,13 @@ class IndexController extends AbstractController
      * @Route("/delete-confirm/{id}", name="admin_delete_confirm")
      * @Method({"GET"})
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @param int $id
      */
     public function deleteConfirmAction($id)
     {
         $userToDelete = $this->getRestClient()->get("user/{$id}", 'User');
-
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new DisplayableException('Only Admin can delete users');
-        }
 
         if ($this->getUser()->getId() == $userToDelete->getId()) {
             throw new DisplayableException('Cannot delete logged user');
