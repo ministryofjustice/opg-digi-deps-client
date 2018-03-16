@@ -312,6 +312,7 @@ class User implements AdvancedUserInterface
 
     /**
      * @JMS\Type("boolean")
+     * @JMS\Groups({"admin_add_user"})
      *
      * @var bool
      */

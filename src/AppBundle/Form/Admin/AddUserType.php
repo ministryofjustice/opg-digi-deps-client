@@ -26,6 +26,7 @@ class AddUserType extends AbstractType
             ->add('addressPostcode', 'text')
             ->add('roleName', 'choice', $roleNameOptions)
             ->add('ndrEnabled', 'checkbox')
+            ->add('codeputyClientConfirmed', 'checkbox')
             ->add('save', 'submit');
     }
 

@@ -146,6 +146,7 @@ class IndexController extends AbstractController
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
             'roleNameSetTo'      => $roleNameSetTo, //can't edit current user's role
             'ndrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
+            'codeputyClientConfirmed' => $user->getCoDeputyClientConfirmed(),
         ]]);
 
         $clients = $user->getClients();

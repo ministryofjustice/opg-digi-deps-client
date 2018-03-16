@@ -46,6 +46,8 @@ addUserForm:
     defaultOption: Please select ...
   ndrEnabled:
     label: Enable NDR for this user (Lay deputy only)
+  codeputyClientConfirmed:
+    label: Enable Co Deputies for this user (Lay deputy only)
   submit:
     label: Save user
 

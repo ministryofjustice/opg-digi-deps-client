@@ -35,6 +35,7 @@
     {% endif %}
     {% if user.roleName == 'ROLE_LAY_DEPUTY' %}
         {{ form_checkbox(form.ndrEnabled, 'addUserForm.ndrEnabled') }}
+        {{ form_checkbox(form.codeputyClientConfirmed, 'addUserForm.codeputyClientConfirmed') }}
     {% else %}
         <div class="hidden">
             {{ form_checkbox(form.ndrEnabled, 'addUserForm.ndrEnabled') }}
