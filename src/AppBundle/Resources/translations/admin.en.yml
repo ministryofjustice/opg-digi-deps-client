@@ -69,7 +69,8 @@ editUser:
       caseNumber: Case number
       reports: Number of reports
   deleteDisabled: Delete is disabled as there is at least one report
-
+  coDeputyClientConfirmed:
+      noCasrecEntries: Unable to mark as co deputy. No co deputies found in CASREC.
 editUserForm:
   heading: Edit user
   reportsExist: |

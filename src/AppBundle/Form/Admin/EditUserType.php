@@ -2,16 +2,17 @@
 
 namespace AppBundle\Form\Admin;
 
+use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddUserType extends AbstractType
+class EditUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $roleNameOptions = [
-            'choices'     => $options['options']['roleChoices'],
+            'choices' => $options['options']['roleChoices'],
             'empty_value' => $options['options']['roleNameEmptyValue'],
         ];
 
@@ -25,15 +26,18 @@ class AddUserType extends AbstractType
             ->add('lastname', 'text')
             ->add('addressPostcode', 'text')
             ->add('roleName', 'choice', $roleNameOptions)
-            ->add('ndrEnabled', 'checkbox')
-            ->add('save', 'submit');
+            ->add('ndrEnabled', 'checkbox');
+        if (isset($options['options']['codeputyClientType']) && $options['options']['codeputyClientType'] == 'checkbox') {
+            $builder->add('codeputyClientConfirmed', $options['options']['codeputyClientType']);
+        }
+        $builder->add('save', 'submit');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'translation_domain' => 'admin',
-            'validation_groups' => ['admin_add_user'],
+            'validation_groups' => ['admin_add_user', 'admin_co_deputy_user'],
         ])
         ->setRequired(['options']);
     }

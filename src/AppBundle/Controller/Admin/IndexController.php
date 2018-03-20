@@ -135,7 +135,7 @@ class IndexController extends AbstractController
         if ($user->getId() == $this->getUser()->getId() || $user->getRoleName() == EntityDir\User::ROLE_PA_NAMED) {
             $roleNameSetTo = $user->getRoleName();
         }
-        $form = $this->createForm(FormDir\Admin\AddUserType::class, $user, ['options' => [
+        $form = $this->createForm(FormDir\Admin\EditUserType::class, $user, ['options' => [
             'roleChoices'        => [
                 EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
                 EntityDir\User::ROLE_LAY_DEPUTY => 'Lay Deputy',
@@ -146,7 +146,8 @@ class IndexController extends AbstractController
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
             'roleNameSetTo'      => $roleNameSetTo, //can't edit current user's role
             'ndrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
-            'codeputyClientConfirmed' => $user->getCoDeputyClientConfirmed(),
+            // this flag is to enable the co deputy checkbox. Only for lay deputies
+            'codeputyClientType' => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
         ]]);
 
         $clients = $user->getClients();
@@ -178,7 +179,9 @@ class IndexController extends AbstractController
                         case 422:
                             $form->get('email')->addError(new FormError($this->get('translator')->trans('editUserForm.email.existingError', [], 'admin')));
                             break;
-
+                        case 403:
+                            $form->get('codeputyClientConfirmed')->addError(new FormError($this->get('translator')->trans('editUser.coDeputyClientConfirmed.noCasrecEntries', [], 'admin')));
+                            break;
                         default:
                             throw $e;
                     }
