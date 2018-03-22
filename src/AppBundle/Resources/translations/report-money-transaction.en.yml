@@ -118,6 +118,7 @@ form:
       debt-and-charges: Tax or charge
       moving-money: Moving money
       moneyout-other: Other
+      salary-or-wages: Salary or wages
   amount:
       label: Amount
   description:
@@ -136,12 +137,12 @@ form:
       moneyin-other: What type of income was it?
     entries:
       # money in and out
+      salary-or-wages:
+        label: Salary or wages
       dividends:
         label: Dividends
       account-interest:
         label: Interest on savings and other accounts
-      salary-or-wages:
-        label: Salary or wages
       other-incomes:
         label: Other
         moreInformations: Please give us more information
