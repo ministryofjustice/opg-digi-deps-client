@@ -26,8 +26,10 @@ class MoneyTransactionType extends AbstractType
     {
         $ret = [];
 
-        foreach (MoneyTransaction::$categories[$this->type] as $category => $catArray) {
-            $ret[$category] = $this->translate('form.group.entries.' . $category);
+        foreach (MoneyTransaction::$categories as $category => $catArray) {
+            if ($catArray['config']['type'] == $this->type) {
+                $ret[$category] = $this->translate('form.group.entries.' . $category);
+            }
         }
 
         return array_unique($ret);
@@ -37,7 +39,7 @@ class MoneyTransactionType extends AbstractType
     {
         $ret = [];
 
-        foreach (MoneyTransaction::$categories[$this->type][$this->selectedGroup]['categories'] as $subcategory => $hasDetails) {
+        foreach (MoneyTransaction::$categories[$this->selectedGroup]['categories'] as $subcategory => $hasDetails) {
             $ret[$subcategory] = $this->translate('form.category.entries.' . $subcategory . '.label');
         }
 
@@ -49,11 +51,11 @@ class MoneyTransactionType extends AbstractType
      */
     private function isDescriptionMandatory()
     {
-        if (!empty(MoneyTransaction::$categories[$this->type][$this->selectedGroup]['categories'])) {
-            return MoneyTransaction::$categories[$this->type][$this->selectedGroup]['categories'][$this->selectedCategory];
+        if (!empty(MoneyTransaction::$categories[$this->selectedGroup]['categories'])) {
+            return MoneyTransaction::$categories[$this->selectedGroup]['categories'][$this->selectedCategory]['config']['hasDetails'];
         }
 
-        return MoneyTransaction::$categories[$this->type][$this->selectedGroup]['hasDetails'];
+        return MoneyTransaction::$categories[$this->selectedGroup]['config']['hasDetails'];
     }
 
     private function translate($key)

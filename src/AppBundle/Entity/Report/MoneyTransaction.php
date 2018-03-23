@@ -15,228 +15,154 @@ class MoneyTransaction
      * @JMS\Exclude
      */
     public static $categories = [
-        // type (in/out) => category => group['categories'] => category => hasMoreDetails
-
+        // group => categories[] => category => config['hasMoreDetails', 'type']
         // Money In
-        'in' => [
-            'salary-or-wages' => [
-                'categories' => [],
-                'hasDetails' => false
-            ],
-            'income-and-earnings' => [
-                'categories' => [
-                    'account-interest' => false,
-                    'dividends' => false,
-                    'income-from-property-rental' => false,
-                ]
-            ],
-            'pensions' => [
-                'categories' => [
-                    'personal-pension' => false,
-                    'state-pension' => false,
-                ]
-            ],
-            'state-benefits' => [
-                'categories' => [
-                    'attendance-allowance' => false,
-                    'disability-living-allowance' => false,
-                    'employment-support-allowance' => false,
-                    'housing-benefit' => false,
-                    'incapacity-benefit' => false,
-                    'income-support' => false,
-                    'pension-credit' => false,
-                    'personal-independence-payment' => false,
-                    'severe-disablement-allowance' => false,
-                    'universal-credit' => false,
-                    'winter-fuel-cold-weather-payment' => false,
-                    'other-benefits' => true
-                ]
-            ],
-            'damages' => [
-                'categories' => [
-                    'compensation-or-damages-award' => true
-                ]
-            ],
-            'one-off' => [
-                'categories' => [
-                    'bequest-or-inheritance' => false,
-                    'cash-gift-received' => false,
-                    'refunds' => false,
-                    'sale-of-asset' => true,
-                    'sale-of-investment' => true,
-                    'sale-of-property' => true,
-                ]
-            ],
-            'moneyin-other' => [
-                'categories' => [
-                    'anything-else' => true
-                ]
-            ]
+        'salary-or-wages' => [
+            'categories' => [],
+            'config' => ['hasDetails' => false, 'type' => 'in']
         ],
-        'out' => [
-            'household-bills' => [
-                'categories' => [
-                    'broadband' => false,
-                    'council-tax' => false,
-                    'electricity', false,
-                    'food' => false,
-                    'gas' => false,
-                    'insurance-eg-life-home-contents' => false,
-                    'other-insurance' => false,
-                    'property-maintenance-improvement' => true,
-                    'telephone' => false,
-                    'tv-services'=> false,
-                    'water' => false,
-                    'households-bills-other' => true,
-                ]
+        'income-and-earnings' => [
+            'categories' => [
+                'account-interest' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'dividends' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'income-from-property-rental' => ['config' => ['hasDetails' => false, 'type' => 'in']],
             ],
-            'accommodation' => [
-                'categories' => [
-                    'accommodation-service-charge' => false,
-                    'mortgage' => false,
-                    'rent' => false,
-                    'accommodation-other' => true,
-                ]
+            'config' => ['hasDetails' => false, 'type' => 'in']
+        ],
+        'pensions' => [
+            'categories' => [
+                'personal-pension' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'state-pension' => ['config' => ['hasDetails' => false, 'type' => 'in']],
             ],
-            'care-and-medical' => [
-                'categories' => [
-                    'care-fees' => false,
-                    'local-authority-charges-for-care' => false,
-                    'medical-expenses' => false,
-                    'medical-insurance' => false,
-                ]
+            'config' => ['hasDetails' => false, 'type' => 'in']
+        ],
+        'state-benefits' => [
+            'categories' => [
+                'attendance-allowance' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'disability-living-allowance' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'employment-support-allowance' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'housing-benefit' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'incapacity-benefit' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'income-support' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'pension-credit' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'personal-independence-payment' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'severe-disablement-allowance' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'universal-credit' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'winter-fuel-cold-weather-payment' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'other-benefits' => ['config' => ['hasDetails' => true, 'type' => 'in']],
             ],
-            'clioent-expenses' => [
-                'categories' => [
-                    'client-transport-bus-train-taxi-fares' => false,
-                    'clothes' => false,
-                    'day-trips' => false,
-                    'holidays' => false,
-                    'personal-allowance-pocket-money' => false,
-                    'toiletries' => false,
-                ]
+            'config' => ['hasDetails' => false, 'type' => 'in']
+        ],
+        'damages' => [
+            'categories' => [
+                'compensation-or-damages-award' => ['config' => ['hasDetails' => true, 'type' => 'in']]
             ],
-            'fees' => [
-                'categories' => [
-                    'deputy-security-bond' => false,
-                    'opg-fees' => false,
-                    'professional-fees-eg-solicitor-accountant' => false,
-                    'other-fees' => true
-                ]
+            'config' => ['hasDetails' => false, 'type' => 'in']
+        ],
+        'one-off' => [
+            'categories' => [
+                'bequest-or-inheritance' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'cash-gift-received' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'refunds' => ['config' => ['hasDetails' => false, 'type' => 'in']],
+                'sale-of-asset' => ['config' => ['hasDetails' => true, 'type' => 'in']],
+                'sale-of-investment' => ['config' => ['hasDetails' => true, 'type' => 'in']],
+                'sale-of-property' => ['config' => ['hasDetails' => true, 'type' => 'in']],
             ],
-            'major-purchases' => [
-                'categories' => [
-                    'investment-bonds-purchased' => true,
-                    'investment-account-purchased' => true,
-                    'stocks-and-shares-purchased' => true,
-                    'purchase-over-1000' => true
-                ]
+            'config' => ['hasDetails' => false, 'type' => 'in']
+        ],
+        'moneyin-other' => [
+            'categories' => [
+                'anything-else' => ['config' => ['hasDetails' => true, 'type' => 'in']]
             ],
-            'debt-and-charges' => [
-                'categories' => [
-                    'bank-charges' => false,
-                    'credit-cards-charges' => false,
-                    'loans' => false,
-                    'tax-payments-to-hmrc' => false,
-                    'unpaid-care-fees' => false,
-                    'debt-and-charges-other' => true,
-                ]
+            'config' => ['hasDetails' => false, 'type' => 'in']
+        ],
+
+        // Money Out
+        'household-bills' => [
+            'categories' => [
+                'broadband' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'council-tax' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'electricity', ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'food' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'gas' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'insurance-eg-life-home-contents' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'other-insurance' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'property-maintenance-improvement' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+                'telephone' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'tv-services'=> ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'water' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'households-bills-other' => ['config' => ['hasDetails' => true, 'type' => 'out']],
             ],
-            'moving-money' => [
-                'categories' => [
-                    'cash-withdrawn' => true,
-                    'transfers-out-to-other-accounts' => true,
-                    'anything-else-paid-out' => true,
-                ]
-            ]
+            'config' => ['hasDetails' => false, 'type' => 'out']
+        ],
+        'accommodation' => [
+            'categories' => [
+                'accommodation-service-charge' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'mortgage' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'rent' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'accommodation-other' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+            ],
+            'config' => ['hasDetails' => false, 'type' => 'out']
+        ],
+        'care-and-medical' => [
+            'categories' => [
+                'care-fees' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'local-authority-charges-for-care' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'medical-expenses' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'medical-insurance' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+            ],
+            'config' => ['hasDetails' => false, 'type' => 'out']
+        ],
+        'clioent-expenses' => [
+            'categories' => [
+                'client-transport-bus-train-taxi-fares' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'clothes' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'day-trips' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'holidays' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'personal-allowance-pocket-money' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'toiletries' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+            ],
+            'config' => ['hasDetails' => false, 'type' => 'out']
+        ],
+        'fees' => [
+            'categories' => [
+                'deputy-security-bond' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'opg-fees' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'professional-fees-eg-solicitor-accountant' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'other-fees' => ['config' => ['hasDetails' => true, 'type' => 'out']]
+            ],
+            'config' => ['hasDetails' => false, 'type' => 'out']
+        ],
+        'major-purchases' => [
+            'categories' => [
+                'investment-bonds-purchased' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+                'investment-account-purchased' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+                'stocks-and-shares-purchased' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+                'purchase-over-1000' => ['config' => ['hasDetails' => true, 'type' => 'out']]
+            ],
+            'config' => ['hasDetails' => false, 'type' => 'out']
+        ],
+        'debt-and-charges' => [
+            'categories' => [
+                'bank-charges' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'credit-cards-charges' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'loans' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'tax-payments-to-hmrc' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'unpaid-care-fees' => ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'debt-and-charges-other' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+            ],
+            'config' => ['hasDetails' => false, 'type' => 'out']
+        ],
+        'moving-money' => [
+            'categories' => [
+                'cash-withdrawn' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+                'transfers-out-to-other-accounts' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+                'anything-else-paid-out' => ['config' => ['hasDetails' => true, 'type' => 'out']],
+            ],
+            'config' => ['hasDetails' => false, 'type' => 'out']
         ]
     ];
 
-        //'account-interest' => [false, '20', 'income-and-earnings', 'in'],
-        //'dividends' => [false, '30', 'income-and-earnings', 'in'],
-        //'income-from-property-rental' => [false, '50', 'income-and-earnings', 'in'],
-        //'salary-or-wages' => [false, '10', 'salary-or-wages', 'in'],
-
-        //'personal-pension' => [false, '190', 'pensions', 'in'],
-        //'state-pension' => [false, '200', 'pensions', 'in'],
-
-//        'attendance-allowance' => [false, '70', 'state-benefits', 'in'],
-//        'disability-living-allowance' => [false, '80', 'state-benefits', 'in'],
-//        'employment-support-allowance' => [false, '90', 'state-benefits', 'in'],
-//        'housing-benefit' => [false, '100', 'state-benefits', 'in'],
-//        'incapacity-benefit' => [false, '110', 'state-benefits', 'in'],
-//        'income-support' => [false, '120', 'state-benefits', 'in'],
-//        'pension-credit' => [false, '130', 'state-benefits', 'in'],
-//        'personal-independence-payment' => [false, '140', 'state-benefits', 'in'],
-//        'severe-disablement-allowance' => [false, '150', 'state-benefits', 'in'],
-//        'universal-credit' => [false, '160', 'state-benefits', 'in'],
-//        'winter-fuel-cold-weather-payment' => [false, '170', 'state-benefits', 'in'],
-//        'other-benefits' => [true, '180', 'state-benefits', 'in'],
-
-//        'compensation-or-damages-award' => [true, '210', 'damages', 'in'],
-//
-//        'bequest-or-inheritance' => [false, '220', 'one-off', 'in'],
-//        'cash-gift-received' => [false, '230', 'one-off', 'in'],
-//        'refunds' => [false, '240', 'one-off', 'in'],
-//        'sale-of-asset' => [true, '250', 'one-off', 'in'],
-//        'sale-of-investment' => [true, '260', 'one-off', 'in'],
-//        'sale-of-property' => [true, '270', 'one-off', 'in'],
-
-//        'anything-else', true, '290', 'moneyin-other', 'in'],
-
-        // Money Out
-//        'broadband', false, '300', 'household-bills', 'out'],
-//        'council-tax', false, '310', 'household-bills', 'out'],
-//        'electricity', false, '320', 'household-bills', 'out'],
-//        'food', false, '330', 'household-bills', 'out'],
-//        'gas', false, '340', 'household-bills', 'out'],
-//        'insurance-eg-life-home-contents', false, '350', 'household-bills', 'out'],
-//        'other-insurance', false, '360', 'household-bills', 'out'],
-//        'property-maintenance-improvement', true, '370', 'household-bills', 'out'],
-//        'telephone', false, '380', 'household-bills', 'out'],
-//        'tv-services', false, '390', 'household-bills', 'out'],
-//        'water', false, '400', 'household-bills', 'out'],
-//        'households-bills-other', true, '410', 'household-bills', 'out'],
-
-//        'accommodation-service-charge', false, '420', 'accommodation', 'out'],
-//        'mortgage', false, '430', 'accommodation', 'out'],
-//        'rent', false, '440', 'accommodation', 'out'],
-//        'accommodation-other', true, '450', 'accommodation', 'out'],
-
-//        'care-fees', false, '460', 'care-and-medical', 'out'],
-//        'local-authority-charges-for-care', false, '470', 'care-and-medical', 'out'],
-//        'medical-expenses', false, '480', 'care-and-medical', 'out'],
-//        'medical-insurance', false, '490', 'care-and-medical', 'out'],
-
-//        'client-transport-bus-train-taxi-fares', false, '500', 'client-expenses', 'out'],
-//        'clothes', false, '510', 'client-expenses', 'out'],
-//        'day-trips', false, '520', 'client-expenses', 'out'],
-//        'holidays', false, '530', 'client-expenses', 'out'],
-//        'personal-allowance-pocket-money', false, '540', 'client-expenses', 'out'],
-//        'toiletries', false, '550', 'client-expenses', 'out'],
-
-//        'deputy-security-bond', false, '560', 'fees', 'out'],
-//        'opg-fees', false, '570', 'fees', 'out'],
-//        'professional-fees-eg-solicitor-accountant', true, '590', 'fees', 'out'],
-//        'other-fees', true, '580', 'fees', 'out'],
-
-//        'investment-bonds-purchased', true, '610', 'major-purchases', 'out'],
-//        'investment-account-purchased', true, '620', 'major-purchases', 'out'],
-//        'stocks-and-shares-purchased', true, '640', 'major-purchases', 'out'],
-//        'purchase-over-1000', true, '630', 'major-purchases', 'out'],
-
-//        'bank-charges', false, '660', 'debt-and-charges', 'out'],
-//        'credit-cards-charges', false, '670', 'debt-and-charges', 'out'],
-//        'loans', false, '690', 'debt-and-charges', 'out'],
-//        'tax-payments-to-hmrc', false, '700', 'debt-and-charges', 'out'],
-//        'unpaid-care-fees', false, '680', 'debt-and-charges', 'out'],
-//        'debt-and-charges-other', true, '710', 'debt-and-charges', 'out'],
-
-//        'cash-withdrawn', true, '720', 'moving-money', 'out'],
-//        'transfers-out-to-other-accounts', true, '730', 'moving-money', 'out'],
-//        'anything-else-paid-out', true, '740', 'moneyout-other', 'out'],
-//
-//    ];
 
     /**
      * @JMS\Type("string")

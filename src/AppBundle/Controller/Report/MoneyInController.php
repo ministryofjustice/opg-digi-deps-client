@@ -97,7 +97,7 @@ class MoneyInController extends AbstractController
                 $stepUrlData['group'] = $transaction->getGroup();
 
                 // if no categories, set the category to be same as group and redirect to step 3
-                if (empty(EntityDir\Report\MoneyTransaction::$categories['in'][$transaction->getGroup()]['categories'])) {
+                if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
                     $stepUrlData['category'] = $transaction->getGroup();
                     $stepRedirector->setStepUrlAdditionalParams([
                         'data' => $stepUrlData
