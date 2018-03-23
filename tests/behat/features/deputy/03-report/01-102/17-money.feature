@@ -116,7 +116,7 @@ Feature: Report money 102
       | account_amount      |  | [ERR] |
     And the step with the following values CAN be submitted:
       | account_description | january bill |
-      | account_amount      | 12345.68     |
+      | account_amount      | 12845.68     |
       # add another: yes
     And I choose "yes" when asked for adding another record
       # add transaction n.2
@@ -143,14 +143,14 @@ Feature: Report money 102
     And each text should be present in the corresponding region:
       | Broadband               | transaction-january-bill            |
       | january bill            | transaction-january-bill            |
-      | £12,345.68              | transaction-january-bill            |
+      | £12,845.68              | transaction-january-bill            |
       | Broadband               | transaction-delete-me               |
       | delete me               | transaction-delete-me               |
       | £1                      | transaction-delete-me               |
       | Anything else           | transaction-money-found-on-the-road |
       | money found on the road | transaction-money-found-on-the-road |
       | £50.00                  | transaction-money-found-on-the-road |
-      | £12,346.68              | household-bills-total               |
+      | £12,846.68              | household-bills-total               |
       # remove transaction n.2
     When I click on "delete" in the "transaction-delete-me" region
     Then I should not see the "transaction-delete-me" region
