@@ -125,6 +125,8 @@ form:
       moving-money: Moving money
       moneyout-other: Other
       salary-or-wages: Salary or wages
+      transfers-out-to-other-accounts: Transfers from %client%'s account to other accounts
+      cash-withdrawn: Cash withdrawn from %client%'s account
   amount:
       label: Amount
   description:
@@ -321,7 +323,3 @@ form:
       cash-withdrawn:
         label: Cash withdrawn from %client%'s account
         moreInformations: For each withdrawal, please enter the date, the amount and what it was for
-      anything-else-paid-out:
-        label: Anything else paid out
-        moreInformations: Give us more information
-
