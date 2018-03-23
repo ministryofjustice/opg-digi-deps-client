@@ -49,6 +49,14 @@ Feature: Report money 102
     And the step with the following values CAN be submitted:
       | account_description | money found on the road |
       | account_amount      | 50                      |
+    # add another: yes
+    And I choose "yes" when asked for adding another record
+    And the step with the following values CAN be submitted:
+      | account_group_0 | salary-or-wages |
+    # no sub categories
+    And the step with the following values CAN be submitted:
+      | account_description | money from part time job |
+      | account_amount      | 500                      |
     # add another: no
     And I choose "no" when asked for adding another record
     # check record in summary page
@@ -62,7 +70,11 @@ Feature: Report money 102
       | Anything else           | transaction-money-found-on-the-road |
       | money found on the road | transaction-money-found-on-the-road |
       | £50.00                  | transaction-money-found-on-the-road |
+      | money from part time job | transaction-money-from-part-time-job |
+      | £500.00                  | transaction-money-from-part-time-job |
       | £12,346.67              | pensions-total                      |
+      | £50.00                  | moneyin-other-total                 |
+      | £500.00                 | salary-or-wages-total               |
     # remove transaction n.2
     When I click on "delete" in the "transaction-delete-me" region
     Then I should not see the "transaction-delete-me" region
