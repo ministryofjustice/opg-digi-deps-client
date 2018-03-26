@@ -149,10 +149,11 @@ class MoneyInController extends AbstractController
      * @param $stepRedirector
      * @return string
      */
-    private function generateBackLink(Request $request, $transaction, $stepRedirector)
+    private function generateBackLink(Request $request, $transaction, StepRedirector $stepRedirector)
     {
         // if no categories, set the category to be same as group and redirect to step 3
-        if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
+
+        if ($request->get('step') != 1 && empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
 
             $stepUrlData['category'] = $transaction->getGroup();
             $stepRedirector->setStepUrlAdditionalParams([

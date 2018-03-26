@@ -143,7 +143,7 @@ class MoneyOutController extends AbstractController
     private function generateBackLink(Request $request, $transaction, $stepRedirector)
     {
         // if no categories, set the category to be same as group and redirect to step 3
-        if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
+        if ($request->get('step') != 1 && empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
 
             $stepUrlData['category'] = $transaction->getGroup();
             $stepRedirector->setStepUrlAdditionalParams([
