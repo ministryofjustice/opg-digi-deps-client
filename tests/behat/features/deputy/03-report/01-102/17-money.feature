@@ -5,7 +5,7 @@ Feature: Report money 102
   Scenario: save status before starting money 102
     Given I save the application status into "money-transactions-before"
 
-  @deputy
+  @deputy @shaun
   Scenario: money in 102
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
     And I click on "report-start, edit-money_in, start"
@@ -95,7 +95,7 @@ Feature: Report money 102
       | Some money found on the road | transaction-some-money-found-on-the-road |
       | £51.00 | transaction-some-money-found-on-the-road |
 
-  @deputy
+  @deputy @shaun
   Scenario: money out
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
     And I click on "report-start"
