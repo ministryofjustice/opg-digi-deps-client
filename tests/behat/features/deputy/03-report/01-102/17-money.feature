@@ -5,7 +5,7 @@ Feature: Report money 102
   Scenario: save status before starting money 102
     Given I save the application status into "money-transactions-before"
 
-  @deputy @shaun
+  @deputy
   Scenario: money in 102
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
     And I click on "report-start, edit-money_in, start"
@@ -45,8 +45,6 @@ Feature: Report money 102
     And the step with the following values CAN be submitted:
       | account_group_0 | moneyin-other |
     And the step with the following values CAN be submitted:
-      | account_category_0 | anything-else |
-    And the step with the following values CAN be submitted:
       | account_description | money found on the road |
       | account_amount      | 50                      |
     # add another: yes
@@ -67,7 +65,7 @@ Feature: Report money 102
       | State Pension           | transaction-delete-me               |
       | delete me               | transaction-delete-me               |
       | £1                      | transaction-delete-me               |
-      | Anything else           | transaction-money-found-on-the-road |
+      | Other income            | transaction-money-found-on-the-road |
       | money found on the road | transaction-money-found-on-the-road |
       | £50.00                  | transaction-money-found-on-the-road |
       | money from part time job | transaction-money-from-part-time-job |
@@ -91,11 +89,11 @@ Feature: Report money 102
       | account_description | Some money found on the road |
       | account_amount      | 51                      |
     And each text should be present in the corresponding region:
-      | Anything else           | transaction-some-money-found-on-the-road |
+      | Other income           | transaction-some-money-found-on-the-road |
       | Some money found on the road | transaction-some-money-found-on-the-road |
       | £51.00 | transaction-some-money-found-on-the-road |
 
-  @deputy @shaun
+  @deputy
   Scenario: money out
     Given I am logged in as "behat-user@publicguardian.gsi.gov.uk" with password "Abcd1234"
     And I click on "report-start"
@@ -133,8 +131,6 @@ Feature: Report money 102
     And the step with the following values CAN be submitted:
       | account_group_0 | moneyout-other |
     And the step with the following values CAN be submitted:
-      | account_category_0 | anything-else-paid-out |
-    And the step with the following values CAN be submitted:
       | account_description | money found on the road |
       | account_amount      | 50                      |
       # add another: no
@@ -147,7 +143,7 @@ Feature: Report money 102
       | Broadband               | transaction-delete-me               |
       | delete me               | transaction-delete-me               |
       | £1                      | transaction-delete-me               |
-      | Anything else           | transaction-money-found-on-the-road |
+      | Other payments          | transaction-money-found-on-the-road |
       | money found on the road | transaction-money-found-on-the-road |
       | £50.00                  | transaction-money-found-on-the-road |
       | £12,846.68              | household-bills-total               |
@@ -167,7 +163,7 @@ Feature: Report money 102
       | account_description | Some money found on the road |
       | account_amount      | 51                           |
     And each text should be present in the corresponding region:
-      | Anything else                | transaction-some-money-found-on-the-road |
+      | Other payments               | transaction-some-money-found-on-the-road |
       | Some money found on the road | transaction-some-money-found-on-the-road |
       | £51.00                       | transaction-some-money-found-on-the-road |
 
