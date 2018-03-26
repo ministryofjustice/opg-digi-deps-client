@@ -126,9 +126,38 @@ class MoneyOutController extends AbstractController
             'step' => $step,
             'reportStatus' => $report->getStatus(),
             'form' => $form->createView(),
-            'backLink' => $stepRedirector->getBackLink(),
+            'backLink' => $this->generateBackLink($request, $transaction, $stepRedirector),
             'skipLink' => null,
         ];
+    }
+
+    /**
+     * Generate the back link for all step pages. Needs to cope with add another (back to summary page) which is not
+     * part of the step redirector.
+     *
+     * @param Request $request
+     * @param $transaction
+     * @param $stepRedirector
+     * @return string
+     */
+    private function generateBackLink(Request $request, $transaction, $stepRedirector)
+    {
+        // if no categories, set the category to be same as group and redirect to step 3
+        if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
+
+            $stepUrlData['category'] = $transaction->getGroup();
+            $stepRedirector->setStepUrlAdditionalParams([
+                'data' => $stepUrlData
+            ]);
+            $stepRedirector->setCurrentStep(2);
+
+        }
+        $fromPage = $request->get('from');
+
+        if (strtolower($fromPage)  === 'money_out_add_another') {
+            return $this->generateUrl('money_out_summary', ['reportId' => $request->get('reportId')]);
+        }
+        return $stepRedirector->getBackLink();
     }
 
     /**
@@ -145,7 +174,7 @@ class MoneyOutController extends AbstractController
         if ($form->isValid()) {
             switch ($form['addAnother']->getData()) {
                 case 'yes':
-                    return $this->redirectToRoute('money_out_step', ['reportId' => $reportId, 'step' => 1]);
+                    return $this->redirectToRoute('money_out_step', ['reportId' => $reportId, 'step' => 1, 'from' => 'money_out_add_another']);
                 case 'no':
                     return $this->redirectToRoute('money_out_summary', ['reportId' => $reportId]);
             }
