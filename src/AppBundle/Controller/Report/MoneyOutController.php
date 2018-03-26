@@ -87,6 +87,16 @@ class MoneyOutController extends AbstractController
             // decide what data in the partial form needs to be passed to next step
             if ($step == 1) {
                 $stepUrlData['group'] = $transaction->getGroup();
+
+                // if no categories, set the category to be same as group and redirect to step 3
+                if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
+                    $stepUrlData['category'] = $transaction->getGroup();
+                    $stepRedirector->setStepUrlAdditionalParams([
+                        'data' => $stepUrlData
+                    ]);
+                    $stepRedirector->setCurrentStep(2);
+                    return $this->redirect($stepRedirector->getRedirectLinkAfterSaving());
+                }
             } elseif ($step == 2) {
                 $stepUrlData['category'] = $transaction->getCategory();
             } elseif ($step == $totalSteps) {
