@@ -129,6 +129,8 @@ class MoneyInController extends AbstractController
             return $this->redirect($stepRedirector->getRedirectLinkAfterSaving());
         }
 
+        $backLink = $this->generateBackLink($transaction, $stepRedirector);
+
         return [
             'transaction' => $transaction,
             'report' => $report,
@@ -138,6 +140,20 @@ class MoneyInController extends AbstractController
             'backLink' => $stepRedirector->getBackLink(),
             'skipLink' => null,
         ];
+    }
+
+    private function generateBackLink($transaction, $stepRedirector)
+    {
+        // if no categories, set the category to be same as group and redirect to step 3
+        if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
+            $stepUrlData['category'] = $transaction->getGroup();
+            $stepRedirector->setStepUrlAdditionalParams([
+                'data' => $stepUrlData
+            ]);
+            $stepRedirector->setCurrentStep(2);
+            return $this->redirect($stepRedirector->getRedirectLinkAfterSaving());
+        }
+        return $stepRedirector->getBackLink();
     }
 
     /**
