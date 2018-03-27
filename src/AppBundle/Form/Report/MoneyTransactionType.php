@@ -39,7 +39,7 @@ class MoneyTransactionType extends AbstractType
     {
         $ret = [];
 
-        foreach (MoneyTransaction::$categories[$this->selectedGroup]['categories'] as $subcategory => $hasDetails) {
+        foreach (MoneyTransaction::$categories[$this->selectedGroup]['categories'] as $subcategory => $configArray) {
             $ret[$subcategory] = $this->translate('form.category.entries.' . $subcategory . '.label');
         }
 

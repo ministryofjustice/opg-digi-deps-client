@@ -78,7 +78,7 @@ class MoneyTransaction
             'categories' => [
                 'broadband' => ['config' => ['hasDetails' => false, 'type' => 'out']],
                 'council-tax' => ['config' => ['hasDetails' => false, 'type' => 'out']],
-                'electricity', ['config' => ['hasDetails' => false, 'type' => 'out']],
+                'electricity' => ['config' => ['hasDetails' => false, 'type' => 'out']],
                 'food' => ['config' => ['hasDetails' => false, 'type' => 'out']],
                 'gas' => ['config' => ['hasDetails' => false, 'type' => 'out']],
                 'insurance-eg-life-home-contents' => ['config' => ['hasDetails' => false, 'type' => 'out']],
