@@ -52,7 +52,6 @@ class MoneyInController extends AbstractController
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
         $fromPage = $request->get('from');
 
-
         $stepRedirector = $this->stepRedirector()
             ->setRoutes('money_in', 'money_in_step', 'money_in_summary')
             ->setFromPage($fromPage)
@@ -78,15 +77,38 @@ class MoneyInController extends AbstractController
         ]);
 
         // crete and handle form
-        $form = $this->createForm(FormDir\Report\MoneyTransactionType::class, $transaction, [ 'step'             => $step, 'type'             => 'in', 'translator'       => $this->get('translator'), 'clientFirstName'  => $report->getClient()->getFirstname(), 'selectedGroup'    => $transaction->getGroup(), 'selectedCategory' => $transaction->getCategory()
-                                   ]
-                                 );
+        //\Doctrine\Common\Util\Debug::dump($transaction,3);exit;
+        $form = $this->createForm(
+            FormDir\Report\MoneyTransactionType::class,
+            $transaction,
+            [
+                'step' => $step,
+                'type' => 'in',
+                'translator' => $this->get('translator'),
+                'clientFirstName' => $report->getClient()->getFirstname(),
+                'selectedGroup' => $transaction->getGroup(),
+                'selectedCategory' => $transaction->getCategory()
+            ]
+        );
         $form->handleRequest($request);
-
         if ($form->get('save')->isClicked() && $form->isValid()) {
             // decide what data in the partial form needs to be passed to next step
             if ($step == 1) {
                 $stepUrlData['group'] = $transaction->getGroup();
+
+                // unset from page to prevent step redirector skipping step 2
+                $stepRedirector->setFromPage(null);
+                
+                // if no categories, set the category to be same as group and redirect to step 3
+                if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
+                    $stepUrlData['category'] = $transaction->getGroup();
+                    $stepRedirector->setStepUrlAdditionalParams([
+                        'data' => $stepUrlData
+                    ]);
+                    $stepRedirector->setCurrentStep(2);
+
+                    return $this->redirect($stepRedirector->getRedirectLinkAfterSaving());
+                }
             } elseif ($step == 2) {
                 $stepUrlData['category'] = $transaction->getCategory();
             } elseif ($step == $totalSteps) {
@@ -116,9 +138,39 @@ class MoneyInController extends AbstractController
             'step' => $step,
             'reportStatus' => $report->getStatus(),
             'form' => $form->createView(),
-            'backLink' => $stepRedirector->getBackLink(),
+            'backLink' => $this->generateBackLink($request, $transaction, $stepRedirector),
             'skipLink' => null,
         ];
+    }
+
+    /**
+     * Generate the back link for all step pages. Needs to cope with add another (back to summary page) which is not
+     * part of the step redirector.
+     *
+     * @param Request $request
+     * @param $transaction
+     * @param $stepRedirector
+     * @return string
+     */
+    private function generateBackLink(Request $request, $transaction, StepRedirector $stepRedirector)
+    {
+        // if no categories, set the category to be same as group and redirect to step 3
+
+        if ($request->get('step') != 1 && empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
+
+            $stepUrlData['category'] = $transaction->getGroup();
+            $stepRedirector->setStepUrlAdditionalParams([
+                'data' => $stepUrlData
+            ]);
+            $stepRedirector->setCurrentStep(2);
+
+        }
+        $fromPage = $request->get('from');
+
+        if (strtolower($fromPage)  === 'money_in_add_another') {
+            return $this->generateUrl('money_in_summary', ['reportId' => $request->get('reportId')]);
+        }
+        return $stepRedirector->getBackLink();
     }
 
     /**
@@ -135,7 +187,7 @@ class MoneyInController extends AbstractController
         if ($form->isValid()) {
             switch ($form['addAnother']->getData()) {
                 case 'yes':
-                    return $this->redirectToRoute('money_in_step', ['reportId' => $reportId, 'step' => 1]);
+                    return $this->redirectToRoute('money_in_step', ['reportId' => $reportId, 'step' => 1, 'from' => 'money_in_add_another']);
                 case 'no':
                     return $this->redirectToRoute('money_in_summary', ['reportId' => $reportId]);
             }

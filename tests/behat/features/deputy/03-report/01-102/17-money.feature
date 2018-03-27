@@ -45,10 +45,16 @@ Feature: Report money 102
     And the step with the following values CAN be submitted:
       | account_group_0 | moneyin-other |
     And the step with the following values CAN be submitted:
-      | account_category_0 | anything-else |
-    And the step with the following values CAN be submitted:
       | account_description | money found on the road |
       | account_amount      | 50                      |
+    # add another: yes
+    And I choose "yes" when asked for adding another record
+    And the step with the following values CAN be submitted:
+      | account_group_0 | salary-or-wages |
+    # no sub categories
+    And the step with the following values CAN be submitted:
+      | account_description | money from part time job |
+      | account_amount      | 500                      |
     # add another: no
     And I choose "no" when asked for adding another record
     # check record in summary page
@@ -59,10 +65,14 @@ Feature: Report money 102
       | State Pension           | transaction-delete-me               |
       | delete me               | transaction-delete-me               |
       | £1                      | transaction-delete-me               |
-      | Anything else           | transaction-money-found-on-the-road |
+      | Other income            | transaction-money-found-on-the-road |
       | money found on the road | transaction-money-found-on-the-road |
       | £50.00                  | transaction-money-found-on-the-road |
+      | money from part time job | transaction-money-from-part-time-job |
+      | £500.00                  | transaction-money-from-part-time-job |
       | £12,346.67              | pensions-total                      |
+      | £50.00                  | moneyin-other-total                 |
+      | £500.00                 | salary-or-wages-total               |
     # remove transaction n.2
     When I click on "delete" in the "transaction-delete-me" region
     Then I should not see the "transaction-delete-me" region
@@ -79,7 +89,7 @@ Feature: Report money 102
       | account_description | Some money found on the road |
       | account_amount      | 51                      |
     And each text should be present in the corresponding region:
-      | Anything else           | transaction-some-money-found-on-the-road |
+      | Other income           | transaction-some-money-found-on-the-road |
       | Some money found on the road | transaction-some-money-found-on-the-road |
       | £51.00 | transaction-some-money-found-on-the-road |
 
@@ -104,7 +114,7 @@ Feature: Report money 102
       | account_amount      |  | [ERR] |
     And the step with the following values CAN be submitted:
       | account_description | january bill |
-      | account_amount      | 12345.68     |
+      | account_amount      | 12845.68     |
       # add another: yes
     And I choose "yes" when asked for adding another record
       # add transaction n.2
@@ -121,8 +131,6 @@ Feature: Report money 102
     And the step with the following values CAN be submitted:
       | account_group_0 | moneyout-other |
     And the step with the following values CAN be submitted:
-      | account_category_0 | anything-else-paid-out |
-    And the step with the following values CAN be submitted:
       | account_description | money found on the road |
       | account_amount      | 50                      |
       # add another: no
@@ -131,14 +139,14 @@ Feature: Report money 102
     And each text should be present in the corresponding region:
       | Broadband               | transaction-january-bill            |
       | january bill            | transaction-january-bill            |
-      | £12,345.68              | transaction-january-bill            |
+      | £12,845.68              | transaction-january-bill            |
       | Broadband               | transaction-delete-me               |
       | delete me               | transaction-delete-me               |
       | £1                      | transaction-delete-me               |
-      | Anything else           | transaction-money-found-on-the-road |
+      | Other payments          | transaction-money-found-on-the-road |
       | money found on the road | transaction-money-found-on-the-road |
       | £50.00                  | transaction-money-found-on-the-road |
-      | £12,346.68              | household-bills-total               |
+      | £12,846.68              | household-bills-total               |
       # remove transaction n.2
     When I click on "delete" in the "transaction-delete-me" region
     Then I should not see the "transaction-delete-me" region
@@ -155,7 +163,7 @@ Feature: Report money 102
       | account_description | Some money found on the road |
       | account_amount      | 51                           |
     And each text should be present in the corresponding region:
-      | Anything else                | transaction-some-money-found-on-the-road |
+      | Other payments               | transaction-some-money-found-on-the-road |
       | Some money found on the road | transaction-some-money-found-on-the-road |
       | £51.00                       | transaction-some-money-found-on-the-road |
 
