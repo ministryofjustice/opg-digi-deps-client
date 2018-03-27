@@ -96,6 +96,9 @@ class MoneyInController extends AbstractController
             if ($step == 1) {
                 $stepUrlData['group'] = $transaction->getGroup();
 
+                // unset from page to prevent step redirector skipping step 2
+                $stepRedirector->setFromPage(null);
+                
                 // if no categories, set the category to be same as group and redirect to step 3
                 if (empty(EntityDir\Report\MoneyTransaction::$categories[$transaction->getGroup()]['categories'])) {
                     $stepUrlData['category'] = $transaction->getGroup();
@@ -103,9 +106,9 @@ class MoneyInController extends AbstractController
                         'data' => $stepUrlData
                     ]);
                     $stepRedirector->setCurrentStep(2);
+
                     return $this->redirect($stepRedirector->getRedirectLinkAfterSaving());
                 }
-
             } elseif ($step == 2) {
                 $stepUrlData['category'] = $transaction->getCategory();
             } elseif ($step == $totalSteps) {
