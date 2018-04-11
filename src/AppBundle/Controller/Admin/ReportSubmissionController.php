@@ -24,7 +24,10 @@ class ReportSubmissionController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $this->processPost($request);
+        $response = $this->processPost($request);
+        if ($response instanceof Response) {
+            return $response;
+        }
         $currentFilters = self::getFiltersFromRequest($request);
         $ret = $this->getRestClient()->get('/report-submission?' . http_build_query($currentFilters), 'array');
 
@@ -57,6 +60,7 @@ class ReportSubmissionController extends AbstractController
      *
      * @param Request $request request
      *
+     * @return Response|null
      */
     private function processPost(Request $request)
     {
@@ -86,7 +90,7 @@ class ReportSubmissionController extends AbstractController
                         break;
 
                     case self::ACTION_DOWNLOAD:
-                        $this->processDownload($request, $checkedBoxes);
+                        return $this->processDownload($request, $checkedBoxes);
                         break;
                 }
             }
