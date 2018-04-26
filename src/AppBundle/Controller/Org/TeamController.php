@@ -40,13 +40,17 @@ class TeamController extends AbstractController
 
         $team = $this->getRestClient()->get('user/' . $this->getUser()->getId() . '/team', 'Team');
         $validationGroups = $team->canAddAdmin() ? ['org_team_add', 'org_team_role_name'] : ['org_team_add'];
-
-        $form = $this->createForm(FormDir\Org\TeamMemberAccountType::class, null, ['team' => $team, 'loggedInUser' => $this->getUser(), 'validation_groups' => $validationGroups
-                                   ]
-                                 );
+        // PA also require users to have the same domain address. PROF don't as they allow cross-team members
+        if ($this->getUser()->isDeputyPa()) {
+            $validationGroups[] = 'email_same_domain';
+        }
+        $form = $this->createForm(FormDir\Org\TeamMemberAccountType::class, null, [
+            'team' => $team,
+            'loggedInUser' => $this->getUser(),
+            'validation_groups' => $validationGroups
+         ]);
 
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             /** @var $user EntityDir\User */
             $user = $form->getData();
@@ -60,11 +64,25 @@ class TeamController extends AbstractController
             }
 
             try {
+                // Check user belonging to another team. If so:
+                // PROF named or admin: add to all the teams the current user belongs to
+                // all the other cases (PROF team member and all PAs): throw an exception
+                if ($this->getUser()->isProfNamedOrAdmin()) {
+                    $userInfo = $this->getRestClient()->get("user/get-team-names-by-email/" . $user->getEmail(), 'User');
+                    if (count($userInfo->getTeamNames()) > 0) {
+                        if ($userInfo->isDeputyPa()) {
+                            throw new \RuntimeException('User already belonging to a PA team', 422);
+                        }
+                        $this->getRestClient()->put('team/add-to-team/' . $userInfo->getId(), $user, ['user'], 'User');
+                        $request->getSession()->getFlashBag()->add('notice', 'The user has been added to the team'); // @biggs change if needed
+
+                        return $this->redirectToRoute('org_team');
+                    }
+                }
+
+                // if the above doesn't apply: continue adding the user
                 $user = $this->getRestClient()->post('user', $user, ['org_team_add'], 'User');
-
                 $request->getSession()->getFlashBag()->add('notice', 'The user has been added');
-
-                // activation link
                 $activationEmail = $this->getMailFactory()->createActivationEmail($user);
                 $this->getMailSender()->send($activationEmail, ['text', 'html']);
 
@@ -137,6 +155,7 @@ class TeamController extends AbstractController
         }
 
         return [
+            'user' => $user,
             'form' => $form->createView()
         ];
     }
@@ -205,9 +224,11 @@ class TeamController extends AbstractController
 
             $this->denyAccessUnlessGranted('delete-user', $userToRemove, 'Access denied');
 
-            $this->getRestClient()->delete('/team/delete-user/' . $userToRemove->getId());
+            // delete the user from all the teams the logged user belongs to.
+            // Also removes the user if (after the operation) won't belong to any team any longer
+            $this->getRestClient()->delete('/team/delete-membership/' . $userToRemove->getId());
 
-            $request->getSession()->getFlashBag()->add('notice', $userToRemove->getFullName() . ' has been removed');
+            $request->getSession()->getFlashBag()->add('notice', 'Operation completed');
         } catch (\Exception $e) {
             $this->get('logger')->debug($e->getMessage());
 
