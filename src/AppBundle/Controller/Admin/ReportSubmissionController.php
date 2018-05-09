@@ -74,7 +74,11 @@ class ReportSubmissionController extends AbstractController
 
                 switch ($action) {
                     case self::ACTION_ARCHIVE:
-                        $this->processArchive($checkedBoxes);
+                        foreach ($checkedBoxes as $reportSubmissionId) {
+                            $this->getRestClient()->put("report-submission/{$reportSubmissionId}", ['archive'=>true]);
+                        }
+
+
                         $notice = $this->get('translator')->transChoice(
                             'page.postactions.archived.notice',
                             $totalChecked,
@@ -90,19 +94,6 @@ class ReportSubmissionController extends AbstractController
                         break;
                 }
             }
-        }
-    }
-
-    /**
-     * Archive multiple documents based on the supplied ids
-     *
-     * @param array $checkedBoxes ids selected by the user
-     *
-     */
-    private function processArchive($checkedBoxes)
-    {
-        foreach ($checkedBoxes as $reportSubmissionId) {
-            $this->getRestClient()->put("report-submission/{$reportSubmissionId}", ['archive'=>true]);
         }
     }
 
