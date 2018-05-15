@@ -8,6 +8,14 @@
 
     <title>{% block htmlTitle %}Deputy report{% endblock %}</title>
 
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N4FKXXB');</script>
+    <!-- End Google Tag Manager -->
+
     <script>
       (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
     </script>
@@ -50,24 +58,29 @@
   </head>
 
   <body>
-      {% if ga is defined and ga is not null %}
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', '{{ga}}', 'auto');
-            {% if app.user %}
-                ga('set', '&uid','{{app.user.gaTrackingId()}}');
-            {% endif %}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N4FKXXB"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
-            {% if gaCustomUrl is defined %}
-                ga('send', 'pageview', '{{gaCustomUrl}}');
-            {% else %}
-                ga('send', 'pageview');
-            {% endif %}
-        </script>
-       {% endif %}
+    {% if ga is defined and ga is not null %}
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', '{{ga}}', 'auto');
+        {% if app.user %}
+            ga('set', '&uid','{{app.user.gaTrackingId()}}');
+        {% endif %}
+
+        {% if gaCustomUrl is defined %}
+            ga('send', 'pageview', '{{gaCustomUrl}}');
+        {% else %}
+            ga('send', 'pageview');
+        {% endif %}
+      </script>
+    {% endif %}
 
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
