@@ -3,7 +3,9 @@
 namespace AppBundle\Controller\Admin\Client;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Report\Checklist;
 use AppBundle\Exception\DisplayableException;
+use AppBundle\Form\Admin\ReportChecklistType;
 use AppBundle\Form\Admin\UnsubmitReportType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -64,6 +66,62 @@ class ReportController extends AbstractController
             'report'   => $report,
             'reportDueDate'   => $reportDueDate,
             'form'     => $form->createView()
+        ];
+    }
+
+    /**
+     * @Route("checklist", name="admin_report_checklist")
+     *
+     * @param Request $request
+     * @param $id
+     *
+     * @Template()
+     *
+     * @return array
+     */
+    public function checklistAction(Request $request, $id)
+    {
+        $report = $this->getReport($id, ['report', 'report-checklist', 'checklist-information', 'user']);
+        //\Doctrine\Common\Util\Debug::dump($report,2);exit;
+
+        // if (!$report->getSubmitted()) {
+        //     throw new DisplayableException('Cannot manage active report');
+        // }
+
+        $checklist = $report->getChecklist();
+        $checklist = empty($checklist) ? new Checklist($report) : $checklist;
+        $form = $this->createForm(ReportChecklistType::class, $checklist);
+        $form->handleRequest($request);
+        $buttonClicked = $form->getClickedButton();
+
+        // edit client form
+        if ($form->isValid($buttonClicked)) {
+
+            if (!empty($checklist->getId())) {
+                $this->getRestClient()->put ('report/' . $report->getId() . '/checked', $checklist, [
+                    'report-checklist', 'checklist-information'
+                ]);
+                $request->getSession()->getFlashBag()->add('notice', 'Report checklist updated');
+            } else {
+                $this->getRestClient()->post('report/' . $report->getId() . '/checked', $checklist, [
+                    'report-checklist', 'checklist-information'
+                ]);
+                $request->getSession()->getFlashBag()->add('notice', 'Report checklist created');
+            }
+
+            if ($buttonClicked->getName() == 'saveFurtherInformation') {
+                return $this->redirect(
+                    $this->generateUrl('admin_report_checklist', ['id'=>$report->getId()]) . '#furtherInfomation'
+                );
+            } else {
+                return $this->redirect($this->generateUrl('admin_report_checklist', ['id'=>$report->getId()]) . '#' );
+            }
+        }
+
+        return [
+            'report'   => $report,
+            'form'     => $form->createView(),
+            'checklist' => $checklist
         ];
     }
 }
