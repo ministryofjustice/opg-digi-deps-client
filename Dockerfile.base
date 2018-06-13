@@ -27,4 +27,5 @@ COPY composer.lock /app/
 WORKDIR /app
 USER app
 ENV  HOME /app
-RUN  composer global require hirak/prestissimo
+# not sure it the following brings more speed
+#RUN  composer global require hirak/prestissimo
