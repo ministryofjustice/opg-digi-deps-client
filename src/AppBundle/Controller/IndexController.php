@@ -67,6 +67,7 @@ class IndexController extends AbstractController
                         'form' => $form->createView(),
                     ] + $vars);
             }
+
             // manually set session token into security context (manual login)
             $token = new UsernamePasswordToken($user, null, 'secured_area', $user->getRoles());
             $this->get('security.token_storage')->setToken($token);
@@ -81,7 +82,6 @@ class IndexController extends AbstractController
             // regenerate cookie, otherwise gc_* timeouts might logout out after successful login
             $session->migrate();
 
-            $request = $this->get('request');
             $event = new InteractiveLoginEvent($request, $token);
             $this->get('event_dispatcher')->dispatch('security.interactive_login', $event);
 
