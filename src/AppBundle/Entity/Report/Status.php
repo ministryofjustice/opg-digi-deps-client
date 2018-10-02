@@ -450,11 +450,19 @@ class Status
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
     public function isReadyToSubmit()
     {
         return $this->isReadyToSubmit;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isReadyToSubmitAndDue()
+    {
+        return $this->isReadyToSubmit && $this->report->isDue();
     }
 
     /**
