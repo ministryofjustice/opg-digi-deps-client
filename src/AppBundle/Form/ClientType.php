@@ -25,8 +25,8 @@ class ClientType extends AbstractType
                 ->add('caseNumber', FormTypes\TextType::class, ['attr'=> ['readonly' => 'readonly']]);
         } else {
             $builder->add('firstname', FormTypes\TextType::class)
-                ->add('lastname', FormTypes\TextType::class)
-                ->add('caseNumber', FormTypes\TextType::class);
+                ->add('lastname', FormTypes\TextType::class);
+
         }
         $builder->add('courtDate', FormTypes\DateType::class, [
             'widget' => 'text',
