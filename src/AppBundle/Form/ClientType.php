@@ -26,7 +26,6 @@ class ClientType extends AbstractType
         } else {
             $builder->add('firstname', FormTypes\TextType::class)
                 ->add('lastname', FormTypes\TextType::class);
-
         }
         $builder->add('courtDate', FormTypes\DateType::class, [
             'widget' => 'text',
