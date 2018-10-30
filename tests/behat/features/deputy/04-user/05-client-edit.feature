@@ -43,7 +43,6 @@ Feature: deputy / report / edit client
         When I fill in the following:
             | client_firstname | Nolan |
             | client_lastname | Ross |
-            | client_caseNumber | 12345ABC |
             | client_courtDate_day | 1 |
             | client_courtDate_month | 1 |
             | client_courtDate_year | 2016 |
