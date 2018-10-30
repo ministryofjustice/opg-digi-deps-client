@@ -189,7 +189,7 @@ trait UserTrait
         }
         $this->fillField('client_firstname', $rows['name'][0]);
         $this->fillField('client_lastname', $rows['name'][1]);
-        $this->fillField('client_caseNumber', $rows['caseNumber'][0]);
+        //$this->fillField('client_caseNumber', $rows['caseNumber'][0]);
         $this->fillField('client_courtDate_day', $rows['courtDate'][0]);
         $this->fillField('client_courtDate_month', $rows['courtDate'][1]);
         $this->fillField('client_courtDate_year', $rows['courtDate'][2]);
