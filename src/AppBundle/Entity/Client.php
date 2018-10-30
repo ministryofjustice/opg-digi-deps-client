@@ -85,10 +85,6 @@ class Client
      * @JMS\Type("string")
      * @JMS\Groups({"edit", "client-case-number"})
      *
-     * @Assert\NotBlank( message="client.caseNumber.notBlank", groups={"lay-deputy-client", "verify-codeputy"})
-     * @Assert\Length(min = 8, max=8, exactMessage= "client.caseNumber.exactMessage1", groups={"lay-deputy-client", "verify-codeputy"})
-     * @Assert\Length(min = 8, max=8, exactMessage= "client.caseNumber.exactMessage2", groups={"lay-deputy-client", "verify-codeputy"})
-     *
      * @var string
      */
     private $caseNumber;
