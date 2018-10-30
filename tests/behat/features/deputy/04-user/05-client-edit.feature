@@ -21,7 +21,7 @@ Feature: deputy / report / edit client
         When I fill in the following:
             | client_firstname | |
             | client_lastname |  |
-            | client_caseNumber |  |
+            #| client_caseNumber |  |
             | client_courtDate_day | |
             | client_courtDate_month | |
             | client_courtDate_year | |
