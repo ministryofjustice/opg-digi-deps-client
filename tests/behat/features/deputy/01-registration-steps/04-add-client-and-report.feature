@@ -8,7 +8,7 @@ Feature: deputy / user / add client and report
     Then the following hidden fields should have the corresponding values:
       | client_firstname  | Cly      |
       | client_lastname   | Hent     |
-      | client_caseNumber | behat001 |
+      #| client_caseNumber | behat001 |
     When I press "client_save"
     Then the following fields should have an error:
       | client_courtDate_day   |
@@ -48,7 +48,7 @@ Feature: deputy / user / add client and report
     Then the following hidden fields should have the corresponding values:
       | client_firstname  | Cly      |
       | client_lastname   | Hent     |
-      | client_caseNumber | behat001 |
+      #| client_caseNumber | behat001 |
       | client_postcode   | NG1 2HT  |
     And the following fields should have the corresponding values:
       | client_courtDate_day   | 01             |
