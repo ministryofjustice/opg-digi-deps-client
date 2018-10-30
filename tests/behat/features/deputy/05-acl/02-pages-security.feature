@@ -18,7 +18,7 @@ Feature: deputy / acl / security on pages
       | phone   | 020 3334 3555    | 020 1234 5678 |        |          |    |
     When I set the client details with:
       | name       | Malicious      | Client      |            |         |    |
-      | caseNumber | 12345ABC       |             |            |         |    |
+      #| caseNumber | 12345ABC       |             |            |         |    |
       | courtDate  | 1              | 1           | 2016       |         |    |
       | address    | 1 South Parade | First Floor | Nottingham | NG1 2HT | GB |
       | phone      | 0123456789     |             |            |         |    |

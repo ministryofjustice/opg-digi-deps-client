@@ -58,7 +58,7 @@ Feature: deputy / report / edit client
             | client_phone | 0123456789  |
         And I press "client_save"
         Then I should be on "/deputyship-details/your-client"
-        And I should see "12345ABC" in the "case-number" region
+        #And I should see "12345ABC" in the "case-number" region
         And I should see "NG1 2HT" in the "client-address-postcode" region
         When I click on "client-edit"
         Then the following fields should have the corresponding values:

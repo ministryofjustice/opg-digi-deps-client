@@ -67,7 +67,7 @@ Feature: deputy / user / add client and report
       # right values
     When I set the client details with:
       | name       | Cly           | Hent         |            |         |    |
-      | caseNumber | behat001       |             |            |         |    |
+      #| caseNumber | behat001       |             |            |         |    |
       | courtDate  | 1              | 1           | 2016       |         |    |
       | address    | 1 South Parade | First Floor | Nottingham | NG1 2HT | GB |
       | phone      | 0123456789     |             |            |         |    |
@@ -85,7 +85,7 @@ Feature: deputy / user / add client and report
       # right values
     When I set the client details with:
       | name       | Cly           | Hent         |            |         |    |
-      | caseNumber | behat001       |             |            |         |    |
+      #| caseNumber | behat001       |             |            |         |    |
       | courtDate  | 1              | 1           | 2016       |         |    |
       | address    | 1 South Parade | First Floor | Nottingham | NG1 2HT | GB |
       | phone      | 0123456789     |             |            |         |    |
