@@ -56,9 +56,9 @@
     {{ form_input(form.phone, 'phone') }}
 
     {% if not client_validated %}
-        {{ form_input(form.caseNumber, 'caseNumber', {
-            'labelRaw': true
-        }) }}
+        {#{{ form_input(form.caseNumber, 'caseNumber', {#}
+            {#'labelRaw': true#}
+        {#}) }}#}
     {% endif %}
 
     {{ form_known_date(form.courtDate, 'courtDate') }}
