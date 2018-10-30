@@ -21,7 +21,6 @@ Feature: deputy / report / edit client
         When I fill in the following:
             | client_firstname | |
             | client_lastname |  |
-            | client_caseNumber |  |
             | client_courtDate_day | |
             | client_courtDate_month | |
             | client_courtDate_year | |
@@ -38,8 +37,6 @@ Feature: deputy / report / edit client
             | client_courtDate_day |
             | client_courtDate_month |
             | client_courtDate_year |
-            | client_caseNumber |
-            | client_caseNumber |
             | client_address |
             | client_postcode |
             | client_phone |
@@ -58,9 +55,9 @@ Feature: deputy / report / edit client
             | client_phone | 0123456789  |
         And I press "client_save"
         Then I should be on "/deputyship-details/your-client"
-        And I should see "12345ABC" in the "case-number" region
+        And I should see "behat001" in the "case-number" region
         And I should see "NG1 2HT" in the "client-address-postcode" region
         When I click on "client-edit"
         Then the following fields should have the corresponding values:
             | client_firstname | Nolan |
-        
+
