@@ -19,14 +19,14 @@ class ClientType extends AbstractType
             $this->setClientValidated((bool) $options['client_validated']);
         }
 
-        if ($this->isClientValidated()) {
+        if ($this->isClientValidated() || $options['client_exists']) {
             $builder->add('firstname', FormTypes\TextType::class, ['attr'=> ['readonly' => 'readonly']])
                 ->add('lastname', FormTypes\TextType::class, ['attr'=> ['readonly' => 'readonly']])
                 ->add('caseNumber', FormTypes\TextType::class, ['attr'=> ['readonly' => 'readonly']]);
         } else {
             $builder->add('firstname', FormTypes\TextType::class)
                 ->add('lastname', FormTypes\TextType::class)
-                ->add('caseNumber', FormTypes\TextType::class, ['attr'=> ['readonly' => 'readonly']]);
+                ->add('caseNumber', FormTypes\TextType::class);
         }
         $builder->add('courtDate', FormTypes\DateType::class, [
             'widget' => 'text',
@@ -61,7 +61,8 @@ class ClientType extends AbstractType
             'translation_domain' => 'registration',
             'validation_groups'  => 'lay-deputy-client',
             'client_validated'   => null
-        ]);
+        ])
+        ->setRequired('client_exists');
     }
 
     public function getBlockPrefix()
