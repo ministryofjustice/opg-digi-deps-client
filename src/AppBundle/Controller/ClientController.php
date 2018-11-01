@@ -44,7 +44,7 @@ class ClientController extends AbstractController
             $client,
             [
                 'action' => $this->generateUrl('client_edit', ['action' => 'edit']),
-                'client_exists' => (bool) !empty($client->getId())
+                'client_exists' => !empty($client->getId())
             ]
         );
         $form->handleRequest($request);
@@ -96,7 +96,7 @@ class ClientController extends AbstractController
             $client,
             [
              'client_validated' => $client_validated,
-             'client_exists' => (bool) !empty($client->getId())
+             'client_exists' => !empty($client->getId())
             ]);
 
         $form->handleRequest($request);
