@@ -3,6 +3,7 @@ Feature: Admin report checklist
   @deputy
   Scenario: Case manager submits empty checklist for the report 102
     Given I am logged in to admin as "casemanager@publicguardian.gsi.gov.uk" with password "Abcd1234"
+    Then die 2
     # Navigate to checklist via search
     And I click on "admin-client-search"
     Then each text should be present in the corresponding region:
@@ -157,7 +158,7 @@ Feature: Admin report checklist
     And I fill in "report_checklist_bondOrderMatchCasrec_2" with "na"
     And I fill in "report_checklist_futureSignificantFinancialDecisions_0" with "yes"
     And I fill in "report_checklist_hasDeputyRaisedConcerns_1" with "no"
-    And I fill in "report_checklist_caseWorkerSatisified_2" with "na"
+    And I fill in "report_checklist_caseWorkerSatisified_0" with "yes"
     And I fill in "report_checklist_finalDecision_0" with "for-review"
     And I fill in "report_checklist_lodgingSummary" with "I am not satisfied"
     Then I click on "save-progress"
@@ -182,7 +183,7 @@ Feature: Admin report checklist
       | report_checklist_bondOrderMatchCasrec_2                | na                 |
       | report_checklist_futureSignificantFinancialDecisions_0 | yes                |
       | report_checklist_hasDeputyRaisedConcerns_1             | no                 |
-      | report_checklist_caseWorkerSatisified_2                | na                 |
+      | report_checklist_caseWorkerSatisified_0                | yes                 |
       | report_checklist_finalDecision_0                       | for-review         |
       | report_checklist_lodgingSummary                        | I am not satisfied |
     Then I click on "submit-and-download"
