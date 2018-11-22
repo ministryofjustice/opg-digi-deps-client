@@ -22,7 +22,7 @@ Feature: Admin unsubmit and client re-submit
 
   @deputy
   Scenario: PA resubmit report
-    Given I am logged in as "behat-pa1@publicguardian.gsi.gov.uk" with password "Abcd1234"
+    Given I am logged in as "behat-pa1@publicguardian.gov.uk" with password "Abcd1234"
     And I fill in "search" with "01000014"
     And I press "search_submit"
     Then I should see the "client" region exactly 1 times
