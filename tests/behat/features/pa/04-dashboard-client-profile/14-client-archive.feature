@@ -2,7 +2,7 @@ Feature: PA client archive
 
   Scenario: PA archives a client
     Given I load the application status from "team-users-complete"
-    And I am logged in as "behat-pa1@publicguardian.gsi.gov.uk" with password "Abcd1234"
+    And I am logged in as "behat-pa1@publicguardian.gov.uk" with password "Abcd1234"
     When I click on "pa-report-open" in the "client-01000016" region
     # archive-cancel
     And I click on "client-archive"
@@ -31,5 +31,5 @@ Feature: PA client archive
     And I press "admin_upload_upload"
     Then the form should be valid
       # assert archived is shown in PA dashboard
-    Given I am logged in as "behat-pa1@publicguardian.gsi.gov.uk" with password "Abcd1234"
+    Given I am logged in as "behat-pa1@publicguardian.gov.uk" with password "Abcd1234"
     Then I should not see the "client-01000016" region
