@@ -21,7 +21,7 @@ howCharged:
     options:
       fixed: Fixed costs
       assessed: Assessed costs
-      both: Both
+      both: Both fixed and assessed costs
 
 breakdown:
   htmlTitle: "Deputy report - Deputy costs estimate | GOV.UK"
@@ -56,12 +56,11 @@ moreInfo:
       yesno: "More information"
       details: "More information details"
 
+totalEstimatedCosts: Total estimated costs
+
 summaryPage:
   htmlTitle: "Deputy report - Deputy costs estimate | GOV.UK"
   pageTitle:  Deputy costs estimates
   returnToClientProfile: Return to client profile
   weveListedYourAnswers: We've listed your saved answers below
   checkTheyreCorrect: Check they're correct and edit them where necessary.
-  totalEstimatedCosts: Total estimated costs
-
-
