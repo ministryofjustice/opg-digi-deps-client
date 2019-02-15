@@ -2,8 +2,7 @@
 
 namespace AppBundle\Form\Report;
 
-use AppBundle\Entity\Report\Debt;
-use AppBundle\Entity\Report\ProfDeputyOtherCost;
+use AppBundle\Entity\Report\ProfDeputyEstimateCost;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as FormTypes;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,26 +11,24 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProfDeputyOtherCostSingleType extends AbstractType
+class ProfDeputyEstimateCostSingleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('profDeputyOtherCostTypeId', FormTypes\HiddenType::class)
+            ->add('profDeputyEstimateCostTypeId', FormTypes\HiddenType::class)
             ->add('amount', FormTypes\NumberType::class, [
                 'scale' => 2,
                 'grouping' => true,
-                'error_bubbling' => false, // keep (and show) the error (Default behaviour). if true, error is lost
-                'invalid_message' => 'profDeputyOtherCost.amount.notNumeric',
+                'error_bubbling' => false,
+                'invalid_message' => 'profDeputyEstimateCost.amount.notNumeric',
             ]);
 
-        // add textarea to debts that has more details flag set to true
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $profDeputyOtherCost = $event->getData();
-            /* @var $profDeputyOtherCost ProfDeputyOtherCost */
+            $profDeputyEstimateCost = $event->getData();
             $form = $event->getForm();
 
-            if ($profDeputyOtherCost->getHasMoreDetails()) {
+            if ($profDeputyEstimateCost->getHasMoreDetails()) {
                 $form->add('moreDetails', FormTypes\TextareaType::class, []);
             }
         });
@@ -40,9 +37,9 @@ class ProfDeputyOtherCostSingleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ProfDeputyOtherCost::class,
-            'validation_groups' => ['prof-deputy-other-costs'],
-            'translation_domain' => 'report-prof-deputy-costs',
+            'data_class' => ProfDeputyEstimateCost::class,
+            'validation_groups' => ['prof-deputy-estimate-costs'],
+            'translation_domain' => 'report-prof-deputy-costs-estimate',
         ]);
     }
 

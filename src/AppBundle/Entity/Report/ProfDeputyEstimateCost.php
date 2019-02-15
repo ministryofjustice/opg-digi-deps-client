@@ -7,51 +7,51 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * @Assert\Callback(callback="moreDetailsValidate", groups={"prof-deputy-other-costs"})
+ * @Assert\Callback(callback="moreDetailsValidate", groups={"prof-deputy-estimate-costs"})
  */
-class ProfDeputyOtherCost
+class ProfDeputyEstimateCost
 {
     /**
      * @JMS\Type("string")
-     * @JMS\Groups({"prof-deputy-other-costs"})
+     * @JMS\Groups({"prof-deputy-estimate-costs"})
      */
-    private $profDeputyOtherCostTypeId;
+    private $profDeputyEstimateCostTypeId;
 
     /**
      * @var decimal
      *
      * @JMS\Type("string")
-     * @JMS\Groups({"prof-deputy-other-costs"})
-     * @Assert\Type(type="numeric", message="profDeputyOtherCost.amount.notNumeric", groups={"prof-deputy-other-costs"})
-     * @Assert\Range(min=0, max=100000000, minMessage = "profDeputyOtherCost.amount.minMessage", maxMessage = "profDeputyOtherCost.amount.maxMessage", groups={"prof-deputy-other-costs"})
+     * @JMS\Groups({"prof-deputy-estimate-costs"})
+     * @Assert\Type(type="numeric", message="profDeputyEstimateCost.amount.notNumeric", groups={"prof-deputy-estimate-costs"})
+     * @Assert\Range(min=0, max=100000000, minMessage = "profDeputyEstimateCost.amount.minMessage", maxMessage = "profDeputyEstimateCost.amount.maxMessage", groups={"prof-deputy-estimate-costs"})
      */
     private $amount;
 
     /**
      * @var string
-     * @JMS\Groups({"prof-deputy-other-costs"})
+     * @JMS\Groups({"prof-deputy-estimate-costs"})
      * @JMS\Type("boolean")
      */
     private $hasMoreDetails;
 
     /**
      * @var string
-     * @JMS\Groups({"prof-deputy-other-costs"})
+     * @JMS\Groups({"prof-deputy-estimate-costs"})
      * @JMS\Type("string")
      */
     private $moreDetails;
 
     /**
-     * ProfDeputyOtherCost constructor.
+     * ProfDeputyEstimateCost constructor.
      *
-     * @param $profDeputyOtherCostTypeId
+     * @param $profDeputyEstimateCostTypeId
      * @param decimal $amount
      * @param string  $hasMoreDetails
      * @param string  $moreDetails
      */
-    public function __construct($profDeputyOtherCostTypeId, $amount, $hasMoreDetails, $moreDetails)
+    public function __construct($profDeputyEstimateCostTypeId, $amount, $hasMoreDetails, $moreDetails)
     {
-        $this->profDeputyOtherCostTypeId = $profDeputyOtherCostTypeId;
+        $this->profDeputyEstimateCostTypeId = $profDeputyEstimateCostTypeId;
         $this->amount = $amount;
         $this->hasMoreDetails = $hasMoreDetails;
         $this->moreDetails = $moreDetails;
@@ -60,17 +60,17 @@ class ProfDeputyOtherCost
     /**
      * @return mixed
      */
-    public function getProfDeputyOtherCostTypeId()
+    public function getProfDeputyEstimateCostTypeId()
     {
-        return $this->profDeputyOtherCostTypeId;
+        return $this->profDeputyEstimateCostTypeId;
     }
 
     /**
-     * @param $profDeputyOtherCostTypeId
+     * @param $profDeputyEstimateCostTypeId
      */
-    public function setProfDeputyOtherCostTypeId($profDeputyOtherCostTypeId)
+    public function setProfDeputyEstimateCostTypeId($profDeputyEstimateCostTypeId)
     {
-        $this->profDeputyOtherCostTypeId = $profDeputyOtherCostTypeId;
+        $this->profDeputyEstimateCostTypeId = $profDeputyEstimateCostTypeId;
     }
 
     /**
@@ -133,7 +133,7 @@ class ProfDeputyOtherCost
         $hasMoreDetails = trim($this->getMoreDetails(), " \n") ? true : false;
 
         if ($this->getAmount() && !$hasMoreDetails) {
-            $context->buildViolation('profDeputyOtherCost.moreDetails.notBlank')->atPath('moreDetails')->addViolation();
+            $context->buildViolation('profDeputyEstimateCost.moreDetails.notBlank')->atPath('moreDetails')->addViolation();
         }
     }
 }
