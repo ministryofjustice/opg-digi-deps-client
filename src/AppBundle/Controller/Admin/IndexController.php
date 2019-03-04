@@ -3,7 +3,11 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\DTO\ClientDto;
+use AppBundle\DTO\DeputyClientsDto;
+use AppBundle\DTO\DeputyDto;
 use AppBundle\Entity as EntityDir;
+use AppBundle\Entity\Client;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Exception\RestClientException;
 use AppBundle\Form as FormDir;
@@ -124,14 +128,60 @@ class IndexController extends AbstractController
 
         try {
             /* @var $user EntityDir\User */
-            $user = $this->getRestClient()->get("user/get-one-by/{$what}/{$filter}", 'User', ['user', 'user-clients', 'client', 'client-reports', 'ndr']);
+            // Fetch me a DeputyDto
+            // This will be a serialized object containing Deputy, Client information.
+            // Perhaps a DeputyClientsDto - this would be a composite of a DeputyDto and a ClientDto
+            // A ClientDto also gathers Report info, but not to the extent of a ReportDto
+
+            // Fields required:
+            // D.roleName, D.id, D.firstname, D.lastname, D.addresspostcode, D.email, D.ndrenabled, D.clients:
+            //  C.ndr.id, C.firstname, C.lastname, C.casenumber, C.reports (ids)
+
+
+
+            $user = $this->getRestClient()->get("user/get-one-by/{$what}/{$filter}", 'array', ['user', 'user-clients', 'client', 'client-reports', 'ndr']);
+            // At this point, user is an array which needs assembling into a DeputyClientsDto
+
+            $deputy = new EntityDir\User();
+            $deputy
+                ->setId($user['deputy']['id'])
+                ->setFirstname($user['deputy']['firstname'])
+                ->setLastname($user['deputy']['lastname'])
+                ->setEmail($user['deputy']['email'])
+                ->setRoleName($user['deputy']['roleName'])
+                ->setAddressPostcode($user['deputy']['postcode'])
+                ->setNdrEnabled($user['deputy']['ndrEnabled']);
+
+            $clients = [];
+            foreach ($user['clients'] as $clientArray) {
+                $client = new Client();
+
+                $ndr = null;
+                if (null !== $clientArray['ndrId']) {
+                    $ndr = new EntityDir\Ndr\Ndr();
+                    $ndr->setId($clientArray['ndrId']);
+                }
+
+                $client
+                    ->setId($clientArray['id'])
+                    ->setCaseNumber($clientArray['caseNumber'])
+                    ->setFirstname($clientArray['firstname'])
+                    ->setLastname($clientArray['lastname'])
+                    ->setEmail($clientArray['email'])
+                    ->setNdr($ndr)
+                    ->setTotalReportCount($clientArray['reportCount']);
+                $clients[] = $client;
+            }
+            $deputy->setClients($clients);
+
+
         } catch (\Exception $e) {
             return $this->render('AppBundle:Admin:error.html.twig', [
                 'error' => 'User not found',
             ]);
         }
 
-        if ($user->getRoleName() == EntityDir\User::ROLE_ADMIN && !$this->isGranted(EntityDir\User::ROLE_ADMIN)) {
+        if ($deputy->getRoleName() == EntityDir\User::ROLE_ADMIN && !$this->isGranted(EntityDir\User::ROLE_ADMIN)) {
             return $this->render('AppBundle:Admin:error.html.twig', [
                 'error' => 'Non-admin cannot edit admin users',
             ]);
@@ -139,10 +189,10 @@ class IndexController extends AbstractController
 
         // no role editing for current user and PA
         $roleNameSetTo = null;
-        if ($user->getId() == $this->getUser()->getId() || $user->getRoleName() == EntityDir\User::ROLE_PA_NAMED) {
-            $roleNameSetTo = $user->getRoleName();
+        if ($deputy->getId() == $this->getUser()->getId() || $deputy->getRoleName() == EntityDir\User::ROLE_PA_NAMED) {
+            $roleNameSetTo = $deputy->getRoleName();
         }
-        $form = $this->createForm(FormDir\Admin\AddUserType::class, $user, ['options' => [
+        $form = $this->createForm(FormDir\Admin\AddUserType::class, $deputy, ['options' => [
             'roleChoices'        => [
                 EntityDir\User::ROLE_ADMIN      => 'OPG Admin',
                 EntityDir\User::ROLE_CASE_MANAGER   => 'Case manager',
@@ -153,10 +203,10 @@ class IndexController extends AbstractController
             ],
             'roleNameEmptyValue' => $this->get('translator')->trans('addUserForm.roleName.defaultOption', [], 'admin'),
             'roleNameSetTo'      => $roleNameSetTo, //can't edit current user's role
-            'ndrEnabledType'     => $user->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
+            'ndrEnabledType'     => $deputy->getRoleName() == EntityDir\User::ROLE_LAY_DEPUTY ? 'checkbox' : 'hidden',
         ]]);
 
-        $clients = $user->getClients();
+        $clients = $deputy->getClients();
         $ndr = null;
         $ndrForm = null;
         if (count($clients)) {
@@ -174,12 +224,13 @@ class IndexController extends AbstractController
             if ($form->isValid()) {
                 $updateUser = $form->getData();
 
+
                 try {
-                    $this->getRestClient()->put('user/' . $user->getId(), $updateUser, ['admin_add_user']);
+                    $this->getRestClient()->put('user/' . $deputy->getId(), $updateUser, ['admin_add_user']);
 
                     $request->getSession()->getFlashBag()->add('notice', 'Your changes were saved');
 
-                    $this->redirect($this->generateUrl('admin_editUser', ['what' => 'user_id', 'filter' => $user->getId()]));
+                    $this->redirect($this->generateUrl('admin_editUser', ['what' => 'user_id', 'filter' => $deputy->getId()]));
                 } catch (\Exception $e) {
                     switch ((int) $e->getCode()) {
                         case 422:
@@ -195,8 +246,8 @@ class IndexController extends AbstractController
         $view = [
             'form'          => $form->createView(),
             'action'        => 'edit',
-            'id'            => $user->getId(),
-            'user'          => $user,
+            'id'            => $deputy->getId(),
+            'user'          => $deputy,
             'deputyBaseUrl' => $this->container->getParameter('non_admin_host'),
         ];
 
