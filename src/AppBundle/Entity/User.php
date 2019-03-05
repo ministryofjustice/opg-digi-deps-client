@@ -726,8 +726,6 @@ class User implements AdvancedUserInterface
     public function setAddressPostcode($addressPostcode)
     {
         $this->addressPostcode = $addressPostcode;
-
-        return $this;
     }
 
     public function setAddressCountry($addressCountry)

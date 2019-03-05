@@ -4,7 +4,6 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity as EntityDir;
-use AppBundle\Entity\Client;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Exception\RestClientException;
 use AppBundle\Form as FormDir;
@@ -173,7 +172,6 @@ class IndexController extends AbstractController
 
             if ($form->isValid()) {
                 $updateUser = $form->getData();
-
 
                 try {
                     $this->getRestClient()->put('user/' . $user->getId(), $updateUser, ['admin_add_user']);
