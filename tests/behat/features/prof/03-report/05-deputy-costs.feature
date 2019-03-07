@@ -36,7 +36,6 @@ Feature: PROF deputy costs
     Then the step with the following values CAN be submitted:
       | deputy_costs_profDeputyCostsHowChargedFixed    | 1 |
       | deputy_costs_profDeputyCostsHowChargedAssessed | 1 |
-      | deputy_costs_profDeputyCostsHowChargedAgreed   | 1 |
     # previous = no
     And the step with the following values CAN be submitted:
       | yes_no_profDeputyCostsHasPrevious_1 | no |
@@ -163,7 +162,6 @@ Feature: PROF deputy costs
     Then the step with the following values CAN be submitted:
       | deputy_costs_profDeputyCostsHowChargedFixed    | 1 |
       | deputy_costs_profDeputyCostsHowChargedAssessed | 1 |
-      | deputy_costs_profDeputyCostsHowChargedAgreed   | 1 |
     # previous=yes
     And the step with the following values CAN be submitted:
       | yes_no_profDeputyCostsHasPrevious_1 | yes |
