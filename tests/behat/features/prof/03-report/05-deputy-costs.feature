@@ -54,7 +54,6 @@ Feature: PROF deputy costs
     And each text should be present in the corresponding region:
       | Fixed    | how-changed       |
       | Assessed | how-changed       |
-      | Agreed   | how-changed       |
       | No       | has-previous      |
       | No       | has-interim       |
       | 1,000.00 | fixed-cost-amount |
@@ -207,7 +206,6 @@ Feature: PROF deputy costs
     And each text should be present in the corresponding region:
       | Fixed                                | how-changed             |
       | Assessed                             | how-changed             |
-      | Agreed                               | how-changed             |
       | Yes                                  | has-previous            |
       | Received for 01/01/2015 - 01/01/2016 | prev-cost-1             |
       | £100                                 | prev-cost-1             |
