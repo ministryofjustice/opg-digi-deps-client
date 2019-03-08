@@ -20,7 +20,7 @@ Feature: Prof deputy costs estimate
     Then the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
     And I should see "How will you be charging for your services?" in the "how-charged" region
     And I should see "Fixed costs" in the "how-charged" region
-    And I should not see "General management costs" in the "management-cost" region
+    And I should not see "General management costs"
     And I should not see "Contact with the client, their family and friends"
     And I should not see "Contact with case managers and care providers"
     And I should not see "Contact with other parties"
@@ -193,7 +193,7 @@ Feature: Prof deputy costs estimate
       | deputy_estimate_costs_profDeputyEstimateCosts_4_moreDetails | info  |
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
     And I should see "Answer edited"
-    And I should see "£150.15" in the "total-estimate-cost" region
+    And I should see "£155.14" in the "total-estimate-cost" region
     When I click on "edit-more-info-details"
     Then the URL should match "/report/\d+/prof-deputy-costs-estimate/more-info"
     And the step with the following values CAN be submitted:
