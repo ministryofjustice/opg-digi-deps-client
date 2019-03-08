@@ -33,6 +33,21 @@ trait ReportProfDeputyCostsEstimateTrait
     private $profDeputyEstimateCostTypeIds;
 
     /**
+     * @var float
+     *
+     * @JMS\Type("double")
+     * @JMS\Groups({"prof-deputy-estimate-management-costs"})
+     * @Assert\NotBlank( message="profDeputyEstimateCost.profDeputyManagementCostAmount.amount.notBlank", groups={"prof-deputy-estimate-management-costs"} )
+     */
+    private $profDeputyManagementCostAmount;
+
+    /**
+     * @JMS\Type("array")
+     * @JMS\Groups({"prof-deputy-estimate-costs"})
+     */
+    private $profDeputyManagementCostTypeIds;
+
+    /**
      * @var string yes/no
      *
      * @Assert\NotBlank(message="common.yesnochoice.notBlank", groups={"prof-deputy-costs-estimate-more-info"})
@@ -111,7 +126,6 @@ trait ReportProfDeputyCostsEstimateTrait
 
     /**
      * @param ProfDeputyEstimateCost[] $profDeputyEstimateCosts
-     *
      * @return $this
      */
     public function setProfDeputyEstimateCosts($profDeputyEstimateCosts)
@@ -204,9 +218,45 @@ trait ReportProfDeputyCostsEstimateTrait
             $submittedCosts[$defaultEstimateCost['typeId']]['amount'] = !empty($submittedCost) ? $submittedCost->getAmount() : null;
             $submittedCosts[$defaultEstimateCost['typeId']]['hasMoreDetails'] = $defaultEstimateCost['hasMoreDetails'];
             $submittedCosts[$defaultEstimateCost['typeId']]['moreDetails'] = !empty($submittedCost) ? $submittedCost->getMoreDetails() : '';
-
         }
 
         return $submittedCosts;
+    }
+
+    /**
+     * @return float
+     */
+    public function getProfDeputyManagementCostAmount()
+    {
+        return $this->profDeputyManagementCostAmount;
+    }
+
+    /**
+     * @param float $profDeputyManagementCostAmount
+     * @return ReportProfDeputyCostsEstimateTrait
+     */
+    public function setProfDeputyManagementCostAmount($profDeputyManagementCostAmount)
+    {
+        $this->profDeputyManagementCostAmount = $profDeputyManagementCostAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProfDeputyManagementCostTypeIds()
+    {
+        return $this->profDeputyManagementCostTypeIds;
+    }
+
+    /**
+     * @param array $profDeputyManagementCostTypeIds
+     * @return ReportProfDeputyCostsEstimateTrait
+     */
+    public function setProfDeputyManagementCostTypeIds($profDeputyManagementCostTypeIds)
+    {
+        $this->profDeputyManagementCostTypeIds = $profDeputyManagementCostTypeIds;
+        return $this;
     }
 }
