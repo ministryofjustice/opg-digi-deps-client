@@ -245,7 +245,7 @@ class Client
 
     /**
      * @var \DateTime
-     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
+     * @JMS\Type("DateTime")
      */
     private $archivedAt;
 
