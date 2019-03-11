@@ -61,7 +61,7 @@ class Report implements ReportInterface
     private $has106flag;
 
     /**
-     * @JMS\Type("DateTime")
+     * @JMS\Type("DateTime<'Y-m-d'>")
      * @JMS\Groups({"startEndDates"})
      *
      * @Assert\NotBlank( message="report.startDate.notBlank")
@@ -72,7 +72,7 @@ class Report implements ReportInterface
     private $startDate;
 
     /**
-     * @JMS\Type("DateTime")
+     * @JMS\Type("DateTime<'Y-m-d'>")
      * @JMS\Groups({"startEndDates"})
      *
      * @Assert\NotBlank( message="report.endDate.notBlank" )
@@ -90,7 +90,7 @@ class Report implements ReportInterface
     private $isDue;
 
     /**
-     * @JMS\Type("DateTime")
+     * @JMS\Type("DateTime<'Y-m-d'>")
      * @JMS\Groups({"report_due_date"})
      *
      * @var \DateTime
@@ -109,7 +109,7 @@ class Report implements ReportInterface
     /**
      * @var \DateTime
      *
-     * @JMS\Type("DateTime")
+     * @JMS\Type("DateTime<'Y-m-d'>")
      * @JMS\Groups({"unsubmit_date"})
      */
     private $unSubmitDate;
