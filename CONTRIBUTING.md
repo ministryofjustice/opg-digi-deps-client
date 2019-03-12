@@ -24,13 +24,17 @@ Planning takes place on [JIRA](https://opgtransform.atlassian.net/secure/RapidBo
 
 When ready to work, identify an unassigned issue in the "To Do" column, move it to "In Progress" and assign yourself.
 
-You should generally only have one issues assigned to yourself in the "In Progress" column.
+You should generally only have one issue assigned to yourself in the "In Progress" column.
 
-Stories should be estimated and have acceptance criteria before development begins (other types of issues, such as bugs, don't require these fields).
+Stories should be estimated and have acceptance criteria before development begins (other types of issues, such as bugs, don't require these details).
+
+You should write your code on a branch named after the JIRA issue and a description. For example: `DDPB-2851-add-prof-deputy-money-out`
+
+During development you should add tests to check any new functionality works, and ensure that existing tests are not broken.
 
 ### Peer review
 
-Once you're happy with your work, create a pull request in GitHub. Add a comment to the issue explaining your changes and including a link to the pull request.
+Once you're happy with your work, push the branch to GitHub and create a pull request. Add a comment to the issue explaining your changes and including a link to the pull request.
 
 You should then move it to the "Review" column to indicate that it is ready for peer review, and post a link to the issue in the dev Slack channel to alert a reviewer. If there is someone particular you would like to review the pull request, you can request a review from them through GitHub.
 
@@ -42,13 +46,13 @@ For your changes to be tested, you need to deploy your branch to a feature envir
 
 You can deploy your changes to a feature environment through Jenkins, under the "Feature" tab of the Digi-Deps project.
 
-You should then move your JIRA issue into the "OPG Acceptance" column and assign a product manager to test it. If the issue was originally reported by a product manager, you should assign it back to them to test. Otherwise, assign it to any product manager and they will pass it on as necessary.
+You should then move your JIRA issue into the "OPG Acceptance" column and assign a product manager to test it. If the issue was originally reported by a product manager, you should assign it back to them to test. Otherwise, you may assign it to any product manager and they will pass it on as necessary.
 
 ### Approval
 
 If the product manager approves your work, they will move the JIRA issue to the "Ready for Deployment" column. At this point you should complete your pull request and merge the changes into `master`.
 
-At this point, the changes are automatically tested and, if the tests pass, deployed to pre-production and training environments.
+After the pull request has completed, the changes are automatically tested and, if the tests pass, deployed to pre-production and training environments.
 
 ### Releasing
 
