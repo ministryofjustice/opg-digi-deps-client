@@ -2,6 +2,11 @@
 
 Most communication is done through Ministry of Justice Digital & Technology Slack in the `opg-digideps-team` and `opg-digideps-devs` channels.
 
+## Pre-requisites
+
+- Access to the [Ministry of Justice Digital & Technology Slack](https://mojdt.slack.com/)
+- Access to [JIRA](https://opgtransform.atlassian.net/secure/RapidBoard.jspa?projectKey=DDPB)
+
 ## Stand-ups
 Stand-ups are daily at 0945 via Google Meet. Link is available in the team Slack channel. Stand-up meetings should be concluded by 1000 at latest.
 
