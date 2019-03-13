@@ -22,7 +22,7 @@ default:
         We'll send you a reminder about your next report nearer the due date (your due date
         is the anniversary of your court order).
 
-pa-prof:
+pa:
     thanksForSubmitting: |
         Thank you for submitting your deputy report on %fullClientName%'s property
         and financial affairs, covering the period %startDate% to %endDate%.
@@ -30,7 +30,19 @@ pa-prof:
     startNextReport: |
         If you like, you can start working on the next annual deputy report (for %newStartDate%
         to %newEndDate%) right away.
-    caseDetails: |+
-        Client: %fullClientName%
+    caseDetails: |
+        <strong>Client</strong>: %fullClientName% <br>
+        <strong>Case number</strong>: %caseNumber%
 
-        Case number: %caseNumber%
+prof:
+    thanksForSubmitting: |
+        Thank you for submitting your deputy report on %fullClientName%'s property
+        and financial affairs, covering the period %startDate% to %endDate%.
+    reportAccess: You can view your submitted reports on your client profile page.
+    startNextReport: |
+        If you like, you can start working on the next annual deputy report (for %newStartDate%
+        to %newEndDate%) right away.
+    caseDetails: |
+        <strong>Client</strong>: %fullClientName% <br>
+        <strong>Case number</strong>: %caseNumber%
+
