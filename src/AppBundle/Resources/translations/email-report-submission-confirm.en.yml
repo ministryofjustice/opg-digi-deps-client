@@ -30,6 +30,7 @@ pa-prof:
     startNextReport: |
         If you like, you can start working on the next annual deputy report (for %newStartDate%
         to %newEndDate%) right away.
-    caseDetails: |
+    caseDetails: |+
         Client: %fullClientName%
+
         Case number: %caseNumber%
