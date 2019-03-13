@@ -107,11 +107,10 @@ class MailFactory
             case User::ROLE_PA_NAMED:
             case User::ROLE_PA_ADMIN:
             case User::ROLE_PA_TEAM_MEMBER:
-                return 'pa';
             case User::ROLE_PROF_NAMED:
             case User::ROLE_PROF_ADMIN:
             case User::ROLE_PROF_TEAM_MEMBER:
-                return 'prof';
+                return $user->getRoleName();
 
             default:
                 return 'default';

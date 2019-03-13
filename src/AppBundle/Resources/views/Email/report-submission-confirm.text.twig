@@ -12,12 +12,6 @@
     '%caseNumber%': caseNumber
 } %}
 
-{% if recipientRole != 'default' %}
-    {{ (recipientRole ~ '.caseDetails') | trans(transOptions) }}
-{% endif %}
-
-RecipientRole is {{ recipientRole }}
-
 {{ ('default.dear') | trans(transOptions) }}
 
 {{ (recipientRole ~ '.thanksForSubmitting') | trans(transOptions) | raw }}

@@ -22,27 +22,48 @@ default:
         We'll send you a reminder about your next report nearer the due date (your due date
         is the anniversary of your court order).
 
-pa:
-    thanksForSubmitting: |
-        Thank you for submitting your deputy report on %fullClientName%'s property
-        and financial affairs, covering the period %startDate% to %endDate%.
-    reportAccess: You can view your submitted reports on your client profile page.
-    startNextReport: |
-        If you like, you can start working on the next annual deputy report (for %newStartDate%
-        to %newEndDate%) right away.
-    caseDetails: |
-        <strong>Client</strong>: %fullClientName% <br>
-        <strong>Case number</strong>: %caseNumber%
+caseDetails: |
+    <strong>Client</strong>: %fullClientName% <br>
+    <strong>Case number</strong>: %caseNumber%
 
-prof:
-    thanksForSubmitting: |
-        Thank you for submitting your deputy report on %fullClientName%'s property
-        and financial affairs, covering the period %startDate% to %endDate%.
+thanksForSubmitting: &THANKS_FOR_SUBMITTING |
+    Thank you for submitting your deputy report on %fullClientName%'s property
+    and financial affairs, covering the period %startDate% to %endDate%.
     reportAccess: You can view your submitted reports on your client profile page.
-    startNextReport: |
-        If you like, you can start working on the next annual deputy report (for %newStartDate%
-        to %newEndDate%) right away.
-    caseDetails: |
-        <strong>Client</strong>: %fullClientName% <br>
-        <strong>Case number</strong>: %caseNumber%
 
+reportAccess: &REPORT_ACCESS |
+    You can view your submitted reports on your client profile page.
+
+startNextReport: &START_NEXT_REPORT |
+    If you like, you can start working on the next annual deputy report (for %newStartDate%
+    to %newEndDate%) right away.
+
+ROLE_PA_NAMED:
+    thanksForSubmitting: *THANKS_FOR_SUBMITTING
+    reportAccess: *REPORT_ACCESS
+    startNextReport: *START_NEXT_REPORT
+
+ROLE_PA_ADMIN:
+    thanksForSubmitting: *THANKS_FOR_SUBMITTING
+    reportAccess: *REPORT_ACCESS
+    startNextReport: *START_NEXT_REPORT
+
+ROLE_PA_TEAM_MEMBER:
+    thanksForSubmitting: *THANKS_FOR_SUBMITTING
+    reportAccess: *REPORT_ACCESS
+    startNextReport: *START_NEXT_REPORT
+
+ROLE_PROF_NAMED:
+    thanksForSubmitting: *THANKS_FOR_SUBMITTING
+    reportAccess: *REPORT_ACCESS
+    startNextReport: *START_NEXT_REPORT
+
+ROLE_PROF_ADMIN:
+    thanksForSubmitting: *THANKS_FOR_SUBMITTING
+    reportAccess: *REPORT_ACCESS
+    startNextReport: *START_NEXT_REPORT
+
+ROLE_PROF_TEAM_MEMBER:
+    thanksForSubmitting: *THANKS_FOR_SUBMITTING
+    reportAccess: *REPORT_ACCESS
+    startNextReport: *START_NEXT_REPORT
