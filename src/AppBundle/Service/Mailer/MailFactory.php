@@ -110,7 +110,7 @@ class MailFactory
             case User::ROLE_PROF_NAMED:
             case User::ROLE_PROF_ADMIN:
             case User::ROLE_PROF_TEAM_MEMBER:
-                return $user->getRoleName();
+                return 'pa-prof';
 
             default:
                 return 'default';
@@ -260,7 +260,8 @@ class MailFactory
             'submittedReport' => $submittedReport,
             'newReport'       => $newReport,
             'deputyFirstName' => $user->getFirstname() . ' ' . $user->getLastname(),
-            'newReport'       => $newReport,
+            'fullClientName'  => $submittedReport->getClient()->getFullname(),
+            'caseNumber'      => $submittedReport->getClient()->getCaseNumber(),
             'homepageUrl'     => $this->generateAbsoluteLink(self::AREA_DEPUTY, 'homepage'),
             'recipientRole'   => self::getRecipientRole($user)
         ];
@@ -270,7 +271,7 @@ class MailFactory
             ->setFromName($this->translate('reportSubmissionConfirmation.fromName'))
             ->setToEmail($user->getEmail())
             ->setToName($user->getFirstname())
-            ->setSubject($this->translate('reportSubmissionConfirmation.subject'))
+            ->setSubject($this->translate('reportSubmissionConfirmation.subject', ['fullClientName' => $submittedReport->getClient()->getFullname()]))
             ->setBodyHtml($this->templating->render('AppBundle:Email:report-submission-confirm.html.twig', $viewParams))
             ->setBodyText($this->templating->render('AppBundle:Email:report-submission-confirm.text.twig', $viewParams));
 
@@ -324,11 +325,12 @@ class MailFactory
     /**
      * @param string $key
      *
+     * @param array $params
      * @return string
      */
-    private function translate($key)
+    private function translate($key, $params = [])
     {
-        return $this->translator->trans($key, [], 'email');
+        return $this->translator->trans($key, $params, 'email');
     }
 
     /**
