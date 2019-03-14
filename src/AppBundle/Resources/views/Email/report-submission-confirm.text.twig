@@ -7,8 +7,14 @@
     '%endDate%': submittedReport.endDate | date("d/m/Y"),
     '%newStartDate%': newReport.startDate | date("d/m/Y"),
     '%newEndDate%': newReport.endDate | date("d/m/Y"),
-    '%homepageUrl%': homepageUrl
+    '%homepageUrl%': homepageUrl,
+    '%fullClientName%': fullClientName,
+    '%caseNumber%': caseNumber
 } %}
+
+{% if recipientRole != 'default' %}
+    {{ ('caseDetails') | trans(transOptions) | raw }}
+{% endif %}
 
 {{ ('default.dear') | trans(transOptions) }}
 
