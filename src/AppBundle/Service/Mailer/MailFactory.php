@@ -259,7 +259,7 @@ class MailFactory
         $viewParams = [
             'submittedReport' => $submittedReport,
             'newReport'       => $newReport,
-            'deputyFirstName' => $user->getFirstname() . ' ' . $user->getLastname(),
+            'fullDeputyName' => $user->getFullName(),
             'fullClientName'  => $submittedReport->getClient()->getFullname(),
             'caseNumber'      => $submittedReport->getClient()->getCaseNumber(),
             'homepageUrl'     => $this->generateAbsoluteLink(self::AREA_DEPUTY, 'homepage'),
@@ -271,7 +271,7 @@ class MailFactory
             ->setFromName($this->translate('reportSubmissionConfirmation.fromName'))
             ->setToEmail($user->getEmail())
             ->setToName($user->getFirstname())
-            ->setSubject($this->translate('reportSubmissionConfirmation.subject', ['clientFullname' => $submittedReport->getClient()->getFullname()]))
+            ->setSubject($this->translate('reportSubmissionConfirmation.subject', ['%clientFullname%' => $submittedReport->getClient()->getFullname()]))
             ->setBodyHtml($this->templating->render('AppBundle:Email:report-submission-confirm.html.twig', $viewParams))
             ->setBodyText($this->templating->render('AppBundle:Email:report-submission-confirm.text.twig', $viewParams));
 

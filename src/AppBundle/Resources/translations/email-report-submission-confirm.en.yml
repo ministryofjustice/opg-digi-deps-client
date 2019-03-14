@@ -1,6 +1,6 @@
 default:
     htmlHeaderTitle: Deputy report service - Annual deputy report submitted
-    dear: Dear %deputyFirstName%
+    dear: Dear %fullDeputyName%
     thanksForSubmitting: |
         <strong>Thank you for submitting your annual deputy report</strong> for
         %startDate% to %endDate%.
