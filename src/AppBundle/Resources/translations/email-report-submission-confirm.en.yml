@@ -27,8 +27,8 @@ caseDetails: |
     <strong>Case number</strong>: %caseNumber%
 
 thanksForSubmitting: &THANKS_FOR_SUBMITTING |
-    Thank you for submitting your deputy report on %fullClientName%'s property
-    and financial affairs, covering the period %startDate% to %endDate%.
+    Thank you for submitting your deputy report for %fullClientName% covering
+    the period %startDate% to %endDate%.
 
 reportAccess: &REPORT_ACCESS You can view your submitted reports on your client profile page.
 
