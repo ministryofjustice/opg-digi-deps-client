@@ -29,10 +29,8 @@ caseDetails: |
 thanksForSubmitting: &THANKS_FOR_SUBMITTING |
     Thank you for submitting your deputy report on %fullClientName%'s property
     and financial affairs, covering the period %startDate% to %endDate%.
-    reportAccess: You can view your submitted reports on your client profile page.
 
-reportAccess: &REPORT_ACCESS |
-    You can view your submitted reports on your client profile page.
+reportAccess: &REPORT_ACCESS You can view your submitted reports on your client profile page.
 
 startNextReport: &START_NEXT_REPORT |
     If you like, you can start working on the next annual deputy report (for %newStartDate%
