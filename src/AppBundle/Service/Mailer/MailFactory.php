@@ -324,8 +324,8 @@ class MailFactory
 
     /**
      * @param string $key
-     *
      * @param array $params
+     * 
      * @return string
      */
     private function translate($key, $params = [])
