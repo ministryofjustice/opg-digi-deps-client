@@ -28,14 +28,6 @@ trait ReportProfDeputyCostsTrait
     private $profDeputyCostsHowChargedAssessed;
 
     /**
-     * @var boolean
-     *
-     * @JMS\Type("boolean")
-     * @JMS\Groups({"deputyCostsHowCharged"})
-     */
-    private $profDeputyCostsHowChargedAgreed;
-
-    /**
      * @var string yes/no
      *
      * @JMS\Type("string")
@@ -114,14 +106,20 @@ trait ReportProfDeputyCostsTrait
     private $profDeputyTotalCosts;
 
     /**
+     * @var float
+     *
+     * @JMS\Type("double")
+     */
+    private $profDeputyTotalCostsTakenFromClient;
+
+    /**
      * return true if only fixed is true
      * @return boolean
      */
     public function hasProfDeputyCostsHowChargedFixedOnly()
     {
         return $this->profDeputyCostsHowChargedFixed
-            && !$this->profDeputyCostsHowChargedAssessed
-            && !$this->profDeputyCostsHowChargedAgreed;
+            && !$this->profDeputyCostsHowChargedAssessed;
     }
 
     /**
@@ -183,30 +181,12 @@ trait ReportProfDeputyCostsTrait
     }
 
     /**
-     * @return boolean
-     */
-    public function getProfDeputyCostsHowChargedAgreed()
-    {
-        return $this->profDeputyCostsHowChargedAgreed;
-    }
-
-    /**
-     * @param string $profDeputyCostsHowChargedAgreed
-     */
-    public function setProfDeputyCostsHowChargedAgreed($profDeputyCostsHowChargedAgreed)
-    {
-        $this->profDeputyCostsHowChargedAgreed = $profDeputyCostsHowChargedAgreed;
-        return $this;
-    }
-
-    /**
      * @param ExecutionContextInterface $context
      */
     public function profCostsHowChangedAtLeastOne(ExecutionContextInterface $context)
     {
         if (!$this->profDeputyCostsHowChargedFixed
             && !$this->profDeputyCostsHowChargedAssessed
-            && ! $this->profDeputyCostsHowChargedAgreed
         ) {
             $context->buildViolation('profDeputyHowChanged.atLeastOne')
                 ->atPath('profDeputyCostsHowChargedFixed')
@@ -402,6 +382,22 @@ trait ReportProfDeputyCostsTrait
     public function setProfDeputyTotalCosts($profDeputyTotalCosts)
     {
         $this->profDeputyTotalCosts = $profDeputyTotalCosts;
+    }
+
+    /**
+     * @return float
+     */
+    public function getProfDeputyTotalCostsTakenFromClient()
+    {
+        return $this->profDeputyTotalCostsTakenFromClient;
+    }
+
+    /**
+     * @param $profDeputyTotalCostsThisPeriodOnly
+     */
+    public function setProfDeputyTotalCostsTakenFromClient($profDeputyTotalCostsTakenFromClient)
+    {
+        $this->profDeputyTotalCostsTakenFromClient = $profDeputyTotalCostsTakenFromClient;
     }
 
     /**
