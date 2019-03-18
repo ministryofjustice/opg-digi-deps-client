@@ -190,8 +190,15 @@ class ReportController extends AbstractController
             }
         }
 
+        $costBreakdown = null;
+
+        if ($report->getProfDeputyCostsEstimateHowCharged() !== Report::PROF_DEPUTY_COSTS_ESTIMATE_TYPE_FIXED) {
+            $costBreakdown = $report->generateActualSubmittedEstimateCosts();
+        }
+
         return [
             'report'   => $report,
+            'submittedEstimateCosts' => $costBreakdown,
             'form'     => $form->createView(),
             'checklist' => $checklist,
             'previousReportData' => $report->getPreviousReportData()
