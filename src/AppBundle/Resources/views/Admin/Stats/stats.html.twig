@@ -15,15 +15,6 @@
 
 {% block pageContent %}
 
-    <h1 class="heading-medium">{{ (page ~ '.heading') | trans }}</h1>
-
-    <div class="text">
-        <p>{{ (page ~ '.limitedTo100') | trans }}</p>
-        <p>
-            {{ (page ~ '.downloadCSV') | trans({'%csvFile%': path('admin_stats_csv', {'regenerate': 0 })}) | raw }}
-        </p>
-    </div>
-
     <h1 class="heading-medium">{{ (page ~ '.reportsHeading') | trans }}</h1>
 
     <div class="text">
