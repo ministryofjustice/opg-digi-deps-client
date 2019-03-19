@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form\Report;
 
-use AppBundle\Entity\Report\MoneyShortCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as FormTypes;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +14,6 @@ class ProfDeputyCostHowType extends AbstractType
         $builder
             ->add('profDeputyCostsHowChargedFixed', FormTypes\CheckboxType::class)
             ->add('profDeputyCostsHowChargedAssessed', FormTypes\CheckboxType::class)
-            ->add('profDeputyCostsHowChargedAgreed', FormTypes\CheckboxType::class)
             ->add('save', FormTypes\SubmitType::class, ['label' => 'save.label']);
     }
 

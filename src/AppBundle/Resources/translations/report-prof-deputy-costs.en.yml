@@ -21,7 +21,6 @@ howCharged:
     profDeputyCostsHow.hint: "Select all that apply"
     profDeputyCostsHowChargedFixed.label: "Fixed costs"
     profDeputyCostsHowChargedAssessed.label: "Assessed costs"
-    profDeputyCostsHowChargedAgreed.label: "Agreed"
 
 previousReceivedExists:
   htmlTitle: "Deputy report - Deputy costs | GOV.UK"
@@ -123,5 +122,6 @@ summaryPage:
   questionLabel:
     paidThisPeriod: Paid for this reporting period
     totaPaidThisPeriod: Total costs paid this reporting period
+    totalCosts: Total costs
 
 
