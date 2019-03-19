@@ -87,6 +87,4 @@ class ProfDeputyInterimCost
     {
         $this->date = $date;
     }
-
-
 }

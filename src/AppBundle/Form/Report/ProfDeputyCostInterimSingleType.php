@@ -19,7 +19,7 @@ class ProfDeputyCostInterimSingleType extends AbstractType
                 'input' => 'datetime',
                 'format' => 'dd-MM-yyyy',
                 'invalid_message' => 'Enter a valid date',
-                'constraints' => new Range(['min' => $options['startDate']->format('dd-MM-yyyy'), 'max' => $options['endDate']->format('dd-MM-yyyy')]),
+                'constraints' => new Range(['min' => $options['startDate'], 'max' => $options['endDate']]),
             ])
             ->add('amount', FormTypes\NumberType::class, [
                 'scale' => 2,
