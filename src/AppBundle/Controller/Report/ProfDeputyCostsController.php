@@ -273,7 +273,10 @@ class ProfDeputyCostsController extends AbstractController
             $report->addProfDeputyInterimCosts(new EntityDir\Report\ProfDeputyInterimCost());
         }
 
-        $form = $this->createForm(FormDir\Report\ProfDeputyCostInterimType::class, $report);
+        $startDate = $report->getStartDate();
+        $endDate = $report->getEndDate();
+        $form = $this->createForm(FormDir\Report\ProfDeputyCostInterimType::class, $report, ['startDate' => $startDate, 'endDate' => $endDate]);
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {

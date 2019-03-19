@@ -31,7 +31,9 @@ class ProfDeputyInterimCost
      * @JMS\Type("DateTime<'Y-m-d'>")
      * @JMS\Groups({"profDeputyInterimCosts"})
      *
+     * @Assert\Valid(groups={"prof-deputy-interim-costs"})
      * @Assert\Date(message="profDeputyInterimCost.date.notValid", groups={"prof-deputy-interim-costs"})
+     * @Assert\LessThanOrEqual("today", message="profDeputyInterimCost.date.notValid", groups={"prof-deputy-interim-costs"})
      */
     private $date;
 

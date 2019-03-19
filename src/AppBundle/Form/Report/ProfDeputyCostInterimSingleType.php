@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as FormTypes;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Range;
 
 class ProfDeputyCostInterimSingleType extends AbstractType
 {
@@ -18,6 +19,7 @@ class ProfDeputyCostInterimSingleType extends AbstractType
                 'input' => 'datetime',
                 'format' => 'dd-MM-yyyy',
                 'invalid_message' => 'Enter a valid date',
+                'constraints' => new Range(['min' => $options['startDate']->format('dd-MM-yyyy'), 'max' => $options['endDate']->format('dd-MM-yyyy')]),
             ])
             ->add('amount', FormTypes\NumberType::class, [
                 'scale' => 2,
@@ -25,16 +27,18 @@ class ProfDeputyCostInterimSingleType extends AbstractType
                 'error_bubbling' => false,
                 'invalid_message' => 'profDeputyInterimCost.amount.notNumeric',
             ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver
+            ->setDefined(['startDate', 'endDate'])
+            ->setDefaults([
             'data_class' => ProfDeputyInterimCost::class,
             'translation_domain' => 'report-prof-deputy-costs',
             'validation_groups' => ['prof-deputy-interim-costs'],
         ]);
+
     }
 
     public function getBlockPrefix()
