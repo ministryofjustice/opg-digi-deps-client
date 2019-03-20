@@ -48,3 +48,8 @@ services:
     report_section_link_service:
       class: AppBundle\Service\ReportSectionsLinkService
       arguments: [ "@router" ]
+
+#    Looking at passing in with EM or some other form of grabbing the report we need here but can't identify a way to get the from form within ProfDeputyInterimCost
+    validator.date_within_reporting_period_validator:
+      class: AppBundle\Validator\Constraints\DateWithinReportingPeriodValidator
+      arguments: []

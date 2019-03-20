@@ -5,7 +5,12 @@ namespace AppBundle\Entity\Report;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+// Looks like this could work but can't see how to pass the Report start and end dates as options to payload here
+/**
+ * @Assert\Callback(callback="dateWithinReportingPeriod", groups={"prof-deputy-interim-costs"})
+ */
 class ProfDeputyInterimCost
 {
     /**
@@ -86,5 +91,12 @@ class ProfDeputyInterimCost
     public function setDate($date)
     {
         $this->date = $date;
+    }
+
+    public function dateWithinReportingPeriod(ExecutionContextInterface $context, $startDate, $endDate)
+    {
+        if ($this->getDate() < $startDate || $this->getDate() > $endDate) {
+            $context->buildViolation('profDeputyInterimCost.date.notValid')->atPath('date')->addViolation();
+        }
     }
 }

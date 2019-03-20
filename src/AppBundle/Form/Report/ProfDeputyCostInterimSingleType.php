@@ -7,8 +7,12 @@ use AppBundle\Entity\Report\ProfDeputyInterimCost;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as FormTypes;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ProfDeputyCostInterimSingleType extends AbstractType
 {
@@ -19,7 +23,15 @@ class ProfDeputyCostInterimSingleType extends AbstractType
                 'input' => 'datetime',
                 'format' => 'dd-MM-yyyy',
                 'invalid_message' => 'Enter a valid date',
-                'constraints' => new Range(['min' => $options['startDate'], 'max' => $options['endDate']]),
+                'constraints' => [
+                    new Callback(
+                        [
+                            'value' => $this,
+                            'callback' => 'validateDateWithinReportingPeriod',
+                            'payload' => ['startDate' => $options['startDate'], 'endDate' => $options['endDate']]
+                        ]
+                    )
+                ]
             ])
             ->add('amount', FormTypes\NumberType::class, [
                 'scale' => 2,
@@ -44,5 +56,13 @@ class ProfDeputyCostInterimSingleType extends AbstractType
     public function getBlockPrefix()
     {
         return 'costs_interim';
+    }
+
+    // This is still ignored when trying to validate using an inline callback
+    public function dateWithinReportingPeriod($object, ExecutionContextInterface $context, $payload)
+    {
+        if ($this->getDate() < $payload['startDate'] || $this->getDate() > $payload['endDate']) {
+            $context->buildViolation('profDeputyInterimCost.date.notValid')->atPath('date')->addViolation();
+        }
     }
 }
