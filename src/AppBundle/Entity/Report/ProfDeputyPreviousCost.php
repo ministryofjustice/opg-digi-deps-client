@@ -2,11 +2,16 @@
 
 namespace AppBundle\Entity\Report;
 
+use AppBundle\Validator\Constraints\StartEndDateComparableInterface;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AppAssert;
 use DateTime;
 
-class ProfDeputyPreviousCost
+/**
+ * @AppAssert\EndDateNotBeforeStartDate(groups={"prof-deputy-prev-costs"})
+ */
+class ProfDeputyPreviousCost  implements StartEndDateComparableInterface
 {
     /**
      * @JMS\Type("integer")
