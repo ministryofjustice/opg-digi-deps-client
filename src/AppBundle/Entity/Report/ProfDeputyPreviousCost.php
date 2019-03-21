@@ -12,7 +12,7 @@ use DateTime;
  * @AppAssert\EndDateNotBeforeStartDate(groups={"prof-deputy-prev-costs"})
  * @AppAssert\EndDateGreaterThanTwelveMonths(groups={"prof-deputy-prev-costs"})
  */
-class ProfDeputyPreviousCost  implements StartEndDateComparableInterface
+class ProfDeputyPreviousCost implements StartEndDateComparableInterface
 {
     /**
      * @JMS\Type("integer")

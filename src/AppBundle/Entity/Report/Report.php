@@ -6,20 +6,22 @@ use AppBundle\Entity\Client;
 
 use AppBundle\Entity\Report\Traits as ReportTraits;
 use AppBundle\Entity\ReportInterface;
+use AppBundle\Validator\Constraints\StartEndDateComparableInterface;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use AppBundle\Validator\Constraints as AppAssert;
 
 /**
- * @Assert\Callback(callback="isValidEndDate")
- * @Assert\Callback(callback="isValidDateRange")
+ * @AppAssert\EndDateGreaterThanTwelveMonths(groups={"start-end-dates"})
+ * @AppAssert\EndDateNotBeforeStartDate(groups={"start-end-dates"})
  * @Assert\Callback(callback="debtsValid", groups={"debts"})
  * @Assert\Callback(callback="feesValid", groups={"fees"})
  * @Assert\Callback(callback="profCostsHowChangedAtLeastOne", groups={"prof-deputy-costs-how-changed"})
  * @Assert\Callback(callback="profCostsInterimAtLeastOne", groups={"prof-deputy-interim-costs"})
  * @Assert\Callback(callback="unsubmittedSectionAtLeastOnce", groups={"unsubmitted_sections"})
  */
-class Report implements ReportInterface
+class Report implements ReportInterface, StartEndDateComparableInterface
 {
     use ReportTraits\ReportAssetTrait;
     use ReportTraits\ReportBalanceTrait;
