@@ -160,9 +160,9 @@ Feature: PROF deputy costs
     And the step with the following values CAN be submitted:
       | yes_no_profDeputyCostsHasPrevious_1 | yes |
     And the step with the following values CANNOT be submitted:
-      | deputy_costs_previous_startDate_day   | 1    |
+      | deputy_costs_previous_startDate_day   | 2    |
       | deputy_costs_previous_startDate_month | 1    |
-      | deputy_costs_previous_startDate_year  | 2016 |
+      | deputy_costs_previous_startDate_year  | 2015 |
       | deputy_costs_previous_endDate_day     | 1    |
       | deputy_costs_previous_endDate_month   | 1    |
       | deputy_costs_previous_endDate_year    | 2015 |
@@ -173,14 +173,22 @@ Feature: PROF deputy costs
       | deputy_costs_previous_startDate_year  | 2015 |
       | deputy_costs_previous_endDate_day     | 1    |
       | deputy_costs_previous_endDate_month   | 1    |
-      | deputy_costs_previous_endDate_year    | 2016 |
+      | deputy_costs_previous_endDate_year    | 2015 |
       | deputy_costs_previous_amount          | 100  |
     And I click on "save-and-add-another"
-    And I fill in the following:
+    And the step with the following values CANNOT be submitted:
       | deputy_costs_previous_startDate_day   | 1    |
       | deputy_costs_previous_startDate_month | 1    |
       | deputy_costs_previous_startDate_year  | 2015 |
       | deputy_costs_previous_endDate_day     | 2    |
+      | deputy_costs_previous_endDate_month   | 1    |
+      | deputy_costs_previous_endDate_year    | 2016 |
+      | deputy_costs_previous_amount          | 100  |
+    And I fill in the following:
+      | deputy_costs_previous_startDate_day   | 1    |
+      | deputy_costs_previous_startDate_month | 1    |
+      | deputy_costs_previous_startDate_year  | 2015 |
+      | deputy_costs_previous_endDate_day     | 1    |
       | deputy_costs_previous_endDate_month   | 1    |
       | deputy_costs_previous_endDate_year    | 2016 |
       | deputy_costs_previous_amount          | 200  |

@@ -71,8 +71,8 @@ class Report implements ReportInterface, StartEndDateComparableInterface
      * @JMS\Type("DateTime<'Y-m-d'>")
      * @JMS\Groups({"startEndDates"})
      *
-     * @Assert\NotBlank( message="report.startDate.notBlank")
-     * @Assert\Date( message="report.startDate.invalidMessage" )
+     * @Assert\NotBlank( message="report.startDate.notBlank", groups={"start-end-dates"} )
+     * @Assert\Date( message="report.startDate.invalidMessage", groups={"start-end-dates"} )
      *
      * @var \DateTime
      */
@@ -82,8 +82,8 @@ class Report implements ReportInterface, StartEndDateComparableInterface
      * @JMS\Type("DateTime<'Y-m-d'>")
      * @JMS\Groups({"startEndDates"})
      *
-     * @Assert\NotBlank( message="report.endDate.notBlank" )
-     * @Assert\Date( message="report.endDate.invalidMessage" )
+     * @Assert\NotBlank( message="report.endDate.notBlank", groups={"start-end-dates"} )
+     * @Assert\Date( message="report.endDate.invalidMessage", groups={"start-end-dates"} )
      *
      * @var \DateTime
      */
