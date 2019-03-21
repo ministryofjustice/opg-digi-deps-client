@@ -667,42 +667,6 @@ class Report implements ReportInterface, StartEndDateComparableInterface
     }
 
     /**
-     * @param ExecutionContextInterface $context
-     */
-    public function isValidEndDate(ExecutionContextInterface $context)
-    {
-        if ($this->startDate > $this->endDate) {
-            $context
-                ->buildViolation('report.endDate.beforeStart')
-                ->atPath('endDate')->addViolation();
-        }
-    }
-
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return type
-     */
-    public function isValidDateRange(ExecutionContextInterface $context)
-    {
-        if (!empty($this->endDate) && !empty($this->startDate)) {
-            $dateInterval = $this->startDate->diff($this->endDate);
-        } else {
-            $context
-                ->buildViolation('report.endDate.invalidMessage')
-                ->atPath('endDate')->addViolation();
-
-            return;
-        }
-
-        if ($dateInterval->days > 366) {
-            $context
-                ->buildViolation('report.endDate.greaterThan12Months')
-                ->atPath('endDate')->addViolation();
-        }
-    }
-
-    /**
      * @return bool
      */
     public function isDue()
