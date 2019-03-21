@@ -5,7 +5,7 @@ namespace AppBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class EndDateGreaterThanTwelveMonthsValidator extends ConstraintValidator
+class EndDateNotGreaterThanTwelveMonthsValidator extends ConstraintValidator
 {
     /**
      * @param mixed $data
@@ -24,9 +24,10 @@ class EndDateGreaterThanTwelveMonthsValidator extends ConstraintValidator
             return;
         }
 
-        $dateInterval = $startDate->diff($endDate);
+        $oneYearFromStart = clone $startDate;
+        $oneYearFromStart->add(new \DateInterval('P1Y'));
 
-        if ($dateInterval->days > 366) {
+        if ($oneYearFromStart < $endDate) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->atPath('endDate')->addViolation();

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class EndDateGreaterThanTwelveMonths extends Constraint
+class EndDateNotGreaterThanTwelveMonths extends Constraint
 {
     /**
      * @var string

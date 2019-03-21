@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use AppBundle\Validator\Constraints as AppAssert;
 
 /**
- * @AppAssert\EndDateGreaterThanTwelveMonths(groups={"start-end-dates"})
+ * @AppAssert\EndDateNotGreaterThanTwelveMonths(groups={"start-end-dates"})
  * @AppAssert\EndDateNotBeforeStartDate(groups={"start-end-dates"})
  * @Assert\Callback(callback="debtsValid", groups={"debts"})
  * @Assert\Callback(callback="feesValid", groups={"fees"})

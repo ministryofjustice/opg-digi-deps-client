@@ -223,7 +223,7 @@ Feature: PROF deputy costs
       | Fixed                                | how-changed             |
       | Assessed                             | how-changed             |
       | Yes                                  | has-previous            |
-      | Received for 01/01/2015 - 01/01/2016 | prev-cost-1             |
+      | Received for 01/01/2015 - 01/01/2015 | prev-cost-1             |
       | £100                                 | prev-cost-1             |
       | £200                                 | prev-cost-2             |
       | Yes                                  | has-interim             |
