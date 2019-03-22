@@ -4,7 +4,6 @@ namespace AppBundle\Entity\Report\Traits;
 
 use AppBundle\Entity\Report\ProfDeputyOtherCost;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Report\ProfDeputyPreviousCost;
 use AppBundle\Entity\Report\ProfDeputyInterimCost;
