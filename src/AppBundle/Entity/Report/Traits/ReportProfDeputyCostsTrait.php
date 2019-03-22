@@ -200,29 +200,15 @@ trait ReportProfDeputyCostsTrait
      */
     public function profCostsInterimAtLeastOne(ExecutionContextInterface $context)
     {
-        $violations = [];
         $ics = $this->getProfDeputyInterimCosts();
 
-        if ($ics[0]->getAmount() === null) {
-            $violations[] = 'amount';
-        }
-
         if ($ics[0]->getDate() === null) {
-            $violations[] = 'date';
-        }
-
-        if (empty($violations)) {
-            return;
-        }
-
-        if (in_array('date', $violations)) {
             $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath('profDeputyInterimCosts[0].date')->addViolation();
         }
 
-        if (in_array('amount', $violations)) {
+        if ($ics[0]->getAmount() === null) {
             $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath('profDeputyInterimCosts[0].amount')->addViolation();
         }
-
     }
 
     /**
