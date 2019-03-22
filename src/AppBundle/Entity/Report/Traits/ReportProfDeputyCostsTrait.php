@@ -200,25 +200,29 @@ trait ReportProfDeputyCostsTrait
      */
     public function profCostsInterimAtLeastOne(ExecutionContextInterface $context)
     {
-        /** @var Form $form */
-        $interimCostsFormValues = $context->getRoot()->get('profDeputyInterimCosts')->getData();
         $violations = [];
+        $ics = $this->getProfDeputyInterimCosts();
 
-        foreach($interimCostsFormValues as $ic) {
-            if ($ic->getAmount() == null) {
-                $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath('profDeputyInterimCosts[0].amount')->addViolation();
-                $violations[] = "amount";
-            }
-
-            if ($ic->getDate() == null) {
-                $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath('profDeputyInterimCosts[0].date')->addViolation();
-                $violations[] = "date";
-            }
-
-            if (!empty($violations)) {
-                return;
-            }
+        if ($ics[0]->getAmount() === null) {
+            $violations[] = 'amount';
         }
+
+        if ($ics[0]->getDate() === null) {
+            $violations[] = 'date';
+        }
+
+        if (empty($violations)) {
+            return;
+        }
+
+        if (in_array('date', $violations)) {
+            $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath('profDeputyInterimCosts[0].date')->addViolation();
+        }
+
+        if (in_array('amount', $violations)) {
+            $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath('profDeputyInterimCosts[0].amount')->addViolation();
+        }
+
     }
 
     /**
