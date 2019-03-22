@@ -4,6 +4,7 @@ namespace AppBundle\Entity\Report\Traits;
 
 use AppBundle\Entity\Report\ProfDeputyOtherCost;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Report\ProfDeputyPreviousCost;
 use AppBundle\Entity\Report\ProfDeputyInterimCost;
@@ -199,18 +200,26 @@ trait ReportProfDeputyCostsTrait
      */
     public function profCostsInterimAtLeastOne(ExecutionContextInterface $context)
     {
-        // skip validation if there is at least one interim with date
-        foreach($this->getProfDeputyInterimCosts() as $ic) {
-            if (!empty($ic->getAmount()) && !empty($ic->getDate())) {
+        /** @var Form $form */
+        $interimCostsFormValues = $context->getRoot()->get('profDeputyInterimCosts')->getData();
+        $violations = [];
+
+        foreach($interimCostsFormValues as $ic) {
+            if ($ic->getAmount() == null) {
+                $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath('profDeputyInterimCosts[0].amount')->addViolation();
+                $violations[] = "amount";
+            }
+
+            if ($ic->getDate() == null) {
+                $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath('profDeputyInterimCosts[0].date')->addViolation();
+                $violations[] = "date";
+            }
+
+            if (!empty($violations)) {
                 return;
             }
         }
-
-        $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath('profDeputyInterimCosts[0].amount')->addViolation();
-        $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath('profDeputyInterimCosts[0].date')->addViolation();
     }
-
-
 
     /**
      * @return string
