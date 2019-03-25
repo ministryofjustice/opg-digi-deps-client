@@ -28,14 +28,6 @@ trait ReportProfDeputyCostsTrait
     private $profDeputyCostsHowChargedAssessed;
 
     /**
-     * @var boolean
-     *
-     * @JMS\Type("boolean")
-     * @JMS\Groups({"deputyCostsHowCharged"})
-     */
-    private $profDeputyCostsHowChargedAgreed;
-
-    /**
      * @var string yes/no
      *
      * @JMS\Type("string")
@@ -114,14 +106,20 @@ trait ReportProfDeputyCostsTrait
     private $profDeputyTotalCosts;
 
     /**
+     * @var float
+     *
+     * @JMS\Type("double")
+     */
+    private $profDeputyTotalCostsTakenFromClient;
+
+    /**
      * return true if only fixed is true
      * @return boolean
      */
     public function hasProfDeputyCostsHowChargedFixedOnly()
     {
         return $this->profDeputyCostsHowChargedFixed
-            && !$this->profDeputyCostsHowChargedAssessed
-            && !$this->profDeputyCostsHowChargedAgreed;
+            && !$this->profDeputyCostsHowChargedAssessed;
     }
 
     /**
@@ -183,30 +181,12 @@ trait ReportProfDeputyCostsTrait
     }
 
     /**
-     * @return boolean
-     */
-    public function getProfDeputyCostsHowChargedAgreed()
-    {
-        return $this->profDeputyCostsHowChargedAgreed;
-    }
-
-    /**
-     * @param string $profDeputyCostsHowChargedAgreed
-     */
-    public function setProfDeputyCostsHowChargedAgreed($profDeputyCostsHowChargedAgreed)
-    {
-        $this->profDeputyCostsHowChargedAgreed = $profDeputyCostsHowChargedAgreed;
-        return $this;
-    }
-
-    /**
      * @param ExecutionContextInterface $context
      */
     public function profCostsHowChangedAtLeastOne(ExecutionContextInterface $context)
     {
         if (!$this->profDeputyCostsHowChargedFixed
             && !$this->profDeputyCostsHowChargedAssessed
-            && ! $this->profDeputyCostsHowChargedAgreed
         ) {
             $context->buildViolation('profDeputyHowChanged.atLeastOne')
                 ->atPath('profDeputyCostsHowChargedFixed')
@@ -219,18 +199,22 @@ trait ReportProfDeputyCostsTrait
      */
     public function profCostsInterimAtLeastOne(ExecutionContextInterface $context)
     {
-        // skip validation if there is at least one interim with date
-        foreach($this->getProfDeputyInterimCosts() as $ic) {
-            if (!empty($ic->getAmount()) && !empty($ic->getDate())) {
+        $ics = $this->getProfDeputyInterimCosts();
+
+        foreach($ics as $index => $ic) {
+            if ($ics[$index]->getDate() === null && $ics[$index]->getAmount() === null) {
                 return;
             }
+
+            if ($ics[$index]->getDate() === null) {
+                $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath(sprintf('profDeputyInterimCosts[%s].date', $index))->addViolation();
+            }
+
+            if ($ics[$index]->getAmount() === null) {
+                $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath(sprintf('profDeputyInterimCosts[%s].amount', $index))->addViolation();
+            }
         }
-
-        $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath('profDeputyInterimCosts[0].amount')->addViolation();
-        $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath('profDeputyInterimCosts[0].date')->addViolation();
     }
-
-
 
     /**
      * @return string
@@ -402,6 +386,22 @@ trait ReportProfDeputyCostsTrait
     public function setProfDeputyTotalCosts($profDeputyTotalCosts)
     {
         $this->profDeputyTotalCosts = $profDeputyTotalCosts;
+    }
+
+    /**
+     * @return float
+     */
+    public function getProfDeputyTotalCostsTakenFromClient()
+    {
+        return $this->profDeputyTotalCostsTakenFromClient;
+    }
+
+    /**
+     * @param $profDeputyTotalCostsThisPeriodOnly
+     */
+    public function setProfDeputyTotalCostsTakenFromClient($profDeputyTotalCostsTakenFromClient)
+    {
+        $this->profDeputyTotalCostsTakenFromClient = $profDeputyTotalCostsTakenFromClient;
     }
 
     /**
