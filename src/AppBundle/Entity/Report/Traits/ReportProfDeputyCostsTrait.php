@@ -201,11 +201,11 @@ trait ReportProfDeputyCostsTrait
     {
         $ics = $this->getProfDeputyInterimCosts();
 
-        foreach($this->getProfDeputyInterimCosts() as $index => $ic) {
+        foreach($ics as $index => $ic) {
             if ($ics[$index]->getDate() === null && $ics[$index]->getAmount() === null) {
                 return;
             }
-            
+
             if ($ics[$index]->getDate() === null) {
                 $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath(sprintf('profDeputyInterimCosts[%s].date', $index))->addViolation();
             }
