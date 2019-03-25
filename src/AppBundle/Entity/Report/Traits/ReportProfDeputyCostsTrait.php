@@ -202,12 +202,14 @@ trait ReportProfDeputyCostsTrait
         $ics = $this->getProfDeputyInterimCosts();
 
         if (!empty($ics)) {
-            if ($ics[0]->getDate() === null) {
-                $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath('profDeputyInterimCosts[0].date')->addViolation();
-            }
+            foreach($this->getProfDeputyInterimCosts() as $index => $ic) {
+                if ($ics[$index]->getDate() === null) {
+                    $context->buildViolation('profDeputyInterimCost.date.notBlank')->atPath(sprintf('profDeputyInterimCosts[%s].date', $index))->addViolation();
+                }
 
-            if ($ics[0]->getAmount() === null) {
-                $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath('profDeputyInterimCosts[0].amount')->addViolation();
+                if ($ics[$index]->getAmount() === null) {
+                    $context->buildViolation('profDeputyInterimCost.atLeastOne')->atPath(sprintf('profDeputyInterimCosts[%s].amount', $index))->addViolation();
+                }
             }
         }
 
