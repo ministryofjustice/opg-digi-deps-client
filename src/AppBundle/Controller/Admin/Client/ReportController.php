@@ -95,28 +95,50 @@ class ReportController extends AbstractController
         $form = $this->createForm(UnsubmitReportType::class, $report);
         $form->handleRequest($request);
 
+        $done = false;
+
         // edit client form
         if ($form->isValid()) {
-            $report
-                ->setUnSubmitDate(new \DateTime())
-                ->setUnsubmittedSectionsList(implode(',', $report->getUnsubmittedSectionsIds()))
-            ;
+            if ($done) {
+                $report
+                    ->setUnSubmitDate(new \DateTime())
+                    ->setUnsubmittedSectionsList(implode(',', $report->getUnsubmittedSectionsIds()))
+                ;
 
-            $dueDateChoice = $form['dueDateChoice']->getData();
-            if ($dueDateChoice == UnsubmitReportType::DUE_DATE_OPTION_CUSTOM) {
-                $report->setDueDate($form['dueDateCustom']->getData());
-            } elseif (preg_match('/^\d+$/', $dueDateChoice)) {
-                $dd = new \DateTime();
-                $dd->modify("+{$dueDateChoice} weeks");
-                $report->setDueDate($dd);
+                $dueDateChoice = $form['dueDateChoice']->getData();
+                if ($dueDateChoice == UnsubmitReportType::DUE_DATE_OPTION_CUSTOM) {
+                    $report->setDueDate($form['dueDateCustom']->getData());
+                } elseif (preg_match('/^\d+$/', $dueDateChoice)) {
+                    $dd = new \DateTime();
+                    $dd->modify("+{$dueDateChoice} weeks");
+                    $report->setDueDate($dd);
+                }
+
+                $this->getRestClient()->put('report/' . $report->getId() . '/unsubmit', $report, [
+                    'submitted', 'unsubmit_date', 'report_unsubmitted_sections_list', 'report_due_date', 'startEndDates'
+                ]);
+                $request->getSession()->getFlashBag()->add('notice', 'Report marked as incomplete');
+
+                return $this->redirect($this->generateUrl('admin_client_details', ['id'=>$report->getClient()->getId()]));
+            } else {
+                $filteredSection = array_filter($form->getData()->getUnsubmittedSection(), function ($section) {
+                    return $section->isPresent();
+                });
+                $sectionIds = array_map(function($section) {
+                    return $section->getId();
+                }, $filteredSection);
+
+                return $this->render('AppBundle:Admin/Client/Report:manageConfirm.html.twig', [
+                    'report' => $report,
+                    'form' => $form->createView(),
+                    'submitted' => [
+                        'startDate' => $form->getData()->getStartDate(),
+                        'endDate' => $form->getData()->getEndDate(),
+                        'dueDate' => $form->getData()->getDueDate(),
+                        'unsubmittedSection' => $sectionIds
+                    ]
+                ]);
             }
-
-            $this->getRestClient()->put('report/' . $report->getId() . '/unsubmit', $report, [
-                'submitted', 'unsubmit_date', 'report_unsubmitted_sections_list', 'report_due_date', 'startEndDates'
-            ]);
-            $request->getSession()->getFlashBag()->add('notice', 'Report marked as incomplete');
-
-            return $this->redirect($this->generateUrl('admin_client_details', ['id'=>$report->getClient()->getId()]));
         }
 
         return [
