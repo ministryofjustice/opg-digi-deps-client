@@ -1,0 +1,65 @@
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+
+{% trans_default_domain "admin-clients" %}
+{% set page = 'reportManage' %}
+
+{% block htmlTitle %}{{ (page ~ '.htmlTitle') | trans }}{% endblock %}
+{% block pageTitle %}{{ (page ~ '.pageTitle') | trans }}{% endblock %}
+{% block pageTitleClass %}heading-large{% endblock %}
+
+{% block supportTitleBottom %}
+    <span class="heading-secondary">{{ (page ~ '.supportTitle') | trans }}</span>
+{% endblock %}
+
+{% block helpline %}{% endblock %}
+
+{% block pageContent %}
+    <p class="flush--bottom">{{ 'client' | trans({}, 'common') }}: <span class="bold">{{ report.client.fullName }}</span></p>
+    <p>{{ 'courtOrderNumber' | trans({}, 'common') }}: <span class="bold">{{ report.client.caseNumber }}</span></p>
+
+    <p>!!Please read through and confirm the options you have selected before marking this report as incomplete.!!</p>
+
+    {{ form_start(form, {attr: {novalidate: 'novalidate', id: 'create-report-form' }}) }}
+
+    <table>
+        <thead>
+            <tr>
+                <th>!!Option!!</th>
+                <th>!!Selection!!</th>
+            </tr>
+            <tr>
+                <td>{{ (page ~ '.form.startDate.label') | trans }}</td>
+                <td>{{ submitted.startDate | date("j F Y") }}</td>
+            </tr>
+            <tr>
+                <td>{{ (page ~ '.form.endDate.label') | trans }}</td>
+                <td>{{ submitted.endDate | date("j F Y") }}</td>
+            </tr>
+            <tr>
+                <td>!!Sections marked incomplete!!</td>
+                <td>
+                    {% for section in submitted.unsubmittedSection %}
+                        {{ ('prevNextLinks.sections.' ~ section) | trans({}, 'report-common') }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>{{ (page ~ '.form.dueDateChoice.label') | trans }}</td>
+                <td>{{ submitted.dueDate | date("j F Y") }}</td>
+            </tr>
+        </thead>
+    </table>
+
+    <fieldset class="form-group">
+        <legend>
+            <h2 class="heading-small flush--top">!!Are you sure you want to mark this report as incomplete?!!</h2>
+        </legend>
+    </fieldset>
+
+    {{ macros.notification('info', '!!You cannot undo this action.!!') }}
+
+    {{ form_submit(form.save, 'reportManage.form.unsubmit') }}
+
+    {{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}
