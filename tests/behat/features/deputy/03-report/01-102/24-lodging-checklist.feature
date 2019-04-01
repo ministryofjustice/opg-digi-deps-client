@@ -6,7 +6,7 @@ Feature: Admin report checklist
     # Navigate to checklist via search
     And I click on "admin-client-search"
     Then each text should be present in the corresponding region:
-      | 12 clients | client-search-count |
+      | 8 clients | client-search-count |
     Then each text should be present in the corresponding region:
       | Cly Hent | client-behat001 |
     When I fill in the following:
@@ -38,7 +38,6 @@ Feature: Admin report checklist
       | 163,010                                             | asset-total                  |
       | £3.00                                               | debt-loans                   |
       | 200 per month payment plan                          | debt-management-details      |
-      | £0.00 | checklist-closing-balance-previous-report |
       | £335.40   | checklist-accounts-opening-total |
       | £243.39   | calculated-balance               |
       | £193.11   | balance-difference               |
@@ -52,6 +51,7 @@ Feature: Admin report checklist
       | 020 3334 3555     | checklist-deputy-phone     |
       | behat-user@publicguardian.gov.uk | checklist-deputy-email |
     # check auto-filled answers
+    And I should see the "checklist-no-previous-reports" region exactly "1" times
     And the following fields should have the corresponding values:
       | report_checklist_futureSignificantDecisions_0 | yes     |
       | report_checklist_hasDeputyRaisedConcerns_0             | yes     |
