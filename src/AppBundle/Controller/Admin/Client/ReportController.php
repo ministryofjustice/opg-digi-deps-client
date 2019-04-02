@@ -106,9 +106,9 @@ class ReportController extends AbstractController
                 $report
                     ->setUnSubmitDate(new \DateTime())
                     ->setUnsubmittedSectionsList($confirmForm->get('unsubmittedSection')->getData())
-                    ->setStartDate($confirmForm->get('startDate')->getData())
-                    ->setEndDate($confirmForm->get('endDate')->getData())
-                    ->setDueDate($confirmForm->get('dueDate')->getData())
+                    ->setStartDate(\DateTime::createFromFormat(\DateTime::ISO8601, $confirmForm->get('startDate')->getData()))
+                    ->setEndDate(\DateTime::createFromFormat(\DateTime::ISO8601, $confirmForm->get('endDate')->getData()))
+                    ->setDueDate(\DateTime::createFromFormat(\DateTime::ISO8601, $confirmForm->get('dueDate')->getData()))
                 ;
 
                 $this->getRestClient()->put('report/' . $report->getId() . '/unsubmit', $report, [
@@ -135,9 +135,9 @@ class ReportController extends AbstractController
                     $newDueDate = $report->getDueDate();
                 }
 
-                $confirmForm->get('startDate')->setData($form->getData()->getStartDate());
-                $confirmForm->get('endDate')->setData($form->getData()->getEndDate());
-                $confirmForm->get('dueDate')->setData($newDueDate);
+                $confirmForm->get('startDate')->setData($form->getData()->getStartDate()->format(\DateTime::ISO8601));
+                $confirmForm->get('endDate')->setData($form->getData()->getEndDate()->format(\DateTime::ISO8601));
+                $confirmForm->get('dueDate')->setData($newDueDate->format(\DateTime::ISO8601));
                 $confirmForm->get('unsubmittedSection')->setData(implode(',', $report->getUnsubmittedSectionsIds()));
             }
 
