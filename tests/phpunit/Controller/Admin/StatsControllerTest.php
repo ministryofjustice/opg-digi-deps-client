@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class StatsControllerTest extends WebTestCase
 {
+    /**
+     * @group acs
+     */
     public function testDeputyStats()
     {
         $response = new DeputyQueryResponse();
