@@ -145,12 +145,6 @@ class ReportController extends AbstractController
             return $this->render('AppBundle:Admin/Client/Report:manageConfirm.html.twig', [
                 'report' => $report,
                 'form' => $confirmForm->createView(),
-                'submitted' => [
-                    'startDate' => $confirmForm['startDate']->getData(),
-                    'endDate' => $confirmForm['endDate']->getData(),
-                    'dueDate' => $confirmForm['dueDate']->getData(),
-                    'unsubmittedSection' => $confirmForm['unsubmittedSection']->getData(),
-                ]
             ]);
         }
 
