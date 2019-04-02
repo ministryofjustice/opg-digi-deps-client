@@ -32,7 +32,7 @@
                 <td>{{ (page ~ '.form.startDate.label') | trans }}</td>
                 <td>{{ submitted.startDate | date("j F Y") }}</td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': reportId }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
@@ -41,7 +41,7 @@
                 <td>{{ (page ~ '.form.endDate.label') | trans }}</td>
                 <td>{{ submitted.endDate | date("j F Y") }}</td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': reportId }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
@@ -49,12 +49,12 @@
             <tr>
                 <td>{{ (page ~ '.form.markSections.label') | trans }}</td>
                 <td>
-                    {% for section in submitted.unsubmittedSection %}
+                    {% for section in submitted.unsubmittedSection | split(',') %}
                         {{ ('prevNextLinks.sections.' ~ section) | trans({}, 'report-common') }}{% if not loop.last %},{% endif %}
                     {% endfor %}
                 </td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': reportId }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
@@ -63,7 +63,7 @@
                 <td>{{ (page ~ '.form.dueDateChoice.label') | trans }}</td>
                 <td>{{ submitted.dueDate | date("j F Y") }}</td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': reportId }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
@@ -83,6 +83,6 @@
 
     {{ form_submit(form.save, 'reportManage.form.unsubmit') }}
 
-    {{ form_end(form, {'render_rest': false}) }}
+    {{ form_end(form) }}
 
 {% endblock %}
