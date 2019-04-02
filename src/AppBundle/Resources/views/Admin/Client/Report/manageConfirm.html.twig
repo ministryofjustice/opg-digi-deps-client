@@ -21,7 +21,7 @@
 
     {{ form_start(form, {attr: {novalidate: 'novalidate', id: 'create-report-form' }}) }}
 
-    <table>
+    <table class="push--bottom">
         <thead>
             <tr>
                 <th>{{ (page ~ '.form.confirmation.option') | trans }}</th>
@@ -71,11 +71,13 @@
         </thead>
     </table>
 
-    <fieldset class="form-group">
-        <legend>
-            <h2 class="heading-small flush--top">{{ (page ~ '.form.confirmation.label') | trans }}</h2>
-        </legend>
-    </fieldset>
+    <div class="form-section push--bottom">
+        {{ form_checkbox_group(form.confirm, (page ~ '.form.confirmation'), {
+            'fieldSetClass' : 'inline',
+            'legendClass' : 'form-label-bold text',
+            'formGroupClass': 'flush--bottom'
+        }) }}
+    </div>
 
     {{ macros.notification('info', (page ~ '.form.confirmation.warning') | trans) }}
 
