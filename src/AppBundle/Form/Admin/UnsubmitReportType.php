@@ -68,6 +68,12 @@ class UnsubmitReportType extends AbstractType
                     new Constraints\Date(['message' => 'report.dueDate.invalidMessage', 'groups' => ['due_date_new']]),
                 ],
             ])
+            ->add('confirm', FormTypes\ChoiceType::class, [
+                'choices'            => ['Yes' => 'yes', 'No' => 'no'],
+                'translation_domain' => 'admin-clients',
+                'mapped'             => false,
+                'expanded'           => true,
+            ])
             ->add('save', FormTypes\SubmitType::class);
     }
 
