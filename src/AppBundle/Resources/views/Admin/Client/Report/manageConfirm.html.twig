@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td>{{ (page ~ '.form.startDate.label') | trans }}</td>
-                <td>{{ submitted.startDate | date("j F Y") }}</td>
+                <td>{{ form.startDate.vars.value | date("j F Y") }}</td>
                 <td>
                     <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <td>{{ (page ~ '.form.endDate.label') | trans }}</td>
-                <td>{{ submitted.endDate | date("j F Y") }}</td>
+                <td>{{ form.endDate.vars.value | date("j F Y") }}</td>
                 <td>
                     <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
@@ -49,7 +49,7 @@
             <tr>
                 <td>{{ (page ~ '.form.markSections.label') | trans }}</td>
                 <td>
-                    {% for section in submitted.unsubmittedSection | split(',') %}
+                    {% for section in form.unsubmittedSection.vars.value | split(',') %}
                         {{ ('prevNextLinks.sections.' ~ section) | trans({}, 'report-common') }}{% if not loop.last %},{% endif %}
                     {% endfor %}
                 </td>
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <td>{{ (page ~ '.form.dueDateChoice.label') | trans }}</td>
-                <td>{{ submitted.dueDate | date("j F Y") }}</td>
+                <td>{{ form.dueDate.vars.value | date("j F Y") }}</td>
                 <td>
                     <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
