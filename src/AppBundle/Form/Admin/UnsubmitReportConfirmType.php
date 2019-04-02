@@ -18,9 +18,9 @@ class UnsubmitReportConfirmType extends AbstractType
         $builder
             ->add('id', FormTypes\HiddenType::class)
             ->add('unsubmittedSection', FormTypes\HiddenType::class)
-            ->add('startDate', FormTypes\DateType::class)
-            ->add('endDate', FormTypes\DateType::class)
-            ->add('dueDate', FormTypes\DateType::class)
+            ->add('startDate', FormTypes\HiddenType::class)
+            ->add('endDate', FormTypes\HiddenType::class)
+            ->add('dueDate', FormTypes\HiddenType::class)
             ->add('confirm', FormTypes\ChoiceType::class, [
                 'choices'            => ['Yes' => 'yes', 'No' => 'no'],
                 'mapped'             => false,
