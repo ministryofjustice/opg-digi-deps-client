@@ -99,20 +99,21 @@ class ReportController extends AbstractController
 
         // edit client form
         if ($form->isValid()) {
+            $dueDateChoice = $form['dueDateChoice']->getData();
+            if ($dueDateChoice == UnsubmitReportType::DUE_DATE_OPTION_CUSTOM) {
+                $newDueDate = $form['dueDateCustom']->getData();
+            } elseif (preg_match('/^\d+$/', $dueDateChoice)) {
+                $newDueDate = new \DateTime();
+                $newDueDate->modify("+{$dueDateChoice} weeks");
+            }
+
             if ($done) {
                 $report
                     ->setUnSubmitDate(new \DateTime())
                     ->setUnsubmittedSectionsList(implode(',', $report->getUnsubmittedSectionsIds()))
                 ;
 
-                $dueDateChoice = $form['dueDateChoice']->getData();
-                if ($dueDateChoice == UnsubmitReportType::DUE_DATE_OPTION_CUSTOM) {
-                    $report->setDueDate($form['dueDateCustom']->getData());
-                } elseif (preg_match('/^\d+$/', $dueDateChoice)) {
-                    $dd = new \DateTime();
-                    $dd->modify("+{$dueDateChoice} weeks");
-                    $report->setDueDate($dd);
-                }
+                $report->setDueDate($newDueDate);
 
                 $this->getRestClient()->put('report/' . $report->getId() . '/unsubmit', $report, [
                     'submitted', 'unsubmit_date', 'report_unsubmitted_sections_list', 'report_due_date', 'startEndDates'
@@ -134,7 +135,7 @@ class ReportController extends AbstractController
                     'submitted' => [
                         'startDate' => $form->getData()->getStartDate(),
                         'endDate' => $form->getData()->getEndDate(),
-                        'dueDate' => $form->getData()->getDueDate(),
+                        'dueDate' => $newDueDate,
                         'unsubmittedSection' => $sectionIds
                     ]
                 ]);
