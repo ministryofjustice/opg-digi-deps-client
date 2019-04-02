@@ -131,6 +131,7 @@ class ReportController extends AbstractController
 
                 return $this->render('AppBundle:Admin/Client/Report:manageConfirm.html.twig', [
                     'report' => $report,
+                    'reportId' => $id,
                     'form' => $form->createView(),
                     'submitted' => [
                         'startDate' => $form->getData()->getStartDate(),
