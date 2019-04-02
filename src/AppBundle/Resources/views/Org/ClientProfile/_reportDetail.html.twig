@@ -14,7 +14,7 @@
                 <strong class="bold">{{ 'reportStatus' | trans() }}</strong>
             </dt>
             <dd class="push--bottom">
-                {% if report.unSubmitDate|date and report.submitted == false %}
+                {% if report.unSubmitDate and report.submitted == false %}
                     <span class="status status-large changesNeeded">{{ 'changesNeeded' | trans({}, 'common') }}</span>
                 {% else %}
                     <span class="status status-large {{ reportStatus.getState() }} flush--bottom">{{ ('status.' ~ reportStatus.status) | trans() }}</span>
