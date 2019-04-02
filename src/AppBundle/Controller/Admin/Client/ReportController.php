@@ -9,6 +9,7 @@ use AppBundle\Entity\Report\Report;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Form\Admin\ReportChecklistType;
 use AppBundle\Form\Admin\UnsubmitReportType;
+use AppBundle\Form\Admin\UnsubmitReportConfirmType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -95,52 +96,62 @@ class ReportController extends AbstractController
         $form = $this->createForm(UnsubmitReportType::class, $report);
         $form->handleRequest($request);
 
-        $done = false;
+        $confirmForm = $this->createForm(UnsubmitReportConfirmType::class);
+        $confirmForm->handleRequest($request);
 
         // edit client form
-        if ($form->isValid()) {
-            $dueDateChoice = $form['dueDateChoice']->getData();
-            if ($dueDateChoice == UnsubmitReportType::DUE_DATE_OPTION_CUSTOM) {
-                $newDueDate = $form['dueDateCustom']->getData();
-            } elseif (preg_match('/^\d+$/', $dueDateChoice)) {
-                $newDueDate = new \DateTime();
-                $newDueDate->modify("+{$dueDateChoice} weeks");
-            }
-
-            if ($done) {
+        if ($confirmForm->isValid()) {
+            if ($confirmForm->get('confirm')->getData() === 'yes') {
+                // User confirmed, complete unsubmission
                 $report
                     ->setUnSubmitDate(new \DateTime())
-                    ->setUnsubmittedSectionsList(implode(',', $report->getUnsubmittedSectionsIds()))
+                    ->setUnsubmittedSectionsList($confirmForm->get('unsubmittedSection')->getData())
+                    ->setStartDate($confirmForm->get('startDate')->getData())
+                    ->setEndDate($confirmForm->get('endDate')->getData())
+                    ->setDueDate($confirmForm->get('dueDate')->getData())
                 ;
-
-                $report->setDueDate($newDueDate);
 
                 $this->getRestClient()->put('report/' . $report->getId() . '/unsubmit', $report, [
                     'submitted', 'unsubmit_date', 'report_unsubmitted_sections_list', 'report_due_date', 'startEndDates'
                 ]);
+
                 $request->getSession()->getFlashBag()->add('notice', 'Report marked as incomplete');
 
                 return $this->redirect($this->generateUrl('admin_client_details', ['id'=>$report->getClient()->getId()]));
             } else {
-                $filteredSection = array_filter($form->getData()->getUnsubmittedSection(), function ($section) {
-                    return $section->isPresent();
-                });
-                $sectionIds = array_map(function($section) {
-                    return $section->getId();
-                }, $filteredSection);
-
-                return $this->render('AppBundle:Admin/Client/Report:manageConfirm.html.twig', [
-                    'report' => $report,
-                    'reportId' => $id,
-                    'form' => $form->createView(),
-                    'submitted' => [
-                        'startDate' => $form->getData()->getStartDate(),
-                        'endDate' => $form->getData()->getEndDate(),
-                        'dueDate' => $newDueDate,
-                        'unsubmittedSection' => $sectionIds
-                    ]
-                ]);
+                // User cancelled
+                return $this->redirect($this->generateUrl('admin_report_manage', ['id'=>$id]));
             }
+        } else if ($form->isValid() || $confirmForm->isSubmitted()) {
+            if (!$confirmForm->isSubmitted()) {
+                // Populate confirmation form for the first time
+                $dueDateChoice = $form['dueDateChoice']->getData();
+                if ($dueDateChoice == UnsubmitReportType::DUE_DATE_OPTION_CUSTOM) {
+                    $newDueDate = $form['dueDateCustom']->getData();
+                } elseif (preg_match('/^\d+$/', $dueDateChoice)) {
+                    $newDueDate = new \DateTime();
+                    $newDueDate->modify("+{$dueDateChoice} weeks");
+                } else {
+                    $newDueDate = $report->getDueDate();
+                }
+
+                $confirmForm->get('startDate')->setData($form->getData()->getStartDate());
+                $confirmForm->get('endDate')->setData($form->getData()->getEndDate());
+                $confirmForm->get('dueDate')->setData($newDueDate);
+                $confirmForm->get('unsubmittedSection')->setData(implode(',', $report->getUnsubmittedSectionsIds()));
+            }
+
+            // Render confirmation form view
+            return $this->render('AppBundle:Admin/Client/Report:manageConfirm.html.twig', [
+                'report' => $report,
+                'form' => $confirmForm->createView(),
+                'submitted' => [
+                    'startDate' => $confirmForm->get('startDate')->getData(),
+                    'endDate' => $confirmForm->get('endDate')->getData(),
+                    'dueDate' => $confirmForm->get('dueDate')->getData(),
+                    'unsubmittedSection' => $confirmForm->get('unsubmittedSection')->getData(),
+                ]
+            ]);
         }
 
         return [
