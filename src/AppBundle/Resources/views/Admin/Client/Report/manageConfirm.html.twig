@@ -17,15 +17,15 @@
     <p class="flush--bottom">{{ 'client' | trans({}, 'common') }}: <span class="bold">{{ report.client.fullName }}</span></p>
     <p>{{ 'courtOrderNumber' | trans({}, 'common') }}: <span class="bold">{{ report.client.caseNumber }}</span></p>
 
-    <p>!!Please read through and confirm the options you have selected before marking this report as incomplete.!!</p>
+    <p>{{ (page ~ '.form.confirmation.guidance') | trans }}</p>
 
     {{ form_start(form, {attr: {novalidate: 'novalidate', id: 'create-report-form' }}) }}
 
     <table>
         <thead>
             <tr>
-                <th>!!Option!!</th>
-                <th>!!Selection!!</th>
+                <th>{{ (page ~ '.form.confirmation.option') | trans }}</th>
+                <th>{{ (page ~ '.form.confirmation.selection') | trans }}</th>
             </tr>
             <tr>
                 <td>{{ (page ~ '.form.startDate.label') | trans }}</td>
@@ -36,7 +36,7 @@
                 <td>{{ submitted.endDate | date("j F Y") }}</td>
             </tr>
             <tr>
-                <td>!!Sections marked incomplete!!</td>
+                <td>{{ (page ~ '.form.markSections.label') | trans }}</td>
                 <td>
                     {% for section in submitted.unsubmittedSection %}
                         {{ ('prevNextLinks.sections.' ~ section) | trans({}, 'report-common') }}{% if not loop.last %},{% endif %}
@@ -52,11 +52,11 @@
 
     <fieldset class="form-group">
         <legend>
-            <h2 class="heading-small flush--top">!!Are you sure you want to mark this report as incomplete?!!</h2>
+            <h2 class="heading-small flush--top">{{ (page ~ '.form.confirmation.label') | trans }}</h2>
         </legend>
     </fieldset>
 
-    {{ macros.notification('info', '!!You cannot undo this action.!!') }}
+    {{ macros.notification('info', (page ~ '.form.confirmation.warning') | trans) }}
 
     {{ form_submit(form.save, 'reportManage.form.unsubmit') }}
 
