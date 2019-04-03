@@ -6,6 +6,8 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Form\Admin\ReportSubmissionDownloadFilterType;
 use AppBundle\Mapper\ReportSubmission\ReportSubmissionSummaryQuery;
+use AppBundle\Model\DeputyQueryResponse;
+use AppBundle\Service\Client\RestClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -17,6 +19,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class StatsController extends AbstractController
 {
+    /** 
+     * @var RestClient
+     */
+    private $restClient;
+
+    public function __construct(RestClient $restClient)
+    {
+        $this->restClient = $restClient;
+    }
+
     /**
      * @Route("", name="admin_stats")
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AD')")
@@ -89,5 +101,10 @@ class StatsController extends AbstractController
         $response->setContent($rawCsv);
 
         return $response;
+    }
+
+    public function getDeputyStats($data)
+    {
+        $response = $this->restClient->get("stats/deputy", DeputyQueryResponse::class);
     }
 }
