@@ -11,7 +11,7 @@
 
 {% if reportStatus.isReadyToSubmit and report.isDue %}
     <div id="header-report-submit" class="hero behat-region-report-ready-banner">
-        {% if report.unSubmitDate and report.submitted == false %}
+        {% if report.submitted == false %}
             <h2 class="status status-large changesNeeded">{{ 'changesNeeded' | trans({}, 'common') }}</h2>
         {% else %}
             <h2 class="heading-large flush--ends">{{ 'reportIsReady' | trans() }}</h2>
