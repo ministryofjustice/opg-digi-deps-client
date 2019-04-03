@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Form\Admin\ReportSubmissionDownloadFilterType;
 use AppBundle\Mapper\ReportSubmission\ReportSubmissionSummaryQuery;
-use AppBundle\Model\DeputyQueryResponse;
+use AppBundle\Entity\Stats\StatsQueryResponse;
 use AppBundle\Service\Client\RestClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -103,8 +103,9 @@ class StatsController extends AbstractController
         return $response;
     }
 
-    public function getDeputyStats($data)
+    public function getStats($data)
     {
-        $response = $this->restClient->get("stats/deputy", DeputyQueryResponse::class);
+        $response = $this->restClient->get("stats", StatsQueryResponse::class);
+        return $response->toJson();
     }
 }
