@@ -6,12 +6,39 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class StatsQueryResponse
 {
-    private $deputyCount;
+    private $paNamedDeputyCount;
 
-    public function setDeputyCount($deputyCount)
+    private $profNamedDeputyCount;
+
+    private $reportsCount;
+
+    public function setPaNamedDeputyCount($paNamedDeputyCount)
     {
-        $this->deputyCount = $deputyCount;
+        $this->paNamedDeputyCount = $paNamedDeputyCount;
     }
 
-    public function toJson()
+    public function getPaNamedDeputyCount()
+    {
+        return $this->paNamedDeputyCount;
+    }
+
+    public function setProfNamedDeputyCount($ProfNamedDeputyCount)
+    {
+        $this->profNamedDeputyCount = $ProfNamedDeputyCount;
+    }
+
+    public function getProfNamedDeputyCount()
+    {
+        return $this->profNamedDeputyCount;
+    }
+
+    public function setReportsCount($reportsCount)
+    {
+        $this->reportsCount = $reportsCount;
+    }
+
+    public function getReportsCount()
+    {
+        return $this->reportsCount;
+    }
 }

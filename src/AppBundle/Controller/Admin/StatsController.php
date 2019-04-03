@@ -19,16 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class StatsController extends AbstractController
 {
-    /** 
-     * @var RestClient
-     */
-    private $restClient;
-
-    public function __construct(RestClient $restClient)
-    {
-        $this->restClient = $restClient;
-    }
-
     /**
      * @Route("", name="admin_stats")
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AD')")
@@ -105,7 +95,6 @@ class StatsController extends AbstractController
 
     public function getStats($data)
     {
-        $response = $this->restClient->get("stats", StatsQueryResponse::class);
-        return $response->toJson();
+        return $this->getRestClient()->get("stats", 'array');
     }
 }
