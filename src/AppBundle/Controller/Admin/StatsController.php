@@ -69,8 +69,13 @@ class StatsController extends AbstractController
         return $response;
     }
 
-    public function getStats($data)
+    public function getStats(Request $request)
     {
-        return $this->getRestClient()->get("stats", 'array');
+        $form = $this->createForm(GetStatsDateFilterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            return $this->getRestClient()->get("stats?from=${}&to=${}", 'array');
+        }
     }
 }
