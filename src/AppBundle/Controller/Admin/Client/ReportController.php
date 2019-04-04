@@ -163,8 +163,10 @@ class ReportController extends AbstractController
         isset($dataFromUrl['dueDateCustom']) && $form['dueDateCustom']->setData(new \DateTime($dataFromUrl['dueDateCustom']));
         if (isset($dataFromUrl['unsubmittedSection'])) {
             $unsubmittedSections = $form['unsubmittedSection']->getData();
-            foreach ($dataFromUrl['unsubmittedSection'] as $index => $name) {
-                $unsubmittedSections[$index]->setPresent(true);
+            foreach ($unsubmittedSections as $section) {
+                if (in_array($section->getId(), $dataFromUrl['unsubmittedSection'])) {
+                    $section->setPresent(true);
+                }
             }
             $form['unsubmittedSection']->setData($unsubmittedSections);
         }
