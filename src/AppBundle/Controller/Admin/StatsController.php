@@ -6,6 +6,8 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Form\Admin\ReportSubmissionDownloadFilterType;
 use AppBundle\Mapper\ReportSubmission\ReportSubmissionSummaryQuery;
+use AppBundle\Entity\Stats\StatsQueryResponse;
+use AppBundle\Service\Client\RestClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -65,5 +67,10 @@ class StatsController extends AbstractController
         $response->sendHeaders();
 
         return $response;
+    }
+
+    public function getStats($data)
+    {
+        return $this->getRestClient()->get("stats", 'array');
     }
 }
