@@ -149,7 +149,7 @@ class ReportController extends AbstractController
                     'startDate' => $form['startDate']->getData()->format('Y-m-d'),
                     'endDate' => $form['endDate']->getData()->format('Y-m-d'),
                     'dueDateChoice' => $form['dueDateChoice']->getData(),
-                    'dueDateCustom' => $form['dueDateCustom']->getData()->format('Y-m-d'),
+                    'dueDateCustom' => $form['dueDateCustom']->getData() !== null ? $form['dueDateCustom']->getData()->format('Y-m-d') : null,
                     'unsubmittedSection' => $report->getUnsubmittedSectionsIds(),
                 ],
             ]);
