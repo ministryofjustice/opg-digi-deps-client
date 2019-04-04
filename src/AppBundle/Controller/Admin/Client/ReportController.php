@@ -145,7 +145,28 @@ class ReportController extends AbstractController
             return $this->render('AppBundle:Admin/Client/Report:manageConfirm.html.twig', [
                 'report' => $report,
                 'form' => $confirmForm->createView(),
+                'urlData' => [
+                    'startDate' => $form['startDate']->getData()->format('Y-m-d'),
+                    'endDate' => $form['endDate']->getData()->format('Y-m-d'),
+                    'dueDateChoice' => $form['dueDateChoice']->getData(),
+                    'dueDateCustom' => $form['dueDateCustom']->getData()->format('Y-m-d'),
+                    'unsubmittedSection' => $report->getUnsubmittedSectionsIds(),
+                ],
             ]);
+        }
+
+        // Use URL data
+        $dataFromUrl = $request->get('data') ?: [];
+        isset($dataFromUrl['startDate']) && $form['startDate']->setData(new \DateTime($dataFromUrl['startDate']));
+        isset($dataFromUrl['endDate']) && $form['endDate']->setData(new \DateTime($dataFromUrl['endDate']));
+        isset($dataFromUrl['dueDateChoice']) && $form['dueDateChoice']->setData($dataFromUrl['dueDateChoice']);
+        isset($dataFromUrl['dueDateCustom']) && $form['dueDateCustom']->setData(new \DateTime($dataFromUrl['dueDateCustom']));
+        if (isset($dataFromUrl['unsubmittedSection'])) {
+            $unsubmittedSections = $form['unsubmittedSection']->getData();
+            foreach ($dataFromUrl['unsubmittedSection'] as $index => $name) {
+                $unsubmittedSections[$index]->setPresent(true);
+            }
+            $form['unsubmittedSection']->setData($unsubmittedSections);
         }
 
         return [

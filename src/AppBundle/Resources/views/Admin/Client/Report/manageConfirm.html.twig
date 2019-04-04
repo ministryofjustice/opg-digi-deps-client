@@ -32,7 +32,7 @@
                 <td>{{ (page ~ '.form.startDate.label') | trans }}</td>
                 <td>{{ form.startDate.vars.value | date("j F Y") }}</td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id, data: urlData }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
@@ -41,7 +41,7 @@
                 <td>{{ (page ~ '.form.endDate.label') | trans }}</td>
                 <td>{{ form.endDate.vars.value | date("j F Y") }}</td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id, data: urlData }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
@@ -54,7 +54,7 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id, data: urlData }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
@@ -63,7 +63,7 @@
                 <td>{{ (page ~ '.form.dueDateChoice.label') | trans }}</td>
                 <td>{{ form.dueDate.vars.value | date("j F Y") }}</td>
                 <td>
-                    <a href="{{ url('admin_report_manage', { 'id': report.id }) }}">
+                    <a href="{{ url('admin_report_manage', { 'id': report.id, data: urlData }) }}">
                         {{ (page ~ '.form.confirmation.edit') | trans }}
                     </a>
                 </td>
