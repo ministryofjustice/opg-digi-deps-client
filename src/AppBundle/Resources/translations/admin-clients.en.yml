@@ -51,5 +51,5 @@ reportManage:
         Please read through and confirm the options you have selected
         before marking this report as incomplete.
       label: Are you sure you want to mark this report as incomplete?
-      warning: You cannot undo this action.
+      warning: Once you have made the report incomplete you will not be able to undo this action.
 
