@@ -47,11 +47,12 @@
             </td>
             {% if account.closingBalance == null %}
                 <td class="numeric-small">
-                    {{ 'summaryPage.balanceRequired' | trans({ '%date%': report.endDate | date("j F Y") }) }}
-                    <br>
-                    <a href="{{ path('bank_accounts_step' , {'reportId': report.id, 'step': 3, 'accountId': account.id}) }}">
-                        {{ 'summaryPage.addBalance' | trans }}
-                    </a>
+                    <div class="error-message">
+                        {{ 'summaryPage.balanceRequired' | trans({
+                            '%date%': report.endDate | date("j F Y"),
+                            '%link%': path('bank_accounts_step' , {'reportId': report.id, 'step': 3, 'accountId': account.id})
+                        }) | raw }}
+                    </div>
                 </td>
             {% else %}
                 <td class="numeric-small">
