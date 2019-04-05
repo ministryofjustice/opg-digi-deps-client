@@ -42,7 +42,8 @@ summaryPage:
     In this section, we ask you about %client%'s bank accounts, building society accounts,
     savings accounts and ISAs.
   totalBalance: "Total balance on %endDate%: £%amount%"
-  balanceRequired: Balance for %date% required, <a href="%link%">add balance</a>.
+  balanceRequired: Balance for %date% required
+  addBalance: Add balance
 
 deletePage:
   htmlTitle: "Deputy report - Accounts | GOV.UK"
