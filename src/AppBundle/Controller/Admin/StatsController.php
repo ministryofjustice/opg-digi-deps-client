@@ -5,9 +5,11 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Form\Admin\ReportSubmissionDownloadFilterType;
+use AppBundle\Form\Admin\StatsDateFilterType;
 use AppBundle\Mapper\ReportSubmission\ReportSubmissionSummaryQuery;
 use AppBundle\Entity\Stats\StatsQueryResponse;
 use AppBundle\Service\Client\RestClient;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -19,6 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class StatsController extends AbstractController
 {
+    const STATS_API_ENDPOINT = 'stats';
+    const STATS_QUERY_TEMPLATE = '?from=%s&to=%s';
     /**
      * @Route("", name="admin_stats")
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AD')")
@@ -47,8 +51,27 @@ class StatsController extends AbstractController
             }
         }
 
+        $statsFilterForm = $this->createForm(StatsDateFilterType::class);
+        $statsFilterForm->handleRequest($request);
+
+        $stats = $this->getRestClient()->get(self::STATS_API_ENDPOINT, 'array');
+
+        if ($statsFilterForm->isValid()) {
+            $data = $statsFilterForm->getData();
+
+            /** @var DateTime $from */
+            $from = $data['from']->format('Y-m-d H:i:s');
+            $to = $data['to']->format('Y-m-d H:i:s');
+
+            $url = sprintf(self::STATS_API_ENDPOINT . self::STATS_QUERY_TEMPLATE, $from, $to);
+
+            $stats = $this->getRestClient()->get($url, 'array');
+        }
+
         return [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'statsFilterForm' => $statsFilterForm->createView(),
+            'stats' => $stats
         ];
     }
 
@@ -67,15 +90,5 @@ class StatsController extends AbstractController
         $response->sendHeaders();
 
         return $response;
-    }
-
-    public function getStats(Request $request)
-    {
-        $form = $this->createForm(GetStatsDateFilterType::class);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            return $this->getRestClient()->get("stats?from=${}&to=${}", 'array');
-        }
     }
 }
