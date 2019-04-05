@@ -7,8 +7,6 @@ use AppBundle\Exception\DisplayableException;
 use AppBundle\Form\Admin\ReportSubmissionDownloadFilterType;
 use AppBundle\Form\Admin\StatsDateFilterType;
 use AppBundle\Mapper\ReportSubmission\ReportSubmissionSummaryQuery;
-use AppBundle\Entity\Stats\StatsQueryResponse;
-use AppBundle\Service\Client\RestClient;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
