@@ -52,10 +52,7 @@ class NdrController extends AbstractController
             return $this->redirectToRoute($route);
         }
 
-        $clients = $user->getClients();
-        $client = !empty($clients) ? $clients[0] : null;
-        $coDeputies = !empty($client) ? $client->getCoDeputies() : [];
-        $ndr = $client->getNdr();
+        $client = $this->hydrateClient($user);
 
         $reports = $client ? $client->getReports() : [];
         arsort($reports);
@@ -70,15 +67,13 @@ class NdrController extends AbstractController
             }
         }
 
-        $ndrStatus = new NdrStatusService($ndr);
-
         return [
             'client' => $client,
-            'coDeputies' => $coDeputies,
-            'ndr' => $ndr,
+            'coDeputies' => $client->getCoDeputies(),
+            'ndr' => $client->getNdr(),
             'reportsSubmitted' => $reportsSubmitted,
             'reportActive' => $reportActive,
-            'ndrStatus' => $ndrStatus
+            'ndrStatus' => new NdrStatusService($client->getNdr())
         ];
     }
 
@@ -288,5 +283,21 @@ class NdrController extends AbstractController
         return [
             'ndr' => $ndr,
         ];
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    private function hydrateClient(User $user)
+    {
+        $clients = $user->getClients();
+        $clientId = array_shift($clients)->getId();
+
+        return  $this->getRestClient()->get(
+            'client/' . $clientId,
+            'Client',
+            ['client', 'client-users', 'user', 'client-reports', 'client-ndr', 'ndr']
+        );
     }
 }
