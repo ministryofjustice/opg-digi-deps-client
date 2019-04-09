@@ -50,12 +50,12 @@ You should then move your JIRA issue into the "OPG Acceptance" column and assign
 
 ### Approval
 
-If the product manager approves your work, they will move the JIRA issue to the "Ready for Deployment" column. At this point you should complete your pull request and merge the changes into `master`.
+If the product manager approves your work, they will move the JIRA issue to the "Ready for Release" column. At this point you should complete your pull request and merge the changes into `master`.
 
 After the pull request has completed, the changes are automatically tested and, if the tests pass, deployed to pre-production and training environments.
 
 ### Releasing
 
-On a regular basis, the development team will review issues in the "Ready for Deployment" column and promote them to the production environment. This work is co-ordinated over Slack.
+On a regular basis, the development team will review issues in the "Ready for Release" column and promote them to the production environment. This work is co-ordinated over Slack.
 
 You can deploy your changes to the production environment through Jenkins, under the "Release" tab of the Digi-Deps project.
