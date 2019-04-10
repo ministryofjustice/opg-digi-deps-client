@@ -2,9 +2,6 @@
 
 const pa11y = require('pa11y');
 
-// const credentials = 'opg:monkeytrousers';
-// const encodedCredentials = new Buffer(credentials).toString('base64');
-
 const args = require('minimist')(process.argv.slice(2));
 
 let host = args['h'];
@@ -13,7 +10,7 @@ let user = args['e'];
 let pass = args['p'];
 
 if(!host || !route || host.indexOf('/')>-1) {
-	console.log('Please enter host and route at least e.g. -h lpa-front.local -r /home');
+	console.log('Please enter host and route at least e.g. -h digideps-client.local -r /home');
 	process.exit(0);
 }
 
@@ -24,9 +21,6 @@ function testURL() {
 	console.log('Testing specified URL...')
 	pa11y('https://' + host + route, {
 	    wait: 2000,
-	    /*headers: {
-	        Authorization: `Basic ${encodedCredentials}`
-	    }*/
 	}).then((results) => {
 	    // Do something with the results
 	    console.log(results);
@@ -39,9 +33,7 @@ if(user && pass) {
 
 	pa11y('https://' + host + '/login', {
 		wait: 2000,
-	    /*headers: {
-	        Authorization: `Basic b3BnOm1vbmtleXRyb3VzZXJz`
-	    },*/		
+
 	    actions: [
 	        'set field #email to ' + user,
 	        'set field #password to ' + pass,
