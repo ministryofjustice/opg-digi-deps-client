@@ -10,7 +10,7 @@ let user = args['e'];
 let pass = args['p'];
 
 if(!host || !route || host.indexOf('/')>-1) {
-	console.log('Please enter host and route at least e.g. -h digideps-client.local -r /home');
+	console.log('Please enter host and route at least e.g. -h digideps-client.local -r /report/xxx/yyy');
 	process.exit(0);
 }
 
@@ -35,10 +35,10 @@ if(user && pass) {
 		wait: 2000,
 
 	    actions: [
-	        'set field #email to ' + user,
-	        'set field #password to ' + pass,
-	        'click element #signin-form-submit',
-	        'wait for path to not be /login?cookie=1',
+	        'set field #login_email to ' + user,
+	        'set field #login_password to ' + pass,
+	        'click element #login_login',
+	        'wait for path to not be /login',
 	        'navigate to https://' + host + route
 
 	    ]
