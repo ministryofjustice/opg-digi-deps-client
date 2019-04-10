@@ -20,6 +20,6 @@ Package details: https://github.com/pa11y/pa11y
 
 7. Run the following command: `node pa11y h [host excluding slash] r [route including slash in front] e [user email] p [pass]`
 
-Example: `node pa11y -digideps-client.local -r /report/3/overview -e abc@def.com -p Abcd1234`
+Example: `node pa11y -h digideps-client.local -r /report/3/overview -e abc@def.com -p Abcd1234`
 
 You can view the title in the output to know if you’ve hit the right page or not.
