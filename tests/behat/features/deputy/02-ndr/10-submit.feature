@@ -84,17 +84,18 @@ Feature: ndr / report submit
             | AU | report-submission-1 |
 
 
-    @ndr
+    # Magic: uses report ID number
+    @ndr @magic
     Scenario: check NDR report not accessible after submission
         Given I am logged in as "behat-user-ndr@publicguardian.gov.uk" with password "Abcd1234"
-        And the URL "/ndr/5/visits-care/summary" should not be accessible
-        And the URL "/ndr/5/deputy-expenses/summary" should not be accessible
-        And the URL "/ndr/5/income-benefits/summary" should not be accessible
-        And the URL "/ndr/5/bank-accounts/summary" should not be accessible
-        And the URL "/ndr/5/assets/summary" should not be accessible
-        And the URL "/ndr/5/debts/summary" should not be accessible
-        And the URL "/ndr/5/actions/summary" should not be accessible
-        And the URL "/ndr/5/any-other-info/summary" should not be accessible
+        And the URL "/ndr/7/visits-care/summary" should not be accessible
+        And the URL "/ndr/7/deputy-expenses/summary" should not be accessible
+        And the URL "/ndr/7/income-benefits/summary" should not be accessible
+        And the URL "/ndr/7/bank-accounts/summary" should not be accessible
+        And the URL "/ndr/7/assets/summary" should not be accessible
+        And the URL "/ndr/7/debts/summary" should not be accessible
+        And the URL "/ndr/7/actions/summary" should not be accessible
+        And the URL "/ndr/7/any-other-info/summary" should not be accessible
 
     @ndr
     Scenario: NDR homepage and create new report

@@ -12,7 +12,8 @@ Feature: Report submit
         And I click on "declaration-page"
         Then the URL should match "/report/\d+/declaration"
 
-    @deputy
+    # Magic: uses report ID number
+    @deputy @magic
     Scenario: report submission
         Given emails are sent from "deputy" area
         And I reset the email log
@@ -20,13 +21,13 @@ Feature: Report submit
         And I save the application status into "report-submit-pre"
         And I click on "report-start"
         # assert I cannot access the submitted page directly
-        And the URL "/report/5/submitted" should not be accessible
+        And the URL "/report/7/submitted" should not be accessible
         # assert I cannot access the submit page from declaration page
-        When I go to "/report/5/declaration"
-        Then the URL "/report/5/submitted" should not be accessible
+        When I go to "/report/7/declaration"
+        Then the URL "/report/7/submitted" should not be accessible
         And I click on "reports, report-start"
         # submit without ticking "agree"
-        When I go to "/report/5/declaration"
+        When I go to "/report/7/declaration"
         And I press "report_declaration_save"
         #
         # empty form
@@ -155,22 +156,23 @@ Feature: Report submit
             | 445566                | account-02ca |
             | Balance for 31 December 2017 required | account-02ca |
 
-    @deputy
+    # Magic: uses report ID number
+    @deputy @magic
     Scenario: assert report is not editable after submission
         Given I am logged in as "behat-user@publicguardian.gov.uk" with password "Abcd1234"
-        Then the URL "/report/5/overview" should not be accessible
-        And the URL "/report/5/decisions/summary" should not be accessible
-        And the URL "/report/5/contacts/summary" should not be accessible
-        And the URL "/report/5/visits-care/summary" should not be accessible
-        And the URL "/report/5/bank-accounts/summary" should not be accessible
-        And the URL "/report/5/money-transfers/summary" should not be accessible
-        And the URL "/report/5/money-in/summary" should not be accessible
-        And the URL "/report/5/money-out/summary" should not be accessible
-        And the URL "/report/5/balance" should not be accessible
-        And the URL "/report/5/assets/summary" should not be accessible
-        And the URL "/report/5/debts/summary" should not be accessible
-        And the URL "/report/5/actions" should not be accessible
-        And the URL "/report/5/declaration" should not be accessible
+        Then the URL "/report/7/overview" should not be accessible
+        And the URL "/report/7/decisions/summary" should not be accessible
+        And the URL "/report/7/contacts/summary" should not be accessible
+        And the URL "/report/7/visits-care/summary" should not be accessible
+        And the URL "/report/7/bank-accounts/summary" should not be accessible
+        And the URL "/report/7/money-transfers/summary" should not be accessible
+        And the URL "/report/7/money-in/summary" should not be accessible
+        And the URL "/report/7/money-out/summary" should not be accessible
+        And the URL "/report/7/balance" should not be accessible
+        And the URL "/report/7/assets/summary" should not be accessible
+        And the URL "/report/7/debts/summary" should not be accessible
+        And the URL "/report/7/actions" should not be accessible
+        And the URL "/report/7/declaration" should not be accessible
 
     @deputy
     Scenario: deputy report download
