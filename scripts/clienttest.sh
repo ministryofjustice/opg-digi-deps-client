@@ -21,8 +21,4 @@ rm -rf app/cache/*
 /sbin/setuser app php vendor/phpunit/phpunit/phpunit -c tests/phpunit/
 
 # behat
-export BEHAT_PARAMS="{\"extensions\" : {\"Behat\\\\MinkExtension\\\\ServiceContainer\\\\MinkExtension\" : {\"base_url\" : \"${FRONTEND_NONADMIN_HOST}\",\"selenium2\" : { \"wd_host\" : \"$WD_HOST\" }, \"browser_stack\" : { \"username\": \"$BROWSERSTACK_USER\", \"access_key\": \"$BROWSERSTACK_KEY\"}}}}"
-/sbin/setuser app bin/behat --config=tests/behat/behat.yml --suite=lay --profile=${PROFILE:=headless} --stop-on-failure
-/sbin/setuser app bin/behat --config=tests/behat/behat.yml --suite=ndr --profile=${PROFILE:=headless} --stop-on-failure
-/sbin/setuser app bin/behat --config=tests/behat/behat.yml --suite=pa --profile=${PROFILE:=headless} --stop-on-failure
-/sbin/setuser app bin/behat --config=tests/behat/behat.yml --suite=prof --profile=${PROFILE:=headless} --stop-on-failure
+/sbin/setuser app bin/behat --config=tests/behat/behat.yml --profile=${PROFILE:=headless} --stop-on-failure
