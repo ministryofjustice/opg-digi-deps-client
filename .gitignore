@@ -17,6 +17,7 @@ app/logs/*
 bower_downloads/*
 components/*
 composer.phar
+docker/env/mail.env
 log
 misc/tmp/*
 nbproject
