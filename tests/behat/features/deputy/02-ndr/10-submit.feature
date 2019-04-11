@@ -74,14 +74,10 @@ Feature: ndr / report submit
         When I go to the URL previously saved as "ndr-admin-documents-list-new"
         Then I check "Select 33333333"
         When I click on "archive"
-        Then I should see the "report-submission" region exactly 0 times
-        When I click on "tab-archived"
+        And I click on "tab-archived"
         Then I should see the "report-submission" region exactly 1 times
-        And each text should be present in the corresponding region:
-            | Cly3 Hent3| report-submission-1 |
-            | 33333333 | report-submission-1 |
-            | Report | report-submission-1 |
-            | AU | report-submission-1 |
+        Then I should see "Cly3 Hent3"
+        And I should see "33333333"
 
 
     # Magic: uses report ID number
