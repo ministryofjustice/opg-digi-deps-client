@@ -81,9 +81,7 @@ Feature: Admin unsubmit report (from client page)
     And I press "unsubmit_report_confirm_save"
     Then I should see "Unsubmitted" in the "report-2016-label" region
     And I should see "30 April 2022" in the "report-2016-due-date" region
-    When I click on "admin-documents"
-    Then I should see the "report-submission" region exactly 2 times
-    And I go to the URL previously saved as "admin-client-search-client-behat001"
+    When I go to the URL previously saved as "admin-client-search-client-behat001"
     And I click on "checklist" in the "report-2016" region
     And the response status code should be 200
 

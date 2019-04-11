@@ -107,11 +107,6 @@ Feature: Report submit
         And I click on "admin-documents"
         Then I should be on "/admin/documents/list"
         And I save the current URL as "admin-documents-list-new"
-        # test filters
-        When I click on "tab-archived"
-        Then I should see the "report-submission" region exactly 0 times
-        When I click on "tab-new"
-        Then I should see the "report-submission" region exactly 1 times
         # test search
         When I fill in the following:
             | search | behat001 |
@@ -137,10 +132,8 @@ Feature: Report submit
         When I go to the URL previously saved as "admin-documents-list-new"
         Then I check "Select behat001"
         When I click on "archive"
-        Then I should see the "report-submission" region exactly 0 times
-        When I click on "tab-archived"
-        Then I should see the "report-submission" region exactly 1 times
-        And each text should be present in the corresponding region:
+        And I click on "tab-archived"
+        Then each text should be present in the corresponding region:
             | Cly Hent | report-submission-1 |
             | behat001 | report-submission-1 |
             | Report + docs | report-submission-1 |

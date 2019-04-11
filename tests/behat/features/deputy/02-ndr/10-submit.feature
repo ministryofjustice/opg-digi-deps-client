@@ -62,16 +62,9 @@ Feature: ndr / report submit
         And I click on "admin-documents"
         Then I should be on "/admin/documents/list"
         And I save the current URL as "ndr-admin-documents-list-new"
-            # test filters
-        When I click on "tab-archived"
-        Then I should see the "report-submission" region exactly 0 times
-        When I click on "tab-new"
-        Then I should see the "report-submission" region exactly 1 times
             # assert submission and download
-        Given each text should be present in the corresponding region:
-            | Cly3 Hent3 | report-submission-1 |
-            | 33333333 | report-submission-1 |
-            | Report | report-submission-1 |
+        Then I should see "Cly3 Hent3"
+        And I should see "33333333"
         When I check "Select 33333333"
         Then I click on "download"
         # only checks one level deep. In this case, we check for a single report zip file
