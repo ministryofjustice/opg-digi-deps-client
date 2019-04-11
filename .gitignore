@@ -17,6 +17,7 @@ app/logs/*
 bower_downloads/*
 components/*
 composer.phar
+log
 misc/tmp/*
 nbproject
 node_modules/*
