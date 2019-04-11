@@ -2,6 +2,7 @@
 set -e
 #let's configure environment
 run-parts /etc/my_init.d
+/sbin/setuser app mkdir -p /tmp/behat
 chown app:app /tmp/behat
 chown app:app /tmp
 
@@ -10,7 +11,6 @@ mkdir -p /var/log/app
 chown app:app /var/log/app
 
 cd /app
-/sbin/setuser app mkdir -p /tmp/behat
 export PGHOST=${API_DATABASE_HOSTNAME:=postgres}
 export PGPASSWORD=${API_DATABASE_PASSWORD:=api}
 export PGDATABASE=${API_DATABASE_NAME:=api}
@@ -22,3 +22,5 @@ rm -rf app/cache/*
 
 # behat
 /sbin/setuser app bin/behat --config=tests/behat/behat.yml --profile=${PROFILE:=headless} --stop-on-failure
+
+rm -rf /tmp/behat
