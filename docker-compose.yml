@@ -26,7 +26,8 @@ services:
             - ./app/Resources:/app/app/Resources
             - ./web:/app/web
         env_file:
-            - ../digi-deps-local-dev/develop/env/frontend.env
+            - ./docker/env/frontend.env
+            - ./docker/env/mail.env
         restart: always
 
     admin:
@@ -49,8 +50,9 @@ services:
             - ./app/Resources:/app/app/Resources
             - ./web:/app/web
         env_file:
-            - ../digi-deps-local-dev/develop/env/frontend.env
-            - ../digi-deps-local-dev/develop/env/admin.env
+            - ./docker/env/frontend.env
+            - ./docker/env/mail.env
+            - ./docker/env/admin.env
         restart: always
 
     redisfront:
@@ -76,7 +78,7 @@ services:
         links:
             - fakes3
         env_file:
-            - ../digi-deps-local-dev/develop/env/router.env
+            - ./docker/env/router.env
         restart: always
 
     fakes3:
@@ -133,8 +135,8 @@ services:
             - ./tests:/app/tests
             - ./app/Resources:/app/app/Resources
         env_file:
-            - ../digi-deps-local-dev/develop/env/frontend.env
-            - ../digi-deps-local-dev/develop/env/test.env
+            - ./docker/env/frontend.env
+            - ./docker/env/test.env
 
     testresults:
         container_name: opgdigidepsdocker_testresults_1
