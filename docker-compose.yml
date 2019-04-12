@@ -1,6 +1,28 @@
 version: '2'
 
 services:
+    openssl:
+        image: buildpack-deps:stretch
+        entrypoint: openssl
+        command:
+            - req
+            - -newkey
+            - rsa:4096
+            - -x509
+            - -nodes
+            - -keyout
+            - /export/app.key
+            - -new
+            - -out
+            - /export/app.crt
+            - -subj
+            - "/C=GB/ST=GB/L=London/O=OPG/OU=Digital/CN=default"
+            - -sha256
+            - -days
+            - "3650"
+        volumes:
+            - certs:/export
+
     frontend:
         container_name: opgdigidepsdocker_frontend_1
         build: .
@@ -71,14 +93,16 @@ services:
         restart: always
 
     router:
-        image: registry.service.opg.digital/opguk/nginx-router
+        container_name: opgdigidepsdocker_router_1
+        image: nginx:alpine
         ports:
             - 80:80
             - 443:443
         links:
             - fakes3
-        env_file:
-            - ./docker/env/router.env
+        volumes:
+            - certs:/etc/nginx/certs
+            - ./docker/config/nginx.conf:/etc/nginx/conf.d/app.conf
         restart: always
 
     fakes3:
@@ -144,3 +168,6 @@ services:
         command: tail -f /dev/null
         volumes:
             - /tmp/behat
+
+volumes:
+    certs:
