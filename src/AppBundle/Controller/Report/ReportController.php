@@ -4,6 +4,8 @@ namespace AppBundle\Controller\Report;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity as EntityDir;
+use AppBundle\Entity\Client;
+use AppBundle\Entity\User;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Form as FormDir;
 use AppBundle\Model as ModelDir;
@@ -307,6 +309,7 @@ class ReportController extends AbstractController
         return [
             'report' => $report,
             'client' => $client,
+            'contactDetails' => $this->getAllContactDetails($user, $client),
             'form' => $form->createView(),
         ];
     }
@@ -472,5 +475,70 @@ class ReportController extends AbstractController
         $response->sendHeaders();
 
         return $response;
+    }
+
+    /**
+     * @param User $user
+     * @param Client $client
+     * @return array
+     */
+    private function getAllContactDetails(User $user, Client $client)
+    {
+        return [
+            $this->getClientContactDetails($user, $client),
+            $this->getDeputyContactDetails($user)
+        ];
+    }
+
+
+    /**
+     * @param User $user
+     * @param Client $client
+     * @return array
+     */
+    private function getClientContactDetails(User $user, Client $client)
+    {
+        return [
+            'name' => $client->getFullName() . ' (client)',
+            'address' => $client->getAddressNotEmptyParts(),
+            'editUrl' => $this->determineClientEditRoute($user, $client)
+        ];
+    }
+
+    /**
+     * @param User $user
+     * @param Client $client
+     * @return string
+     */
+    private function determineClientEditRoute(User $user, Client $client)
+    {
+        return $user->isLayDeputy() ?
+            $this->generateUrl('client_edit', ['from' => 'declaration']) :
+            // todo handle from->declaration
+            $this->generateUrl('org_client_edit', ['clientId' => $client->getId(), 'from' => 'declaration']);
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    private function getDeputyContactDetails(User $user)
+    {
+        return [
+            'name' => $user->getFullName() . ' (deputy)',
+            'address' => $user->getAddressNotEmptyParts(),
+            'editUrl' => $this->determineDeputyEditRoute($user)
+        ];
+    }
+
+    /**
+     * @param User $user
+     * @return string
+     */
+    private function determineDeputyEditRoute(User $user)
+    {
+        return $user->isLayDeputy() ?
+            $this->generateUrl('user_edit', ['from' => 'declaration']) :
+            $this->generateUrl('org_profile_edit', ['from' => 'declaration']);
     }
 }

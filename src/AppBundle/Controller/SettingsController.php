@@ -102,6 +102,7 @@ class SettingsController extends AbstractController
     public function profileEditAction(Request $request)
     {
         $user = $this->getUserWithData();
+        $from = $request->get('from');
 
         if ($this->isGranted(EntityDir\User::ROLE_ADMIN) || $this->isGranted(EntityDir\User::ROLE_AD) || $this->isGranted(EntityDir\User::ROLE_CASE_MANAGER)) {
             $form = $this->createForm(FormDir\User\UserDetailsBasicType::class, $user, []);
@@ -128,9 +129,15 @@ class SettingsController extends AbstractController
                 $redirectRoute = 'logout';
             } else {
                 $request->getSession()->getFlashBag()->add('notice', 'Your account details have been updated');
-                $redirectRoute = ($user->isDeputyPA() || $user->isDeputyProf())
-                    ? 'org_profile_show'
-                    : 'user_show';
+
+                if ($from === 'declaration') {
+                    // todo-aie need the id of the report from which we came
+                    $redirectRoute = $this->generateUrl('report_declaration', ['reportId' => 5]);
+                } else if ($user->isDeputyPA() || $user->isDeputyProf()) {
+                    $redirectRoute = $this->generateUrl('org_profile_show');
+                } else {
+                    $redirectRoute = $this->generateUrl('user_show');
+                }
             }
 
             try {
@@ -142,7 +149,7 @@ class SettingsController extends AbstractController
                     $this->getMailSender()->send($addressUpdateEmail, ['html']);
                 }
 
-                return $this->redirectToRoute($redirectRoute);
+                return $this->redirect($redirectRoute);
             } catch (\Exception $e) {
                 $translator = $this->get('translator');
                 if ($e->getCode() == 422 && $form->get('email')) {
