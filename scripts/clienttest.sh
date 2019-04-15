@@ -22,5 +22,3 @@ rm -rf app/cache/*
 
 # behat
 /sbin/setuser app bin/behat --config=tests/behat/behat.yml --profile=${PROFILE:=headless} --stop-on-failure
-
-rm -rf /tmp/behat
