@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Report;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity as EntityDir;
 use AppBundle\Entity\Client;
+use AppBundle\Entity\Report\Report;
 use AppBundle\Entity\User;
 use AppBundle\Exception\DisplayableException;
 use AppBundle\Form as FormDir;
@@ -303,9 +304,7 @@ class ReportController extends AbstractController
             throw new \RuntimeException($translator->trans('report.submissionExceptions.readyForSubmission', [], 'validators'));
         }
 
-        $user = $this->getUserWithData(['user-clients', 'client']);
-        $clients = $user->getClients();
-        $client = $clients[0];
+        $user = $this->getUserWithData();
 
         $form = $this->createForm(FormDir\Report\ReportDeclarationType::class, $report);
         $form->handleRequest($request);
@@ -319,8 +318,8 @@ class ReportController extends AbstractController
 
         return [
             'report' => $report,
-            'client' => $client,
-            'contactDetails' => $this->getAllContactDetails($user, $client),
+            'client' => $report->getClient(),
+            'contactDetails' => $this->getAssociatedContactDetails($user, $report),
             'form' => $form->createView(),
         ];
     }
@@ -490,66 +489,55 @@ class ReportController extends AbstractController
 
     /**
      * @param User $user
-     * @param Client $client
+     * @param Report $report
      * @return array
      */
-    private function getAllContactDetails(User $user, Client $client)
+    private function getAssociatedContactDetails(User $user, Report $report)
     {
         return [
-            $this->getClientContactDetails($user, $client),
-            $this->getDeputyContactDetails($user)
+            $this->getClientContactDetails($user, $report),
+            $this->getDeputyContactDetails($user, $report)
         ];
     }
 
-
     /**
      * @param User $user
-     * @param Client $client
+     * @param Report $report
      * @return array
      */
-    private function getClientContactDetails(User $user, Client $client)
+    private function getClientContactDetails(User $user, Report $report)
     {
+        $client = $report->getClient();
+
         return [
             'name' => $client->getFullName() . ' (client)',
             'address' => $client->getAddressNotEmptyParts(),
-            'editUrl' => $this->determineClientEditRoute($user, $client)
+            'phone' => ['main' => $client->getPhone()],
+            'email' => $client->getEmail(),
+            'editUrl' => $user->isLayDeputy() ?
+                $this->generateUrl('client_edit', ['from' => 'declaration']) :
+                $this->generateUrl('org_client_edit', ['clientId' => $client->getId(), 'from' => 'declaration'])
         ];
     }
 
     /**
      * @param User $user
-     * @param Client $client
-     * @return string
-     */
-    private function determineClientEditRoute(User $user, Client $client)
-    {
-        return $user->isLayDeputy() ?
-            $this->generateUrl('client_edit', ['from' => 'declaration']) :
-            // todo handle from->declaration
-            $this->generateUrl('org_client_edit', ['clientId' => $client->getId(), 'from' => 'declaration']);
-    }
-
-    /**
-     * @param User $user
+     * @param Report $report
      * @return array
      */
-    private function getDeputyContactDetails(User $user)
+    private function getDeputyContactDetails(User $user, Report $report)
     {
         return [
             'name' => $user->getFullName() . ' (deputy)',
             'address' => $user->getAddressNotEmptyParts(),
-            'editUrl' => $this->determineDeputyEditRoute($user)
+            'phone' => [
+                'main' => $user->getPhoneMain(),
+                'alternative' => $user->getPhoneAlternative()
+            ],
+            'email' => $user->getEmail(),
+            'editUrl' => $user->isLayDeputy() ?
+                $this->generateUrl('user_edit', ['from' => 'declaration', 'rid' => $report->getId()]) :
+                $this->generateUrl('org_profile_edit', ['from' => 'declaration', 'rid' => $report->getId()])
         ];
-    }
-
-    /**
-     * @param User $user
-     * @return string
-     */
-    private function determineDeputyEditRoute(User $user)
-    {
-        return $user->isLayDeputy() ?
-            $this->generateUrl('user_edit', ['from' => 'declaration']) :
-            $this->generateUrl('org_profile_edit', ['from' => 'declaration']);
     }
 }

@@ -57,9 +57,8 @@ class ClientController extends AbstractController
                 $this->getMailSender()->send($addressUpdateEmail, ['html']);
             }
 
-            if ($from == 'declaration') {
-                // todo-aie need the id of the report from which we came
-                return $this->redirect($this->generateUrl('report_declaration', ['reportId' => 5]));
+            if ($from === 'declaration') {
+                return $this->redirect($this->generateUrl('report_declaration', ['reportId' => $client->getActiveReport()->getId()]));
             }
 
             return $this->redirect($this->generateUrl('client_show'));
