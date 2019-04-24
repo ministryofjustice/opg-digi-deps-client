@@ -80,6 +80,7 @@ class MoneyTransaction
 
         ['broadband', false, 'household-bills', 'out'],
         ['council-tax', false, 'household-bills', 'out'],
+        ['dual-fuel', false, 'household-bills', 'out'],
         ['electricity', false, 'household-bills', 'out'],
         ['food', false, 'household-bills', 'out'],
         ['gas', false, 'household-bills', 'out'],
@@ -103,7 +104,6 @@ class MoneyTransaction
         ['deputy-security-bond', false, 'fees', 'out'],
         ['opg-fees', false, 'fees', 'out'],
         ['professional-fees-eg-solicitor-accountant', true, 'fees', 'out'],
-        ['deputy-fees-and-expenses', true, 'fees', 'out', [User::ROLE_PROF]],
 
         ['investment-bonds-purchased', true, 'major-purchases', 'out'],
         ['investment-account-purchased', true, 'major-purchases', 'out'],
@@ -155,7 +155,8 @@ class MoneyTransaction
      * @JMS\Groups({"transaction"})
      *
      * @Assert\NotBlank(message="moneyTransaction.form.amount.notBlank", groups={"transaction-amount"})
-     * @Assert\Range(min=0.01, max=10000000, minMessage = "moneyTransaction.form.amount.minMessage", maxMessage = "moneyTransaction.form.amount.maxMessage", groups={"transaction-amount"})
+     * @Assert\Range(min=0.01, max=100000000000, minMessage = "moneyTransaction.form.amount.minMessage",
+     *     maxMessage="moneyTransaction.form.amount.maxMessage", groups={"transaction-amount"})
      */
     private $amount;
 
