@@ -125,7 +125,7 @@ class SettingsController extends AbstractController
                 $newRole = $this->determineNoAdminRole();
                 $user->setRoleName($newRole);
                 $request->getSession()->getFlashBag()->add('notice', 'For security reasons you have been logged out because you have changed your admin rights. Please log in again below');
-                $redirectRoute = 'logout';
+                $redirectRoute = $this->generateUrl('logout');
             } else {
                 $request->getSession()->getFlashBag()->add('notice', 'Your account details have been updated');
 
