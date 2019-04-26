@@ -141,7 +141,7 @@ class Client
      * @JMS\Type("string")
      * @JMS\Groups({"edit", "pa-edit"})
      *
-     * @Assert\NotBlank( message="client.postcode.notBlank", groups={"lay-deputy-client"})
+     * @Assert\NotBlank( message="client.postcode.notBlank", groups={"lay-deputy-client", "lay-deputy-client-edit"})
      * @Assert\Length(max=10, maxMessage= "client.postcode.maxMessage", groups={"lay-deputy-client", "pa-client", "lay-deputy-client-edit"})
      *
      * @var string

@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "RUNNING XDEBUG ADDON"
+echo "xdebug.idekey=${OPG_PHP_XDEBUG_IDE_KEY}" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.idekey=${OPG_PHP_XDEBUG_IDE_KEY}" >> /etc/php5/cli/conf.d/20-xdebug.ini
+echo "xdebug.remote_port=${OPG_PHP_XDEBUG_REMOTE_PORT}" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_port=${OPG_PHP_XDEBUG_REMOTE_PORT}" >> /etc/php5/cli/conf.d/20-xdebug.ini
