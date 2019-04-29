@@ -40,7 +40,11 @@ class ClientController extends AbstractController
         $from = $request->get('from');
         $client = $this->getFirstClient();
 
-        $form = $this->createForm(FormDir\ClientType::class, $client, ['action' => $this->generateUrl('client_edit', ['action' => 'edit', 'from' => $from])]);
+        $form = $this->createForm(FormDir\ClientType::class, $client, [
+            'action' => $this->generateUrl('client_edit', ['action' => 'edit', 'from' => $from]),
+            'validation_groups' => ['lay-deputy-client-edit']
+        ]);
+
         $form->handleRequest($request);
 
         // edit client form
