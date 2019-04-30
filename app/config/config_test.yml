@@ -17,15 +17,13 @@ swiftmailer:
 
 twig:
     cache:  false
-security:
-    firewalls:
-        dev:
-            pattern:  ^/
-            security: false
+
 services:
     mail_sender:
         class: AppBundle\Service\Mailer\MailSenderMock
-        arguments: ["@service_container" ]
+        arguments: [ "@validator", "@snc_redis.default" ]
+        calls:
+            - [ addSwiftMailer, [ "default", "@mailer.swift_mailers.default"] ]
     mailer.transport.smtp.default:
         class: AppBundle\Service\Mailer\Transport\TransportMock
     mailer.transport.smtp.secure:
