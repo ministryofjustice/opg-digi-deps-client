@@ -56,6 +56,22 @@ class BehatController extends AbstractController
     }
 
     /**
+     * @Route("/behat/{secret}/emails")
+     * @Method({"GET"})
+     * @Template
+     */
+    public function emailsAction(Request $request)
+    {
+        $this->securityChecks($request);
+
+        $emails = json_decode($this->get('mail_sender')->getMockedEmailsRaw(), true);
+
+        return [
+            'emails' => $emails
+        ];
+    }
+
+    /**
      * Display emails into a webpage
      * Login is required
      *
