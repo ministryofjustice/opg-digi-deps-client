@@ -56,6 +56,24 @@ class BehatController extends AbstractController
     }
 
     /**
+     * @Route("/behat/emails")
+     * @Method({"GET"})
+     * @Template
+     */
+    public function emailsAction(Request $request)
+    {
+        if ($this->get('kernel')->getEnvironment() === 'prod') {
+            throw $this->createNotFoundException();
+        }
+
+        $emails = json_decode($this->get('mail_sender')->getMockedEmailsRaw(), true);
+
+        return [
+            'emails' => $emails
+        ];
+    }
+
+    /**
      * Display emails into a webpage
      * Login is required
      *
