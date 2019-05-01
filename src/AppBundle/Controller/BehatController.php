@@ -56,14 +56,12 @@ class BehatController extends AbstractController
     }
 
     /**
-     * @Route("/behat/{secret}/emails")
+     * @Route("/behat/emails")
      * @Method({"GET"})
      * @Template
      */
     public function emailsAction(Request $request)
     {
-        $this->securityChecks($request);
-
         if ($this->get('kernel')->getEnvironment() === 'prod') {
             throw $this->createNotFoundException();
         }
