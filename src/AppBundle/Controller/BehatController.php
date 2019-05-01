@@ -64,6 +64,10 @@ class BehatController extends AbstractController
     {
         $this->securityChecks($request);
 
+        if ($this->get('kernel')->getEnvironment() === 'prod') {
+            throw $this->createNotFoundException();
+        }
+
         $emails = json_decode($this->get('mail_sender')->getMockedEmailsRaw(), true);
 
         return [
