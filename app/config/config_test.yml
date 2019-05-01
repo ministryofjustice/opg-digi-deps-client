@@ -14,5 +14,3 @@ services:
             - [ addSwiftMailer, [ "default", "@mailer.swift_mailers.default"] ]
     mailer.transport.smtp.default:
         class: AppBundle\Service\Mailer\Transport\TransportMock
-    mailer.transport.smtp.secure:
-        class: AppBundle\Service\Mailer\Transport\TransportMock
