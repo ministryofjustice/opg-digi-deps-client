@@ -424,9 +424,20 @@ trait ReportTrait
     }
 
     /**
+     * @When I go to the report URL :url for :reportId
+     */
+    public function iGoToTheReportUrl($url, $reportId)
+    {
+        $report = self::$reportsCache[$reportId];
+        $fullUrl = '/' . $report['type'] . '/' . $report['id'] . '/' . $url;
+
+        $this->visitPath($fullUrl);
+    }
+
+    /**
      * @Then the report URL ":url" for ":reportId" should not be accessible
      */
-    public function theReportURLForShouldNotBeAccessible($url, $reportId)
+    public function theReportUrlForShouldNotBeAccessible($url, $reportId)
     {
         $report = self::$reportsCache[$reportId];
         $fullUrl = '/' . $report['type'] . '/' . $report['id'] . '/' . $url;
