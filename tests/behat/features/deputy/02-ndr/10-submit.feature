@@ -53,7 +53,7 @@ Feature: ndr / report submit
         And I save the application status into "ndr-after-submission"
         And the response status code should be 200
         When I save the report as "submitted NDR report"
-        And the report URL "visits-care/summary" for "submitted NDR report" should not be accessible
+        Then the report URL "visits-care/summary" for "submitted NDR report" should not be accessible
         And the report URL "deputy-expenses/summary" for "submitted NDR report" should not be accessible
         And the report URL "income-benefits/summary" for "submitted NDR report" should not be accessible
         And the report URL "bank-accounts/summary" for "submitted NDR report" should not be accessible
