@@ -449,6 +449,24 @@ trait ReportTrait
     }
 
     /**
+     * @Then the following :reportId report pages should return the following status:
+     */
+    public function theFollowingReportPagesShouldReturnTheFollowingStatus($reportId, TableNode $table)
+    {
+        $report = self::$reportsCache[$reportId];
+
+        foreach ($table->getRowsHash() as $url => $expectedReturnCode) {
+            $fullUrl = '/' . $report['type'] . '/' . $report['id'] . '/' . $url;
+            $this->visitPath($fullUrl);
+
+            $actual = $this->getSession()->getStatusCode();
+            if (intval($expectedReturnCode) !== intval($actual)) {
+                throw new \RuntimeException("$fullUrl: Current response status code is $actual, but $expectedReturnCode expected.");
+            }
+        }
+    }
+
+    /**
      * @Then the :question question should be answered with :answer
      */
     public function theQuestionShouldBeAnsweredWith($question, $answer)
