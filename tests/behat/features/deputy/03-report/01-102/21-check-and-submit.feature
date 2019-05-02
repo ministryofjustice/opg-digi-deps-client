@@ -12,22 +12,19 @@ Feature: Report submit
         And I click on "declaration-page"
         Then the URL should match "/report/\d+/declaration"
 
-    # Magic: uses report ID number
-    @deputy @magic
+    @deputy
     Scenario: report submission
         Given emails are sent from "deputy" area
         And I reset the email log
         And I am logged in as "behat-user@publicguardian.gov.uk" with password "Abcd1234"
         And I save the application status into "report-submit-pre"
         And I click on "report-start"
+        And I save the report as "102 report"
         # assert I cannot access the submitted page directly
-        And the URL "/report/13/submitted" should not be accessible
-        # assert I cannot access the submit page from declaration page
-        When I go to "/report/13/declaration"
-        Then the URL "/report/13/submitted" should not be accessible
-        And I click on "reports, report-start"
+        Then the report URL "submitted" for "102 report" should not be accessible
+        When I click on "reports, report-start"
         # submit without ticking "agree"
-        When I go to "/report/13/declaration"
+        When I go to the report URL "declaration" for "102 report"
         And I press "report_declaration_save"
         #
         # empty form
