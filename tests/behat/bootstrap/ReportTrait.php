@@ -6,6 +6,8 @@ use Behat\Gherkin\Node\TableNode;
 
 trait ReportTrait
 {
+    private static $reportsCache = [];
+
     /**
      * @Given I change the report of the client with case number :caseNumber to :reportType
      */
@@ -406,6 +408,33 @@ trait ReportTrait
         $newUrl = '/report/' . $reportNumber . '/display';
 
         $this->visit($newUrl);
+    }
+
+    /**
+     * @When I save the report as :reportId
+     */
+    public function iSaveTheReportAs($reportId)
+    {
+        $url = $this->getSession()->getCurrentUrl();
+        preg_match('/\/(ndr|report)\/(\d+)\//', $url, $match);
+        self::$reportsCache[$reportId] = [
+            'type' => $match[1],
+            'id' => $match[2],
+        ];
+    }
+
+    /**
+     * @Then the report URL ":url" for ":reportId" should not be accessible
+     */
+    public function theReportURLForShouldNotBeAccessible($url, $reportId)
+    {
+        $report = self::$reportsCache[$reportId];
+        $fullUrl = '/' . $report['type'] . '/' . $report['id'] . '/' . $url;
+
+        $previousUrl = $this->getSession()->getCurrentUrl();
+        $this->visit($fullUrl);
+        $this->assertResponseStatus(500);
+        $this->visit($previousUrl);
     }
 
     /**
