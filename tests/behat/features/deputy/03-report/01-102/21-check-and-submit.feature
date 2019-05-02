@@ -66,6 +66,19 @@ Feature: Report submit
 #        And the second_last email should have been sent to "behat-digideps@digital.justice.gov.uk"
 #        And the second_last email should contain a PDF of at least 40 kb
         And I save the application status into "report-submit-reports"
+        And the report URL "overview" for "102 report" should not be accessible
+        And the report URL "decisions/summary" for "102 report" should not be accessible
+        And the report URL "contacts/summary" for "102 report" should not be accessible
+        And the report URL "visits-care/summary" for "102 report" should not be accessible
+        And the report URL "bank-accounts/summary" for "102 report" should not be accessible
+        And the report URL "money-transfers/summary" for "102 report" should not be accessible
+        And the report URL "money-in/summary" for "102 report" should not be accessible
+        And the report URL "money-out/summary" for "102 report" should not be accessible
+        And the report URL "balance" for "102 report" should not be accessible
+        And the report URL "assets/summary" for "102 report" should not be accessible
+        And the report URL "debts/summary" for "102 report" should not be accessible
+        And the report URL "actions" for "102 report" should not be accessible
+        And the report URL "declaration" for "102 report" should not be accessible
 
     @deputy
     Scenario: deputy gives feedback after submitting report
@@ -152,24 +165,6 @@ Feature: Report submit
             | Saving account        | account-02ca |
             | 445566                | account-02ca |
             | Balance for 31 December 2017 required | account-02ca |
-
-    # Magic: uses report ID number
-    @deputy @magic
-    Scenario: assert report is not editable after submission
-        Given I am logged in as "behat-user@publicguardian.gov.uk" with password "Abcd1234"
-        Then the URL "/report/13/overview" should not be accessible
-        And the URL "/report/13/decisions/summary" should not be accessible
-        And the URL "/report/13/contacts/summary" should not be accessible
-        And the URL "/report/13/visits-care/summary" should not be accessible
-        And the URL "/report/13/bank-accounts/summary" should not be accessible
-        And the URL "/report/13/money-transfers/summary" should not be accessible
-        And the URL "/report/13/money-in/summary" should not be accessible
-        And the URL "/report/13/money-out/summary" should not be accessible
-        And the URL "/report/13/balance" should not be accessible
-        And the URL "/report/13/assets/summary" should not be accessible
-        And the URL "/report/13/debts/summary" should not be accessible
-        And the URL "/report/13/actions" should not be accessible
-        And the URL "/report/13/declaration" should not be accessible
 
     @deputy
     Scenario: deputy report download
