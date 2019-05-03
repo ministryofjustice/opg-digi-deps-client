@@ -174,27 +174,6 @@ trait EmailTrait
     }
 
     /**
-     * @Then the :index email should contain a PDF of at least :minsizekb kb
-     */
-    public function theEmailAttachmentShouldContain($index, $minsizekb)
-    {
-        $mail = $this->getEmailMock(true, $index);
-
-        // find body of the part with the given contentType
-        $part = array_filter($mail['parts'], function ($part) {
-            return $part['contentType'] === 'application/pdf';
-        });
-        if (empty($part)) {
-            throw new \RuntimeException("PDF not found in $index email");
-        }
-        $pdfBody = base64_decode(array_shift($part)['body']);
-        $pdfLen = strlen($pdfBody) / 1024;
-        if ($pdfLen < $minsizekb) {
-            throw new \RuntimeException("found PDF $pdfLen Kb, must be at least $minsizekb Kb");
-        }
-    }
-
-    /**
      * @return array[array links, string mailContent]
      */
     private function getLinksFromEmailHtmlBody()
@@ -215,18 +194,6 @@ trait EmailTrait
 
         if (strpos($mailContent, $text) === false) {
             throw new \Exception("Text: $text not found in email. Body: \n $mailContent");
-        }
-    }
-
-    /**
-     * @Then the last email should not contain :text
-     */
-    public function mailNoContainsText($text)
-    {
-        $mailContent = base64_decode($this->getEmailMock()['parts'][0]['body']);
-
-        if (strpos($mailContent, $text) !== false) {
-            throw new \Exception("Text: $text unexpected in email. Body: \n $mailContent");
         }
     }
 }

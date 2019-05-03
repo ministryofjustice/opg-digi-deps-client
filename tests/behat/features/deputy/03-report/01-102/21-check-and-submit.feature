@@ -62,9 +62,6 @@ Feature: Report submit
         And the response status code should be 200
         And the last email should contain "Thank you for submitting"
         And the last email should contain "next annual deputy report (for 01/01/2017 to 31/12/2017)"
-        #And the last email should have been sent to "behat-user@publicguardian.gov.uk"
-#        And the second_last email should have been sent to "behat-digideps@digital.justice.gov.uk"
-#        And the second_last email should contain a PDF of at least 40 kb
         And I save the application status into "report-submit-reports"
         And the report URL "overview" for "102 report" should not be accessible
         And the report URL "decisions/summary" for "102 report" should not be accessible
