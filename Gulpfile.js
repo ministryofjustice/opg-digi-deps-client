@@ -129,10 +129,12 @@ const copyJQuery = () => {
 }
 
 const checkCSSAccessibility = () => {
-    return gulp.src(config.webAssets + '/stylesheets/*.css').pipe(
+    return gulp.src(config.webAssets + '/stylesheets/*.css')
+      .pipe(
         postcss([
-            require('postcss-wcag-contrast')()
-        ]));
+            require('postcss-wcag-contrast')({compliance: 'AA'})
+        ])
+      );
 }
 
 // Compile formatted report CSS and copy to twig, then delete the .css version
