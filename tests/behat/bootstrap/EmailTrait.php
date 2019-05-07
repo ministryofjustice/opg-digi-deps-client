@@ -140,7 +140,7 @@ trait EmailTrait
     {
         $this->getFirstLinkInEmailMatching($partialLink);
 
-        $mail = $this->getEmailMock();
+        $mail = $this->getLastEmail();
         $mailTo = key($mail['to']);
 
         if ($mailTo !== 'the specified email address' && $mailTo != $to) {
@@ -149,15 +149,28 @@ trait EmailTrait
     }
 
     /**
-     * @Then the :index email should have been sent to :to
+     * @Then the last email should have been sent to :to
      */
-    public function theWhichEmailShouldHaveBeenSentTo($index, $to)
+    public function theLastEmailShouldHaveBeenSentTo($to)
     {
-        $mail = $this->getEmailMock(true, $index);
+        $mail = $this->getLastEmail();
         $mailTo = key($mail['to']);
 
         if ($mailTo !== 'the specified email address' && $mailTo != $to) {
             throw new \RuntimeException("Addressee '" . $mailTo . "' does not match the expected '" . $to . "'");
+        }
+    }
+
+    /**
+     * @Then the last :area email should not have been sent to :to
+     */
+    public function theLastEmailShouldNotHaveBeenSentTo($area, $to)
+    {
+        $mail = $this->getLastEmail($area);
+        $mailTo = key($mail['to']);
+
+        if ($mailTo === $to) {
+            throw new \RuntimeException("Last email unexpectedly sent to $to");
         }
     }
 
@@ -166,7 +179,7 @@ trait EmailTrait
      */
     private function getLinksFromEmailHtmlBody()
     {
-        $mailContent = base64_decode($this->getEmailMock()['parts'][0]['body']);
+        $mailContent = base64_decode($this->getLastEmail()['parts'][0]['body']);
 
         preg_match_all('#https?://[^\s"<]+#', $mailContent, $matches);
 
@@ -178,7 +191,7 @@ trait EmailTrait
      */
     public function mailContainsText($text)
     {
-        $mailContent = base64_decode($this->getEmailMock()['parts'][0]['body']);
+        $mailContent = base64_decode($this->getLastEmail()['parts'][0]['body']);
 
         if (strpos($mailContent, $text) === false) {
             throw new \Exception("Text: $text not found in email. Body: \n $mailContent");
