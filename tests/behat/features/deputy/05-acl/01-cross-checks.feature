@@ -34,6 +34,4 @@ Feature: deputy / acl / cross domain (admin and deputy) checks
         And I fill in "password_forgotten_email" with "behat-user@publicguardian.gov.uk"
         And I press "password_forgotten_submit"
         #Then the response status code should be 200
-        And no email should have been sent
-
-    
+        And no "admin" email should have been sent to "behat-user@publicguardian.gov.uk"

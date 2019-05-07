@@ -26,15 +26,13 @@ trait EmailTrait
         self::$mailSentFrom = $area;
     }
 
-    /**
-     * @param bool $throwExceptionIfNotFound
-     * @param int  $index                    = last (default), 1=second last
-     *
-     * @return array|null
-     */
-    private function getEmailMock($throwExceptionIfNotFound = true, $index = 'last')
+    private function getMockedEmails($area = null)
     {
-        switch (self::$mailSentFrom) {
+        if ($area === null) {
+            $area = self::$mailSentFrom;
+        }
+
+        switch ($area) {
             case 'admin':
                 $this->visitBehatAdminLink('email-get-last');
                 break;
@@ -53,20 +51,21 @@ trait EmailTrait
             $emailsJson = substr($emailsJson, $start, ($end - $start));
         }
 
-        $emailsArray = json_decode($emailsJson, true);
+        return json_decode($emailsJson, true);
+    }
 
-        if ($throwExceptionIfNotFound && empty($emailsArray[0]['to'])) {
+    /**
+     * @return array|null
+     */
+    private function getLastEmail($area = null)
+    {
+        $emailsArray = $this->getMockedEmails($area);
+
+        if (empty($emailsArray[0]['to'])) {
             throw new \RuntimeException('No email has been sent. Api returned: ' . $emailsJson);
         }
 
-        // translate index into number
-        $map = ['last' => 0, 'second_last' => 1];
-        if (!isset($map[$index])) {
-            throw new \RuntimeException("position $index not recognised");
-        }
-        $indexNumber = $map[$index];
-
-        return isset($emailsArray[$indexNumber]) ? $emailsArray[$indexNumber] : null;
+        return isset($emailsArray[0]) ? $emailsArray[0] : null;
     }
 
     /**
@@ -78,17 +77,6 @@ trait EmailTrait
         $this->visitBehatAdminLink('email-reset');
 
         $this->assertNoEmailShouldHaveBeenSent();
-    }
-
-    /**
-     * @Then no email should have been sent
-     */
-    public function assertNoEmailShouldHaveBeenSent()
-    {
-        $content = $this->getEmailMock(false);
-        if ($content) {
-            throw new \RuntimeException("Found unexpected email with subject '" . $content['subject'] . "'");
-        }
     }
 
     /**
@@ -194,6 +182,22 @@ trait EmailTrait
 
         if (strpos($mailContent, $text) === false) {
             throw new \Exception("Text: $text not found in email. Body: \n $mailContent");
+        }
+    }
+
+    /**
+     * @Then no :area email should have been sent to :to
+     */
+    public function noEmailShouldHaveBeenSentTo($area, $to)
+    {
+        $mails = $this->getMockedEmails($area);
+
+        foreach ($mails as $mail) {
+            $mailTo = key($mail['to']);
+
+            if ($mailTo === $to) {
+                throw new \RuntimeException("Unexpected email sent to $to");
+            }
         }
     }
 }
