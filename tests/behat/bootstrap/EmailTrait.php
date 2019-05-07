@@ -69,17 +69,6 @@ trait EmailTrait
     }
 
     /**
-     * @Given I reset the email log
-     */
-    public function iResetTheEmailLog()
-    {
-        $this->visitBehatLink('email-reset');
-        $this->visitBehatAdminLink('email-reset');
-
-        $this->assertNoEmailShouldHaveBeenSent();
-    }
-
-    /**
      * @param string $regexpr
      *
      * @throws \Exception
