@@ -4,7 +4,6 @@ Feature: PA settings
     Given I load the application status from "team-users-complete"
     And I am logged in as "behat-pa1@publicguardian.gov.uk" with password "Abcd1234"
     When I click on "org-settings"
-
     # settings page
     Then I should see the "user-accounts" link
     And I should see the "profile-show" link
@@ -59,7 +58,6 @@ Feature: PA settings
 
   Scenario: Notification email not sent for PA deputy changes
     Given emails are sent from "deputy" area
-    And I reset the email log
     And I am logged in as "behat-pa-admin@publicguardian.gov.uk" with password "Abcd1234"
     And I click on "org-settings, profile-show, profile-edit"
     When I press "profile_save"

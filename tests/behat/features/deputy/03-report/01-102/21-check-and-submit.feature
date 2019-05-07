@@ -15,7 +15,6 @@ Feature: Report submit
     @deputy
     Scenario: report submission
         Given emails are sent from "deputy" area
-        And I reset the email log
         And I am logged in as "behat-user@publicguardian.gov.uk" with password "Abcd1234"
         And I save the application status into "report-submit-pre"
         And I click on "report-start"
@@ -80,7 +79,6 @@ Feature: Report submit
     @deputy
     Scenario: deputy gives feedback after submitting report
         Given emails are sent from "deputy" area
-        And I reset the email log
         And I load the application status from "report-submit-pre"
         And I am logged in as "behat-user@publicguardian.gov.uk" with password "Abcd1234"
         And I click on "report-start"
