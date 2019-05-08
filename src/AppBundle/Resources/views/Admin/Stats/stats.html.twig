@@ -11,9 +11,8 @@
 {% block helpline %}{% endblock %}
 
 {% block pageContent %}
-    <div class="text">
+    <div>
         <p>{{ (page ~ '.reportSubmissionsPara') | trans }}</p>
-
 
         {{ form_start(form, {attr: {class: 'search', novalidate: 'novalidate' }}) }}
 
@@ -30,14 +29,61 @@
             }) }}
         </div>
 
-        <div class="form-group">
-            {{ form_submit(form.submitAndDownload, (page ~ '.form.submitAndDownload'), {
-                'buttonClass': 'behat-link-submit-and-download'
-            }) }}
-            <a href="{{ path('admin_stats') }}" class="button-link">{{ 'homeForm.clear' | trans }}</a>
-        </div>
+            <div class="form-group">
+                {{ form_submit(form.submitAndDownload, (page ~ '.form.submitAndDownload'), {
+                    'buttonClass': 'behat-link-submit-and-download'
+                }) }}
+                <a href="{{ path('admin_stats') }}" class="button-link">{{ 'homeForm.clear' | trans }}</a>
+            </div>
         {{ form_end(form) }}
 
+        <hr>
+
+        <h1 class="heading-large text">{{ (page ~ '.statsFilterForm.title') | trans }}</h1>
+        <p>{{ (page ~ '.statsFilterForm.desc') | trans }}</p>
+
+        {% if stats %}
+            <div class="data">
+                <h2 class="heading-medium">{{ stats.from|date }} to {{ stats.to|date }}</h2>
+
+                <div class="column-one-third">
+                    <span class="data-item bold-xxlarge">{{ stats.pa_named_deputy_count }}</span>
+                    <span class="data-item bold-xsmall admin-stat-type">PA registrations</span>
+                </div>
+
+                <div class="column-one-third">
+                    <span class="data-item bold-xxlarge">{{ stats.prof_named_deputy_count }}</span>
+                    <span class="data-item bold-xsmall admin-stat-type">Professional registrations</span>
+                </div>
+
+                <div class="column-one-third">
+                    <span class="data-item bold-xxlarge">{{ stats.reports_count }}</span>
+                    <span class="data-item bold-xsmall admin-stat-type">Reports submitted</span>
+                </div>
+            </div>
+        {% endif  %}
+
+        {{ form_start(statsFilterForm, {attr: {class: 'search', novalidate: 'novalidate' }}) }}
+            <div class="form-group form-groups-inline flush--bottom column-half">
+                <h2 class="heading-medium">{{ (page ~ '.statsFilterForm.fromDate.header') | trans }}</h2>
+                {{ form_known_date(statsFilterForm.from, 'statsPage.statsFilterForm.fromDate', {
+                    'hintText': 'statsPage.statsFilterForm.fromDate.hint'
+                }) }}
+            </div>
+            <div class="form-group form-groups-inline flush--bottom column-half">
+                <h2 class="heading-medium">{{ (page ~ '.statsFilterForm.toDate.header') | trans }}</h2>
+                {{ form_known_date(statsFilterForm.to, 'statsPage.statsFilterForm.toDate', {
+                    'hintText': 'statsPage.statsFilterForm.toDate.hint'
+                }) }}
+            </div>
+
+            <div class="form-group column-half">
+                {{ form_submit(statsFilterForm.filterStats, (page ~ '.statsFilterForm.filterStats'), {
+                    'buttonClass': 'behat-link-filter-stats'
+                }) }}
+                <a href="{{ path('admin_stats') }}" class="button-link">{{ 'homeForm.clear' | trans }}</a>
+            </div>
+        {{ form_end(statsFilterForm) }}
     </div>
 
 {% endblock %}

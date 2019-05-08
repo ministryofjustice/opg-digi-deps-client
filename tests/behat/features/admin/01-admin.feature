@@ -85,6 +85,27 @@ Feature: admin / admin
     And I click on "submit-and-download"
     Then I should see "Check the end date: it can't be before the start date"
 
+  Scenario: Default registration stats
+    Given I am logged in to admin as "behat-admin-user@publicguardian.gov.uk" with password "Abcd1234"
+    When I go to admin page "/admin/stats"
+    Then I should see "1 PA registrations"
+    And I should see "1 Professional registrations"
+    And I should see "0 Reports submitted"
+
+  Scenario: Show no registration stats for historic period
+    Given I am logged in to admin as "behat-admin-user@publicguardian.gov.uk" with password "Abcd1234"
+    When I go to admin page "/admin/stats"
+    And I fill in "stats_from_day" with "1"
+    And I fill in "stats_from_month" with "1"
+    And I fill in "stats_from_year" with "2000"
+    And I fill in "stats_to_day" with "31"
+    And I fill in "stats_to_month" with "12"
+    And I fill in "stats_to_year" with "2017"
+    And I click on "filter-stats"
+    Then I should see "0 PA registrations"
+    And I should see "0 Professional registrations"
+    And I should see "0 Reports submitted"
+
   Scenario: change user password on admin area
     Given I am logged in to admin as "behat-admin-user@publicguardian.gov.uk" with password "Abcd1234"
     And I save the application status into "admin-pasword-change-init"

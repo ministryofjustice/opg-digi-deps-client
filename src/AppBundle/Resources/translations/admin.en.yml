@@ -94,6 +94,17 @@ statsPage:
       hint: For example, 31 3 2016
     submitAndDownload:
       label: Download
+  statsFilterForm:
+    title: Stats
+    desc: Filter stats on report submissions and named deputy registrations
+    fromDate:
+      header: From
+      hint: For example, 31 3 2015
+    toDate:
+      header: To
+      hint: For example, 31 3 2016
+    filterStats:
+      label: Filter stats
 
 uploadPA:
   htmlTitle: Administration - Upload PA/Prof users
