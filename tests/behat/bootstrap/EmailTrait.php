@@ -194,11 +194,13 @@ trait EmailTrait
     {
         $mails = $this->getMockedEmails($area);
 
-        foreach ($mails as $mail) {
-            $mailTo = key($mail['to']);
+        if (count($mails)) {
+            foreach ($mails as $mail) {
+                $mailTo = key($mail['to']);
 
-            if ($mailTo === $to) {
-                throw new \RuntimeException("Unexpected email sent to $to");
+                if ($mailTo === $to) {
+                    throw new \RuntimeException("Unexpected email sent to $to");
+                }
             }
         }
     }
