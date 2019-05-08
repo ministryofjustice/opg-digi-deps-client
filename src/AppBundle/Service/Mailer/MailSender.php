@@ -10,7 +10,7 @@ use Swift_Message;
 use Swift_Mime_Message;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class MailSender
+class MailSender implements MailSenderInterface
 {
     /**
      * @var ValidatorInterface

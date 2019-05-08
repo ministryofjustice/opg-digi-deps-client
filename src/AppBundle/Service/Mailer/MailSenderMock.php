@@ -9,7 +9,7 @@ use Swift_Mailer;
 use Swift_Message;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class MailSenderMock extends MailSender
+class MailSenderMock implements MailSenderInterface
 {
     /**
      * REDIS key used to store email mocks
