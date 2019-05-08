@@ -37,9 +37,14 @@ class ClientController extends AbstractController
      */
     public function editAction(Request $request)
     {
+        $from = $request->get('from');
         $client = $this->getFirstClient();
 
-        $form = $this->createForm(FormDir\ClientType::class, $client, ['action' => $this->generateUrl('client_edit', ['action' => 'edit'])]);
+        $form = $this->createForm(FormDir\ClientType::class, $client, [
+            'action' => $this->generateUrl('client_edit', ['action' => 'edit', 'from' => $from]),
+            'validation_groups' => ['lay-deputy-client-edit']
+        ]);
+
         $form->handleRequest($request);
 
         // edit client form
@@ -54,6 +59,10 @@ class ClientController extends AbstractController
             if ($user->isLayDeputy()) {
                 $addressUpdateEmail = $this->getMailFactory()->createAddressUpdateEmail($form->getData(), $user, 'client');
                 $this->getMailSender()->send($addressUpdateEmail, ['html']);
+            }
+
+            if ($from === 'declaration') {
+                return $this->redirect($this->generateUrl('report_declaration', ['reportId' => $client->getActiveReport()->getId()]));
             }
 
             return $this->redirect($this->generateUrl('client_show'));

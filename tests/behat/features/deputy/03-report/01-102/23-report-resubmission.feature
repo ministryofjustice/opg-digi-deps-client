@@ -1,12 +1,10 @@
 Feature: Admin unsubmit report (from client page)
 
-  @deputy 
+  @deputy
   Scenario: Admin client page + search
     Given I load the application status from "more-documents-added"
     And I am logged in to admin as "admin@publicguardian.gov.uk" with password "Abcd1234"
     And I click on "admin-client-search"
-    Then each text should be present in the corresponding region:
-      | 12 clients | client-search-count |
     Then each text should be present in the corresponding region:
       | Cly Hent | client-behat001 |
     When I fill in the following:
@@ -70,11 +68,18 @@ Feature: Admin unsubmit report (from client page)
       | unsubmit_report_endDate_month               |  11      |
       | unsubmit_report_endDate_year                |  2016    |
     And I press "unsubmit_report_save"
+    Then I should see "2 March 2016" in the "report-review" region
+    And I should see "Decisions, Deputy expenses" in the "report-review" region
+    And I should see "30 April 2022" in the "report-review" region
+    When I press "unsubmit_report_confirm_save"
+    Then the following fields should have an error:
+      | unsubmit_report_confirm_confirm_0   |
+      | unsubmit_report_confirm_confirm_1   |
+    When I fill in "unsubmit_report_confirm_confirm_0" with "yes"
+    And I press "unsubmit_report_confirm_save"
     Then I should see "Unsubmitted" in the "report-2016-label" region
     And I should see "30 April 2022" in the "report-2016-due-date" region
-    When I click on "admin-documents"
-    Then I should see the "report-submission" region exactly 2 times
-    And I go to the URL previously saved as "admin-client-search-client-behat001"
+    When I go to the URL previously saved as "admin-client-search-client-behat001"
     And I click on "checklist" in the "report-2016" region
     And the response status code should be 200
 
@@ -112,7 +117,6 @@ Feature: Admin unsubmit report (from client page)
     And I should see the "submitted-reports" region
     But I should not see the "report-unsubmitted" region
 
-
   @deputy
   Scenario: admin sees new submission and client page updated
     Given I am logged in to admin as "admin@publicguardian.gov.uk" with password "Abcd1234"
@@ -121,7 +125,7 @@ Feature: Admin unsubmit report (from client page)
     Then I should see "SUBMITTED" in the "report-2016-label" region
     # check there is a new submission, with all the documents
     When I click on "admin-documents"
-    Then I should see the "report-submission" region exactly 3 times
+    And I should see "Cly Hent"
 
 
 

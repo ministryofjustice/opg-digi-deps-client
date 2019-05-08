@@ -25,7 +25,6 @@
                 <li>{{ 'reportingPeriod' | trans() }}:
                     <span class="bold-small">{{ report.startDate | date("j F Y") }} to {{ report.endDate | date("j F Y") }}</span>
                 </li>
-                {# @biggs to style #}
                 <li class="{{ report.unSubmitDate ? 'orangeWarning' : '' }}">{{ 'dueDate' | trans() }}:
                     <span class="bold-small">{{ report.dueDate | date("j F Y") }}</span>
                 </li>
@@ -298,7 +297,7 @@
 
             {{ macros.notification('info', 'previewNoticeNotDue' | trans(transOptions)) }}
         </div>
-        <a id="edit-report-preview" class="button" href="{{ path('report_review', {'reportId': report.id}) }}">{{ 'options.previewReport' | trans() }}</a>
+        <a id="edit-report-preview" class="button behat-link-edit-report-preview" href="{{ path('report_review', {'reportId': report.id}) }}">{{ 'options.previewReport' | trans() }}</a>
 
     {% else %}
         {% if not reportStatus.isReadyToSubmit %}
@@ -306,7 +305,7 @@
             <div class="push--top">
                 {{ macros.notification('info', 'previewNotice' | trans()) }}
             </div>
-            <a id="edit-report-preview" class="button" href="{{ path('report_review', {'reportId': report.id}) }}">{{ 'options.previewReport' | trans() }}</a>
+            <a id="edit-report-preview" class="button behat-link-edit-report-preview" href="{{ path('report_review', {'reportId': report.id}) }}">{{ 'options.previewReport' | trans() }}</a>
 
         {% else %}
 

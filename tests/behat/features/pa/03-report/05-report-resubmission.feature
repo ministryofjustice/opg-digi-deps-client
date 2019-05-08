@@ -18,6 +18,8 @@ Feature: Admin unsubmit and client re-submit
       | unsubmit_report_unsubmittedSection_13_present | 1    |
       | unsubmit_report_dueDateChoice_0               | keep |
     And I press "unsubmit_report_save"
+    And I fill in "unsubmit_report_confirm_confirm_0" with "yes"
+    And I press "unsubmit_report_confirm_save"
     Then I should see "Unsubmitted" in the "report-2016-to-2017" region
 
   @deputy
@@ -25,8 +27,9 @@ Feature: Admin unsubmit and client re-submit
     Given I am logged in as "behat-pa1@publicguardian.gov.uk" with password "Abcd1234"
     And I fill in "search" with "01000014"
     And I press "search_submit"
-    Then I should see the "client" region exactly 1 times
-    And I click on "pa-report-open" in the "client-01000014" region
+    Then I should see the "client" region exactly 2 times
+    And I click on "pa-report-open" in the "client-01000014-changes-needed" region
+    And I should see "Changes needed" in the "report-detail-status_incomplete" region
     And I should see the "section-decisions-needs-attention" region
     And I should see the "section-paDeputyExpenses-needs-attention" region
     # submit

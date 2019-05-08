@@ -24,7 +24,8 @@ class ProfDeputyCostsController extends AbstractController
         'report-prof-deputy-costs-prev', 'prof-deputy-costs-prev',
         'report-prof-deputy-costs-interim', 'prof-deputy-costs-interim',
         'report-prof-deputy-costs-scco',
-        'report-prof-deputy-fixed-cost'
+        'report-prof-deputy-fixed-cost',
+        'prof-deputy-other-costs'
     ];
 
     /**
@@ -32,14 +33,16 @@ class ProfDeputyCostsController extends AbstractController
      * @Template()
      *
      * @param int $reportId
-     *
-     * @return array
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function startAction($reportId)
     {
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
-        if ($report->getStatus()->getProfDeputyCostsState()['state'] != EntityDir\Report\Status::STATE_NOT_STARTED) {
-            return $this->redirectToRoute('prof_deputy_costs_summary', ['reportId' => $reportId]);
+        $state = $report->getStatus()->getProfDeputyCostsState()['state'];
+        $routeResolver = $this->get('resolver.prof_costs_subsection_route_resolver');
+
+        if (null !== ($forwardRoute = $routeResolver->resolve($report, $state))) {
+            return $this->redirectToRoute($forwardRoute, ['reportId' => $reportId]);
         }
 
         return [
@@ -154,22 +157,15 @@ class ProfDeputyCostsController extends AbstractController
 
             if ($previousReceivedId) { // edit
                 $this->getRestClient()->put('/prof-deputy-previous-cost/' . $previousReceivedId, $pr, ['profDeputyPrevCosts']);
-                $request->getSession()->getFlashBag()->add(
-                    'notice',
-                    'Cost edited'
-                );
+                $request->getSession()->getFlashBag()->add('notice', 'Cost edited');
             } else {
                 $this->getRestClient()->post('/report/' . $reportId . '/prof-deputy-previous-cost', $pr, ['profDeputyPrevCosts']);
-                $request->getSession()->getFlashBag()->add(
-                    'notice',
-                    'Cost added'
-                );
+                $request->getSession()->getFlashBag()->add('notice', 'Cost added');
             }
 
             if ($form->getClickedButton()->getName() === 'saveAndAddAnother') {
                 $nextRoute = 'prof_deputy_costs_previous_received';
             } else if ($from === 'summary') {
-                $request->getSession()->getFlashBag()->add('notice', 'Answer edited');
                 $nextRoute = 'prof_deputy_costs_summary';
             } else if ($report->hasProfDeputyCostsHowChargedFixedOnly()) {
                 $nextRoute = 'prof_deputy_costs_received';
@@ -302,6 +298,7 @@ class ProfDeputyCostsController extends AbstractController
     public function fixedCostAction(Request $request, $reportId)
     {
         $from = $request->get('from');
+        /** @var EntityDir\Report\Report $report */
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
         $form = $this->createForm(FormDir\Report\ProfDeputyFixedCostType::class, $report);
@@ -316,6 +313,9 @@ class ProfDeputyCostsController extends AbstractController
                 $nextRoute = 'prof_deputy_costs_summary';
             } else {
                 $nextRoute = 'prof_deputy_costs_amount_scco';
+                if ($report->hasProfDeputyCostsHowChargedFixedOnly()) {
+                    $nextRoute = 'prof_deputy_costs_breakdown';
+                }
             }
 
             return $this->redirectToRoute($nextRoute, ['reportId' => $reportId]);
@@ -392,8 +392,16 @@ class ProfDeputyCostsController extends AbstractController
             return $this->redirect($this->generateUrl('prof_deputy_costs_summary', ['reportId' => $reportId]));
         }
 
+        if ($from === 'summary') {
+            $backLink = 'prof_deputy_costs_summary';
+        } else if ($report->hasProfDeputyCostsHowChargedFixedOnly()) {
+            $backLink = 'prof_deputy_costs_received';
+        } else {
+            $backLink = 'prof_deputy_costs_amount_scco';
+        }
+
         return [
-            'backLink' =>$this->generateUrl( $from === 'summary' ? 'prof_deputy_costs_summary' : 'prof_deputy_costs_amount_scco', ['reportId'=>$reportId]),
+            'backLink' =>$this->generateUrl( $backLink, ['reportId'=>$reportId]),
             'form' => $form->createView(),
             'report' => $report,
         ];
