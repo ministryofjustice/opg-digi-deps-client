@@ -51,6 +51,9 @@ services:
             - ./docker/env/frontend.env
             - ./docker/env/mail.env
         restart: always
+        networks:
+            - default
+            - digideps
 
     admin:
         container_name: opgdigidepsdocker_admin_1
@@ -76,6 +79,9 @@ services:
             - ./docker/env/mail.env
             - ./docker/env/admin.env
         restart: always
+        networks:
+            - default
+            - digideps
 
     redisfront:
         container_name: opgdigidepsdocker_redisfront_1
@@ -161,6 +167,9 @@ services:
         env_file:
             - ./docker/env/frontend.env
             - ./docker/env/test.env
+        networks:
+            - default
+            - digideps
 
     testresults:
         container_name: opgdigidepsdocker_testresults_1
@@ -171,3 +180,7 @@ services:
 
 volumes:
     certs:
+
+networks:
+    digideps:
+        external: true
