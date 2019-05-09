@@ -14,13 +14,15 @@
     </h1>
 
     {% for email in emails %}
-        <details>
-            <summary style="display: block;">
+        <details style="margin-bottom: 3rem">
+            <summary style="display: block">
                 <strong class="bold">{{ email.time | date("Y-m-d H:i:s") }}</strong>
                 <br>
                 {% for address, name in email.to %}
                     {{ name }} &lt;{{ address }}&gt;
                 {% endfor %}
+                <br>
+                {{ email.subject }}
             </summary>
 
             <div class="panel panel-border-narrow">
