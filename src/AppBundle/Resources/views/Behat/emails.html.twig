@@ -15,8 +15,8 @@
 
     {% for email in emails %}
         <details>
-            <summary>
-                <strong style="font-weight: bold;">{{ email.time | date("Y-m-d H:i:s") }}</strong>
+            <summary style="display: block;">
+                <strong class="bold">{{ email.time | date("Y-m-d H:i:s") }}</strong>
                 <br>
                 {% for address, name in email.to %}
                     {{ name }} &lt;{{ address }}&gt;
@@ -24,12 +24,12 @@
             </summary>
 
             <div class="panel panel-border-narrow">
-                <strong style="font-weight: bold;">From:</strong>
+                <strong class="bold">From:</strong>
                 {% for address, name in email.from %}
                     {{ name }} &lt;{{ address }}&gt;
                 {% endfor %}
                 <br>
-                <strong style="font-weight: bold;">Subject:</strong> {{ email.subject }}
+                <strong class="bold">Subject:</strong> {{ email.subject }}
                 <hr>
                 {% autoescape %}
                     {{ email.body | raw | nl2br }}
