@@ -3,7 +3,6 @@ Feature: admin / case manager
   Scenario: Create CM user
     Given I load the application status from "admin-init"
     And emails are sent from "admin" area
-    And I reset the email log
     And I am logged in to admin as "admin@publicguardian.gov.uk" with password "Abcd1234"
     And I create a new "NDR-disabled" "case manager" user "Casero" "Managera" with email "behat-cm@publicguardian.gov.uk" and postcode "HA3"
     Then I should see "behat-cm@publicguardian.gov.uk" in the "users" region
@@ -26,7 +25,7 @@ Feature: admin / case manager
     # assert client search and client page return 200
     When I should be on "/admin/client/search"
     Then the response status code should be 200
-    When I click on "client-detail-test1024"
+    When I click on "client-detail-102-4"
     Then the response status code should be 200
     # assert user and password edit work
     When I click on "user-account, profile-show, profile-edit, save"
