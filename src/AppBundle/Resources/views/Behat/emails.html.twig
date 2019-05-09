@@ -30,6 +30,10 @@
                 {% endfor %}
                 <br>
                 <strong class="bold">Subject:</strong> {{ email.subject }}
+                <br>
+                <button onclick="ddPreviewEmail('{{ email.parts[0].body }}')">
+                    HTML preview
+                </button>
                 <hr>
                 {% autoescape %}
                     {{ email.body | raw | nl2br }}
@@ -39,4 +43,12 @@
     {% else %}
         <em>No emails have been mocked, or the log has been cleared.</em>
     {% endfor %}
+
+    <script type="text/javascript">
+        function ddPreviewEmail(blob) {
+            var html = atob(blob);
+            var win = window.open()
+            win.document.body.innerHTML = html;
+        }
+    </script>
 {% endblock %}
