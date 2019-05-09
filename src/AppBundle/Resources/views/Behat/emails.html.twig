@@ -48,8 +48,8 @@
 
     <script type="text/javascript">
         function ddPreviewEmail(blob) {
-            var html = atob(blob);
-            var win = window.open()
+            var html = decodeURIComponent(escape(atob(blob)));
+            var win = window.open();
             win.document.body.innerHTML = html;
         }
     </script>
