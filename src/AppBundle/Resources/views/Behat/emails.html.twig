@@ -3,7 +3,15 @@
 {% block htmlTitle %}Mocked emails{% endblock %}
 
 {% block content %}
-    <h1 class="heading-xlarge text">Latest mocked emails</h1>
+    <h1 class="heading-large text">
+        Latest mocked emails
+        <span class="heading-secondary">
+            Emails sent from
+            <strong class="bold">{{ isAdmin ? 'admin' : 'deputy' }}</strong>
+            site on
+            <strong class="bold">{{ host }}</strong>
+        </span>
+    </h1>
 
     {% for email in emails %}
         <details>

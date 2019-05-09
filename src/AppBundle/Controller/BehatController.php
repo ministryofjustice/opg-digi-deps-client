@@ -69,7 +69,9 @@ class BehatController extends AbstractController
         $emails = json_decode($this->get('mail_sender')->getMockedEmailsRaw(), true);
 
         return [
-            'emails' => $emails
+            'emails' => $emails,
+            'isAdmin' => $this->container->getParameter('env') === 'admin',
+            'host' => $_SERVER['HTTP_HOST'],
         ];
     }
 
