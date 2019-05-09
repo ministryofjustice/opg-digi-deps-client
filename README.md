@@ -24,9 +24,11 @@ Complete the deputy report is composed by
 
 ## Setup
 
-Setup local environment following instructions on the `opg-digi-deps-docker` repository.
+If you haven't already, you need to create a docker network called "digideps": `docker network create digideps`.
 
-`app/config/parameters.yml` is generated via docker init scripts.
+You will need to either have the API repository running locally, or point to an external instance by setting the `FRONTEND_API_URL` environment variable in `docker/env/frontend.env`.
+
+Run `docker-compose up -d` to start the client containers.
 
 ## Architectural notes
 
