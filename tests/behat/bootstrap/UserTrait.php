@@ -287,13 +287,16 @@ trait UserTrait
     }
 
     /**
-     * @Given I enable NDR for user :email
+     * @Given I :action NDR for user :email
      */
-    public function iEnableNdrForUser($email)
+    public function iEnableNdrForUser($action, $email)
     {
         $this->clickOnBehatLink('user-' . $email);
 
-        $this->checkOption('admin_ndrEnabled');
+        strtolower($action) === 'enable' ?
+            $this->checkOption('admin_ndrEnabled') :
+            $this->uncheckOption('admin_ndrEnabled');
+
         $this->clickOnBehatLink('save');
         $this->theFormShouldBeValid();
         $this->assertResponseStatus(200);
