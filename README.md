@@ -42,19 +42,15 @@ see [here](tests/README.md)
 ### Gulp
 The frontend components rely on Gulp to be built and assembled. The main tasks involved in this part of the build are copying image assets, compiling SASS to CSS and concatinating JS into a single file and then running uglify to minify it.
 
-The Gulp build file has many targets, but the 3 that are of most interest are **default**, **watch** and **development**.
+You can run these against the `npm` container through Docker. To compile all the assets, watch them and automatically recompile when changes occur:
 
-If you use Docker whilst developing the frontend, the best way to work with these assets is to connect to the docker frontend container:
+```
+docker-compose run --rm npm run develop
+```
 
-    docker exec -it opgdigidepsdocker_frontend_1 bash
+You can alternatively run `build` to compile the assets once only or `lint` to lint the source files.
 
-Once in the container you can simply enter:
-
-    gulp watch
-
-This will compile all the assets, in development (debug) mode, and will then continue to watch for changes to those files until you stop it with CTRL+C.
-
-Each of the steps in Gulp are documented in the Gulpfile.
+Each of the steps in Gulp are documented in the Gulpfile. The Gulp build file has many targets, but the 3 that are of most interest are **default**, **watch** and **development**.
 
 ### Browser Testing
 
@@ -65,7 +61,6 @@ With special thanks to [BrowserStack](https://www.browserstack.com) for providin
 
 ### Dependencies
 
-A brief note about dependencies. First, although we use node 4.x when building containers we also specify NPM version 3. This version of NPM has a number of important improvements over NPM version 2 which is bundled with node 4, the main one being directory structure.
 
 Dependencies are versioned to avoid accidently breaking the build. From time to time new review those dependencies to see if a valid new version is available, the chief of these should be [govuk-elements-sass](https://www.npmjs.com/package/govuk-elements-sass)
 
