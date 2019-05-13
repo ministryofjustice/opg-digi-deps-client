@@ -1,58 +1,39 @@
-FROM registry.service.opg.digital/opguk/digi-deps-frontend-base:nightly
+FROM php:5.5-fpm-alpine
 
-# INSTALL postgresql-client-9.6, neede to connect to postgres 9.6 db from test container
-# https://askubuntu.com/questions/831292/how-do-i-install-postgresql-9-6-on-any-ubuntu-version
-USER root
-RUN add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-RUN apt-get update && \
-    apt-get install -y postgresql-client-9.6 && \
-    apt-get clean && apt-get autoremove && \
-    rm -rf /var/lib/cache/* /var/lib/log/* /tmp/* /var/tmp/*
+# Install postgresql drivers
+RUN apk add --no-cache postgresql-dev \
+  && docker-php-ext-install pdo pdo_pgsql
 
-WORKDIR /app
-USER app
-ENV  HOME /app
-COPY composer.json /app/
-COPY composer.lock /app/
-RUN  composer install --prefer-dist --no-interaction --no-scripts
-COPY package.json /app/
-COPY package-lock.json /app/
-RUN  npm -g set progress=false
-RUN  npm install
+# Enable Redis driver
+RUN apk add --no-cache autoconf g++ make \
+  && pecl install redis \
+  && docker-php-ext-enable redis
 
-# install remaining parts of app
-ADD  . /app
-USER root
-RUN find . -not -user app -exec chown app:app {} \;
-# crontab
-COPY scripts/cron/digideps /etc/cron.d/digideps
-RUN chmod 0744 /etc/cron.d/digideps
+# Install openssl for wget
+RUN apk add --update openssl
 
-# Install version of Gulp CLI thatt works with Gulp 4
-RUN npm i -g gulp-cli@2.0.1
+# Add Confd to configure parameters on start
+ENV CONFD_VERSION="0.16.0"
+RUN wget -q -O /usr/local/bin/confd "https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" \
+  && chmod +x /usr/local/bin/confd
 
-# post-install scripts
-USER app
-ENV  HOME /app
-RUN  composer run-script post-install-cmd --no-interaction
-RUN  composer dump-autoload --optimize
-RUN  NODE_ENV=production gulp
+# Add Waitforit to wait on db starting
+ENV WAITFORIT_VERSION="v2.4.1"
+RUN wget -q -O /usr/local/bin/waitforit https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 \
+  && chmod +x /usr/local/bin/waitforit
 
-# remove parameters.yml (will be regenerated at startup time from docker)
-RUN  rm /app/app/config/parameters.yml
-USER root
-ENV  HOME /root
-
-# app configuration
-ADD docker/confd /etc/confd
-
-# let's make sure they always work
-RUN dos2unix /app/scripts/*
-
-# copy init scripts
-ADD  docker/my_init.d /etc/my_init.d
-RUN  chmod a+x /etc/my_init.d/*
-
-ENV  OPG_SERVICE client
-ENV  OPG_DOCKER_TAG 0.0.0
+WORKDIR /var/www
+# See this page for directories required
+# https://symfony.com/doc/3.4/quick_tour/the_architecture.html
+COPY web/app_dev.php web/app_dev.php
+RUN mkdir -p web/assets
+COPY web/config.php web/config.php
+COPY vendor vendor
+COPY src src
+COPY app app
+COPY docker/confd /etc/confd
+ENV TIMEOUT=20
+CMD confd -onetime -backend env \
+#   && mkdir var \
+#   && chown -R www-data var \
+  && php-fpm
