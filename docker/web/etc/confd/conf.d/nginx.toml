@@ -1,4 +1,4 @@
 [template]
 src  = "default.conf.tmpl"
 dest = "/etc/nginx/conf.d/default.conf"
-keys = ["/app", "/nginx/log/level"]
+keys = ["/app", "/nginx/log/level", "/opg/nginx"]

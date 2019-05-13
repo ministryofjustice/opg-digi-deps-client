@@ -109,6 +109,8 @@ services:
             APP_ADMIN_HOST: admin
             APP_ADMIN_PORT: 9000
             NGINX_LOG_LEVEL: warn
+            OPG_NGINX_CLIENTMAXBODYSIZE: 15M
+            OPG_NGINX_CLIENTBODYTIMEOUT: 300s
 
     fakes3:
         container_name: fakes3

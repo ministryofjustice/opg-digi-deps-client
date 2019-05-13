@@ -9,6 +9,9 @@ server {
     server_name {{getv (printf "/app/%s/public" $host) }};
     root /var/www/web;
 
+    client_max_body_size {{ getv "/opg/nginx/clientmaxbodysize" }};
+    client_body_timeout {{ getv "/opg/nginx/clientbodytimeout" }};
+
     ssl_certificate         /etc/nginx/certs/app.crt;
     ssl_certificate_key     /etc/nginx/certs/app.key;
 
