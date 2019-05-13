@@ -36,4 +36,8 @@ ENV TIMEOUT=20
 CMD confd -onetime -backend env \
 #   && mkdir var \
 #   && chown -R www-data var \
+  && mkdir -p app/cache \
+  && chown -R www-data app/cache \
+  && mkdir -p app/logs \
+  && chown -R www-data app/logs \
   && php-fpm
