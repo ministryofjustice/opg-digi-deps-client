@@ -36,7 +36,10 @@ services:
         volumes_from:
             - testresults
         volumes:
-            - ./app:/var/www/app
+            - ./app/config/security.yml:/var/www/app/config/security.yml
+            - ./app/config/config.yml:/var/www/app/config/config.yml
+            - ./app/config/services.yml:/var/www/app/config/services.yml
+            - ./app/config/services:/var/www/app/config/services
             - ./src:/var/www/src:ro
             - ./web:/var/www/web
             - ./scripts:/var/www/scripts
@@ -56,7 +59,10 @@ services:
         links:
             - redisadmin
         volumes:
-            - ./app:/var/www/app
+            - ./app/config/security.yml:/var/www/app/config/security.yml
+            - ./app/config/config.yml:/var/www/app/config/config.yml
+            - ./app/config/services.yml:/var/www/app/config/services.yml
+            - ./app/config/services:/var/www/app/config/services
             - ./src:/var/www/src:ro
             - ./web:/var/www/web
             - ./scripts:/var/www/scripts
@@ -149,7 +155,10 @@ services:
         volumes_from:
             - testresults
         volumes:
-            - ./app:/var/www/app
+            - ./app/config/security.yml:/var/www/app/config/security.yml
+            - ./app/config/config.yml:/var/www/app/config/config.yml
+            - ./app/config/services.yml:/var/www/app/config/services.yml
+            - ./app/config/services:/var/www/app/config/services
             - ./src:/var/www/src:ro
             - ./web:/var/www/web
             - ./scripts:/var/www/scripts
