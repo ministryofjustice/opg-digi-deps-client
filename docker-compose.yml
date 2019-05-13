@@ -102,9 +102,12 @@ services:
             - 80:80
             - 443:443
         environment:
-            APP_HOST_FRONTEND: frontend
-            APP_HOST_ADMIN: admin
-            APP_PORT: 9000
+            APP_FRONTEND_PUBLIC: digideps-client.local
+            APP_FRONTEND_HOST: frontend
+            APP_FRONTEND_PORT: 9000
+            APP_ADMIN_PUBLIC: digideps-admin.local
+            APP_ADMIN_HOST: admin
+            APP_ADMIN_PORT: 9000
             NGINX_LOG_LEVEL: warn
 
     fakes3:
