@@ -26,6 +26,8 @@ Complete the deputy report is composed by
 
 If you haven't already, you need to create a docker network called "digideps": `docker network create digideps`.
 
+Run `docker-compose run --rm composer composer install` to install all dependencies prior to starting the application.
+
 You will need to either have the API repository running locally, or point to an external instance by setting the `FRONTEND_API_URL` environment variable in `docker/env/frontend.env`.
 
 Run `docker-compose up -d` to start the client containers.

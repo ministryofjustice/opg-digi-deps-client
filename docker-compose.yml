@@ -176,6 +176,13 @@ services:
         volumes:
             - /tmp/behat
 
+    composer:
+        build:
+            context: .
+            dockerfile: docker/composer/Dockerfile
+        volumes:
+            - .:/app
+
 volumes:
     certs:
 
