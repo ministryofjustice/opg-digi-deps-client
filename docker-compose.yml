@@ -27,7 +27,7 @@ services:
         container_name: opgdigidepsdocker_frontend_1
         build: .
         ports:
-            - 8070:80
+            - 8070:9000
         links:
             - redisfront
             - wkhtmltopdf
@@ -36,17 +36,11 @@ services:
         volumes_from:
             - testresults
         volumes:
-            - ./log/frontend:/var/log
-            - ./app/config/security.yml:/app/app/config/security.yml
-            - ./app/config/config.yml:/app/app/config/config.yml
-            - ./app/config/services.yml:/app/app/config/services.yml
-            - ./app/config/services:/app/app/config/services
-            - ./src:/app/src
-            - ./scripts:/app/scripts
-            - ./Gulpfile.js:/app/Gulpfile.js
-            - ./tests:/app/tests
-            - ./app/Resources:/app/app/Resources
-            - ./web:/app/web
+            - ./app:/var/www/app
+            - ./src:/var/www/src:ro
+            - ./web:/var/www/web
+            - ./scripts:/var/www/scripts
+            - ./tests:/var/www/tests
         env_file:
             - ./docker/env/frontend.env
         restart: always
@@ -58,21 +52,15 @@ services:
         container_name: opgdigidepsdocker_admin_1
         build: .
         ports:
-            - 8080:80
+            - 8080:9000
         links:
             - redisadmin
         volumes:
-            - ./log/admin:/var/log
-            - ./app/config/security.yml:/app/app/config/security.yml
-            - ./app/config/config.yml:/app/app/config/config.yml
-            - ./app/config/services.yml:/app/app/config/services.yml
-            - ./app/config/services:/app/app/config/services
-            - ./src:/app/src
-            - ./scripts:/app/scripts
-            - ./Gulpfile.js:/app/Gulpfile.js
-            - ./tests:/app/tests
-            - ./app/Resources:/app/app/Resources
-            - ./web:/app/web
+            - ./app:/var/www/app
+            - ./src:/var/www/src:ro
+            - ./web:/var/www/web
+            - ./scripts:/var/www/scripts
+            - ./tests:/var/www/tests
         env_file:
             - ./docker/env/frontend.env
             - ./docker/env/admin.env
@@ -161,11 +149,11 @@ services:
         volumes_from:
             - testresults
         volumes:
-            - ./log/test:/var/log
-            - ./src:/app/src
-            - ./scripts:/app/scripts
-            - ./tests:/app/tests
-            - ./app/Resources:/app/app/Resources
+            - ./app:/var/www/app
+            - ./src:/var/www/src:ro
+            - ./web:/var/www/web
+            - ./scripts:/var/www/scripts
+            - ./tests:/var/www/tests
         env_file:
             - ./docker/env/frontend.env
             - ./docker/env/test.env
