@@ -22,7 +22,7 @@ server {
 
     error_log /var/log/nginx/error.log {{ getv "/nginx/log/level" "warn" }};
 
-    location ~ ^/app_dev\.php(/|$) {
+    location ~ ^/(app_dev|behat-debugger)\.php(/|$) {
         fastcgi_pass {{getv (printf "/app/%s/host" $host) }}:{{getv (printf "/app/%s/port" $host) }};
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
@@ -36,7 +36,9 @@ server {
         # for more information).
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         fastcgi_param DOCUMENT_ROOT $realpath_root;
+    }
 
+    location ~ ^/app_dev\.php(/|$) {
         # Prevents URIs that include the front controller. This will 404:
         # http://domain.tld/app.php/some-path
         # Remove the internal directive to allow URIs like this
