@@ -155,8 +155,8 @@ services:
         build: .
         command: tail -f /dev/null
         links:
-            - frontend:digideps-client.local
-            - admin:digideps-admin.local
+            - router:digideps-client.local
+            - router:digideps-admin.local
         volumes_from:
             - testresults
         volumes:
