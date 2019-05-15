@@ -28,11 +28,6 @@ services:
         build: .
         ports:
             - 8070:9000
-        links:
-            - redisfront
-            - wkhtmltopdf
-            - router:testbucket.s3.amazonaws.com
-            - file-scanner-api
         volumes_from:
             - testresults
         volumes:
@@ -56,8 +51,6 @@ services:
         build: .
         ports:
             - 8080:9000
-        links:
-            - redisadmin
         volumes:
             - ./app/config/security.yml:/var/www/app/config/security.yml
             - ./app/config/config.yml:/var/www/app/config/config.yml
@@ -112,6 +105,14 @@ services:
             OPG_NGINX_CLIENTMAXBODYSIZE: 15M
             OPG_NGINX_CLIENTBODYTIMEOUT: 300s
             OPG_NGINX_INDEX: app_dev.php
+        networks:
+            default:
+                aliases:
+                    - testbucket.s3.amazonaws.com
+            digideps:
+                aliases:
+                    - digideps-admin.local
+                    - digideps-client.local
 
     fakes3:
         container_name: fakes3
@@ -124,8 +125,6 @@ services:
         build: ../opg-file-scanner-service
         ports:
             - 8443:8443
-        links:
-            - file-scanner-broker
         volumes:
             - ./log/api:/var/log
         environment:
@@ -137,8 +136,6 @@ services:
     file-scanner-worker:
         container_name: file-scanner-worker
         build: ../opg-file-scanner-service
-        links:
-            - file-scanner-broker
         volumes:
             - ./log/worker:/var/log
         environment:
@@ -155,9 +152,6 @@ services:
         container_name: opgdigidepsdocker_test_1
         build: .
         command: tail -f /dev/null
-        links:
-            - router:digideps-client.local
-            - router:digideps-admin.local
         volumes_from:
             - testresults
         volumes:
