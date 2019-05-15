@@ -111,6 +111,7 @@ services:
             NGINX_LOG_LEVEL: warn
             OPG_NGINX_CLIENTMAXBODYSIZE: 15M
             OPG_NGINX_CLIENTBODYTIMEOUT: 300s
+            OPG_NGINX_INDEX: app_dev.php
 
     fakes3:
         container_name: fakes3

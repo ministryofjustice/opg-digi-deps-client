@@ -9,20 +9,24 @@ server {
     server_name {{getv (printf "/app/%s/public" $host) }};
     root /var/www/web;
 
+    {{ if exists "/opg/nginx/clientmaxbodysize" }}
     client_max_body_size {{ getv "/opg/nginx/clientmaxbodysize" }};
+    {{ end }}
+    {{ if exists "/opg/nginx/clientbodytimeout" }}
     client_body_timeout {{ getv "/opg/nginx/clientbodytimeout" }};
+    {{ end }}
 
     ssl_certificate         /etc/nginx/certs/app.crt;
     ssl_certificate_key     /etc/nginx/certs/app.key;
 
     location / {
-        # try to serve file directly, fallback to app_dev.php
-        try_files $uri /app_dev.php$is_args$args;
+        # try to serve file directly, fallback to app.php or app_dev.php
+        try_files $uri /{{ getv "/opg/nginx/index" }}$is_args$args;
     }
 
     error_log /var/log/nginx/error.log {{ getv "/nginx/log/level" "warn" }};
 
-    location ~ ^/app_dev\.php(/|$) {
+    location ~ ^/{{ getv "/opg/nginx/index" }}(/|$) {
         fastcgi_pass {{getv (printf "/app/%s/host" $host) }}:{{getv (printf "/app/%s/port" $host) }};
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
