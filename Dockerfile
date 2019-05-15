@@ -1,7 +1,7 @@
 FROM php:5.5-fpm-alpine
 
 # Install postgresql drivers
-RUN apk add --no-cache postgresql postgresql-client zlib-dev \
+RUN apk add --no-cache postgresql postgresql-client zlib-dev unzip \
   && docker-php-ext-install zip
 
 # Enable Redis driver
