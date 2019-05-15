@@ -20,6 +20,7 @@ misc/tmp/*
 nbproject
 node_modules/*
 npm-debug.log
+var
 vendor/*
 web/assets
 web/bundles/*

@@ -35,6 +35,7 @@ COPY bin bin
 COPY docker/confd /etc/confd
 ENV TIMEOUT=20
 CMD confd -onetime -backend env \
-  && mkdir -p var \
+  && mkdir -p var/cache \
+  && mkdir -p var/logs \
   && chown -R www-data var \
   && php-fpm
