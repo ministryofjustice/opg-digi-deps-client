@@ -28,7 +28,7 @@ howCharged:
 breakdown:
   htmlTitle: "Deputy report - Deputy costs estimate | GOV.UK"
   pageTitle: Deputy cost estimates
-  pageSectionDescription: Give us a breakdown of what you and other fee earners expect to charge %client% during the next reporting period
+  pageSectionDescription: Of the amount for general management costs you expect to charge %client% next period, how much do you expect to charge for each of the following?
   pageHint: ""
   form:
     profDeputyCostsEstimateManagementCost:
