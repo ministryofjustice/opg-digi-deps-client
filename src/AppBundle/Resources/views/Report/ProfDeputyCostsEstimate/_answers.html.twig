@@ -87,17 +87,6 @@
                   </tr>
                 {% endif %}
             {% endfor %}
-
-            <tr class="behat-region-total-estimate-cost">
-                <td>
-                    <strong class="bold">{{ ('totalEstimatedCosts') | trans }}</strong>
-                </td>
-                <td>
-                    <strong class="bold">£{{ report.profDeputyEstimateCostsTotal | money_format }}</strong>
-                </td>
-                <td></td>
-            </tr>
-
         {% endif %}
 
         {# More information #}
