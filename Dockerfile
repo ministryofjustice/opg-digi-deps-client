@@ -15,6 +15,25 @@ RUN npm install
 RUN NODE_ENV=production npm run build
 
 
+
+FROM php:5.5-alpine AS composer
+
+# Install Git for Composer
+RUN apk add --no-cache git
+
+# Install Composer
+RUN  cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+RUN  composer self-update
+
+WORKDIR /app
+
+# Install composer dependencies
+COPY composer.json .
+COPY composer.lock .
+RUN composer install --prefer-dist --no-interaction --no-scripts
+
+
+
 FROM php:5.5-fpm-alpine
 
 # Install postgresql drivers
@@ -42,16 +61,7 @@ ENV WAITFORIT_VERSION="v2.4.1"
 RUN wget -q -O /usr/local/bin/waitforit https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 \
   && chmod +x /usr/local/bin/waitforit
 
-# Add Composer
-RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
-RUN composer self-update
-
 WORKDIR /var/www
-
-# Install composer dependencies
-COPY composer.json .
-COPY composer.lock .
-RUN composer install --prefer-dist --no-interaction --no-scripts
 
 # Generate certificate
 RUN mkdir -p /etc/nginx/certs
@@ -63,6 +73,7 @@ EXPOSE 443
 WORKDIR /var/www
 # See this page for directories required
 # https://symfony.com/doc/3.4/quick_tour/the_architecture.html
+COPY --from=composer /app/vendor vendor
 COPY --from=gulp /app/web/assets web/assets
 COPY --from=gulp /app/web/images web/images
 COPY web/app_dev.php web/app_dev.php
