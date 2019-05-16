@@ -83,8 +83,6 @@ Feature: Prof deputy costs estimate
     And I should see "£0.00" in the "breakdown-contact-others" region
     And I should see "Work on forms and other documents" in the "breakdown-forms-documents" region
     And I should see "£0.00" in the "breakdown-forms-documents" region
-    And I should see "Other" in the "breakdown-other" region
-    And I should see "£0.00" in the "breakdown-other" region
     And I should see "Total estimated costs" in the "total-estimate-cost" region
     And I should see "£4.99" in the "total-estimate-cost" region
     And I should see "More information" in the "more-info" region
@@ -102,13 +100,11 @@ Feature: Prof deputy costs estimate
       | deputy_costs_estimate_profDeputyCostsEstimateHowCharged_0 | assessed |
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/breakdown"
     And the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount        | 4.99  |
+      | deputy_estimate_costs_profDeputyManagementCostAmount        | 150   |
       | deputy_estimate_costs_profDeputyEstimateCosts_0_amount      | 10.01 |
       | deputy_estimate_costs_profDeputyEstimateCosts_1_amount      | 20.02 |
       | deputy_estimate_costs_profDeputyEstimateCosts_2_amount      | 30.03 |
       | deputy_estimate_costs_profDeputyEstimateCosts_3_amount      | 40.04 |
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_amount      | 50.05 |
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_moreDetails | info  |
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/more-info"
     And the step with the following values CAN be submitted:
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0   | yes        |
@@ -116,7 +112,7 @@ Feature: Prof deputy costs estimate
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
     And I should see "How will you be charging for your services?" in the "how-charged" region
     And I should see "Assessed costs" in the "how-charged" region
-    And I should see "4.99" in the "management-cost" region
+    And I should see "150.00" in the "management-cost" region
     And I should see "Contact with the client, their family and friends" in the "breakdown-contact-client" region
     And I should see "£10.01" in the "breakdown-contact-client" region
     And I should see "Contact with case managers and care providers" in the "breakdown-contact-case-manager-carers" region
@@ -125,10 +121,8 @@ Feature: Prof deputy costs estimate
     And I should see "£30.03" in the "breakdown-contact-others" region
     And I should see "Work on forms and other documents" in the "breakdown-forms-documents" region
     And I should see "£40.04" in the "breakdown-forms-documents" region
-    And I should see "Other" in the "breakdown-other" region
-    And I should see "£50.05" in the "breakdown-other" region
     And I should see "Total estimated costs" in the "total-estimate-cost" region
-    And I should see "£155.14" in the "total-estimate-cost" region
+    And I should see "£250.10" in the "total-estimate-cost" region
     And I should see "More information" in the "more-info" region
     And I should see "Yes" in the "more-info" region
     And I should see "More information details" in the "more-info-details" region
@@ -159,47 +153,6 @@ Feature: Prof deputy costs estimate
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0   | yes        |
       | deputy_costs_estimate_profDeputyCostsEstimateMoreInfoDetails | Extra text |
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
-    When I click on "edit-breakdown-contact-client"
-    Then the URL should match "/report/\d+/prof-deputy-costs-estimate/breakdown"
-    And the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount   | 4.99  |
-      | deputy_estimate_costs_profDeputyEstimateCosts_0_amount | 10.01 |
-    And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
-    And I should see "Answer edited"
-    And I should see "£15.00" in the "total-estimate-cost" region
-    When I click on "edit-breakdown-contact-case-manager-carers"
-    Then the URL should match "/report/\d+/prof-deputy-costs-estimate/breakdown"
-    And the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount   | 4.99  |
-      | deputy_estimate_costs_profDeputyEstimateCosts_1_amount | 20.02 |
-    And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
-    And I should see "Answer edited"
-    And I should see "£35.02" in the "total-estimate-cost" region
-    When I click on "edit-breakdown-contact-others"
-    Then the URL should match "/report/\d+/prof-deputy-costs-estimate/breakdown"
-    And the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount   | 4.99  |
-      | deputy_estimate_costs_profDeputyEstimateCosts_2_amount | 30.03 |
-    And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
-    And I should see "Answer edited"
-    And I should see "£65.05" in the "total-estimate-cost" region
-    When I click on "edit-breakdown-forms-documents"
-    Then the URL should match "/report/\d+/prof-deputy-costs-estimate/breakdown"
-    And the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount   | 4.99  |
-      | deputy_estimate_costs_profDeputyEstimateCosts_3_amount | 40.04 |
-    And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
-    And I should see "Answer edited"
-    And I should see "105.09" in the "total-estimate-cost" region
-    When I click on "edit-breakdown-other"
-    Then the URL should match "/report/\d+/prof-deputy-costs-estimate/breakdown"
-    And the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount        | 4.99  |
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_amount      | 50.05 |
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_moreDetails | info  |
-    And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
-    And I should see "Answer edited"
-    And I should see "£155.14" in the "total-estimate-cost" region
     When I click on "edit-more-info-details"
     Then the URL should match "/report/\d+/prof-deputy-costs-estimate/more-info"
     And the step with the following values CAN be submitted:
@@ -235,14 +188,14 @@ Feature: Prof deputy costs estimate
       | deputy_costs_estimate_profDeputyCostsEstimateHowCharged_0 | assessed |
     Then the URL should match "/report/\d+/prof-deputy-costs-estimate/breakdown"
     When the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount   | 4.99  |
+      | deputy_estimate_costs_profDeputyManagementCostAmount   | 30.99 |
       | deputy_estimate_costs_profDeputyEstimateCosts_2_amount | 30.03 |
     And the step with the following values CAN be submitted:
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0   | yes        |
       | deputy_costs_estimate_profDeputyCostsEstimateMoreInfoDetails | Extra text |
     Then the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
     And I should see "Assessed costs" in the "how-charged" region
-    And I should see "4.99" in the "management-cost" region
+    And I should see "30.99" in the "management-cost" region
     And I should see "Contact with the client, their family and friends" in the "breakdown-contact-client" region
     And I should see "£0.00" in the "breakdown-contact-client" region
     And I should see "Contact with case managers and care providers" in the "breakdown-contact-case-manager-carers" region
@@ -251,10 +204,8 @@ Feature: Prof deputy costs estimate
     And I should see "£30.03" in the "breakdown-contact-others" region
     And I should see "Work on forms and other documents" in the "breakdown-forms-documents" region
     And I should see "£0.00" in the "breakdown-forms-documents" region
-    And I should see "Other" in the "breakdown-other" region
-    And I should see "£0.00" in the "breakdown-other" region
     And I should see "Total estimated costs" in the "total-estimate-cost" region
-    And I should see "£35.02" in the "total-estimate-cost" region
+    And I should see "£61.02" in the "total-estimate-cost" region
     And I should see "More information" in the "more-info" region
     And I should see "Yes" in the "more-info" region
     And I should see "Extra text" in the "more-info-details" region
@@ -267,7 +218,7 @@ Feature: Prof deputy costs estimate
     And the step with the following values CAN be submitted:
       | deputy_costs_estimate_profDeputyCostsEstimateHowCharged_0 | assessed |
     And the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount   | 4.99  |
+      | deputy_estimate_costs_profDeputyManagementCostAmount   | 30.90 |
       | deputy_estimate_costs_profDeputyEstimateCosts_2_amount | 30.03 |
     And the step with the following values CAN be submitted:
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0 | no |
@@ -359,12 +310,4 @@ Feature: Prof deputy costs estimate
       | deputy_costs_estimate_profDeputyCostsEstimateMoreInfoDetails |         |
     And the step with the following values CAN be submitted:
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0   | no      |
-    When I click on "edit-breakdown-contact-others"
-    Then the step with the following values CANNOT be submitted:
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_amount       | 30.03   |
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_moreDetails  |         |
-    When the step with the following values CAN be submitted:
-      | deputy_estimate_costs_profDeputyManagementCostAmount         | 1001.01 |
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_amount       | 30.03   |
-      | deputy_estimate_costs_profDeputyEstimateCosts_4_moreDetails  | info    |
 
