@@ -80,6 +80,8 @@ COPY web/app_dev.php web/app_dev.php
 COPY web/config.php web/config.php
 COPY app app
 COPY bin bin
+COPY src src
+COPY tests tests
 COPY docker/confd /etc/confd
 ENV TIMEOUT=20
 CMD confd -onetime -backend env \
