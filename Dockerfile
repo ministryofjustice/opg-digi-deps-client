@@ -74,14 +74,13 @@ WORKDIR /var/www
 # See this page for directories required
 # https://symfony.com/doc/3.4/quick_tour/the_architecture.html
 COPY --from=composer /app/vendor vendor
-COPY --from=gulp /app/web/assets web/assets
-COPY --from=gulp /app/web/images web/images
-COPY web/app_dev.php web/app_dev.php
-COPY web/config.php web/config.php
 COPY app app
 COPY bin bin
 COPY src src
 COPY tests tests
+COPY web web
+COPY --from=gulp /app/web/assets web/assets
+COPY --from=gulp /app/web/images web/images
 COPY docker/confd /etc/confd
 ENV TIMEOUT=20
 CMD confd -onetime -backend env \
