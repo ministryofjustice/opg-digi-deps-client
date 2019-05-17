@@ -76,6 +76,7 @@ WORKDIR /var/www
 COPY --from=composer /app/vendor vendor
 COPY app app
 COPY bin bin
+COPY scripts scripts
 COPY src src
 COPY tests tests
 COPY web web
