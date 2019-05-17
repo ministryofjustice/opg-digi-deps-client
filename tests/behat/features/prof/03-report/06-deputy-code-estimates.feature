@@ -83,11 +83,7 @@ Feature: Prof deputy costs estimate
     And I should see "£0.00" in the "breakdown-contact-others" region
     And I should see "Work on forms and other documents" in the "breakdown-forms-documents" region
     And I should see "£0.00" in the "breakdown-forms-documents" region
-    And I should see "Total estimated costs" in the "total-estimate-cost" region
-    And I should see "£4.99" in the "total-estimate-cost" region
-    And I should see "More information" in the "more-info" region
-    And I should see "No" in the "more-info" region
-    And I should not see "More information details" in the "more-info" region
+    And I should see "No more information to add" in the "more-info" region
     When I click on "breadcrumbs-report-overview"
     Then I should see the "prof_deputy_costs_estimate-state-done" region
 
@@ -121,12 +117,7 @@ Feature: Prof deputy costs estimate
     And I should see "£30.03" in the "breakdown-contact-others" region
     And I should see "Work on forms and other documents" in the "breakdown-forms-documents" region
     And I should see "£40.04" in the "breakdown-forms-documents" region
-    And I should see "Total estimated costs" in the "total-estimate-cost" region
-    And I should see "£250.10" in the "total-estimate-cost" region
-    And I should see "More information" in the "more-info" region
-    And I should see "Yes" in the "more-info" region
-    And I should see "More information details" in the "more-info-details" region
-    And I should see "Extra text" in the "more-info-details" region
+    And I should see "Extra text" in the "more-info" region
     When I click on "breadcrumbs-report-overview"
     Then I should see the "prof_deputy_costs_estimate-state-done" region
 
@@ -153,25 +144,22 @@ Feature: Prof deputy costs estimate
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0   | yes        |
       | deputy_costs_estimate_profDeputyCostsEstimateMoreInfoDetails | Extra text |
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
-    When I click on "edit-more-info-details"
+    When I click on "edit-more-info"
     Then the URL should match "/report/\d+/prof-deputy-costs-estimate/more-info"
     And the step with the following values CAN be submitted:
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0   | yes    |
       | deputy_costs_estimate_profDeputyCostsEstimateMoreInfoDetails | Edited text |
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
     And I should see "Answer edited"
-    And I should see "Yes" in the "more-info" region
-    And I should see "More information details" in the "more-info-details" region
-    And I should see "Edited text" in the "more-info-details" region
-    And I should not see "Extra text" in the "more-info-details" region
+    And I should see "Edited text" in the "more-info" region
+    And I should not see "Extra text" in the "more-info" region
     When I click on "edit-more-info"
     Then the URL should match "/report/\d+/prof-deputy-costs-estimate/more-info"
     And the step with the following values CAN be submitted:
       | deputy_costs_estimate_profDeputyCostsEstimateHasMoreInfo_0   | no |
     And the URL should match "/report/\d+/prof-deputy-costs-estimate/summary"
     And I should see "Answer edited"
-    And I should see "No" in the "more-info" region
-    And I should not see "More information details"
+    And I should see "No more information to add" in the "more-info" region
     And I should not see "Edited text"
 
   # Switching between Fixed Costs and non Fixed Costs
@@ -204,11 +192,7 @@ Feature: Prof deputy costs estimate
     And I should see "£30.03" in the "breakdown-contact-others" region
     And I should see "Work on forms and other documents" in the "breakdown-forms-documents" region
     And I should see "£0.00" in the "breakdown-forms-documents" region
-    And I should see "Total estimated costs" in the "total-estimate-cost" region
-    And I should see "£61.02" in the "total-estimate-cost" region
-    And I should see "More information" in the "more-info" region
-    And I should see "Yes" in the "more-info" region
-    And I should see "Extra text" in the "more-info-details" region
+    And I should see "Extra text" in the "more-info" region
 
   Scenario: Switching from non Fixed Costs selection to Fixed Costs selection
     Given I am logged in as "behat-prof1@publicguardian.gov.uk" with password "Abcd1234"
