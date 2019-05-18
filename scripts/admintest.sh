@@ -1,6 +1,6 @@
 #!/bin/bash
 #let's configure environment
-run-parts /etc/my_init.d
+confd -onetime -backend env
 
 cd /var/www
 mkdir -p /tmp/behat

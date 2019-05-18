@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 #let's configure environment
-run-parts /etc/my_init.d
+confd -onetime -backend env
 chown app:app /tmp/behat
 chown app:app /tmp
 
