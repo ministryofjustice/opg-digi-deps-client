@@ -53,6 +53,10 @@ RUN apk add --no-cache autoconf g++ make \
 # Add NGINX
 RUN apk add --no-cache nginx
 
+# Route NGINX logs to stdout/stderr
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+  && ln -sf /dev/stderr /var/log/nginx/error.log
+
 # Install openssl for wget and certificate generation
 RUN apk add --update openssl
 
