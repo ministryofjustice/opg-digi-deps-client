@@ -6,6 +6,12 @@ framework:
     session:
         storage_id: session.storage.mock_file
 
+# During tests, output the log to file because PHPUnit is already writing to stdout
+monolog:
+    handlers:
+           main:
+                path: "/var/www/var/logs/application.log"
+
 services:
     mail_sender:
         class: AppBundle\Service\Mailer\MailSenderMock
