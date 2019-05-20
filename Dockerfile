@@ -89,6 +89,5 @@ CMD confd -onetime -backend env \
   && mkdir -p var/logs \
   && chown -R www-data var \
   && waitforit -address=$FRONTEND_API_URL/manage/availability -timeout=$TIMEOUT -insecure \
-  && waitforit -address=$FRONTEND_FILESCANNER_URL/ping/json -timeout=$TIMEOUT -insecure \
   && php-fpm -D \
   && nginx
