@@ -19,4 +19,4 @@ Feature: deputy / login and logout functionalities
       Then the response should have the "Cache-Control" header containing "no-cache"
       Then the response should have the "Cache-Control" header containing "no-store"
       Then the response should have the "Cache-Control" header containing "must-revalidate"
-      Then the response should have the "Pragma" header containing "no-cache"
+      Then the response should have the "pragma" header containing "no-cache"
