@@ -56,7 +56,7 @@ ENV CONFD_VERSION="0.16.0"
 RUN wget -q -O /usr/local/bin/confd "https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" \
   && chmod +x /usr/local/bin/confd
 
-# Add Waitforit to wait on db starting
+# Add Waitforit to wait on API starting
 ENV WAITFORIT_VERSION="v2.4.1"
 RUN wget -q -O /usr/local/bin/waitforit https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 \
   && chmod +x /usr/local/bin/waitforit
@@ -83,10 +83,12 @@ COPY web web
 COPY --from=gulp /app/web/assets web/assets
 COPY --from=gulp /app/web/images web/images
 COPY docker/confd /etc/confd
-ENV TIMEOUT=20
+ENV TIMEOUT=60
 CMD confd -onetime -backend env \
   && mkdir -p var/cache \
   && mkdir -p var/logs \
   && chown -R www-data var \
+  && waitforit -address=$FRONTEND_API_URL/manage/availability -timeout=$TIMEOUT -insecure \
+  && waitforit -address=$FRONTEND_FILESCANNER_URL/ping/json -timeout=$TIMEOUT -insecure \
   && php-fpm -D \
   && nginx

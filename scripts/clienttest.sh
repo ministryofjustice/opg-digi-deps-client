@@ -2,6 +2,8 @@
 set -e
 #let's configure environment
 confd -onetime -backend env
+waitforit -address=$FRONTEND_API_URL/manage/availability -timeout=$TIMEOUT -insecure
+
 mkdir -p /tmp/behat
 
 # create log dir locally failing sometimes)
