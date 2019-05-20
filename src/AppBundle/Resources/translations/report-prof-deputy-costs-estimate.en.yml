@@ -61,6 +61,8 @@ moreInfo:
       yesno: "More information"
       details: "More information details"
 
+totalEstimatedCosts: Total estimated costs
+
 summaryPage:
   htmlTitle: "Deputy report - Deputy costs estimate | GOV.UK"
   pageTitle:  Deputy costs estimates
