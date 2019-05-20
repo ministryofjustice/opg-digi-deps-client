@@ -32,6 +32,11 @@ COPY composer.json .
 COPY composer.lock .
 RUN composer install --prefer-dist --no-interaction --no-scripts
 
+COPY app app
+COPY src src
+RUN composer run-script post-install-cmd --no-interaction
+RUN composer dump-autoload --optimize
+
 
 
 FROM php:5.5-fpm-alpine
@@ -73,8 +78,8 @@ EXPOSE 443
 WORKDIR /var/www
 # See this page for directories required
 # https://symfony.com/doc/3.4/quick_tour/the_architecture.html
+COPY --from=composer /app/app app
 COPY --from=composer /app/vendor vendor
-COPY app app
 COPY bin bin
 COPY scripts scripts
 COPY src src
