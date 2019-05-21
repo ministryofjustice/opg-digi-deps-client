@@ -38,8 +38,7 @@ RUN composer run-script post-install-cmd --no-interaction
 RUN composer dump-autoload --optimize
 
 
-
-FROM php:5.5-fpm-alpine
+FROM php:5-fpm-alpine3.8
 
 # Install postgresql drivers
 RUN apk add --no-cache postgresql postgresql-client zlib-dev unzip \
