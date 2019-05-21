@@ -136,9 +136,6 @@ services:
         volumes:
             - /tmp/behat
 
-volumes:
-    certs:
-
 networks:
     digideps:
         external: true
