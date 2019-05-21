@@ -27,8 +27,9 @@ Feature: Admin unsubmit and client re-submit
     Given I am logged in as "behat-pa1@publicguardian.gov.uk" with password "Abcd1234"
     And I fill in "search" with "01000014"
     And I press "search_submit"
-    Then I should see the "client" region exactly 1 times
-    And I click on "pa-report-open" in the "client-01000014" region
+    Then I should see the "client" region exactly 2 times
+    And I click on "pa-report-open" in the "client-01000014-changes-needed" region
+    And I should see "Changes needed" in the "report-detail-status_incomplete" region
     And I should see the "section-decisions-needs-attention" region
     And I should see the "section-paDeputyExpenses-needs-attention" region
     # submit
@@ -41,7 +42,7 @@ Feature: Admin unsubmit and client re-submit
 
   @deputy
   Scenario: Admin checks report was re-submitted
-    And I am logged in to admin as "admin@publicguardian.gov.uk" with password "Abcd1234"
+    Given I am logged in to admin as "admin@publicguardian.gov.uk" with password "Abcd1234"
     And I go to the URL previously saved as "admin-client-01000014.url"
     Then I should see "SUBMITTED" in the "report-2016-to-2017" region
     # restore previous status
