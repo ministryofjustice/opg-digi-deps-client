@@ -17,7 +17,7 @@ export PGUSER=${API_DATABASE_USERNAME:=api}
 rm -rf var/cache/*
 
 # phpunit
-# php vendor/phpunit/phpunit/phpunit -c tests/phpunit/
+php vendor/phpunit/phpunit/phpunit -c tests/phpunit/
 
 # behat
 bin/behat --config=tests/behat/behat.yml --profile=${PROFILE:=headless} --stop-on-failure
