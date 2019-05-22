@@ -136,6 +136,13 @@ services:
         volumes:
             - /tmp/behat
 
+    npm:
+        image: node:8-alpine
+        working_dir: /app
+        volumes:
+            - .:/app
+        entrypoint: npm
+
 networks:
     digideps:
         external: true
