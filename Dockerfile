@@ -93,10 +93,12 @@ COPY --from=gulp /app/web/images web/images
 COPY --from=gulp /app/src/AppBundle/Resources/views/Css src/AppBundle/Resources/views/Css
 COPY docker/confd /etc/confd
 ENV TIMEOUT=60
-CMD confd -onetime -backend env \
-  && mkdir -p var/cache \
+
+RUN mkdir -p var/cache \
   && mkdir -p var/logs \
-  && chown -R www-data var \
+  && chown -R www-data var
+
+CMD confd -onetime -backend env \
   && waitforit -address=$FRONTEND_API_URL/manage/availability -timeout=$TIMEOUT -insecure \
   && php-fpm -D \
   && nginx
