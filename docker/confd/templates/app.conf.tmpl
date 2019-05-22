@@ -46,7 +46,7 @@ server {
         internal;
     }
 
-    {{ if eq (getv "/frontend/test/enabled") "true" }}
+    {{ if eq (getv "/frontend/behat/controlled/enabled") "true" }}
     location ~ ^/behat-debugger\.php(/|$) {
         fastcgi_pass localhost:9000;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
