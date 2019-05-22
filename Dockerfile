@@ -16,7 +16,7 @@ RUN NODE_ENV=production npm run build
 
 
 
-FROM php:5.5-alpine AS composer
+FROM php:5-fpm-alpine3.8 AS composer
 
 # Install Git for Composer
 RUN apk add --no-cache git
