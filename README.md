@@ -24,33 +24,25 @@ Complete the deputy report is composed by
 
 ## Setup
 
-If you haven't already, you need to create a docker network called "digideps": `docker network create digideps`.
+See the [Docker config](https://github.com/ministryofjustice/opg-digi-deps-docker) repository for instructions on how to set up the API and client containers locally.
 
-Run `docker-compose run --rm composer composer install` to install all dependencies prior to starting the application.
+## Testing
 
-You will need to either have the API repository running locally, or point to an external instance by setting the `FRONTEND_API_URL` environment variable in `docker/env/frontend.env`.
-
-Run `docker-compose up -d` to start the client containers.
-
-## Architectural notes
-
-### Testing
-see [here](tests/README.md)
+See [here](tests/README.md)
 
 ## Frontend technical notes
 
 ### Gulp
+
 The frontend components rely on Gulp to be built and assembled. The main tasks involved in this part of the build are copying image assets, compiling SASS to CSS and concatinating JS into a single file and then running uglify to minify it.
 
-You can run these against the `npm` container through Docker. To compile all the assets, watch them and automatically recompile when changes occur:
+Assets are automatically rebuilt with Gulp when you build the frontend image. To do so, call `docker-compose up -d --build` in the docker repo folder.
 
+You can also run one of commands against the NPM image. For example, to lint all files:
+
+```sh
+docker-compose run --rm npm run lint
 ```
-docker-compose run --rm npm run develop
-```
-
-You can alternatively run `build` to compile the assets once only or `lint` to lint the source files.
-
-Each of the steps in Gulp are documented in the Gulpfile. The Gulp build file has many targets, but the 3 that are of most interest are **default**, **watch** and **development**.
 
 ### Browser Testing
 
@@ -58,18 +50,13 @@ There are notes in the readme file in the test folder to describe the best way t
 
 With special thanks to [BrowserStack](https://www.browserstack.com) for providing cross browser testing.
 
-
 ### Dependencies
 
-
-Dependencies are versioned to avoid accidently breaking the build. From time to time new review those dependencies to see if a valid new version is available, the chief of these should be [govuk-elements-sass](https://www.npmjs.com/package/govuk-elements-sass)
-
+Dependencies are versioned to avoid accidently breaking the build. From time to time new review those dependencies to see if a valid new version is available, the chief of these should be [govuk-elements-sass](https://www.npmjs.com/package/govuk-elements-sass).
 
 ## Coding standards
 
 [PSR-1](http://www.php-fig.org/psr/psr-1/), [PSR-2](http://www.php-fig.org/psr/psr-2/)
-
-Run `php-cs-fixer fix` to format files
 
 ## License
 
