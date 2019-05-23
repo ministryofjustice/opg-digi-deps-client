@@ -18,6 +18,10 @@ server {
     ssl_certificate         /etc/nginx/certs/app.crt;
     ssl_certificate_key     /etc/nginx/certs/app.key;
 
+    location =/meta.json {
+        alias /var/www/META;
+    }
+
     location / {
         # try to serve file directly, fallback to app.php or app_dev.php
         try_files $uri /{{ getv "/opg/nginx/index" "app.php" }}$is_args$args;
