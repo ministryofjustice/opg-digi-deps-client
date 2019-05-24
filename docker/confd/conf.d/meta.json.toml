@@ -1,4 +1,4 @@
 [template]
 src = "meta.json.tmpl"
-dest = "/var/www/META"
+dest = "/var/www/web/meta.json"
 keys = [ "/opg" ]
