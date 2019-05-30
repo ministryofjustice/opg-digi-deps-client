@@ -12,7 +12,8 @@ const gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     replace = require('gulp-replace'),
     rename = require('gulp-rename'),
-    now = new Date().getTime();
+    now = new Date().getTime(),
+    postcss = require('gulp-postcss');
 
 var config = {
     sass: {
@@ -46,7 +47,12 @@ const lintSass = () => { // sass quality control
     return gulp.src([
         config.sassSrc + '/**/*.scss',
         config.sassSrc + '/*.scss'])
-        .pipe(scsslint());
+        .pipe(scsslint({
+            options: {
+                configFile: '.scss-lint.yml'
+            }
+        }))
+        .pipe(scsslint.format());
 }
 
 const lintJS = () => { // JS quality control
@@ -127,12 +133,23 @@ const copyJQuery = () => {
         .pipe(gulp.dest(config.webAssets + '/javascripts'));
 }
 
+const checkCSSAccessibility = () => {
+    return gulp.src(config.webAssets + '/stylesheets/*.css')
+      .pipe(
+        postcss([
+            require('postcss-wcag-contrast')({compliance: 'AA'})
+        ])
+      );
+}
+
 // Compile formatted report CSS and copy to twig, then delete the .css version
 gulp.task('rebuild-formatted-report-css', gulp.series(CompileFormattedReportSassToCSS, copyFormattedReportCSSToTwigVersion, deleteFormattedReportCSSVersion));
 
 gulp.task('sass', gulp.series(lintSass, buildApplicationCSSFromSass));
 
 gulp.task('app-js', gulp.series(lintJS, concatJSThenMinifyAndCopy));
+
+gulp.task('lint', gulp.series(lintSass, lintJS, checkCSSAccessibility));
 
 // Prepare and build all assets.
 gulp.task('default', gulp.series(
@@ -145,7 +162,7 @@ gulp.task('default', gulp.series(
         'app-js',
         copyJQuery,
         'rebuild-formatted-report-css'
-    )));
+    ), checkCSSAccessibility));
 
 // Watch sass, images and js and recompile as Development
 gulp.task('watch', gulp.series(setDevelopment, function () {

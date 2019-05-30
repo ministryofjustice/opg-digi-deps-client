@@ -26,16 +26,16 @@
             <directory>Validator</directory>
         </testsuite>
     </testsuites>
-    
+
     <php>
         <ini name="error_log" value="/dev/stdout"/>
+        <ini name="memory_limit" value="512M" />
     </php>
-    
+
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">../../src/AppBundle/Service</directory>
             <file>../../src/AppBundle/Controller/AbstractController.php</file>
         </whitelist>
     </filter>
-    
 </phpunit>
