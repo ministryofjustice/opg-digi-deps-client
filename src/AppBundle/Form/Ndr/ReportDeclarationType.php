@@ -21,6 +21,7 @@ class ReportDeclarationType extends AbstractType
                  ->add('agreedBehalfDeputy', FormTypes\ChoiceType::class, [
                     'choices' => array_flip([
                         // api models contains those keys too. Change them accordingly if needed
+                        'not_deputy' => 'agreedBehalfDeputy.not_deputy',
                         'only_deputy' => 'agreedBehalfDeputy.only_deputy',
                         'more_deputies_behalf' => 'agreedBehalfDeputy.more_deputies_behalf',
                         'more_deputies_not_behalf' => 'agreedBehalfDeputy.more_deputies_not_behalf',
