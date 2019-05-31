@@ -32,6 +32,7 @@ Feature: ndr / report submit
             | ndr_declaration_agreedBehalfDeputy_0 |
             | ndr_declaration_agreedBehalfDeputy_1 |
             | ndr_declaration_agreedBehalfDeputy_2 |
+            | ndr_declaration_agreedBehalfDeputy_3 |
             | ndr_declaration_agreedBehalfDeputyExplanation |
         # missing explanation
         When I fill in the following:

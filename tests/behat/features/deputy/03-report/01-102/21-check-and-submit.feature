@@ -33,6 +33,7 @@ Feature: Report submit
             | report_declaration_agreedBehalfDeputy_0 |
             | report_declaration_agreedBehalfDeputy_1 |
             | report_declaration_agreedBehalfDeputy_2 |
+            | report_declaration_agreedBehalfDeputy_3 |
             | report_declaration_agreedBehalfDeputyExplanation |
         #
         # missing explanation
@@ -40,7 +41,7 @@ Feature: Report submit
         #When I check "report_declaration_agree"
         And I fill in the following:
             | report_declaration_agree | 1 |
-            | report_declaration_agreedBehalfDeputy_2 | more_deputies_not_behalf |
+            | report_declaration_agreedBehalfDeputy_3 | more_deputies_not_behalf |
             | report_declaration_agreedBehalfDeputyExplanation |  |
         And I press "report_declaration_save"
         Then the following fields should have an error:
@@ -50,7 +51,7 @@ Feature: Report submit
         #
         When I fill in the following:
             | report_declaration_agree | 1 |
-            | report_declaration_agreedBehalfDeputy_0 | only_deputy |
+            | report_declaration_agreedBehalfDeputy_1 | only_deputy |
             | report_declaration_agreedBehalfDeputyExplanation |  |
         And I press "report_declaration_save"
         Then the form should be valid
@@ -86,7 +87,7 @@ Feature: Report submit
         And I click on "declaration-page"
         And I fill in the following:
             | report_declaration_agree | 1 |
-            | report_declaration_agreedBehalfDeputy_0 | only_deputy |
+            | report_declaration_agreedBehalfDeputy_1 | only_deputy |
             | report_declaration_agreedBehalfDeputyExplanation |  |
         And I press "report_declaration_save"
         Then the form should be valid
