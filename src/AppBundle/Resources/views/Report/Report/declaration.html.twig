@@ -48,7 +48,7 @@
         <div class="text">
             <p>{{ 'page.declarationTerms01' | trans }}</p>
             <p>{{ 'page.declarationTerms02' | trans }}</p>
-            {% if app.user.isLayDeputy %}
+            {% if report.isLayReport %}
                 <p>{{ 'page.declarationTerms03.lay' | trans }}</p>
             {% else %}
                 <p>{{ 'page.declarationTerms03.nonlay.intro' | trans }}</p>
