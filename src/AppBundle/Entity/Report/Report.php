@@ -353,6 +353,16 @@ class Report implements ReportInterface, StartEndDateComparableInterface
     }
 
     /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("is_lay_report")
+     * @JMS\Groups({"report"})
+     */
+    public function isLayReport()
+    {
+        return !($this->hasSection('paDeputyExpenses') || $this->hasSection('profDeputyCosts'));
+    }
+
+    /**
      * @param  string $type
      * @return $this
      */
