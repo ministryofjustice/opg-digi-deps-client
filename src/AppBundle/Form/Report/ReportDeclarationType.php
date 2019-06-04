@@ -13,19 +13,25 @@ class ReportDeclarationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $agreedBehalfChoices = [
+            // api models contains those keys too. Change them accordingly if needed
+            'only_deputy' => 'agreedBehalfDeputy.only_deputy',
+            'more_deputies_behalf' => 'agreedBehalfDeputy.more_deputies_behalf',
+            'more_deputies_not_behalf' => 'agreedBehalfDeputy.more_deputies_not_behalf',
+        ];
+
+        $report = $builder->getData();
+        if (!$report->isLayReport()) {
+            $agreedBehalfChoices = ['not_deputy' => 'agreedBehalfDeputy.not_deputy'] + $agreedBehalfChoices;
+        }
+
         $builder
                 ->add('id', FormTypes\HiddenType::class)
                 ->add('agree', FormTypes\CheckboxType::class, [
                      'constraints' => new NotBlank(['message' => 'report-declaration.agree.notBlank']),
                  ])
                  ->add('agreedBehalfDeputy', FormTypes\ChoiceType::class, [
-                    'choices' => array_flip([
-                        // api models contains those keys too. Change them accordingly if needed
-                        'not_deputy' => 'agreedBehalfDeputy.not_deputy',
-                        'only_deputy' => 'agreedBehalfDeputy.only_deputy',
-                        'more_deputies_behalf' => 'agreedBehalfDeputy.more_deputies_behalf',
-                        'more_deputies_not_behalf' => 'agreedBehalfDeputy.more_deputies_not_behalf',
-                    ]),
+                    'choices' => array_flip($agreedBehalfChoices),
                     'choice_translation_domain' => 'report-declaration',
                     'translation_domain' => 'report-declaration',
                     'expanded' => true,
