@@ -7,7 +7,7 @@ Feature: Report submit
         And I click on "report-start, report-submit, declaration-page"
         And I fill in the following:
             | report_declaration_agree | 1 |
-            | report_declaration_agreedBehalfDeputy_1 | only_deputy |
+            | report_declaration_agreedBehalfDeputy_0 | only_deputy |
             | report_declaration_agreedBehalfDeputyExplanation |  |
         And I press "report_declaration_save"
         Then the form should be valid

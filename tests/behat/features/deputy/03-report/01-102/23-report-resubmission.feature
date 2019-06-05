@@ -102,11 +102,11 @@ Feature: Admin unsubmit report (from client page)
 #    And I press "report_resubmit_save"
     And I click on "declaration-page"
     Then the following fields should have the corresponding values:
-      | report_declaration_agreedBehalfDeputy_1 | only_deputy |
+      | report_declaration_agreedBehalfDeputy_0 | only_deputy |
       | report_declaration_agree                |             |
     When I fill in the following:
       | report_declaration_agree                         | 1           |
-      | report_declaration_agreedBehalfDeputy_1          | only_deputy |
+      | report_declaration_agreedBehalfDeputy_0          | only_deputy |
       | report_declaration_agreedBehalfDeputyExplanation |             |
     And I press "report_declaration_save"
     Then the form should be valid
