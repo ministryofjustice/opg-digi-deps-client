@@ -7,10 +7,21 @@ use Symfony\Component\Form\Extension\Core\Type as FormTypes;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ReportDeclarationType extends AbstractType
 {
+    /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $agreedBehalfChoices = [
@@ -20,8 +31,10 @@ class ReportDeclarationType extends AbstractType
             'more_deputies_not_behalf' => 'agreedBehalfDeputy.more_deputies_not_behalf',
         ];
 
+        $loggedInUser = $this->tokenStorage->getToken()->getUser();
+
         $report = $builder->getData();
-        if (!$report->isLayReport()) {
+        if (!$loggedInUser->isLayDeputy()) {
             $agreedBehalfChoices = ['not_deputy' => 'agreedBehalfDeputy.not_deputy'] + $agreedBehalfChoices;
         }
 
