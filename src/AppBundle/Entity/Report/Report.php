@@ -359,7 +359,8 @@ class Report implements ReportInterface, StartEndDateComparableInterface
      */
     public function isLayReport()
     {
-        return !($this->hasSection('paDeputyExpenses') || $this->hasSection('profDeputyCosts'));
+        $layReportTypes = ['103', '102', '104', '103-4', '102-4'];
+        return in_array($this->getType(), $layReportTypes);
     }
 
     /**
