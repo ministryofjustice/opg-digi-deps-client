@@ -8,7 +8,8 @@
 
         <p class="label">{{ 'page.declarationTerms01' | trans }}</p>
         <p class="label">{{ 'page.declarationTerms02' | trans }}</p>
-        {% if report.isLayReport %}
+
+        {% if submittedBy.isLayDeputy %}
             <p class="label">{{ 'page.declarationTerms03.lay' | trans }}</p>
         {% else %}
             <p class="label">{{ 'page.declarationTerms03.nonLay.intro' | trans }}</p>
