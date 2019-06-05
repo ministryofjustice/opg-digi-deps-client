@@ -61,6 +61,13 @@ class Report implements ReportInterface, StartEndDateComparableInterface
     private $type;
 
     /**
+     * @var bool
+     *
+     * @JMS\Type("boolean")
+     */
+    private $isLayReport;
+
+    /**
      * @JMS\Type("boolean")
      *
      * @var bool
@@ -353,17 +360,6 @@ class Report implements ReportInterface, StartEndDateComparableInterface
     }
 
     /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("is_lay_report")
-     * @JMS\Groups({"report"})
-     */
-    public function isLayReport()
-    {
-        $layReportTypes = ['103', '102', '104', '103-4', '102-4'];
-        return in_array($this->getType(), $layReportTypes);
-    }
-
-    /**
      * @param  string $type
      * @return $this
      */
@@ -372,6 +368,14 @@ class Report implements ReportInterface, StartEndDateComparableInterface
         $this->type = $type;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLayReport()
+    {
+        return $this->isLayReport;
     }
 
     /**
