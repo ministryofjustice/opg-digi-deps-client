@@ -100,6 +100,10 @@ const makeImagePathsAbsoluteInGovUKCSSThenCopy = () => {
         .pipe(gulp.dest(config.webAssets + '/stylesheets'));
 }
 
+const copyGovUKAssets = () => {
+    return gulp.src('node_modules/govuk-frontend/assets/**/*')
+        .pipe(gulp.dest(config.webAssets + '/stylesheets'));
+}
 const copyGovUKFonts = () => {
     return gulp.src('node_modules/govuk_template_mustache/assets/stylesheets/fonts/*')
         .pipe(gulp.dest(config.webAssets + '/stylesheets/fonts'));
@@ -117,6 +121,7 @@ const copyAllImages = () => {
 
 const concatJSThenMinifyAndCopy = () => { // Only minify if prod
     return gulp.src([
+            './node_modules/govuk-frontend/all.js',
             './node_modules/govuk_template_mustache/assets/javascripts/govuk-template.js',
             './node_modules/govuk_frontend_toolkit/javascripts/govuk/show-hide-content.js',
             config.jsSrc + '/govuk/polyfill/*.js',
@@ -158,6 +163,7 @@ gulp.task('default', gulp.series(
         'sass',
         makeImagePathsAbsoluteInGovUKCSSThenCopy,
         copyAllImages,
+        copyGovUKAssets,
         copyGovUKFonts,
         'app-js',
         copyJQuery,
