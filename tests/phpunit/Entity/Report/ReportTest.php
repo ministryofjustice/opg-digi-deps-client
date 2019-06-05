@@ -192,4 +192,23 @@ class ReportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10 + 20 + 30 + 40, $report->getAssetsTotalsSummaryPage('cash'));
         $this->assertEquals(1+2+3+4+5, $report->getAssetsTotalsSummaryPage('other'));
     }
+
+    public function testisLayReport()
+    {
+        $layReportTypes = ['102', '103', '104', '102-4', '103-4'];
+        foreach ($layReportTypes as $reportType)
+        {
+            $report = new Report();
+            $report->setType($reportType);
+            $this->assertEquals($report->isLayReport(), true);
+        }
+
+        $profPaReportTypes = ['102-5', '103-5', '104-5', '102-4-5', '103-4-5', '102-6', '103-6', '104-6', '102-4-6', '103-4-6'];
+        foreach ($profPaReportTypes as $reportType)
+        {
+            $report = new Report();
+            $report->setType($reportType);
+            $this->assertEquals($report->isLayReport(), false);
+        }
+    }
 }
