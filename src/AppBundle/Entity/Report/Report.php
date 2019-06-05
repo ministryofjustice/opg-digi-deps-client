@@ -62,13 +62,6 @@ class Report implements ReportInterface, StartEndDateComparableInterface
     private $type;
 
     /**
-     * @var bool
-     *
-     * @JMS\Type("boolean")
-     */
-    private $isLayReport;
-
-    /**
      * @JMS\Type("boolean")
      *
      * @var bool
@@ -369,14 +362,6 @@ class Report implements ReportInterface, StartEndDateComparableInterface
         $this->type = $type;
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLayReport()
-    {
-        return $this->isLayReport;
     }
 
     /**
