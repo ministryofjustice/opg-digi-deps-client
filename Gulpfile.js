@@ -27,13 +27,7 @@ var config = {
     sassSrc: 'src/AppBundle/Resources/assets/scss',
     viewsSrc: 'src/AppBundle/Resources/views',
     webAssets: 'web/assets/' + now,
-    production: true
 };
-
-const setDevelopment = (done) => { // Non production
-    config.production = false;
-    done();
-}
 
 const cleanAssets = () => { // Clear web assets folder and formatted report css folder
     return del([
@@ -63,10 +57,10 @@ const lintJS = () => { // JS quality control
 
 const CompileFormattedReportSassToCSS = () => {
     return gulp.src(config.sassSrc + '/formatted-report.scss')
-        .pipe(!config.production ? sourcemaps.init() : gutil.noop())
+        .pipe(sourcemaps.init())
         .pipe(sass(config.sass).on('error', sass.logError))
-        .pipe(!config.production ? sourcemaps.write('./') : gutil.noop())
-        .pipe(config.production ? uglifycss() : gutil.noop())
+        .pipe(uglifycss())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.viewsSrc + '/Css'));
 }
 
@@ -84,10 +78,10 @@ const buildApplicationCSSFromSass = () => { // Compile sass files, uglify, copy
     return gulp.src([
         config.sassSrc + '/application.scss',
         config.sassSrc + '/application-print.scss'])
-        .pipe(!config.production ? sourcemaps.init() : gutil.noop())
+        .pipe(sourcemaps.init())
         .pipe(sass(config.sass).on('error', sass.logError))
-        .pipe(!config.production ? sourcemaps.write('./') : gutil.noop())
-        .pipe(config.production ? uglifycss() : gutil.noop())
+        .pipe(uglifycss())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.webAssets + '/stylesheets'));
 };
 
@@ -127,8 +121,10 @@ const concatJSThenMinifyAndCopy = () => { // Only minify if prod
             config.jsSrc + '/govuk/polyfill/*.js',
             config.jsSrc + '/modules/*.js',
             config.jsSrc + '/main.js'])
+        .pipe(sourcemaps.init())
         .pipe(concat('application.js'))
-        .pipe(config.production ? uglify() : gutil.noop())
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.webAssets + '/javascripts'));
 }
 
@@ -171,7 +167,7 @@ gulp.task('default', gulp.series(
     ), checkCSSAccessibility));
 
 // Watch sass, images and js and recompile as Development
-gulp.task('watch', gulp.series(setDevelopment, function () {
+gulp.task('watch', gulp.series(function () {
     gulp.watch([
         config.sassSrc + '/**/*',
         config.sassSrc + '/*',
