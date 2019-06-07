@@ -63,24 +63,11 @@
 
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
-    <div id="skiplink-container">
-      <div>
-        <a href="#content" class="skiplink">Skip to main content</a>
-      </div>
-    </div>
+    <a href="#content" class="govuk-skip-link">Skip to main content</a>
 
-    <div id="global-cookie-message">
-      <div class="outer-block">
-        <div class="inner-block">
-
-
+    <div class="app-cookie-banner">
         {% block cookieMessage %}{% endblock %}
-
-
-        </div>
-      </div>
     </div>
-    <!--end global-cookie-message-->
 
 
     <header class="govuk-header" role="banner" data-module="header">
