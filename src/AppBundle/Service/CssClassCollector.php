@@ -20,7 +20,10 @@ class CssClassCollector extends DataCollector
             foreach(explode(' ', $classList) as $className) {
                 if ($className === '') continue;
 
-                if (substr($className, 0, 4) === 'app-') {
+                if (substr($className, 0, 6) === 'behat-') {
+                    // Ignore behat classes
+                    continue;
+                } else if (substr($className, 0, 4) === 'app-') {
                     $counter = &$appClasses;
                 } else if (substr($className, 0, 6) === 'govuk-') {
                     $counter = &$govukClasses;
