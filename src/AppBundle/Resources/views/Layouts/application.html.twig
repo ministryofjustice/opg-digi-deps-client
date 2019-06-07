@@ -194,18 +194,21 @@
 
 {% endblock %}
 
-
-{% block footerTop %}{% endblock %}
-
 {% block footerSupportLinks %}
-    <li>
-        <a href="{{path('terms')}}">Terms of use</a>
+    <li class="govuk-footer__inline-list-item">
+        <a href="{{path('terms')}}" class="govuk-footer__link">
+            Terms of use
+        </a>
     </li>
-    <li>
-        <a href="{{path('privacy')}}">Privacy notice</a>
+    <li class="govuk-footer__inline-list-item">
+        <a href="{{path('privacy')}}" class="govuk-footer__link">
+            Privacy notice
+        </a>
     </li>
-    <li>
-        <a href="https://www.gov.uk/help/cookie-details">Cookies</a>
+    <li class="govuk-footer__inline-list-item">
+        <a href="https://www.gov.uk/help/cookie-details" class="govuk-footer__link">
+            Cookies
+        </a>
     </li>
 {% endblock %}
 
