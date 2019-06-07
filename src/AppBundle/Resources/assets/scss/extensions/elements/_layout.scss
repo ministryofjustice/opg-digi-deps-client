@@ -4,13 +4,29 @@
 // Content
 // ==========================================================================
 
-#content {
+.app-wrapper {
 	position: relative;
 }
 
 // Wider layout
 
 $wider: 1200px;
+
+.app-width-container--wider {
+    @include media(desktop) {
+        max-width: $wider;
+    }
+
+    @include media($min-width: 1020px) {
+        margin-left: $gutter;
+        margin-right: $gutter;
+    }
+
+    @include media($min-width: 1260px) {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
 
 @include media(desktop) {
     #global-header {

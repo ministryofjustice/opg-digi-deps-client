@@ -71,7 +71,7 @@
 
 
     <header class="govuk-header" role="banner" data-module="header">
-      <div class="govuk-header__container govuk-width-container">
+      <div class="govuk-header__container govuk-width-container {% if env == 'admin' %}app-width-container--wider{% endif %}">
         <div class="govuk-header__logo">
             <a href="#" class="govuk-header__link govuk-header__link--homepage">
                 <span class="govuk-header__logotype">
@@ -91,14 +91,22 @@
         </div>
       </div>
     </header>
-    <!--end header-->
 
-    {% block beforeContent %}{% endblock %}
+    <div class="govuk-phase-banner govuk-width-container {% if env == 'admin' %}app-width-container--wider{% endif %}">
+        <p class="govuk-phase-banner__content">
+            <strong class="govuk-tag govuk-phase-banner__content__tag ">
+                beta
+            </strong>
+            <span class="govuk-phase-banner__text">
+                This is a new service – your <a class="govuk-link" href="{{ feedbackUrl }}">feedback</a> will help us to improve it.
+            </span>
+        </p>
+    </div>
 
-    <div id="wrapper" class="group">
-      <main id="content" class="{% if env == 'admin' %}wider{% endif %}">
-       {% block content %}{% endblock %}
-   </main>
+    <div class="govuk-width-container {% if env == 'admin' %}app-width-container--wider{% endif %}">
+        <main class="govuk-main-wrapper app-wrapper" role="main">
+            {% block content %}{% endblock %}
+        </main>
     </div>
 
     <footer class="group js-footer" id="footer">
