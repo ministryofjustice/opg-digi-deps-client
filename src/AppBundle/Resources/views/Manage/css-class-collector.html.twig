@@ -60,18 +60,20 @@
 {% block panel %}
     <h2>GovUK classes</h2>
     <table>
-        {% for class in collector.data.govuk %}
+        {% for class, count in collector.data.govuk %}
         <tr>
             <td>{{ class }}</td>
+            <td>{{ count }}</td>
         </tr>
         {% endfor %}
     </table>
 
     <h2>Other classes</h2>
     <table>
-        {% for class in collector.data.other %}
+        {% for class, count in collector.data.other %}
         <tr>
             <td>{{ class }}</td>
+            <td>{{ count }}</td>
         </tr>
         {% endfor %}
     </table>
