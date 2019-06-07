@@ -23,11 +23,11 @@
           scrollTop = $(window).scrollTop();
 
           if (scrollTop >= sidebarOffset) {
-            $('.js-sidebar').addClass('sidebar-fix-top');
+            $('.js-sidebar').addClass('app-related-items--fixed');
           }
 
           if (scrollTop < sidebarOffset) {
-            $('.js-sidebar').removeClass('sidebar-fix-top');
+            $('.js-sidebar').removeClass('app-related-items--fixed');
           }
 
         });

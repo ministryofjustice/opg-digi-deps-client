@@ -2,13 +2,18 @@
 // RELATED
 // Govuk related resources (aside)
 
-.govuk-related-items {
-    padding-top: 5px;
+.app-related-items {
+    padding-top: 10px;
     border-top: 10px solid $link-colour;
 
-    .list {
+    .govuk-list {
         li {
-            margin-bottom: .75em;
+            margin-bottom: 10px;
         }
     }
+}
+
+.app-related-items--fixed {
+    position: fixed;
+    top: 1em;
 }
