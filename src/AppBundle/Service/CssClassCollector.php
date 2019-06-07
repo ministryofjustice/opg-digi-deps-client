@@ -9,11 +9,38 @@ class CssClassCollector extends DataCollector
 {
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
+        $content = $response->getContent();
+        $govukClasses = [];
+        $otherClasses = [];
+
+        preg_match_all('/class=("|\')(.+?)\1/', $response->getContent(), $matches);
+
+        foreach($matches[2] as $classList) {
+            foreach(explode(' ', $classList) as $className) {
+                if ($className === '') continue;
+
+                if (substr($className, 0, 6) === 'govuk-') {
+                    $counter = &$govukClasses;
+                } else {
+                    $counter = &$otherClasses;
+                }
+
+                if (array_key_exists($className, $counter)) {
+                    $counter[$className]++;
+                } else {
+                    $counter[$className] = 1;
+                }
+            }
+        }
+
+        arsort($govukClasses);
+        arsort($otherClasses);
+
         $this->data = [
-            'govuk_count' => 16,
-            'other_count' => 4,
-            'govuk' => ['grehe', 'whwh', 'hehe'],
-            'other' => ['grehe', 'whwh', 'hehe'],
+            'govuk_count' => count($govukClasses),
+            'other_count' => count($otherClasses),
+            'govuk' => $govukClasses,
+            'other' => $otherClasses,
         ];
     }
 
