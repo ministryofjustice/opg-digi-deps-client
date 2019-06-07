@@ -10,6 +10,7 @@ class CssClassCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $content = $response->getContent();
+        $appClasses = [];
         $govukClasses = [];
         $otherClasses = [];
 
@@ -19,7 +20,9 @@ class CssClassCollector extends DataCollector
             foreach(explode(' ', $classList) as $className) {
                 if ($className === '') continue;
 
-                if (substr($className, 0, 6) === 'govuk-') {
+                if (substr($className, 0, 4) === 'app-') {
+                    $counter = &$appClasses;
+                } else if (substr($className, 0, 6) === 'govuk-') {
                     $counter = &$govukClasses;
                 } else {
                     $counter = &$otherClasses;
@@ -33,10 +36,12 @@ class CssClassCollector extends DataCollector
             }
         }
 
+        arsort($appClasses);
         arsort($govukClasses);
         arsort($otherClasses);
 
         $this->data = [
+            'app' => $appClasses,
             'govuk' => $govukClasses,
             'other' => $otherClasses,
         ];

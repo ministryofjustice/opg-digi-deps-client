@@ -1,7 +1,7 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
 {% block toolbar %}
-    {% if collector.data.other | length > collector.data.govuk | length %}
+    {% if collector.data.other | length > (collector.data.app | length + collector.data.govuk | length) %}
         {% set status_colour = 'red' %}
     {% elseif collector.data.other | length > 0 %}
         {% set status_colour = 'yellow' %}
@@ -31,6 +31,10 @@
         <div class="sf-toolbar-info-piece">
             <b>GovUK CSS classes</b>
             <span class="sf-toolbar-status">{{ collector.data.govuk | length }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>App CSS classes</b>
+            <span class="sf-toolbar-status">{{ collector.data.app | length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Other CSS classes</b>
@@ -65,23 +69,45 @@
 {% endblock %}
 
 {% block panel %}
-    <h2>GovUK classes</h2>
-    <table>
-        {% for class, count in collector.data.govuk %}
-        <tr>
-            <td>{{ class }}</td>
-            <td>{{ count }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <details open>
+        <summary>
+            <h2>GovUK classes</h2>
+        </summary>
+        <table>
+            {% for class, count in collector.data.govuk %}
+            <tr>
+                <td>{{ class }}</td>
+                <td class="text-right">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </details>
 
-    <h2>Other classes</h2>
-    <table>
-        {% for class, count in collector.data.other %}
-        <tr>
-            <td>{{ class }}</td>
-            <td>{{ count }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <details open>
+        <summary>
+            <h2>App classes</h2>
+        </summary>
+        <table>
+            {% for class, count in collector.data.app %}
+            <tr>
+                <td>{{ class }}</td>
+                <td class="text-right">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </details>
+
+    <details open>
+        <summary>
+            <h2>Other classes</h2>
+        </summary>
+        <table>
+            {% for class, count in collector.data.other %}
+            <tr>
+                <td>{{ class }}</td>
+                <td class="text-right">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </details>
 {% endblock %}
