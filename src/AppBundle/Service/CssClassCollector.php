@@ -37,8 +37,6 @@ class CssClassCollector extends DataCollector
         arsort($otherClasses);
 
         $this->data = [
-            'govuk_count' => count($govukClasses),
-            'other_count' => count($otherClasses),
             'govuk' => $govukClasses,
             'other' => $otherClasses,
         ];

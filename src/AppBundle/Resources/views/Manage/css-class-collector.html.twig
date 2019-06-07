@@ -1,9 +1,16 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
 {% block toolbar %}
-    {% set status_colour = collector.data.other_count > 0 ? 'yellow' : '' %}
+    {% if collector.data.other | length > collector.data.govuk | length %}
+        {% set status_colour = 'red' %}
+    {% elseif collector.data.other | length > 0 %}
+        {% set status_colour = 'yellow' %}
+    {% else %}
+        {% set status_colour = '' %}
+    {% endif %}
+
     {% set icon %}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 32" width="24" height="24">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 32" width="24" height="24" style="fill: white;">
             <path d="M15.403,21h4.58c1.053,0,1.909-0.856,2.017-1.909V1.909C21.892,0.856,21.036,0,19.983,0H2.017
                 C0.964,0,0.108,0.856,0,1.909v17.182C0.108,20.144,0.964,21,2.017,21h4.962c0.348,0,2.083,0.074,2.083,1.542
                 c0,2.622-0.553,3.842-0.762,4.302l-0.049,0.109l0.403,0.174v0.013l-0.447-0.09c-0.017,0.033-0.03,0.068-0.038,0.104
@@ -17,17 +24,17 @@
                 C10.062,20.535,8.125,20,6.95,20c0,0,0,0-0.001,0H2.017C1.516,20,1.108,19.592,1,19.091V17h20v2.091
                 C20.892,19.592,20.484,20,19.983,20h-4.58C12.906,20,12,21.521,12,22.542C12,25.717,12.535,26.729,12.792,27.214z"/>
         </svg>
-        <span class="sf-toolbar-value">{{ collector.data.other_count }}</span>
+        <span class="sf-toolbar-value">{{ collector.data.other | length }}</span>
     {% endset %}
 
     {% set text %}
         <div class="sf-toolbar-info-piece">
             <b>GovUK CSS classes</b>
-            <span class="sf-toolbar-status">{{ collector.data.govuk_count }}</span>
+            <span class="sf-toolbar-status">{{ collector.data.govuk | length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Other CSS classes</b>
-            <span class="sf-toolbar-status sf-toolbar-status-{{ collector.data.other_count > 0 ? 'red' }}">{{ collector.data.other_count }}</span>
+            <span class="sf-toolbar-status sf-toolbar-status-{{ collector.data.other | length > 0 ? 'red' }}">{{ collector.data.other | length }}</span>
         </div>
     {% endset %}
 
