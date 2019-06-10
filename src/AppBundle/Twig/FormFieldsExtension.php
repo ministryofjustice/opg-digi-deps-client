@@ -294,7 +294,7 @@ class FormFieldsExtension extends \Twig_Extension
     public function renderFormErrors(Twig_Environment $env, $element)
     {
         $html = $env->render('AppBundle:Components/Form:_errors.html.twig', [
-            'errors' => $element->vars['errors'],
+            'element' => $element,
         ]);
 
         echo $html;

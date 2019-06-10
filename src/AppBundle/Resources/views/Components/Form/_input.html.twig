@@ -11,7 +11,7 @@
     {% endif %}
 
     {% if (hintText is defined) and (hintText is not empty) %}
-        <span class="govuk-hint">
+        <span class="govuk-hint" id="{{ element.vars.id }}-hint">
             {{ hintText }}
         </span>
         {% if hintListArray is defined and hintListArray is not empty %}
@@ -36,9 +36,20 @@
     {% endif %}
 
     {% if element.vars.valid %}
-        {{ form_widget(element, { 'attr': {'class': class } }) }}
+        {{ form_widget(element, {
+            'attr': {
+                'class': class,
+                'aria-describedby': element.vars.id ~ '-hint',
+            }
+        }) }}
     {% else %}
-        {{ form_widget(element, { 'attr': {'class': class ~ ' govuk-input--error', 'aria-invalid':'true' } }) }}
+        {{ form_widget(element, {
+            'attr': {
+                'class': class ~ ' govuk-input--error',
+                'aria-invalid': 'true',
+                'aria-describedby': element.vars.id ~ '-hint ' ~ element.vars.id ~ '-error',
+            }
+        }) }}
     {% endif %}
 
 </div>

@@ -1,6 +1,6 @@
-<span class="govuk-error-message">
+<span class="govuk-error-message" id="{{ element.vars.id }}-error">
     <span class="govuk-visually-hidden">Error:</span>
-    {% for error in errors %}
+    {% for error in element.vars.errors %}
         {% if not loop.first %}<br>{% endif %}
         {{ error.message }}
     {% endfor %}
