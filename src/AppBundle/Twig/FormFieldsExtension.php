@@ -27,6 +27,7 @@ class FormFieldsExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('form_input', [$this, 'renderFormInput'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('form_submit', [$this, 'renderFormSubmit'], ['needs_environment' => true]),
+            new \Twig_SimpleFunction('form_errors', [$this, 'renderFormErrors'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('form_errors_list', [$this, 'renderFormErrorsList'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('form_select', [$this, 'renderFormDropDown'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('form_known_date', [$this, 'renderFormKnownDate'], ['needs_environment' => true]),
@@ -280,6 +281,21 @@ class FormFieldsExtension extends \Twig_Extension
         }
 
         $html = $env->render('AppBundle:Components/Form:_button.html.twig', $options);
+
+        echo $html;
+    }
+
+    /**
+     * get individual field errors and render them inside the field
+     * Usage: {{ form_errors(element) }}.
+     *
+     * @param $element
+     */
+    public function renderFormErrors(Twig_Environment $env, $element)
+    {
+        $html = $env->render('AppBundle:Components/Form:_errors.html.twig', [
+            'errors' => $element->vars['errors'],
+        ]);
 
         echo $html;
     }
