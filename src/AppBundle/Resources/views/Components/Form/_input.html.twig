@@ -25,7 +25,8 @@
 
     {{ form_errors(element) }}
 
-    {% set class = element.vars.attr.class | default('') ~ ' govuk-input govuk-!-width-one-half ' ~ inputClass | default('') %}
+    {% set inputType = multiline ? 'textarea' : 'input' %}
+    {% set class = element.vars.attr.class | default('') ~ ' govuk-' ~ inputType ~ ' govuk-!-width-one-half ' ~ inputClass | default('') %}
 
     {% if (preInputText is defined) and (preInputText is not empty) %}
         <span class="app-pre-input-text">{{ preInputText }}</span>
@@ -45,7 +46,7 @@
     {% else %}
         {{ form_widget(element, {
             'attr': {
-                'class': class ~ ' govuk-input--error',
+                'class': class ~ ' govuk-' ~ inputType ~ '--error',
                 'aria-invalid': 'true',
                 'aria-describedby': element.vars.id ~ '-hint ' ~ element.vars.id ~ '-error',
             }

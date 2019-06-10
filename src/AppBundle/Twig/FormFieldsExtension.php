@@ -51,7 +51,10 @@ class FormFieldsExtension extends \Twig_Extension
         //generate input field html using variables supplied
         echo $env->render(
             'AppBundle:Components/Form:_input.html.twig',
-            $this->getFormComponentTwigVariables($element, $elementName, $vars, $transIndex)
+            array_merge(
+                $this->getFormComponentTwigVariables($element, $elementName, $vars, $transIndex),
+                ['multiline' => in_array('textarea', $element->vars['block_prefixes'])]
+            )
         );
     }
 
