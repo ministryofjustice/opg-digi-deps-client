@@ -118,38 +118,50 @@
 {% macro notification(alertType,message) %}
     {% if alertType is defined %}
         {% if alertType == 'notice' %}
-            <div class="alert-notice panel panel-border-narrow">
-                <span class="icon icon-notification"></span>
-                <div class="behat-region-alert-message alert-message"><p>{{ message | raw }}</p></div>
+            <div class="app-alert app-alert--notice">
+                <span class="app-alert__icon app-icon--notification"></span>
+                <div class="behat-region-alert-message app-alert__message">
+                    {{ message | raw }}
+                </div>
             </div>
         {% elseif alertType == 'success' %}
-            <div class="alert-success panel panel-border-narrow">
-                <span class="icon icon-tick"></span>
-                <div class="behat-region-alert-message alert-message"><p>{{ message | raw }}</p></div>
+            <div class="app-alert app-alert--success">
+                <span class="app-alert__icon app-icon--tick"></span>
+                <div class="behat-region-alert-message app-alert__message">
+                    {{ message | raw }}
+                </div>
             </div>
         {% elseif alertType == 'error' %}
-            <div class="alert-error panel panel-border-narrow">
-                <span class="icon icon-cross"></span>
-                <div class="behat-region-alert-message alert-message"><p>{{ message | raw }}</p></div>
+            <div class="app-alert app-alert--error">
+                <span class="app-alert__icon app-icon--cross"></span>
+                <div class="behat-region-alert-message app-alert__message">
+                    {{ message | raw }}
+                </div>
             </div>
         {% elseif alertType == 'info' %}
-            <div class="alert-info panel panel-border-narrow">
-                <span class="icon icon-information"></span>
-                <div class="behat-region-alert-message alert-message"><p>{{ message | raw }}</p></div>
+            <div class="app-alert app-alert--info">
+                <span class="app-alert__icon app-icon--information"></span>
+                <div class="behat-region-alert-message app-alert__message">
+                    {{ message | raw }}
+                </div>
             </div>
         {% elseif alertType == 'important' %}
-            <div class="alert-important panel panel-border-narrow">
-                <span class="icon icon-important-small"></span>
-                <div class="behat-region-alert-message alert-message"><p>{{ message | raw }}</p></div>
+            <div class="app-alert app-alert--important">
+                <span class="app-alert__icon app-icon--important-small"></span>
+                <div class="behat-region-alert-message app-alert__message">
+                    {{ message | raw }}
+                </div>
             </div>
         {% else %}
-            <div class="alert panel panel-border-narrow">
-                <div class="behat-region-alert-message alert-message"><p>{{ message | raw }}</p></div>
+            <div class="app-alert">
+                <div class="behat-region-alert-message app-alert__message">
+                    {{ message | raw }}
+                </div>
             </div>
         {% endif %}
     {% else %}
-        <div class="alert panel panel-border-narrow">
-            <div class="behat-region-alert-message alert-message">
+        <div class="app-alert">
+            <div class="behat-region-alert-message app-alert__message">
                 <p>{{ message | raw }}</p>
             </div>
         </div>
