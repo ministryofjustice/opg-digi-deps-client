@@ -2,6 +2,24 @@
 // BUTTONS
 // Buttons and links
 
+.app-button--link {
+    background-color: transparent;
+    box-shadow: none;
+    color: $govuk-link-colour !important;
+    text-decoration: underline !important;
+}
+
+.app-button--link:hover {
+    background-color: transparent;
+    color: $govuk-link-hover-colour !important;
+}
+
+.app-button--link:active, .app-button--link:focus {
+    top: initial;
+    background-color: transparent;
+    color: $govuk-link-active-colour !important;
+}
+
 .button-secondary {
     @include button($grey-3);
 
