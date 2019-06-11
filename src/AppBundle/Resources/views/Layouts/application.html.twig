@@ -180,10 +180,14 @@
         {% endfor %}
     {% endblock %}
 
-    <h1 class="{% block pageTitleClass %}govuk-heading-xl{% endblock %}">
-        {% block supportTitleTop %}{% endblock %}
+    <h1 class="govuk-heading-xl">
+        {% if block("supportTitleTop") is defined and block("supportTitleTop") != "" %}
+            <span class="govuk-caption-l">{% block supportTitleTop %}{% endblock %}</span>
+        {% endif %}
         {% block pageTitle %} Deputy report {% endblock %}
-        {% block supportTitleBottom %}{% endblock %}
+        {% if block("supportTitleBottom") is defined and block("supportTitleBottom") != "" %}
+            <span class="govuk-caption-l">{% block supportTitleBottom %}{% endblock %}</span>
+        {% endif %}
     </h1>
 
     {% block progressBar %}{% endblock %}
