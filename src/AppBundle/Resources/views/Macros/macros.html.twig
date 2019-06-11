@@ -2,24 +2,28 @@
     {% set isUserNdrEnabled = app.user.isNdrEnabled() %}
     {% set isOrgUser = app.user.isDeputyOrg() %}
 
-    <div class="breadcrumbs hard--bottom">
-        <ol class="group">
-            <li>
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
                 {% if isOrgUser %}
-                    <a href="{{ path('org_dashboard') }}">{{ 'dashboard' | trans({}, 'common' ) }}</a>
+                    <a href="{{ path('org_dashboard') }}" class="govuk-breadcrumbs__link">
+                        {{ 'dashboard' | trans({}, 'common' ) }}
+                    </a>
                 {% else %}
-                    <a href="{{ path('homepage') }}">{{ 'yourReports' | trans({}, 'common' ) }}</a>
+                    <a href="{{ path('homepage') }}" class="govuk-breadcrumbs__link">
+                        {{ 'yourReports' | trans({}, 'common' ) }}
+                    </a>
                 {% endif %}
             </li>
-            <li>
+            <li class="govuk-breadcrumbs__list-item">
                 {% if report.type == 'ndr' %}
-                    <a href="{{ path('ndr_overview', {'ndrId': report.id}) }}" class="behat-link-breadcrumbs-ndr-overview">
+                    <a href="{{ path('ndr_overview', {'ndrId': report.id}) }}" class="govuk-breadcrumbs__link behat-link-breadcrumbs-ndr-overview">
                         {{ 'newDeputyReportOverview' | trans({}, 'common' ) }}
                     </a>
 
                 {% else %}
                     <a href="{{ path('report_overview', {'reportId': report.id}) }}"
-                       class="behat-link-breadcrumbs-report-overview">
+                       class="govuk-breadcrumbs__link behat-link-breadcrumbs-report-overview">
                         {% if isOrgUser %}
                             {{ 'clientProfile' | trans({}, 'common' ) }}
                         {% else %}
@@ -33,51 +37,69 @@
 {% endmacro %}
 
 {% macro homepage() %}
-    <div class="breadcrumbs hard--bottom">
-        <ol class="group">
-            <li><a href="{{ path('homepage') }}">Your reports</a></li>
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a href="{{ path('homepage') }}" class="govuk-breadcrumbs__link">
+                    Your reports
+                </a>
+            </li>
         </ol>
     </div>
 {% endmacro %}
 
 {% macro breadcrumbsSettings(section) %}
-    <div class="breadcrumbs hard--bottom">
-    <ol class="group">
-        {% if app.user.isDeputyOrg() %}
-            <li>
-                <a href="{{ path('org_dashboard') }}">Dashboard</a>
-            </li>
-            {% if 'settings' in section and section != 'settings' %}
-                <li>
-                    <a href="{{ path('org_settings') }}">Settings</a>
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            {% if app.user.isDeputyOrg() %}
+                <li class="govuk-breadcrumbs__list-item">
+                    <a href="{{ path('org_dashboard') }}" class="govuk-breadcrumbs__link">
+                        Dashboard
+                    </a>
                 </li>
-            {% endif %}
-            {% if 'team' in section and section != 'settings-team' %}
-                <li>
-                    <a href="{{ path('org_team') }}">User accounts</a>
+                {% if 'settings' in section and section != 'settings' %}
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a href="{{ path('org_settings') }}" class="govuk-breadcrumbs__link">
+                            Settings
+                        </a>
+                    </li>
+                {% endif %}
+                {% if 'team' in section and section != 'settings-team' %}
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a href="{{ path('org_team') }}" class="govuk-breadcrumbs__link">
+                            User accounts
+                        </a>
+                    </li>
+                {% endif %}
+                {% if section == 'settings-profile-edit' %}
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a href="{{ path('org_profile_show') }}" class="govuk-breadcrumbs__link">
+                            Your details
+                        </a>
+                    </li>
+                {% endif %}
+            {% else %}
+                <li class="govuk-breadcrumbs__list-item">
+                    <a href="{{ path('lay_home') }}" class="govuk-breadcrumbs__link">
+                        Deputy reports
+                    </a>
                 </li>
+                {% if 'settings' in section and section != 'settings' %}
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a href="{{ path('account_settings') }}" class="govuk-breadcrumbs__link">
+                            Deputyship details
+                        </a>
+                    </li>
+                {% endif %}
+                {% if section == 'settings-profile-edit' %}
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a href="{{ path('user_show') }}" class="govuk-breadcrumbs__link">
+                            Your details
+                        </a>
+                    </li>
+                {% endif %}
             {% endif %}
-            {% if section == 'settings-profile-edit' %}
-                <li>
-                    <a href="{{ path('org_profile_show') }}">Your details</a>
-                </li>
-            {% endif %}
-        {% else %}
-            <li>
-                <a href="{{ path('lay_home') }}">Deputy reports</a>
-            </li>
-            {% if 'settings' in section and section != 'settings' %}
-                <li>
-                    <a href="{{ path('account_settings') }}">Deputyship details</a>
-                </li>
-            {% endif %}
-            {% if section == 'settings-profile-edit' %}
-                <li>
-                    <a href="{{ path('user_show') }}">Your details</a>
-                </li>
-            {% endif %}
-        {% endif %}
-    </ol>
+        </ol>
     </div>
 {% endmacro %}
 
