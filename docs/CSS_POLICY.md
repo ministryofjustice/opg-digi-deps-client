@@ -13,6 +13,7 @@ Where possible, **GOV.UK Design System components and patterns should be used**.
 
 Where the GOV.UK Design System does not meet our needs, we _may_ write custom CSS for the DigiDeps app. When doing so, the following rules should be followed:
 
+- Reusable components should be designed as Twig templates or macros, so they can easily be updated in the future
 - CSS should use classes, rather than IDs, attributes or tag selectors
 - All custom CSS classes should be prefixed `app-`, to differentiate them from GOV.UK classes which are prefixed `govuk-`
 - [Block, Element, Modifier (BEM)][bem] CSS methodology should be used
