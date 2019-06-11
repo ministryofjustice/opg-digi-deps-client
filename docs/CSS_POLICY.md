@@ -9,7 +9,7 @@ We use the [GOVUK.UK Design System][govuk-ds] to provide as much as our styling 
 
 Where possible, **GOV.UK Design System components and patterns should be used**.
 
-## Custom app CSS
+## Custom app CSS
 
 Where the GOV.UK Design System does not meet our needs, we _may_ write custom CSS for the DigiDeps app. When doing so, the following rules should be followed:
 
@@ -21,6 +21,33 @@ Where the GOV.UK Design System does not meet our needs, we _may_ write custom CS
 
 These rules keep our custom CSS close to the GOV.UK Design System, making code easier to review and maintain, and easing our route to new components when they are released.
 
+## Specific cases
+
+### Radio buttons with revealed content
+
+In some situations, we use radio buttons to conditionally reveal content ([GOV.UK Design System example][conditional-radios]). Previously we defined all the revealed content under the radio buttons, and passed an ID to the radio button/checkbox template.
+
+This functionality is now properly supported by the GOV.UK Design System, and requires the conditional content to be _between_ the radio buttons. To enable this, the conditional content should be defined as a Twig variable and that variable should be passed to the template with the `conditional` setting:
+
+```twig
+{% set conditional_email_address %}
+    {{ form_input(form.email, (page ~ '.form.email')) }}
+{% endset %}
+
+{% set conditional_phone %}
+    {{ form_input(form.phone, (page ~ '.form.phone')) }}
+{% endset %}
+
+{{ form_checkbox_group(form.howContact, (page ~ '.form.howContact'), {
+    'legendText' : (page ~ '.form.howContact.label') | trans(transOptions, translationDomain),
+    'items': [
+        {'conditional': conditional_email_address},
+        {'conditional': conditional_phone}
+    ]
+}) }}
+```
+
 [govuk-ds]: https://design-system.service.gov.uk/
 [govuk-ds-variables]: https://github.com/alphagov/govuk-frontend/tree/master/src/settings
 [bem]: https://css-tricks.com/bem-101/
+[conditional-radios]: https://design-system.service.gov.uk/components/radios/#conditionally-revealing-content
