@@ -70,7 +70,10 @@ class FormFieldsExtension extends \Twig_Extension
     {
         echo $env->render(
             'AppBundle:Components/Form:_checkbox.html.twig',
-            $this->getFormComponentTwigVariables($element, $elementName, $vars, $transIndex)
+            array_merge(
+                $this->getFormComponentTwigVariables($element, $elementName, $vars, $transIndex),
+                ['type' => in_array('radio', $element->vars['block_prefixes']) ? 'radio' : 'checkbox']
+            )
         );
     }
 
