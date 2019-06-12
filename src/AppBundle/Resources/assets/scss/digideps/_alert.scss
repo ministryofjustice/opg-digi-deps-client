@@ -6,39 +6,39 @@
     @include govuk-focusable;
     max-width: 30em;
     border-left: 5px solid transparent;
-}
 
-.app-alert__icon {
-    float: left;
-    margin-right: 10px;
-}
+    &__icon {
+        float: left;
+        margin-right: 10px;
+    }
 
-.app-alert__message {
-    overflow: hidden;
-}
+    &__message {
+        overflow: hidden;
+    }
 
-.app-alert--notice {
-    background-color: rgba($border-colour, .1);
-}
+    &--notice {
+        background-color: rgba($border-colour, .1);
+    }
 
-.app-alert--success {
-    border-color: $turquoise;
-    background-color: rgba($turquoise, .1);
-}
+    &--success {
+        border-color: $turquoise;
+        background-color: rgba($turquoise, .1);
+    }
 
-.app-alert--error {
-    border-color: $error-colour;
-    background-color: rgba($error-colour, .1);
-}
+    &--error {
+        border-color: $error-colour;
+        background-color: rgba($error-colour, .1);
+    }
 
-.app-alert--info {
-    border-color: $light-blue;
-    background-color: rgba($light-blue, .1);
-}
+    &--info {
+        border-color: $light-blue;
+        background-color: rgba($light-blue, .1);
+    }
 
-.app-alert--important {
-    border-color: $black;
-    background-color: rgba($grey-3, .3);
+    &--important {
+        border-color: $black;
+        background-color: rgba($grey-3, .3);
+    }
 }
 
 %alert-base {

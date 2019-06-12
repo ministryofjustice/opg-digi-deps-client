@@ -7,18 +7,19 @@
     box-shadow: none;
     color: $govuk-link-colour !important;
     text-decoration: underline !important;
+
+    &:hover {
+        background-color: transparent;
+        color: $govuk-link-hover-colour !important;
+    }
+
+    &:active, &:focus {
+        top: initial;
+        background-color: transparent;
+        color: $govuk-link-active-colour !important;
+    }
 }
 
-.app-button--link:hover {
-    background-color: transparent;
-    color: $govuk-link-hover-colour !important;
-}
-
-.app-button--link:active, .app-button--link:focus {
-    top: initial;
-    background-color: transparent;
-    color: $govuk-link-active-colour !important;
-}
 
 .button-secondary {
     @include button($grey-3);

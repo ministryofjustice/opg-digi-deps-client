@@ -11,9 +11,11 @@
             margin-bottom: 10px;
         }
     }
+
+    &--fixed {
+        position: fixed;
+        top: 1em;
+    }
 }
 
-.app-related-items--fixed {
-    position: fixed;
-    top: 1em;
-}
+
