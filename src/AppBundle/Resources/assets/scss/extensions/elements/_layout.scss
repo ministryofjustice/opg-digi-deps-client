@@ -4,7 +4,7 @@
 // Content
 // ==========================================================================
 
-.app-wrapper {
+.opg-main-wrapper {
 	position: relative;
 }
 
@@ -12,7 +12,7 @@
 
 $wider: 1200px;
 
-.app-width-container--wider {
+.opg-width-container--wider {
     @include media(desktop) {
         max-width: $wider;
     }

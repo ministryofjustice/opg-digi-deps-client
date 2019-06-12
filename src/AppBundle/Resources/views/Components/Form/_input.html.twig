@@ -29,11 +29,11 @@
     {% set class = element.vars.attr.class | default('') ~ ' govuk-' ~ inputType ~ ' govuk-!-width-one-half ' ~ inputClass | default('') %}
 
     {% if (preInputText is defined) and (preInputText is not empty) %}
-        <span class="app-pre-input-text">{{ preInputText }}</span>
+        <span class="opg-pre-input-text">{{ preInputText }}</span>
     {% endif %}
 
     {% if inputPrefix is defined and inputPrefix is not empty %}
-        <span class="app-input-prefix">{{ inputPrefix }}</span>
+        <span class="opg-input-prefix">{{ inputPrefix }}</span>
     {% endif %}
 
     {% if element.vars.valid %}

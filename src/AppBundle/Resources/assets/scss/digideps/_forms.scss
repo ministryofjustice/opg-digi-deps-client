@@ -12,13 +12,6 @@ input[type=text]::-ms-clear {
     textarea.form-control {
         height: 7em;
     }
-
-    .pre-input-text {
-        @include core-36(1.5);
-        height: 39px;
-        padding-right: 10px;
-        float: left;
-    }
 }
 
 .form-label {
@@ -31,7 +24,7 @@ input[type=text]::-ms-clear {
     }
 }
 
-.app-input-prefix {
+.opg-input-prefix {
     position: absolute;
     z-index: 1;
     width: 10px;
@@ -50,7 +43,7 @@ input[type=text]::-ms-clear {
     }
 }
 
-.app-pre-input-text {
+.opg-pre-input-text {
     float: left;
     padding-right: 10px;
     font-size: 24px;

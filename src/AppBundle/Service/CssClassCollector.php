@@ -23,7 +23,7 @@ class CssClassCollector extends DataCollector
                 if (substr($className, 0, 6) === 'behat-') {
                     // Ignore behat classes
                     continue;
-                } else if (substr($className, 0, 4) === 'app-') {
+                } else if (substr($className, 0, 4) === 'opg-') {
                     $counter = &$appClasses;
                 } else if (substr($className, 0, 6) === 'govuk-') {
                     $counter = &$govukClasses;

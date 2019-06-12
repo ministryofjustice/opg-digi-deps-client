@@ -23,11 +23,11 @@
           scrollTop = $(window).scrollTop();
 
           if (scrollTop >= sidebarOffset) {
-            $('.js-sidebar').addClass('app-related-items--fixed');
+            $('.js-sidebar').addClass('opg-related-items--fixed');
           }
 
           if (scrollTop < sidebarOffset) {
-            $('.js-sidebar').removeClass('app-related-items--fixed');
+            $('.js-sidebar').removeClass('opg-related-items--fixed');
           }
 
         });

@@ -2,7 +2,7 @@
 {% if linkClass is defined %}
     {% set class = 'govuk-button ' ~ linkClass %}
 {% else %}
-    {% set class = 'govuk-button app-button--link' %}
+    {% set class = 'govuk-button opg-button--link' %}
 {% endif %}
 <a href="{{ linkHref|default('#link-button-href-not-defined') }}"
    {% if linkId is defined %} id="{{ linkId }}" {% endif %}
