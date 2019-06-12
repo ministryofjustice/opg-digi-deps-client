@@ -1,7 +1,6 @@
 // =======================================================
 // ALERT
 .app-alert {
-    $alert-color: transparent;
     @include govuk-responsive-padding(4);
     @include govuk-responsive-margin(8, "bottom");
     @include govuk-focusable;
