@@ -16,6 +16,8 @@ export PGDATABASE=${API_DATABASE_NAME:=api}
 export PGUSER=${API_DATABASE_USERNAME:=api}
 rm -rf var/cache/*
 
+php app/console digideps:reset-mock-emails
+
 # phpunit
 php vendor/phpunit/phpunit/phpunit -c tests/phpunit/
 
