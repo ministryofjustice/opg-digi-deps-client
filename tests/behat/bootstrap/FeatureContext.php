@@ -2,7 +2,6 @@
 
 namespace DigidepsBehat;
 
-use AppBundle\Service\Mailer\MailSenderInterface;
 use AppBundle\Service\Client\RestClient;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\MinkContext;
@@ -37,7 +36,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
 
     protected static $autoDbSnapshot = false;
 
-    public function __construct(MailSenderInterface $mailSender, $options = [])
+    public function __construct($options = [])
     {
         //$options['session']; // not used
         $maxNestingLevel = isset($options['maxNestingLevel']) ? $options['maxNestingLevel'] : 200;
@@ -46,8 +45,6 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $this->sessionName = empty($options['sessionName']) ? 'digideps' : $options['sessionName'];
         self::$dbName = empty($options['dbName']) ? 'api' : $options['dbName'];
         // set this to true for temporary local debugging
-
-        $mailSender->resetMockedEmails();
     }
 
     public function setKernel(\AppKernel $kernel)

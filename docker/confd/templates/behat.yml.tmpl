@@ -11,9 +11,9 @@ default:
                 tags: "@infra"
             contexts:
             {{ if exists "/api/database/name" }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: {{ getv "/api/database/name" }} }]
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }} }]
             {{ else }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: "api" }]
+                - DigidepsBehat\FeatureContext: [{ dbName: "api" }]
             {{ end }}
 
         admin:
@@ -23,9 +23,9 @@ default:
                 tags: "~@javascript"
             contexts:
             {{ if exists "/api/database/name" }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: {{ getv "/api/database/name" }} }]
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }} }]
             {{ else }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: "api" }]
+                - DigidepsBehat\FeatureContext: [{ dbName: "api" }]
             {{ end }}
 
         lay:
@@ -35,9 +35,9 @@ default:
                 tags: "@deputy&&~@javascript"
             contexts:
             {{ if exists "/api/database/name" }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
             {{ else }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: "api", sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: "api", sessionName: 'digideps' }]
             {{ end }}
 
         admin:
@@ -47,9 +47,9 @@ default:
                 tags: "~@javascript"
             contexts:
             {{ if exists "/api/database/name" }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: {{ getv "/api/database/name" }} }]
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }} }]
             {{ else }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: "api" }]
+                - DigidepsBehat\FeatureContext: [{ dbName: "api" }]
             {{ end }}
 
         ndr:
@@ -59,9 +59,9 @@ default:
                 tags: "@ndr"
             contexts:
             {{ if exists "/api/database/name" }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
             {{ else }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: api, sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: api, sessionName: 'digideps' }]
             {{ end }}
 
         pa:
@@ -69,9 +69,9 @@ default:
             paths:    [ %paths.base%/features/pa ]
             contexts:
             {{ if exists "/api/database/name" }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
             {{ else }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: api, sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: api, sessionName: 'digideps' }]
             {{ end }}
 
         prof:
@@ -79,10 +79,16 @@ default:
             paths:    [ %paths.base%/features/prof ]
             contexts:
             {{ if exists "/api/database/name" }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: {{ getv "/api/database/name" }}, sessionName: 'digideps' }]
             {{ else }}
-                - DigidepsBehat\FeatureContext: ["@mail_sender", { dbName: api, sessionName: 'digideps' }]
+                - DigidepsBehat\FeatureContext: [{ dbName: api, sessionName: 'digideps' }]
             {{ end }}
+
+        components:
+            description: Tests related to textareas
+            paths:    [ %paths.base%/features/components ]
+            mink_session: default
+            contexts: [ DigidepsBehat\FeatureContext ]
 
     extensions:
         Behat\Symfony2Extension: ~
