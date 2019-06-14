@@ -5,7 +5,7 @@
         <ul class="govuk-list govuk-error-summary__list">
         {% if formUncaughtErrors %}
             {% for formError in formUncaughtErrors %}
-                <li>{{ formError.message | raw  }}</li>
+                <li>{{ formError.message }}</li>
             {% endfor %}
         {% endif %}
         {% for formErrorMessage in formErrorMessages %}
