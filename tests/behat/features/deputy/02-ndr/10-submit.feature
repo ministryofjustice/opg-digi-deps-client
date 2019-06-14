@@ -14,7 +14,6 @@ Feature: ndr / report submit
         And I should see an "#expenses-section" element
         And I should see an "#action-section" element
         And I should see an "#accounts-section" element
-        And I save the application status into "ndr-before-submission"
         # assert pages not accessible
 
     @ndr
