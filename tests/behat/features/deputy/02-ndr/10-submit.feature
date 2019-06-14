@@ -48,7 +48,6 @@ Feature: ndr / report submit
         And I press "ndr_declaration_save"
         Then the form should be valid
         And the URL should match "/ndr/\d+/submitted"
-        And I save the application status into "ndr-after-submission"
         And the response status code should be 200
         When I save the report as "submitted NDR report"
         Then the report URL "visits-care/summary" for "submitted NDR report" should not be accessible
