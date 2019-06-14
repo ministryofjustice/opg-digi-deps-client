@@ -4,7 +4,7 @@
 // Content
 // ==========================================================================
 
-#content {
+.opg-main-wrapper {
 	position: relative;
 }
 
@@ -12,51 +12,19 @@
 
 $wider: 1200px;
 
-@include media(desktop) {
-    #global-header {
-        .header-wrapper {
-            &.wider {
-                max-width: $wider + 30px;
-            }
-        }
-
-        &.with-proposition {
-            .header-wrapper {
-                &.wider {
-                    .header-global {
-                        width: 25%;
-                    }
-
-                    .header-proposition {
-                        width: 75%;
-                    }
-                }
-            }
-        }
+.opg-width-container--wider {
+    @include media(desktop) {
+        max-width: $wider;
     }
 
-    #footer {
-        .footer-wrapper {
-            &.wider {
-                max-width: $wider;
-            }
-        }
+    @include media($min-width: 1020px) {
+        margin-left: $gutter;
+        margin-right: $gutter;
+    }
+
+    @include media($min-width: 1260px) {
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
-#global-header-bar,
-#content {
-    &.wider {
-        @include media(desktop) {
-            max-width: $wider;
-        }
-
-        @include media($min-width: 1020px) {
-            margin: 0 $gutter;
-        }
-
-        @include media($min-width: 1260px) {
-            margin: 0 auto;
-        }
-    }
-}
