@@ -43,7 +43,7 @@ const lintSass = () => { // sass quality control
         config.sassSrc + '/*.scss'])
         .pipe(scsslint({
             options: {
-                configFile: '.scss-lint.yml'
+                configFile: '.sass-lint.yml'
             }
         }))
         .pipe(scsslint.format());
@@ -174,6 +174,6 @@ gulp.task('watch', gulp.series(function () {
         config.imgSrc + '/**/*',
         config.jsSrc + '/**/*.js',
         config.jsSrc + '/*.js'],
-        { interval: 1000 },
+        { interval: 1000, usePolling: true },
         gulp.series('default'));
 }));
