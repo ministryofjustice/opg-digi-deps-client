@@ -15,16 +15,24 @@ $wider: 1200px;
 .opg-width-container--wider {
     @include media(desktop) {
         max-width: $wider;
+
+        .govuk-header__logo {
+            width: 25%;
+        }
+
+        .govuk-header__content {
+            width: 75%;
+        }
     }
 
     @include media($min-width: 1020px) {
-        margin-left: $gutter;
         margin-right: $gutter;
+        margin-left: $gutter;
     }
 
     @include media($min-width: 1260px) {
-        margin-left: auto;
         margin-right: auto;
+        margin-left: auto;
     }
 }
 
