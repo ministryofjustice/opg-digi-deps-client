@@ -1,4 +1,8 @@
 rules:
+    class-name-format:
+        - 1
+        -
+            convention: hyphenatedbem
     indentation:
         - 2
         -
