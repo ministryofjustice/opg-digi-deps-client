@@ -49,7 +49,7 @@ const lintSass = () => { // sass quality control
         config.sassSrc + '/*.scss'])
         .pipe(scsslint({
             options: {
-                configFile: '.scss-lint.yml'
+                configFile: '.sass-lint.yml'
             }
         }))
         .pipe(scsslint.format());

@@ -1,6 +1,14 @@
-# Default severity of all linters.
-severity: warning
+rules:
+    indentation:
+        - 2
+        -
+            size: 4
+    property-sort-order:
+        - 2
+        -
+            order: smacss
 
+# Deprecated
 linters:
   BangFormat:
     enabled: true
@@ -81,7 +89,7 @@ linters:
     enabled: false
     allow_non_nested_indentation: false
     character: space
-    width: 2
+    width: 4
 
   LeadingZero:
     enabled: false
