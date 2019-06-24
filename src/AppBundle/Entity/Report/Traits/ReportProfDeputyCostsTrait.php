@@ -264,7 +264,7 @@ trait ReportProfDeputyCostsTrait
     {
         return $this->profDeputyOtherCosts;
     }
-    
+
     /**
      * @param $profDeputyOtherCosts
      * @return $this
@@ -431,6 +431,6 @@ trait ReportProfDeputyCostsTrait
      */
     public function hasProfDeputyOtherCosts()
     {
-        return (bool) count($this->getProfDeputyOtherCosts()) > 0;
+        return (bool) count($this->getProfDeputyOtherCosts() ? $this->getProfDeputyOtherCosts() : []) > 0;
     }
 }
