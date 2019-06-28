@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.102.1",
+            "version": "3.103.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0fe11c62b118f3362a030e9994e3fe1eeea56172"
+                "reference": "77ed156cc323efcc7912941440c622d5f12ffbce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0fe11c62b118f3362a030e9994e3fe1eeea56172",
-                "reference": "0fe11c62b118f3362a030e9994e3fe1eeea56172",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/77ed156cc323efcc7912941440c622d5f12ffbce",
+                "reference": "77ed156cc323efcc7912941440c622d5f12ffbce",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-06-27T00:22:45+00:00"
+            "time": "2019-06-27T18:15:25+00:00"
         },
         {
             "name": "behat/behat",
@@ -2767,16 +2767,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "cff99c4874a23a697c5c103e384ce15e7ae512a4"
+                "reference": "7f8dc86e9168d0112b3cc38ba8cca41b17f409a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/cff99c4874a23a697c5c103e384ce15e7ae512a4",
-                "reference": "cff99c4874a23a697c5c103e384ce15e7ae512a4",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/7f8dc86e9168d0112b3cc38ba8cca41b17f409a0",
+                "reference": "7f8dc86e9168d0112b3cc38ba8cca41b17f409a0",
                 "shasum": ""
             },
             "require": {
@@ -2847,7 +2847,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2019-06-25T21:01:40+00:00"
+            "time": "2019-06-28T09:09:40+00:00"
         },
         {
             "name": "jms/serializer-bundle",
