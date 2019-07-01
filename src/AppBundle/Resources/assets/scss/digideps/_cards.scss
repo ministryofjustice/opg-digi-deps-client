@@ -2,23 +2,23 @@
 // CARDS
 // The report card styling on the 'Your reports' page
 
-.card {
+.opg-card {
     position: relative;
     box-sizing: border-box;
     min-height: 120px;
     padding: 15px;
     overflow: hidden;
-    border: 1px solid $border-colour;
+    border: 1px solid $govuk-border-colour;
 
-    &.disabled {
-        background-color: $grey-3;
-    }
-
-    .card-actions {
+    &__actions {
         @include media(tablet) {
             position: absolute;
-            right: $gutter-half;
-            bottom: $gutter-half;
+            right: $govuk-gutter-half;
+            bottom: $govuk-gutter-half;
         }
+    }
+
+    &.disabled {
+        background-color: govuk-colour("grey-3");;
     }
 }
