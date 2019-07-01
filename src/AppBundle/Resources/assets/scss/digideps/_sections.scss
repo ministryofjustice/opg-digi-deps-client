@@ -55,7 +55,7 @@
     }
 
     &__link {
-        @include govuk-media-query($from: mobile, $until: tablet) {
+        @include govuk-media-query($until: mobile) {
             display: none;
         }
     }
