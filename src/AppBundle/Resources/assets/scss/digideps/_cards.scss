@@ -6,12 +6,12 @@
     position: relative;
     box-sizing: border-box;
     min-height: 120px;
-    padding: 15px;
+    padding: govuk-spacing(3);
     overflow: hidden;
     border: 1px solid $govuk-border-colour;
 
     &__actions {
-        @include media(tablet) {
+        @include govuk-media-query($from: tablet) {
             position: absolute;
             right: $govuk-gutter-half;
             bottom: $govuk-gutter-half;
@@ -19,6 +19,6 @@
     }
 
     &.disabled {
-        background-color: govuk-colour("grey-3");;
+        background-color: govuk-colour('grey-3');
     }
 }
