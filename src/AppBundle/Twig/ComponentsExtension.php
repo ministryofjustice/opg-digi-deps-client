@@ -196,9 +196,9 @@ class ComponentsExtension extends \Twig_Extension
         // set classes and labels from translation
         foreach ($availableStepIds as $currentStepNumber => $availableStepId) {
             $progressSteps[$availableStepId] = [
-                'class' => (($selectedStepNumber == $currentStepNumber) ? ' progress--active ' : '')
-                    . (($currentStepNumber < $selectedStepNumber) ? ' progress--completed ' : '')
-                    . (($currentStepNumber == $selectedStepNumber - 1) ? ' progress--previous ' : ''),
+                'class' => (($selectedStepNumber == $currentStepNumber) ? ' opg-progress-bar__item--active ' : '')
+                    . (($currentStepNumber < $selectedStepNumber) ? ' opg-progress-bar__item--completed ' : '')
+                    . (($currentStepNumber == $selectedStepNumber - 1) ? ' opg-progress-bar__item--previous ' : ''),
             ];
         }
 
