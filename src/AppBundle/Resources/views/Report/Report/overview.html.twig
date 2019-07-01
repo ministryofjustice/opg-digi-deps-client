@@ -47,60 +47,10 @@
         </div>
     {% endif %}
 
-    <div class="grid-row">
-        <div class="column-one-half panel panel-admin">
-            <ul>
-                {% set incompleteAppend = '' %}
-                {% include 'AppBundle:Org/ClientProfile:_subsection.html.twig' with {
-                transDomain: translationDomain,
-                subSection: 'assets',
-                sectionId: 'assets',
-                report: report,
-                state: reportStatus.assetsState,
-                list: true,
-                description: true
-                } %}
-                {% include 'AppBundle:Org/ClientProfile:_subsection.html.twig' with {
-                transDomain: translationDomain,
-                subSection: 'gifts',
-                sectionId: 'gifts',
-                report: report,
-                state: reportStatus.giftsState,
-                list: true,
-                description: true
-                } %}
-            </ul>
-        </div>
-        <div class="column-one-half">
-            <ul>
-                {% set incompleteAppend = '' %}
-                {% include 'AppBundle:Org/ClientProfile:_subsection.html.twig' with {
-                transDomain: translationDomain,
-                subSection: 'assets',
-                sectionId: 'assets',
-                report: report,
-                state: reportStatus.assetsState,
-                list: true,
-                description: true
-                } %}
-                {% include 'AppBundle:Org/ClientProfile:_subsection.html.twig' with {
-                transDomain: translationDomain,
-                subSection: 'gifts',
-                sectionId: 'gifts',
-                report: report,
-                state: reportStatus.giftsState,
-                list: true,
-                description: true
-                } %}
-            </ul>
-        </div>
-    </div>
-
-
     <ul id="overview-sections" class="push--bottom">
 
         <li id="planning-section">
-            <h2 class="opg-overview-section__heading">{{ 'heading.decisionsContacts' | trans() }}</h2>
+            <h2 class="opg-overview-section__divider">{{ 'heading.decisionsContacts' | trans() }}</h2>
             {% if report.hasSection('decisions') %}
                 {% include 'AppBundle:Report/Report:_subsection.html.twig' with {
                     transDomain: translationDomain,
@@ -127,7 +77,7 @@
         </li>
 
         <li id="welfare-section">
-            <h2 class="opg-overview-section__heading">{{ 'heading.healthAndWelfare' | trans(transOptions) }}</h2>
+            <h2 class="opg-overview-section__divider">{{ 'heading.healthAndWelfare' | trans(transOptions) }}</h2>
             {% if report.hasSection('visitsCare') %}
                 {% include 'AppBundle:Report/Report:_subsection.html.twig' with {
                     transDomain: translationDomain,
@@ -153,7 +103,7 @@
         </li>
         {% if report.hasSection('deputyExpenses') or report.hasSection('bankAccounts') %}
             <li id="finances-section">
-                <h2 class="opg-overview-section__heading">{{ 'heading.propFinance' | trans(transOptions) }}</h2>
+                <h2 class="opg-overview-section__divider">{{ 'heading.propFinance' | trans(transOptions) }}</h2>
 
                 {% if report.hasSection('bankAccounts') %}
                     {% include 'AppBundle:Report/Report:_subsection.html.twig' with {
@@ -297,7 +247,7 @@
 
 
         <li id="report-submit-section">
-            <h2 class="opg-overview-section__heading">{{ 'heading.other' | trans() }}</h2>
+            <h2 class="opg-overview-section__divider">{{ 'heading.other' | trans() }}</h2>
             {% if report.hasSection('actions') %}
                 {% include 'AppBundle:Report/Report:_subsection.html.twig' with {
                     transDomain: translationDomain,
@@ -323,7 +273,7 @@
             {% endif %}
 
         <li id="report-submit-section">
-            <h2 class="opg-overview-section__heading">{{ 'heading.caseDocuments' | trans() }}</h2>
+            <h2 class="opg-overview-section__divider">{{ 'heading.caseDocuments' | trans() }}</h2>
             {% if report.hasSection('documents') %}
                 {% include 'AppBundle:Report/Report:_subsection.html.twig' with {
                     transDomain: translationDomain,

@@ -46,7 +46,7 @@
     <ul id="overview-sections" class="push--bottom">
 
         <li id="visits-and-actions">
-            <h2 class="opg-overview-section__heading">Health and welfare</h2>
+            <h2 class="opg-overview-section__divider">Health and welfare</h2>
             {% include 'AppBundle:Ndr/Ndr:_subsection.html.twig' with {
                 transDomain: translationDomain,
                 subSection: 'visits_care',
@@ -60,7 +60,7 @@
 
 
         <li id="finances-and-assets">
-            <h2 class="opg-overview-section__heading">{{ client.firstname }}'s property and finances</h2>
+            <h2 class="opg-overview-section__divider">{{ client.firstname }}'s property and finances</h2>
             {% include 'AppBundle:Ndr/Ndr:_subsection.html.twig' with {
                 transDomain: translationDomain,
                 subSection: 'deputy_expenses',
@@ -109,7 +109,7 @@
         </li>
 
         <li id="visits-and-actions">
-            <h2 class="opg-overview-section__heading">Other information</h2>
+            <h2 class="opg-overview-section__divider">Other information</h2>
             {% include 'AppBundle:Ndr/Ndr:_subsection.html.twig' with {
                 transDomain: translationDomain,
                 subSection: 'actions',
@@ -136,11 +136,11 @@
         <div class="push--top">
             {{ macros.notification('info', 'previewNotice' | trans()) }}
         </div>
-        <a id="edit-report-preview" class="button left" href="{{ path('ndr_review', {'ndrId': ndr.id}) }}">{{ 'options.previewReport' | trans() }}</a> 
+        <a id="edit-report-preview" class="button left" href="{{ path('ndr_review', {'ndrId': ndr.id}) }}">{{ 'options.previewReport' | trans() }}</a>
 
     {% else %}
 
-        <a id="edit-report-review" class="button push--top" href="{{ path('ndr_review', {'ndrId': ndr.id}) }}">{{ 'continue' | trans({}, 'common') }}</a> 
+        <a id="edit-report-review" class="button push--top" href="{{ path('ndr_review', {'ndrId': ndr.id}) }}">{{ 'continue' | trans({}, 'common') }}</a>
 
     {% endif %}
 
