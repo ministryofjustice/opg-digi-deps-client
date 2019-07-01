@@ -2,23 +2,23 @@
 // CARDS
 // The report card styling on the 'Your reports' page
 
-.card {
+.opg-card {
     position: relative;
     box-sizing: border-box;
     min-height: 120px;
-    padding: 15px;
+    padding: govuk-spacing(3);
     overflow: hidden;
-    border: 1px solid $border-colour;
+    border: 1px solid $govuk-border-colour;
 
-    &.disabled {
-        background-color: $grey-3;
+    &__actions {
+        @include govuk-media-query($from: tablet) {
+            position: absolute;
+            right: $govuk-gutter-half;
+            bottom: $govuk-gutter-half;
+        }
     }
 
-    .card-actions {
-        @include media(tablet) {
-            position: absolute;
-            right: $gutter-half;
-            bottom: $gutter-half;
-        }
+    &.disabled {
+        background-color: govuk-colour('grey-3');
     }
 }
