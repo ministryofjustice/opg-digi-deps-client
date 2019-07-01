@@ -3,6 +3,8 @@
 // Report overview sections - grey boxes and spacing
 
 .opg-overview-section {
+    @include govuk-clearfix;
+
     display: flex;
     position: relative;
     align-items: flex-start;
