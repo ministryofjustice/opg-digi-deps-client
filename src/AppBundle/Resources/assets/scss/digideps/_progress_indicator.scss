@@ -10,12 +10,11 @@
     width: 100%;
     margin: govuk-spacing(7) 0;
     padding: 0;
-    border-top: 1px solid $grey-2;
-    border-bottom: 1px solid $grey-2;
-    background-color: $grey-4;
+    border-top: 1px solid  $govuk-border-colour;
+    border-bottom: 1px solid  $govuk-border-colour;
+    background-color: govuk-colour('grey-4');
     list-style-type: none;
     counter-reset: pos;
-
 
     &__item {
         @include govuk-media-query($from: tablet) {
@@ -30,8 +29,6 @@
         counter-increment: pos;
 
         &::before {
-            @include border-radius(100%);
-
             position: absolute;
             top: 50%;
             left: 0;
@@ -41,7 +38,8 @@
                 top: -.666em;
                 left: 7px;
             }
-            background-color: $grey-3;
+            border-radius: 100%;
+            background-color: govuk-colour('grey-3');
             font-size: 1.5rem;
             font-weight: bold;
             line-height: 1.5;
@@ -50,11 +48,11 @@
         }
 
         &--completed {
-            color: $turquoise;
+            color: govuk-colour('turquoise');
 
             &::before {
-                background: $turquoise url('/images/progress-tick.png') center center no-repeat;
-                color: $white;
+                background: govuk-colour('turquoise') url('/images/progress-tick.png') center center no-repeat;
+                color: govuk-colour('white');
                 content: '';
             }
         }
@@ -68,16 +66,16 @@
         &--active {
             @include govuk-media-query($from: tablet) {
                 &:not(:last-child) {
-                    background: $light-blue url('/images/progress-chevron.png') right 50% no-repeat;
+                    background: govuk-colour('light-blue') url('/images/progress-chevron.png') right 50% no-repeat;
                 }
             }
 
-            background-color: $light-blue;
-            color: $white;
+            background-color: govuk-colour('light-blue');
+            color: govuk-colour('white');
 
             &::before {
-                background-color: $white;
-                color: $light-blue;
+                background-color: govuk-colour('white');
+                color: govuk-colour('light-blue');
             }
         }
     }
