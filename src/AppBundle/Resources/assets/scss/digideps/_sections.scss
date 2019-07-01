@@ -2,18 +2,11 @@
 // OVERVIEW SECTIONS
 // Report overview sections - grey boxes and spacing
 
-.overview-section {
-    display: block;
-    margin-top: 30px;
-
-    @include media(mobile) {
-        margin-top: 0;
-    }
-
-    > .heading {
-        min-height: 19px;
-        padding: 7px 10px 5px 10px;
-        background: $grey-3;
+.opg-overview-section {
+    &__heading {
+        margin-top: govuk-spacing(6);
+        padding: govuk-spacing(1) govuk-spacing(2);
+        background: govuk-colour('grey-3');
     }
 
 }
