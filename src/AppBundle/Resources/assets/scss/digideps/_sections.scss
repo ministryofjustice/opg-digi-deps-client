@@ -3,101 +3,58 @@
 // Report overview sections - grey boxes and spacing
 
 .opg-overview-section {
-    &__heading {
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: govuk-spacing(3);
+
+    & + & {
+        border-top: 1px solid $govuk-border-colour;
+    }
+
+    &--highlight {
+        padding-left: govuk-spacing(2);
+        border-left: govuk-spacing(1) solid $orange;
+    }
+
+    &__divider {
         margin-top: govuk-spacing(6);
         padding: govuk-spacing(1) govuk-spacing(2);
         background: govuk-colour('grey-3');
     }
 
-}
-
-// ==========================================================================
-// SECTION LIST ITEM
-// Report sections list - Heading, title, description, status & action
-
-.section-list-item {
-    @extend %contain-floats;
-    padding-bottom: 15px;
-    clear: both;
-    border-top: 1px solid $grey-3;
-
-    .heading {
-        @include box-sizing(border-box);
-        @include inline-block();
-        width: 65%;
-        margin: 20px 10px 0 5px;
-        float: left;
-        color: $black;
-
-        @include media(mobile) {
-            width: auto;
-            margin: 10px 10px 10px 5px;
-        }
-
+    &__header {
+        flex-grow: 1;
     }
 
-    .edit-heading-link {
-        .heading {
-            @include media(mobile) {
-                color: $link-colour;
-                text-decoration: underline;
-            }
-        }
+    &__label {
+        margin-bottom: govuk-spacing(1);
     }
 
-    .edit-link {
-        margin: 20px 0 0 0;
-        float: right;
+    &__label-link {
+        color: inherit !important;
+        text-decoration: none;
+    }
 
-        @include media(mobile) {
+    &__description {
+        color: govuk-colour('grey-1');
+    }
+
+    &__status,
+    &__link {
+        margin-left: govuk-spacing(7);
+    }
+
+    &__status {
+        // Currently need to use !important to override high-specificy margins from .status
+        margin-top: 0 !important; // sass-lint:disable-line no-important
+        margin-bottom: 0 !important; // sass-lint:disable-line no-important
+    }
+
+    &__link {
+        @include govuk-media-query($from: mobile, $until: tablet) {
             display: none;
         }
-
-        &.disabled {
-            color: $grey-status;
-        }
-    }
-
-    .button {
-        margin: 20px 0 0 0;
-        float: right;
-    }
-
-    .description {
-        display: block;
-        box-sizing: border-box;
-        margin: 0 auto 15px 5px;
-        padding: 0;
-        float: none;
-        clear: both;
-        color: $grey-1;
-
-        @include media(mobile) {
-            width: 100%;
-        }
-    }
-
-    &.no-border {
-        border-top: none;
-    }
-
-    // PA Client Profile panels adjustments
-    .panel-admin & {
-        padding-bottom: 0;
-
-        &:last-child {
-            border-bottom: 1px solid $grey-3;
-        }
-
-        .link-edit {
-            display: block;
-            text-decoration: underline;
-        }
-    }
-
-    // Marking sections the need attention (incomplete report)
-    &.highlight {
-        padding-left: 10px;
-        border-left: 5px solid $orange;
     }
 }
