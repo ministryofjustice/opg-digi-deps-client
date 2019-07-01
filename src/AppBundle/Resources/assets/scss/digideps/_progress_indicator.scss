@@ -2,15 +2,13 @@
 // PROGRESS INDICATOR
 // When setting up user and client (registration)
 
-$spacingforchevron: 14px;
-
 .opg-progress-bar {
     @include govuk-media-query($from: tablet) {
         display: flex;
     }
 
     width: 100%;
-    margin: 45px 0;
+    margin: govuk-spacing(7) 0;
     padding: 0;
     border-top: 1px solid $grey-2;
     border-bottom: 1px solid $grey-2;
@@ -22,13 +20,13 @@ $spacingforchevron: 14px;
     &__item {
         @include govuk-media-query($from: tablet) {
             display: inline-flex;
-            text-align: center;
             align-items: center;
+            text-align: center;
         }
 
         position: relative;
         flex: auto;
-        padding: 20px 20px 20px 50px;
+        padding: govuk-spacing(3) govuk-spacing(3) govuk-spacing(3) govuk-spacing(8);
         counter-increment: pos;
 
         &::before {
@@ -53,12 +51,12 @@ $spacingforchevron: 14px;
 
         &--completed {
             color: $turquoise;
-        }
 
-        &--completed::before {
-            background: $turquoise url('/images/progress-tick.png') center center no-repeat;
-            color: $white;
-            content: '';
+            &::before {
+                background: $turquoise url('/images/progress-tick.png') center center no-repeat;
+                color: $white;
+                content: '';
+            }
         }
 
         &--previous {
@@ -68,19 +66,19 @@ $spacingforchevron: 14px;
         }
 
         &--active {
-            background-color: $light-blue;
-            color: $white;
-
             @include govuk-media-query($from: tablet) {
                 &:not(:last-child) {
                     background: $light-blue url('/images/progress-chevron.png') right 50% no-repeat;
                 }
             }
-        }
 
-        &--active::before {
-            background-color: white;
-            color: $light-blue;
+            background-color: $light-blue;
+            color: $white;
+
+            &::before {
+                background-color: $white;
+                color: $light-blue;
+            }
         }
     }
 }
