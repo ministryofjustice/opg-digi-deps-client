@@ -12,7 +12,7 @@
 {% if reportStatus.isReadyToSubmit and report.isDue %}
     <div id="header-report-submit" class="govuk-panel govuk-panel--confirmation behat-region-report-ready-banner">
         {% if report.unSubmitDate and report.submitted == false %}
-            <h2 class="status status-large changesNeeded">{{ 'changesNeeded' | trans({}, 'common') }}</h2>
+            <h2 class="govuk-tag opg-tag--warning govuk-!-margin-bottom-6">{{ 'changesNeeded' | trans({}, 'common') }}</h2>
         {% else %}
             <h2 class="govuk-panel__title">{{ 'reportIsReady' | trans() }}</h2>
         {% endif %}
