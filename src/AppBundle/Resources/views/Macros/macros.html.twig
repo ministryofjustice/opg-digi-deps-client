@@ -170,6 +170,13 @@
                     {{ message | raw }}
                 </div>
             </div>
+        {% elseif alertType == 'loader' %}
+            <div class="opg-alert opg-alert--info">
+                <span class="opg-alert__icon opg-icon--loader"></span>
+                <div class="behat-region-alert-message opg-alert__message">
+                    {{ message | raw }}
+                </div>
+            </div>
         {% else %}
             <div class="opg-alert">
                 <div class="behat-region-alert-message opg-alert__message">
