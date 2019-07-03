@@ -99,14 +99,14 @@
                 </td>
                 <td class="numeric">
                     {% if report.status.status == 'notStarted' %}
-                        <span class="status status-large not-started">{{ 'notStarted' | trans({}, 'common') }}</span>
+                        <span class="govuk-tag opg-tag--not-started">{{ 'notStarted' | trans({}, 'common') }}</span>
                     {% elseif report.status.status == 'notFinished' %}
-                        <span class="status status-large incomplete">{{ 'notFinished' | trans({}, 'common') }}</span>
+                        <span class="govuk-tag opg-tag--notice">{{ 'notFinished' | trans({}, 'common') }}</span>
                     {% elseif report.status.status == 'readyToSubmit' %}
                         {% if report.unSubmitDate is not empty and report.submitted == false %}
-                            <span class="status status-large changesNeeded">{{ 'changesNeeded' | trans({}, 'common') }}</span>
+                            <span class="govuk-tag opg-tag--warning">{{ 'changesNeeded' | trans({}, 'common') }}</span>
                         {% else  %}
-                            <span class="status status-large done">{{ 'readyToSubmit' | trans({}, 'common') }}</span>
+                            <span class="govuk-tag opg-tag--success">{{ 'readyToSubmit' | trans({}, 'common') }}</span>
                         {% endif %}
                     {% endif %}
                 </td>

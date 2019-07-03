@@ -4,11 +4,15 @@
 
 .opg-card {
     position: relative;
-    box-sizing: border-box;
     min-height: 120px;
     padding: govuk-spacing(3);
-    overflow: hidden;
     border: 1px solid $govuk-border-colour;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    &__tag {
+        float: right;
+    }
 
     &__actions {
         @include govuk-media-query($from: tablet) {

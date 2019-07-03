@@ -84,6 +84,24 @@ class ComponentsExtension extends \Twig_Extension
             'lcfirst' => new \Twig_SimpleFilter('lcfirst', function ($string) {
                 return lcfirst($string);
             }),
+            'status_to_tag_css' => new \Twig_SimpleFilter('status_to_tag_css', function ($status) {
+                switch ($status) {
+                    case 'notStarted':
+                    case 'not-started':
+                        return 'opg-tag--not-started';
+
+                    case 'notFinished':
+                    case 'incomplete':
+                        return 'opg-tag--notice';
+
+                    case 'done':
+                    case 'readyToSubmit':
+                        return 'opg-tag--success';
+
+                    default:
+                        return '';
+                }
+            }),
         ];
     }
 
