@@ -132,6 +132,10 @@
     }) }}
 {% endmacro %}
 
+{% macro icon(type, extraClass = '') %}
+    <span class="opg-icon opg-icon--{{ type }} {{ extraClass }}"></span>
+{% endmacro %}
+
 
 {% macro notification(alertType,message) %}
     {% if alertType is defined %}
