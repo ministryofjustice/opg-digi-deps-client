@@ -1,4 +1,5 @@
-{% if app.user and (app.user.isDeputyProf() or app.user.isDeputyPa()) and report is defined and report is not null and report.client is not null %}
+{% if app.user and (app.user.isDeputyProf() or app.user.isDeputyPa()) and report is defined and report is not null
+   and report.client is not null %}
 <div class="opg-details-banner">
     <div class="opg-details-banner__content behat-region-client-details-banner">
         <div>
@@ -28,6 +29,7 @@
             {% endif %}
         </h3>
     </div>
-{% if app.user and (app.user.isDeputyProf() or app.user.isDeputyPa()) and report is defined  and report is not null %}
+{% if app.user and (app.user.isDeputyProf() or app.user.isDeputyPa()) and report is defined and report is not null
+   and report.client is not null %}
 </div>
 {% endif %}
