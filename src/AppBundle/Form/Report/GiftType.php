@@ -25,14 +25,17 @@ class GiftType extends AbstractType
 
         $reportType = $options['report']->getType();
 
-        if (!empty($options['report']->getBankAccountOptions()) && (in_array($reportType, ['102', '102-4']))) {
+        if (!empty($options['report']->getBankAccountOptions()) && $options['report']->canLinkToBankAccounts())
+        {
             $builder->add('bankAccountId', FormTypes\ChoiceType::class, [
                 'choices' => $options['report']->getBankAccountOptions(),
                 'placeholder' => 'Please select'
             ]);
         }
 
-        $builder ->add('save', FormTypes\SubmitType::class);
+        $builder->add('saveAndContinue', FormTypes\SubmitType::class);
+        $builder->add('saveAndAddAnother', FormTypes\SubmitType::class);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
