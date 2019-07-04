@@ -2,7 +2,6 @@
 // PAGINATION
 // Next/Previous component
 
-// guides pagination
 .opg-pagination {
     @include govuk-clearfix;
     display: flex;
@@ -71,17 +70,5 @@
         @include core-27($line-height: (33.75 / 27));
         display: block;
         margin-bottom: .08em;
-    }
-}
-
-// Simple pagination styles
-.opg-pager {
-    @include govuk-media-query($from: tablet) {
-        display: inline;
-    }
-
-    &__item {
-        display: inline;
-        margin: 0 5px;
     }
 }
