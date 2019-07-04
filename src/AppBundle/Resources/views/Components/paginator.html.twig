@@ -16,9 +16,9 @@
 
 #}
 
-<div class="pager">
+<div>
     {% if totalRecords <= recordsPerPage %}
-        <p class="pager-summary">
+        <p>
             {{ messages.singlePage | transchoice(totalRecords) | raw }}
         </p>
     {% else %}
@@ -35,24 +35,24 @@
             })) }}">{{ 'previous' | trans({}, 'common' ) }}</a>
         {% endif %}
 
-        <ul class="pager-items">
+        <ul class="opg-pager">
 
             {% for i in 1..nbPages %}
-                {% if 0 == (currentPage - nearbyPagesLimit) - loop.index %} {# dot before #}
-                    <li class="disabled">...</li>
-                {% elseif 0 == (currentPage + nearbyPagesLimit) - loop.index %} {# dot after #}
-                    <li class="disabled">...</li>
-                {% elseif 0 < (currentPage - nearbyPagesLimit) - loop.index %} {# hide all before #}
-                {% elseif 0 > (currentPage + nearbyPagesLimit) - loop.index %} {# hide all after #}
-                {% elseif currentPage == loop.index %}
-                    <li>{{ currentPage }}</li>
-                {% else %}
-                    {% set offset = (loop.index * recordsPerPage) - recordsPerPage %}
-                    <li {% if currentPage == loop.index  %} class="active"{% endif %}>
-                        <a  href="{{ path(routeName, routeParams | merge({'offset': offset })) }}"
+                <li class="opg-pager__item">
+                    {% if 0 == (currentPage - nearbyPagesLimit) - loop.index %} {# dot before #}
+                        ...
+                    {% elseif 0 == (currentPage + nearbyPagesLimit) - loop.index %} {# dot after #}
+                        ...
+                    {% elseif 0 < (currentPage - nearbyPagesLimit) - loop.index %} {# hide all before #}
+                    {% elseif 0 > (currentPage + nearbyPagesLimit) - loop.index %} {# hide all after #}
+                    {% elseif currentPage == loop.index %}
+                        {{ currentPage }}
+                    {% else %}
+                        {% set offset = (loop.index * recordsPerPage) - recordsPerPage %}
+                        <a href="{{ path(routeName, routeParams | merge({'offset': offset })) }}"
                             class="behat-link-paginator-page-{{ loop.index }}">{{ loop.index }}</a>
-                    </li>
-                {% endif %}
+                    {% endif %}
+                </li>
             {% endfor %}
 
         </ul>
@@ -70,7 +70,7 @@
         {# summary #}
         {% set firstRecordDisplayed = currentOffset + 1 %}
         {% set lastRecordDisplayed = (currentOffset + recordsPerPage) > totalRecords ? totalRecords : (currentOffset + recordsPerPage) %}
-        <p class="pager-summary">
+        <p>
             {{ messages.multiPage | trans({'%from%': firstRecordDisplayed, '%to%': lastRecordDisplayed, '%total%': totalRecords}) | raw }}
         </p>
     {% endif %}
