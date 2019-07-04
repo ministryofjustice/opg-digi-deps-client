@@ -38,21 +38,21 @@
         <ul class="opg-pager">
 
             {% for i in 1..nbPages %}
-                <li class="opg-pager__item">
-                    {% if 0 == (currentPage - nearbyPagesLimit) - loop.index %} {# dot before #}
-                        ...
-                    {% elseif 0 == (currentPage + nearbyPagesLimit) - loop.index %} {# dot after #}
-                        ...
-                    {% elseif 0 < (currentPage - nearbyPagesLimit) - loop.index %} {# hide all before #}
-                    {% elseif 0 > (currentPage + nearbyPagesLimit) - loop.index %} {# hide all after #}
-                    {% elseif currentPage == loop.index %}
-                        {{ currentPage }}
-                    {% else %}
+                {% if 0 == (currentPage - nearbyPagesLimit) - loop.index %} {# dot before #}
+                    <li class="opg-pager__item">...</li>
+                {% elseif 0 == (currentPage + nearbyPagesLimit) - loop.index %} {# dot after #}
+                    <li class="opg-pager__item">...</li>
+                {% elseif 0 < (currentPage - nearbyPagesLimit) - loop.index %} {# hide all before #}
+                {% elseif 0 > (currentPage + nearbyPagesLimit) - loop.index %} {# hide all after #}
+                {% elseif currentPage == loop.index %}
+                    <li class="opg-pager__item">{{ currentPage }}</li>
+                {% else %}
+                    <li class="opg-pager__item">
                         {% set offset = (loop.index * recordsPerPage) - recordsPerPage %}
                         <a href="{{ path(routeName, routeParams | merge({'offset': offset })) }}"
                             class="behat-link-paginator-page-{{ loop.index }}">{{ loop.index }}</a>
-                    {% endif %}
-                </li>
+                    </li>
+                {% endif %}
             {% endfor %}
 
         </ul>
