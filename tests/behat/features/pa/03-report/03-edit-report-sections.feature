@@ -142,7 +142,7 @@ Feature: PA user edits report sections
     And I select "HSBC - main account - Current account (****01ca)" from "account_bankAccountId"
     And the step with the following values CAN be submitted:
       | account_description | pension received |
-      | account_amount      | 50.00         |
+      | account_amount      | 64.00         |
     # add another: no
     And I choose "no" when asked for adding another record
     # check record in summary page
