@@ -67,8 +67,7 @@
     }
 
     &__link-text {
-        @include core-27($line-height: (33.75 / 27));
+        @include govuk-font(27);
         display: block;
-        margin-bottom: .08em;
     }
 }
