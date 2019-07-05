@@ -26,7 +26,7 @@ Deployment to master, training and preproduction environments happens automatica
 
 The automated tests are run after deployment to master and must pass before deploying to preproduction.
 
-## Production deployment
+## Production deployment
 
 To prepare a release, you should create a [version in JIRA][jira-versions] and assign the relevant tickets to it. All tickets in the version must have been merged into master and the automated tests must have passed.
 
