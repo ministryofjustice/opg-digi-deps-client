@@ -28,7 +28,7 @@ _See [testing documentation](docs/TESTING.md)_
 
 ## Deployment
 
-_See [release procudure](docs/RELEASE_PROCEDURE.md)_
+_See [deployment documentation](docs/RELEASE_PROCEDURE.md)_
 
 ## Built with
 
