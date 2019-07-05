@@ -18,7 +18,7 @@
 
 <div>
     {% if totalRecords <= recordsPerPage %}
-        <p>
+        <p data-test-id="pager-summary">
             {{ messages.singlePage | transchoice(totalRecords) | raw }}
         </p>
     {% else %}
@@ -28,9 +28,9 @@
 
         {# prev #}
         {% if currentOffset > 0 %}
-            <a class="pager-first" href="{{ path(routeName, routeParams | merge({
+            <a data-test-id="pager-first" href="{{ path(routeName, routeParams | merge({
                 'offset': 0 })) }}">{{ 'first' | trans({}, 'common' ) }}</a> ...
-            <a class="pager-prev" href="{{ path(routeName, routeParams | merge({
+            <a data-test-id="pager-prev" href="{{ path(routeName, routeParams | merge({
                 'offset': (currentOffset - recordsPerPage)
             })) }}">{{ 'previous' | trans({}, 'common' ) }}</a>
         {% endif %}
@@ -59,10 +59,10 @@
 
         {# next #}
         {% if (currentOffset + recordsPerPage) < totalRecords %}
-            <a class="pager-next" href="{{ path(routeName, routeParams | merge({
+            <a data-test-id="pager-next" href="{{ path(routeName, routeParams | merge({
                 'offset': currentOffset + recordsPerPage
             })) }}">{{ 'next' | trans({}, 'common' ) }}</a> ...
-            <a class="pager-last" href="{{ path(routeName, routeParams | merge({
+            <a data-test-id="pager-last" href="{{ path(routeName, routeParams | merge({
                 'offset': (nbPages -1) * recordsPerPage
             })) }}">{{ 'last' | trans({}, 'common' ) }}</a>
         {% endif %}
@@ -70,7 +70,7 @@
         {# summary #}
         {% set firstRecordDisplayed = currentOffset + 1 %}
         {% set lastRecordDisplayed = (currentOffset + recordsPerPage) > totalRecords ? totalRecords : (currentOffset + recordsPerPage) %}
-        <p>
+        <p data-test-id="pager-summary">
             {{ messages.multiPage | trans({'%from%': firstRecordDisplayed, '%to%': lastRecordDisplayed, '%total%': totalRecords}) | raw }}
         </p>
     {% endif %}
