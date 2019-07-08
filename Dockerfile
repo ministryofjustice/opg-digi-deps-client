@@ -5,7 +5,7 @@ RUN apk add --no-cache python g++ make
 WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
-COPY Gulpfile.js .
+COPY webpack.config.js .
 COPY src src
 
 # Install NPM dependencies
