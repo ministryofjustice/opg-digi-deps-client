@@ -99,3 +99,6 @@ monolog:
            path: php://stderr
            level: %log_level%
            formatter: logstash_formatter
+
+webpack_encore:
+    output_path: "%kernel.root_dir%/../web/assets/"

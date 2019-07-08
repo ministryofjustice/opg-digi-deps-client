@@ -8,7 +8,7 @@
         "psr-4": {"DigidepsBehat\\": "tests/behat/bootstrap" }
     },
     "require": {
-        "php": ">=7.3.5",
+        "php": ">=7.2",
         "symfony/symfony": "^3.4.28",
         "twig/extensions": "^1.5.4",
         "symfony/swiftmailer-bundle": "^2.3.12",
@@ -31,7 +31,8 @@
         "snc/redis-bundle": "^2.1.9",
         "predis/predis": "^1.1.1",
         "egulias/email-validator": "^1.2.14",
-        "aws/aws-sdk-php": "^3.100.9"
+        "aws/aws-sdk-php": "^3.100.9",
+        "symfony/webpack-encore-bundle": "^1.6"
     },
     "scripts": {
         "post-install-cmd": [
