@@ -1,6 +1,11 @@
 // ====================================================================================
 // INITITALISE ALL MODULES
+var $ = require('jquery');
+var GOVUKFrontend = require('govuk-frontend/all.js');
 
+// TODO: Import modules somehow (need to be concatted at root level?)
+
+require('../scss/application.scss');
 
 $(document).ready(function() {
 

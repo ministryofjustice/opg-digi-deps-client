@@ -1,6 +1,8 @@
 $path: '/images/';
-$govuk-assets-path: './';
-@import "node_modules/govuk-frontend/all";
+$govuk-global-styles: true;
+// TODO: Import GOVUK template mustache (for .js-hidden)
+@import "../../../../../node_modules/govuk-frontend/all";
+@import "../../../../../node_modules/govuk_template_mustache/assets/stylesheets/govuk-template.css";
 @import "govuk-elements";
 
 //GOV.UK EXTENSIONS
