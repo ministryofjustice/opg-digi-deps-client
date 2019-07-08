@@ -30,7 +30,6 @@
         "phpunit/phpunit": "^4.8.36",
         "snc/redis-bundle": "^2.1.9",
         "predis/predis": "^1.1.1",
-        "egulias/email-validator": "^1.2.14",
         "aws/aws-sdk-php": "^3.100.9"
     },
     "scripts": {
