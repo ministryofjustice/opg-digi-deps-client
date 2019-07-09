@@ -1,0 +1,41 @@
+{% extends 'AppBundle:Layouts:application.html.twig' %}
+
+{% import 'AppBundle:Macros:macros.html.twig' as macros %}
+
+{% trans_default_domain translationDomain %}
+
+{% block htmlTitle %}{{ 'summaryPage.htmlTitle' | trans() }}{% endblock %}
+{% block pageTitle %}{{ 'deletePage.pageTitle' | trans({ '%subject%': subject }, 'common') }}{% endblock %}
+
+{% block supportTitleTop %}
+    {{ 'startPage.pageTitle' | trans }}
+{% endblock %}
+
+{% block linkBack %}
+    <a href="{{ backLink }}" class="govuk-back-link behat-link-step-back">{{ 'back' | trans({}, 'common') }}</a>
+{% endblock %}
+
+{% block pageContent %}
+
+    <p>{{ 'deletePage.question' | trans({ '%subject%': subject }, 'common') }}</p>
+
+    <dl class="govuk-summary-list govuk-summary-list--no-border">
+        {% for label, value in definition %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    {{ label }}
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    {{ value | nl2br }}
+                </dd>
+            </div>
+        {% endfor %}
+    </dl>
+
+    <a href="?confirm=1" class="govuk-button behat-link-confirm">
+        {{ 'deletePage.linkButtonLabel' | trans({ '%subject%': subject }, 'common') }}
+    </a>
+    <a href="{{ backLink }}" class="govuk-button opg-button--link behat-link-confirm-cancel">
+        {{ 'cancel' | trans({}, 'common') }}
+    </a>
+{% endblock %}
