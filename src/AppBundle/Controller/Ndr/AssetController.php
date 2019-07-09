@@ -338,18 +338,34 @@ class AssetController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/assets/{assetId}/delete", name="ndr_asset_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @return RedirectResponse
      */
     public function deleteAction(Request $request, $ndrId, $assetId)
     {
-        $ndr = $this->getNdrIfNotSubmitted($ndrId, self::$jmsGroups);
+        if ($request->get('confirm')) {
+            $ndr = $this->getNdrIfNotSubmitted($ndrId, self::$jmsGroups);
 
-        if ($ndr->hasAssetWithId($assetId)) {
-            $this->getRestClient()->delete("/ndr/{$ndrId}/asset/{$assetId}");
-            $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
+            if ($ndr->hasAssetWithId($assetId)) {
+                $this->getRestClient()->delete("/ndr/{$ndrId}/asset/{$assetId}");
+                $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
+            }
+
+            return $this->redirect($this->generateUrl('ndr_assets', ['ndrId' => $ndrId]));
         }
 
-        return $this->redirect($this->generateUrl('ndr_assets', ['ndrId' => $ndrId]));
+        $asset = $this->getRestClient()->get("ndr/{$ndrId}/asset/{$assetId}", 'Ndr\\Asset');
+
+        return [
+            'translationDomain' => 'ndr-assets',
+            'subject' => 'asset',
+            'definition' => [
+                'Type' => $asset->getTitle(),
+                'Description' => $asset->getDescription(),
+                'Value' => '£' . $asset->getValue(),
+            ],
+            'backLink' => $this->generateUrl('ndr_assets_summary', ['ndrId' => $ndrId]),
+        ];
     }
 }
