@@ -172,11 +172,11 @@
 
     <h1 class="govuk-heading-xl">
         {% if block("supportTitleTop") is defined and block("supportTitleTop") != "" %}
-            <span class="govuk-caption-l">{% block supportTitleTop %}{% endblock %}</span>
+            <span class="govuk-caption-xl">{% block supportTitleTop %}{% endblock %}</span>
         {% endif %}
         {% block pageTitle %} Deputy report {% endblock %}
         {% if block("supportTitleBottom") is defined and block("supportTitleBottom") != "" %}
-            <span class="govuk-caption-l">{% block supportTitleBottom %}{% endblock %}</span>
+            <span class="govuk-caption-xl">{% block supportTitleBottom %}{% endblock %}</span>
         {% endif %}
     </h1>
 
