@@ -141,10 +141,6 @@
 
 {% block content %}
 
-    {% block breadcrumbs %}{% endblock %}
-
-    {% block linkBack %}{% endblock %}
-
     {% block validationSummary %}
         {% if form | default(false) %}
             {{ form_errors_list(form) }}
