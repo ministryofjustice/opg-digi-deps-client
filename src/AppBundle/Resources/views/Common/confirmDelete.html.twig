@@ -13,6 +13,8 @@
 
 {% block pageContent %}
 
+    {{ form_start(form) }}
+
     <h2 class="govuk-heading-m">
         {{ 'deletePage.question' | trans({ '%subject%': subject }, 'common') }}
     </h2>
@@ -31,11 +33,14 @@
     </dl>
 
     <div class="govuk-form-group">
-        <a href="?confirm=1" class="govuk-button behat-link-confirm">
-            {{ 'deletePage.linkButtonLabel' | trans({ '%subject%': subject }, 'common') }}
-        </a>
+        {{ form_submit(form.confirm, '', {
+            'buttonClass': 'behat-link-confirm',
+            'labelText': ('deletePage.linkButtonLabel' | trans({ '%subject%': subject }, 'common'))
+        }) }}
         <a href="{{ backLink }}" class="govuk-button govuk-button--secondary behat-link-confirm-cancel">
             {{ 'cancel' | trans({}, 'common') }}
         </a>
     </div>
+
+    {{ form_end(form) }}
 {% endblock %}

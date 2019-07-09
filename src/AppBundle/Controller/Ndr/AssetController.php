@@ -344,7 +344,10 @@ class AssetController extends AbstractController
      */
     public function deleteAction(Request $request, $ndrId, $assetId)
     {
-        if ($request->get('confirm')) {
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
             $ndr = $this->getNdrIfNotSubmitted($ndrId, self::$jmsGroups);
 
             if ($ndr->hasAssetWithId($assetId)) {
@@ -360,6 +363,7 @@ class AssetController extends AbstractController
         return [
             'translationDomain' => 'ndr-assets',
             'subject' => 'asset',
+            'form' => $form->createView(),
             'summary' => [
                 'Type' => $asset->getTitle(),
                 'Description' => $asset->getDescription(),
