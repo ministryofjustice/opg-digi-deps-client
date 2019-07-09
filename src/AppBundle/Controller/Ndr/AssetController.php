@@ -360,7 +360,7 @@ class AssetController extends AbstractController
         return [
             'translationDomain' => 'ndr-assets',
             'subject' => 'asset',
-            'definition' => [
+            'summary' => [
                 'Type' => $asset->getTitle(),
                 'Description' => $asset->getDescription(),
                 'Value' => '£' . number_format($asset->getValue()),
