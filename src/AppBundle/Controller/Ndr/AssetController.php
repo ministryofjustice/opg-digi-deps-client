@@ -363,7 +363,8 @@ class AssetController extends AbstractController
             'definition' => [
                 'Type' => $asset->getTitle(),
                 'Description' => $asset->getDescription(),
-                'Value' => '£' . $asset->getValue(),
+                'Value' => '£' . number_format($asset->getValue()),
+                'Valuation date' => $asset->getValuationDate(),
             ],
             'backLink' => $this->generateUrl('ndr_assets_summary', ['ndrId' => $ndrId]),
         ];
