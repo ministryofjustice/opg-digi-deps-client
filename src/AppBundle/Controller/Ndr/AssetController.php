@@ -364,7 +364,7 @@ class AssetController extends AbstractController
             $summary = [
                 ['label' => 'Type', 'value' => 'Property'],
                 ['label' => 'Address', 'value' => implode(', ', $asset->getAddressValidLines())],
-                ['label' => 'Value', 'value' => $asset->getValueTotal(), 'format' => 'money'],
+                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
             ];
         } else {
             $summary = [
