@@ -191,6 +191,7 @@ class MoneyOutShortController extends AbstractController
 
     /**
      * @Route("/report/{reportId}/money-out-short/{transactionId}/delete", name="money_out_short_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @param int $id
      *
@@ -198,16 +199,38 @@ class MoneyOutShortController extends AbstractController
      */
     public function deleteAction(Request $request, $reportId, $transactionId)
     {
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
+
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
-        $this->getRestClient()->delete('report/' . $report->getId() . '/money-transaction-short/' . $transactionId);
+        if ($form->isValid()) {
+            $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
-        $request->getSession()->getFlashBag()->add(
-            'notice',
-            'Entry deleted'
-        );
+            $this->getRestClient()->delete('report/' . $report->getId() . '/money-transaction-short/' . $transactionId);
 
-        return $this->redirect($this->generateUrl('money_out_short_summary', ['reportId' => $reportId]));
+            $request->getSession()->getFlashBag()->add(
+                'notice',
+                'Entry deleted'
+            );
+
+            return $this->redirect($this->generateUrl('money_out_short_summary', ['reportId' => $reportId]));
+        }
+
+        $transaction = $this->getRestClient()->get('report/' . $report->getId() . '/money-transaction-short/' . $transactionId, 'Report\MoneyTransactionShort');
+
+        return [
+            'report' => $transaction,
+            'translationDomain' => 'report-money-short',
+            'subject' => 'expense',
+            'form' => $form->createView(),
+            'summary' => [
+                ['label' => 'Description', 'value' => $transaction->getDescription()],
+                ['label' => 'Date', 'value' => $transaction->getDate(), 'format' => 'date'],
+                ['label' => 'Amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
+            ],
+            'backLink' => $this->generateUrl('contacts', ['reportId' => $reportId]),
+        ];
     }
 
     /**
