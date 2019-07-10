@@ -40,7 +40,7 @@
         {% endfor %}
     </dl>
 
-    {% if warning %}
+    {% if warning is defined %}
         {{ macros.notification('important', warning) }}
     {% endif %}
 
