@@ -20,13 +20,21 @@
     </h2>
 
     <dl class="govuk-summary-list">
-        {% for label, value in summary %}
+        {% for definition in summary %}
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
-                    {{ label }}
+                    {{ definition.label }}
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    {{ value | default('-') | nl2br }}
+                    {% if definition.value is null %}
+                        -
+                    {% elseif definition.format is defined and definition.format == 'money' %}
+                        £{{ definition.value | money_format }}
+                    {% elseif definition.format is defined and definition.format == 'date' %}
+                        {{ definition.value | date('j F Y') }}
+                    {% else %}
+                        {{ definition.value | default('-') | nl2br }}
+                    {% endif %}
                 </dd>
             </div>
         {% endfor %}

@@ -211,8 +211,8 @@ class DeputyExpenseController extends AbstractController
             'subject' => 'expense',
             'form' => $form->createView(),
             'summary' => [
-                'Description' => $expense->getExplanation(),
-                'Amount' => '£' . number_format($expense->getAmount()),
+                ['label' => 'Description', 'value' => $expense->getExplanation()],
+                ['label' => 'Amount', 'value' => $expense->getAmount(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('ndr_deputy_expenses', ['ndrId' => $ndrId]),
         ];

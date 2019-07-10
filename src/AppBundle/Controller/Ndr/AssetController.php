@@ -362,17 +362,16 @@ class AssetController extends AbstractController
 
         if ($asset instanceof EntityDir\Ndr\AssetProperty) {
             $summary = [
-                'Type' => 'Property',
-                'Address' => implode(', ', $asset->getAddressValidLines()),
-                'Value' => '£' . number_format($asset->getValueTotal()),
-                'Valuation date' => $asset->getValuationDate(),
+                ['label' => 'Type', 'value' => 'Property'],
+                ['label' => 'Address', 'value' => implode(', ', $asset->getAddressValidLines())],
+                ['label' => 'Value', 'value' => $asset->getValueTotal(), 'format' => 'money'],
             ];
         } else {
             $summary = [
-                'Type' => $asset->getTitle(),
-                'Description' => $asset->getDescription(),
-                'Value' => '£' . number_format($asset->getValue()),
-                'Valuation date' => $asset->getValuationDate(),
+                ['label' => 'Type', 'value' => $asset->getTitle()],
+                ['label' => 'Description', 'value' => $asset->getDescription()],
+                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
+                ['label' => 'Valuation date', 'value' => $asset->getValuationDate(), 'format' => 'date'],
             ];
         }
 
