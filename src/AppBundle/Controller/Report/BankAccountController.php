@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity as EntityDir;
 use AppBundle\Form as FormDir;
 use AppBundle\Service\StepRedirector;
+use AppBundle\Service\StringUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -250,7 +251,7 @@ class BankAccountController extends AbstractController
             foreach ($dependentRecords['transactions'] as $type => $count) {
                 if ($count > 0) $transactionTypes[] = $translator->trans($type, [], 'common');
             }
-            $deleteWarningText = 'You have ' . implode(', ', $transactionTypes) . ' payments linked to this bank account. If you remove the account, we\'ll unlink the payments for you.';
+            $deleteWarningText = 'You have ' . StringUtils::implodeWithDifferentLast($transactionTypes, ', ', ' and ') . ' payments linked to this bank account. If you remove the account, we\'ll unlink the payments for you.';
         }
 
         // show confirmation page
