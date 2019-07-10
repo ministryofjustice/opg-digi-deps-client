@@ -190,6 +190,7 @@ class MoneyInShortController extends AbstractController
 
     /**
      * @Route("/report/{reportId}/money-in-short/{transactionId}/delete", name="money_in_short_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @param int $id
      *
@@ -197,16 +198,36 @@ class MoneyInShortController extends AbstractController
      */
     public function deleteAction(Request $request, $reportId, $transactionId)
     {
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
+
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
-        $this->getRestClient()->delete('report/' . $report->getId() . '/money-transaction-short/' . $transactionId);
+        if ($form->isValid()) {
+            $this->getRestClient()->delete('report/' . $report->getId() . '/money-transaction-short/' . $transactionId);
 
-        $request->getSession()->getFlashBag()->add(
-            'notice',
-            'Entry deleted'
-        );
+            $request->getSession()->getFlashBag()->add(
+                'notice',
+                'Entry deleted'
+            );
 
-        return $this->redirect($this->generateUrl('money_in_short_summary', ['reportId' => $reportId]));
+            return $this->redirect($this->generateUrl('money_in_short_summary', ['reportId' => $reportId]));
+        }
+
+        $transaction = $this->getRestClient()->get('report/' . $report->getId() . '/money-transaction-short/' . $transactionId, 'Report\MoneyTransactionShort');
+
+        return [
+            'report' => $transaction,
+            'translationDomain' => 'report-money-short',
+            'subject' => 'item of income',
+            'form' => $form->createView(),
+            'summary' => [
+                ['label' => 'Description', 'value' => $transaction->getDescription()],
+                ['label' => 'Date', 'value' => $transaction->getDate(), 'format' => 'date'],
+                ['label' => 'Amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
+            ],
+            'backLink' => $this->generateUrl('contacts', ['reportId' => $reportId]),
+        ];
     }
 
     /**
