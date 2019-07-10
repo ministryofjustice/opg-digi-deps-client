@@ -190,11 +190,10 @@ class BankAccountController extends AbstractController
 
     /**
      * @Route("/report/{reportId}/bank-account/{accountId}/delete", name="bank_account_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @param int $reportId
      * @param int $accountId
-     *
-     * @Template()
      */
     public function deleteConfirmAction(Request $request, $reportId, $accountId)
     {
@@ -213,9 +212,11 @@ class BankAccountController extends AbstractController
             return $this->redirect($summaryPageUrl);
         }
 
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
 
         // delete the bank acount if the confirm button is pushed, or there are no payments. Then go back to summary page
-        if ($request->get('confirm') || $dependentRecords['transactionsCount'] == 0) {
+        if ($form->isValid()) {
             if ($report->getBankAccountById($accountId)) {
                 $this->getRestClient()->delete("/account/{$accountId}");
             }
@@ -228,13 +229,28 @@ class BankAccountController extends AbstractController
             return $this->redirect($summaryPageUrl);
         }
 
+        // Build summary based on information entered
+        $summary = [];
+
+        if ($bankAccount->requiresBankName()) {
+            $summary[] = ['label' => 'Bank or building society name', 'value' => $bankAccount->getBank()];
+        }
+
+        $summary[] = ['label' => 'Type of account', 'value' => $bankAccount->getAccountTypeText()];
+
+        if ($bankAccount->requiresSortCode()) {
+            $summary[] = ['label' => 'Sort code', 'value' => $bankAccount->getDisplaySortCode()];
+        }
+
+        $summary[] = ['label' => 'Account number', 'value' => '****' . $bankAccount->getAccountNumber()];
+
         // show confirmation page
         return [
-            'report' => $report,
-            'accountId' => $accountId,
-            'account' => $bankAccount,
-            'dp' => $dependentRecords,
-            'backLink' => $summaryPageUrl
+            'translationDomain' => 'report-bank-accounts',
+            'subject' => 'account',
+            'form' => $form->createView(),
+            'summary' => $summary,
+            'backLink' => $summaryPageUrl,
         ];
     }
 
