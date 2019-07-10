@@ -244,6 +244,15 @@ class BankAccountController extends AbstractController
 
         $summary[] = ['label' => 'Account number', 'value' => '****' . $bankAccount->getAccountNumber()];
 
+        // Show a warning if the account has transactions
+        if ($dependentRecords['transactionsCount'] > 0) {
+            $transactionTypes = [];
+            foreach ($dependentRecords['transactions'] as $type => $count) {
+                if ($count > 0) $transactionTypes[] = $translator->trans($type, [], 'common');
+            }
+            $deleteWarningText = 'You have ' . implode(', ', $transactionTypes) . ' payments linked to this bank account. If you remove the account, we\'ll unlink the payments for you.';
+        }
+
         // show confirmation page
         return [
             'translationDomain' => 'report-bank-accounts',
@@ -251,6 +260,7 @@ class BankAccountController extends AbstractController
             'form' => $form->createView(),
             'summary' => $summary,
             'backLink' => $summaryPageUrl,
+            'warning' => isset($deleteWarningText) ? $deleteWarningText : '',
         ];
     }
 

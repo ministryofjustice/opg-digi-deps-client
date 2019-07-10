@@ -40,6 +40,10 @@
         {% endfor %}
     </dl>
 
+    {% if warning %}
+        {{ macros.notification('important', warning) }}
+    {% endif %}
+
     <div class="govuk-form-group">
         {{ form_submit(form.confirm, '', {
             'buttonClass': 'behat-link-confirm',
