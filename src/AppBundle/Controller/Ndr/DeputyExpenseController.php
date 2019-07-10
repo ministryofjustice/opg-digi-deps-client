@@ -180,6 +180,7 @@ class DeputyExpenseController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/deputy-expenses/{expenseId}/delete", name="ndr_deputy_expenses_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @param int $id
      *
@@ -187,15 +188,33 @@ class DeputyExpenseController extends AbstractController
      */
     public function deleteAction(Request $request, $ndrId, $expenseId)
     {
-        $ndr = $this->getNdrIfNotSubmitted($ndrId, self::$jmsGroups);
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
 
-        $this->getRestClient()->delete('ndr/' . $ndr->getId() . '/expense/' . $expenseId);
+        if ($form->isValid()) {
+            $ndr = $this->getNdrIfNotSubmitted($ndrId, self::$jmsGroups);
 
-        $request->getSession()->getFlashBag()->add(
-            'notice',
-            'Expense deleted'
-        );
+            $this->getRestClient()->delete('ndr/' . $ndr->getId() . '/expense/' . $expenseId);
 
-        return $this->redirect($this->generateUrl('ndr_deputy_expenses', ['ndrId' => $ndrId]));
+            $request->getSession()->getFlashBag()->add(
+                'notice',
+                'Expense deleted'
+            );
+
+            return $this->redirect($this->generateUrl('ndr_deputy_expenses', ['ndrId' => $ndrId]));
+        }
+
+        $expense = $this->getRestClient()->get('ndr/' . $ndrId . '/expense/' . $expenseId, 'Ndr\Expense');
+
+        return [
+            'translationDomain' => 'ndr-deputy-expenses',
+            'subject' => 'expense',
+            'form' => $form->createView(),
+            'summary' => [
+                'Description' => $expense->getExplanation(),
+                'Amount' => '£' . number_format($expense->getAmount()),
+            ],
+            'backLink' => $this->generateUrl('ndr_deputy_expenses', ['ndrId' => $ndrId]),
+        ];
     }
 }
