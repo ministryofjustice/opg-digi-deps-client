@@ -178,6 +178,7 @@ class MoneyOutController extends AbstractController
 
     /**
      * @Route("/report/{reportId}/money-out/{transactionId}/delete", name="money_out_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @param int $reportId
      * @param int $transactionId
@@ -189,18 +190,45 @@ class MoneyOutController extends AbstractController
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
         $transaction = array_filter($report->getMoneyTransactionsOut(), function ($t) use ($transactionId) {
             return $t->getId() == $transactionId;
-        });
+        })[0];
         if (!$transaction) {
             throw new \RuntimeException('Transaction not found');
         }
-        $this->getRestClient()->delete('/report/' . $reportId . '/money-transaction/' . $transactionId);
 
-        $request->getSession()->getFlashBag()->add(
-            'notice',
-            'Entry deleted'
-        );
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
 
-        return $this->redirect($this->generateUrl('money_out_summary', ['reportId' => $reportId]));
+        if ($form->isValid()) {
+            $this->getRestClient()->delete('/report/' . $reportId . '/money-transaction/' . $transactionId);
+
+            $request->getSession()->getFlashBag()->add(
+                'notice',
+                'Entry deleted'
+            );
+
+            return $this->redirect($this->generateUrl('money_out_summary', ['reportId' => $reportId]));
+        }
+
+        $translator = $this->get('translator');
+        $categoryKey = 'form.category.entries.' . $transaction->getCategory() . '.label';
+        $summary = [
+            ['label' => 'Type', 'value' => $translator->trans($categoryKey, [], 'report-money-transaction')],
+            ['label' => 'Description', 'value' => $transaction->getDescription()],
+            ['label' => 'Amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
+        ];
+
+        if ($report->canLinkToBankAccounts()) {
+            $summary[] = ['label' => 'Bank account', 'value' => $transaction->getBankAccount()->getNameOneLine()];
+        }
+
+        return [
+            'report' => $report,
+            'translationDomain' => 'report-money-transaction',
+            'subject' => 'payment',
+            'form' => $form->createView(),
+            'summary' => $summary,
+            'backLink' => $this->generateUrl('money_out_summary', ['reportId' => $reportId]),
+        ];
     }
 
     /**
