@@ -360,16 +360,27 @@ class AssetController extends AbstractController
 
         $asset = $this->getRestClient()->get("ndr/{$ndrId}/asset/{$assetId}", 'Ndr\\Asset');
 
-        return [
-            'translationDomain' => 'ndr-assets',
-            'subject' => 'asset',
-            'form' => $form->createView(),
-            'summary' => [
+        if ($asset instanceof EntityDir\Ndr\AssetProperty) {
+            $summary = [
+                'Type' => 'Property',
+                'Address' => implode(', ', $asset->getAddressValidLines()),
+                'Value' => '£' . number_format($asset->getValueTotal()),
+                'Valuation date' => $asset->getValuationDate(),
+            ];
+        } else {
+            $summary = [
                 'Type' => $asset->getTitle(),
                 'Description' => $asset->getDescription(),
                 'Value' => '£' . number_format($asset->getValue()),
                 'Valuation date' => $asset->getValuationDate(),
-            ],
+            ];
+        }
+
+        return [
+            'translationDomain' => 'ndr-assets',
+            'subject' => 'asset',
+            'form' => $form->createView(),
+            'summary' => $summary,
             'backLink' => $this->generateUrl('ndr_assets_summary', ['ndrId' => $ndrId]),
         ];
     }
