@@ -207,9 +207,11 @@ class ContactController extends AbstractController
             return $this->redirect($this->generateUrl('contacts', ['reportId' => $reportId]));
         }
 
+        $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
         $contact = $this->getRestClient()->get('report/contact/' . $contactId, 'Report\\Contact');
 
         return [
+            'report' => $report,
             'translationDomain' => 'report-contacts',
             'subject' => 'contact',
             'form' => $form->createView(),

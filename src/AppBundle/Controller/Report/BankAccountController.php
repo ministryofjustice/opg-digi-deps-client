@@ -256,6 +256,7 @@ class BankAccountController extends AbstractController
 
         // show confirmation page
         return [
+            'report' => $report,
             'translationDomain' => 'report-bank-accounts',
             'subject' => 'account',
             'form' => $form->createView(),

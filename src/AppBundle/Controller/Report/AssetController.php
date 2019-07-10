@@ -353,10 +353,9 @@ class AssetController extends AbstractController
     {
         $form = $this->createForm(FormDir\ConfirmDeleteType::class);
         $form->handleRequest($request);
+        $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
         if ($form->isValid()) {
-            $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
-
             if ($report->hasAssetWithId($assetId)) {
                 $this->getRestClient()->delete("/report/{$reportId}/asset/{$assetId}");
                 $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
@@ -383,6 +382,7 @@ class AssetController extends AbstractController
         }
 
         return [
+            'report' => $report,
             'translationDomain' => 'report-assets',
             'subject' => 'asset',
             'form' => $form->createView(),
