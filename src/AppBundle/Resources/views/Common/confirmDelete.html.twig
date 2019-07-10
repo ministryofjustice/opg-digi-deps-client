@@ -4,7 +4,13 @@
 
 {% trans_default_domain translationDomain %}
 
-{% block htmlTitle %}{{ 'summaryPage.htmlTitle' | trans() }}{% endblock %}
+{% block htmlTitle %}
+    {% if ('summaryPage.htmlTitle' | trans()) != 'summaryPage.htmlTitle' %}
+        {{ 'summaryPage.htmlTitle' | trans() }}
+    {% else %}
+        {{ 'deletePage.htmlTitle' | trans({ '%subject%': subject }, 'common') }}
+    {% endif %}
+{% endblock %}
 {% block pageTitle %}{{ 'deletePage.pageTitle' | trans({ '%subject%': subject }, 'common') }}{% endblock %}
 
 {% block linkBack %}
