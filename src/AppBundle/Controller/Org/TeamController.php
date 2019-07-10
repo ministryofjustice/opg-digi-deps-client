@@ -253,15 +253,22 @@ class TeamController extends AbstractController
 
         $this->denyAccessUnlessGranted('delete-user', $user, 'Access denied');
 
+        $summary = [
+            ['label' => 'Name', 'value' => $user->getFullName()],
+            ['label' => 'Email address', 'value' => $user->getEmail()],
+            ['label' => 'Administrator?', 'value' => $user->isOrgAdministrator() ? 'Yes' : 'No'],
+        ];
+
+        if (count($user->getTeamNames()) >= 2) {
+            $count = count($user->getTeamNames()) - 1;
+            $summary[] = ['label' => 'Other teams', 'value' => 'User will remain a member of ' . $count  . ' other team' . ($count > 1 ? 's' : '')];
+        }
+
         return [
             'translationDomain' => 'org-team',
             'subject' => 'user account',
             'form' => $form->createView(),
-            'summary' => [
-                ['label' => 'Name', 'value' => $user->getFullName()],
-                ['label' => 'Email address', 'value' => $user->getEmail()],
-                ['label' => 'Administrator?', 'value' => $user->isOrgAdministrator() ? 'Yes' : 'No'],
-            ],
+            'summary' => $summary,
             'backLink' => $this->generateUrl('org_team'),
         ];
     }
