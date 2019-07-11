@@ -48,6 +48,8 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - remove account | GOV.UK"
   subject: account
+  transferPresentError: |
+    This bank account cannot be removed because you've added money transfers to or from this account.
 
 form:
   accountType:
