@@ -261,7 +261,7 @@ class PaFeeExpenseController extends AbstractController
 
     /**
      * @Route("/other/delete/{expenseId}", name="pa_fee_expense_delete")
-     * @Template()
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @param Request $request
      * @param $reportId
@@ -270,16 +270,37 @@ class PaFeeExpenseController extends AbstractController
      */
     public function deleteAction(Request $request, $reportId, $expenseId)
     {
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
+
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
-        $this->getRestClient()->delete('report/' . $report->getId() . '/expense/' . $expenseId);
+        if ($form->isValid()) {
+            $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
-        $request->getSession()->getFlashBag()->add(
-            'notice',
-            'Expense deleted'
-        );
+            $this->getRestClient()->delete('report/' . $report->getId() . '/expense/' . $expenseId);
 
-        return $this->redirect($this->generateUrl('pa_fee_expense', ['reportId' => $reportId]));
+            $request->getSession()->getFlashBag()->add(
+                'notice',
+                'Expense deleted'
+            );
+
+            return $this->redirect($this->generateUrl('pa_fee_expense', ['reportId' => $reportId]));
+        }
+
+        $expense = $this->getRestClient()->get('report/' . $report->getId() . '/expense/' . $expenseId, 'Report\Expense');
+
+        return [
+            'report' => $report,
+            'translationDomain' => 'report-pa-fee-expense',
+            'subject' => 'expense',
+            'form' => $form->createView(),
+            'summary' => [
+                ['label' => 'Description', 'value' => $expense->getExplanation()],
+                ['label' => 'Amount', 'value' => $expense->getAmount(), 'format' => 'money'],
+            ],
+            'backLink' => $this->generateUrl('pa_fee_expense', ['reportId' => $reportId]),
+        ];
     }
 
     /**
