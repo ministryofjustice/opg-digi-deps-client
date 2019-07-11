@@ -188,10 +188,15 @@ class MoneyOutController extends AbstractController
     public function deleteAction(Request $request, $reportId, $transactionId)
     {
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
-        $transaction = array_filter($report->getMoneyTransactionsOut(), function ($t) use ($transactionId) {
-            return $t->getId() == $transactionId;
-        })[0];
-        if (!$transaction) {
+
+        foreach ($report->getMoneyTransactionsOut() as $t) {
+            if ($t->getId() === $transactionId) {
+                $transaction = $t;
+                break;
+            }
+        }
+
+        if (!isset($transaction)) {
             throw new \RuntimeException('Transaction not found');
         }
 
