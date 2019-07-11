@@ -220,9 +220,8 @@ class MoneyOutShortController extends AbstractController
         $transaction = $this->getRestClient()->get('report/' . $report->getId() . '/money-transaction-short/' . $transactionId, 'Report\MoneyTransactionShort');
 
         return [
+            'translationDomain' => 'report-money-out',
             'report' => $report,
-            'translationDomain' => 'report-money-short',
-            'subject' => 'expense',
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Description', 'value' => $transaction->getDescription()],

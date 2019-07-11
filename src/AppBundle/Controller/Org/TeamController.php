@@ -266,7 +266,6 @@ class TeamController extends AbstractController
 
         return [
             'translationDomain' => 'org-team',
-            'subject' => 'user account',
             'form' => $form->createView(),
             'summary' => $summary,
             'backLink' => $this->generateUrl('org_team'),

@@ -243,9 +243,8 @@ class MoneyTransferController extends AbstractController
         $transfer = $report->getMoneyTransferWithId($transferId);
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-money-transfer',
-            'subject' => 'transfer',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Transferred from', 'value' => $transfer->getAccountFrom()->getNameOneLine()],

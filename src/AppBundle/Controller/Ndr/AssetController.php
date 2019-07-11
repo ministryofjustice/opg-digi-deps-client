@@ -377,7 +377,6 @@ class AssetController extends AbstractController
 
         return [
             'translationDomain' => 'ndr-assets',
-            'subject' => 'asset',
             'form' => $form->createView(),
             'summary' => $summary,
             'backLink' => $this->generateUrl('ndr_assets_summary', ['ndrId' => $ndrId]),

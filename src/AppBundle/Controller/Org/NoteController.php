@@ -134,9 +134,8 @@ class NoteController extends AbstractController
         }
 
         return [
-            'report' => $note->getClient()->getCurrentReport(),
             'translationDomain' => 'client-notes',
-            'subject' => 'note',
+            'report' => $note->getClient()->getCurrentReport(),
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Title', 'value' => $note->getTitle()],

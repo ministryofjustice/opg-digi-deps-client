@@ -203,7 +203,6 @@ class BankAccountController extends AbstractController
 
         return [
             'translationDomain' => 'ndr-bank-accounts',
-            'subject' => 'bank account',
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Account type', 'value' => $account->getAccountTypeText()],

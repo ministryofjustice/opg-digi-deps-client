@@ -227,9 +227,8 @@ class MoneyOutController extends AbstractController
         }
 
         return [
+            'translationDomain' => 'report-money-out',
             'report' => $report,
-            'translationDomain' => 'report-money-transaction',
-            'subject' => 'payment',
             'form' => $form->createView(),
             'summary' => $summary,
             'backLink' => $this->generateUrl('money_out_summary', ['reportId' => $reportId]),

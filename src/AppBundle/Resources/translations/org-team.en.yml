@@ -25,6 +25,10 @@ editPage:
 summaryPage:
   htmlTitle: Deputy report - user accounts | GOV.UK
 
+deletePage:
+  htmlTitle: "Client profile - remove user account | GOV.UK"
+  subject: user account
+
 view:
     pageTitle: My details
 

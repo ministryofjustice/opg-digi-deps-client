@@ -291,9 +291,8 @@ class PaFeeExpenseController extends AbstractController
         $expense = $this->getRestClient()->get('report/' . $report->getId() . '/expense/' . $expenseId, 'Report\Expense');
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-pa-fee-expense',
-            'subject' => 'expense',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Description', 'value' => $expense->getExplanation()],

@@ -117,11 +117,8 @@ class ClientContactController extends AbstractController
         $client = $clientContact->getClient();
 
         return [
-            'report'   => $client->getCurrentReport(),
-            'contact'  => $clientContact,
-            'client'   => $client,
             'translationDomain' => 'client-contacts',
-            'subject' => 'contact',
+            'report'   => $client->getCurrentReport(),
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Name', 'value' => $clientContact->getFirstname() . ' ' . $clientContact->getLastName()],

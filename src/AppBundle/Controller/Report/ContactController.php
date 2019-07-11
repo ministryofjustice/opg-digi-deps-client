@@ -211,9 +211,8 @@ class ContactController extends AbstractController
         $contact = $this->getRestClient()->get('report/contact/' . $contactId, 'Report\\Contact');
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-contacts',
-            'subject' => 'contact',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Contact name', 'value' => $contact->getContactName()],

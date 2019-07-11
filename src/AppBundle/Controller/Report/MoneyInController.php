@@ -231,9 +231,8 @@ class MoneyInController extends AbstractController
         }
 
         return [
+            'translationDomain' => 'report-money-in',
             'report' => $report,
-            'translationDomain' => 'report-money-transaction',
-            'subject' => 'item of income',
             'form' => $form->createView(),
             'summary' => $summary,
             'backLink' => $this->generateUrl('money_in_summary', ['reportId' => $reportId]),

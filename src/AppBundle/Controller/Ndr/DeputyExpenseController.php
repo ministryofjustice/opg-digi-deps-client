@@ -208,7 +208,6 @@ class DeputyExpenseController extends AbstractController
 
         return [
             'translationDomain' => 'ndr-deputy-expenses',
-            'subject' => 'expense',
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Description', 'value' => $expense->getExplanation()],

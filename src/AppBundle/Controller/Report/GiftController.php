@@ -215,9 +215,8 @@ class GiftController extends AbstractController
         $gift = $this->getRestClient()->get('report/' . $reportId . '/gift/' . $giftId, 'Report\\Gift');
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-gifts',
-            'subject' => 'gift',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Description of gift', 'value' => $gift->getExplanation()],

@@ -240,9 +240,8 @@ class DeputyExpenseController extends AbstractController
         $expense = $this->getRestClient()->get('report/' . $reportId . '/expense/' . $expenseId, 'Report\Expense');
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-deputy-expenses',
-            'subject' => 'expense',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Description', 'value' => $expense->getExplanation()],

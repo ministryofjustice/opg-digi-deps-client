@@ -291,9 +291,8 @@ class DecisionController extends AbstractController
         $decision = $this->getRestClient()->get('report/decision/' . $decisionId, 'Report\\Decision');
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-decisions',
-            'subject' => 'decision',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Decision', 'value' => $decision->getDescription()],

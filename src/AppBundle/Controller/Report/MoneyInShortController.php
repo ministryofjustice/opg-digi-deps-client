@@ -217,9 +217,8 @@ class MoneyInShortController extends AbstractController
         $transaction = $this->getRestClient()->get('report/' . $report->getId() . '/money-transaction-short/' . $transactionId, 'Report\MoneyTransactionShort');
 
         return [
+            'translationDomain' => 'report-money-in',
             'report' => $report,
-            'translationDomain' => 'report-money-short',
-            'subject' => 'item of income',
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Description', 'value' => $transaction->getDescription()],

@@ -235,9 +235,8 @@ class DocumentController extends AbstractController
             : $this->generateUrl('report_documents', ['reportId' => $report->getId()]);
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-documents',
-            'subject' => 'document',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'File name', 'value' => $document->getFileName()],

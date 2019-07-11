@@ -247,9 +247,8 @@ class BankAccountController extends AbstractController
 
         // show confirmation page
         $templateData = [
-            'report' => $report,
             'translationDomain' => 'report-bank-accounts',
-            'subject' => 'account',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => $summary,
             'backLink' => $summaryPageUrl,

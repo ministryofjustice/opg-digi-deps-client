@@ -4,9 +4,11 @@
 
 {% trans_default_domain translationDomain %}
 
+{% set subject = 'deletePage.subject' | trans() %}
+
 {% block htmlTitle %}
-    {% if ('summaryPage.htmlTitle' | trans()) != 'summaryPage.htmlTitle' %}
-        {{ 'summaryPage.htmlTitle' | trans() }}
+    {% if ('deletePage.htmlTitle' | trans()) != 'deletePage.htmlTitle' %}
+        {{ 'deletePage.htmlTitle' | trans() }}
     {% else %}
         {{ 'deletePage.htmlTitle' | trans({ '%subject%': subject }, 'common') }}
     {% endif %}

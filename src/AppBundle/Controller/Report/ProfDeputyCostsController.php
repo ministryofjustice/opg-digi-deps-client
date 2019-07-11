@@ -213,9 +213,8 @@ class ProfDeputyCostsController extends AbstractController
         $cost = $this->getRestClient()->get('/prof-deputy-previous-cost/' . $previousReceivedId, 'Report\ProfDeputyPreviousCost');
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-prof-deputy-costs',
-            'subject' => 'previous cost',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => [
                 ['label' => 'Reporting period start date', 'value' => $cost->getStartDate(), 'format' => 'date'],

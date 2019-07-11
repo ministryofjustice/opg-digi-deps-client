@@ -382,9 +382,8 @@ class AssetController extends AbstractController
         }
 
         return [
-            'report' => $report,
             'translationDomain' => 'report-assets',
-            'subject' => 'asset',
+            'report' => $report,
             'form' => $form->createView(),
             'summary' => $summary,
             'backLink' => $this->generateUrl('assets_summary', ['reportId' => $reportId]),
