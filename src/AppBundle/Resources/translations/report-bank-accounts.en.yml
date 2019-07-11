@@ -46,11 +46,8 @@ summaryPage:
   addBalance: Add balance
 
 deletePage:
-  htmlTitle: "Deputy report - Accounts | GOV.UK"
-  pageTitle: Remove account
-  supportTitle: Accounts
-  question: Are you sure you want to remove this account?
-  linkButtonLabel: Yes, remove account
+  htmlTitle: "Deputy report - remove account | GOV.UK"
+  subject: account
   transferPresentError: |
     This bank account cannot be removed because you've added money transfers to or from this account.
 

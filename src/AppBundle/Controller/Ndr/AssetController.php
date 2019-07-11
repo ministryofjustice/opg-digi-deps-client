@@ -338,18 +338,48 @@ class AssetController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/assets/{assetId}/delete", name="ndr_asset_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @return RedirectResponse
      */
     public function deleteAction(Request $request, $ndrId, $assetId)
     {
-        $ndr = $this->getNdrIfNotSubmitted($ndrId, self::$jmsGroups);
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
 
-        if ($ndr->hasAssetWithId($assetId)) {
-            $this->getRestClient()->delete("/ndr/{$ndrId}/asset/{$assetId}");
-            $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
+        if ($form->isValid()) {
+            $ndr = $this->getNdrIfNotSubmitted($ndrId, self::$jmsGroups);
+
+            if ($ndr->hasAssetWithId($assetId)) {
+                $this->getRestClient()->delete("/ndr/{$ndrId}/asset/{$assetId}");
+                $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
+            }
+
+            return $this->redirect($this->generateUrl('ndr_assets', ['ndrId' => $ndrId]));
         }
 
-        return $this->redirect($this->generateUrl('ndr_assets', ['ndrId' => $ndrId]));
+        $asset = $this->getRestClient()->get("ndr/{$ndrId}/asset/{$assetId}", 'Ndr\\Asset');
+
+        if ($asset instanceof EntityDir\Ndr\AssetProperty) {
+            $summary = [
+                ['label' => 'Type', 'value' => 'Property'],
+                ['label' => 'Address', 'value' => implode(', ', $asset->getAddressValidLines())],
+                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
+            ];
+        } else {
+            $summary = [
+                ['label' => 'Type', 'value' => $asset->getTitle()],
+                ['label' => 'Description', 'value' => $asset->getDescription()],
+                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
+                ['label' => 'Valuation date', 'value' => $asset->getValuationDate(), 'format' => 'date'],
+            ];
+        }
+
+        return [
+            'translationDomain' => 'ndr-assets',
+            'form' => $form->createView(),
+            'summary' => $summary,
+            'backLink' => $this->generateUrl('ndr_assets_summary', ['ndrId' => $ndrId]),
+        ];
     }
 }

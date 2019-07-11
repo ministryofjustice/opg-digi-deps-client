@@ -345,19 +345,49 @@ class AssetController extends AbstractController
 
     /**
      * @Route("/report/{reportId}/assets/{assetId}/delete", name="asset_delete")
+     * @Template("AppBundle:Common:confirmDelete.html.twig")
      *
      * @return RedirectResponse
      */
     public function deleteAction(Request $request, $reportId, $assetId)
     {
+        $form = $this->createForm(FormDir\ConfirmDeleteType::class);
+        $form->handleRequest($request);
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
 
-        if ($report->hasAssetWithId($assetId)) {
-            $this->getRestClient()->delete("/report/{$reportId}/asset/{$assetId}");
-            $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
+        if ($form->isValid()) {
+            if ($report->hasAssetWithId($assetId)) {
+                $this->getRestClient()->delete("/report/{$reportId}/asset/{$assetId}");
+                $request->getSession()->getFlashBag()->add('notice', 'Asset removed');
+            }
+
+            return $this->redirect($this->generateUrl('assets_summary', ['reportId' => $reportId]));
         }
 
-        return $this->redirect($this->generateUrl('assets_summary', ['reportId' => $reportId]));
+        $asset = $this->getRestClient()->get("report/{$reportId}/asset/{$assetId}", 'Report\\Asset');
+
+        if ($asset instanceof EntityDir\Report\AssetProperty) {
+            $summary = [
+                ['label' => 'Type', 'value' => 'Property'],
+                ['label' => 'Address', 'value' => implode(', ', $asset->getAddressValidLines())],
+                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
+            ];
+        } else {
+            $summary = [
+                ['label' => 'Type', 'value' => $asset->getTitle()],
+                ['label' => 'Description', 'value' => $asset->getDescription()],
+                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
+                ['label' => 'Valuation date', 'value' => $asset->getValuationDate(), 'format' => 'date'],
+            ];
+        }
+
+        return [
+            'translationDomain' => 'report-assets',
+            'report' => $report,
+            'form' => $form->createView(),
+            'summary' => $summary,
+            'backLink' => $this->generateUrl('assets_summary', ['reportId' => $reportId]),
+        ];
     }
 
     /**

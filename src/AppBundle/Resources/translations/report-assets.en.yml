@@ -63,9 +63,13 @@ summaryPage:
   addButton: Add an asset
   totalValueOfAssets: Total value of assets
 
+deletePage:
+  htmlTitle: "Deputy report - remove asset | GOV.UK"
+  subject: asset
+
 form:
   clientAssets.label: %client%'s assets
-  doesClientHaveAssets: 
+  doesClientHaveAssets:
     label: Does %client% own any assets?
     noAssets.label: %client% has no assets
   titleSave.label: Save and continue

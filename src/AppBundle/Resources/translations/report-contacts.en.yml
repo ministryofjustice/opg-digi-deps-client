@@ -57,6 +57,10 @@ summaryPage:
   relationship: Relationship
   reasonForContact: Reason for contact
 
+deletePage:
+  htmlTitle: "Deputy report - remove contact | GOV.UK"
+  subject: contact
+
 form:
   contactName:
       label: Contact name
