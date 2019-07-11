@@ -22,9 +22,6 @@ editPage:
   supportTitle: User account
   moreThanOneTeamNotification: This user is also a team member on other deputyships. Any changes you make will update their account across all deputyship teams.
 
-summaryPage:
-  htmlTitle: Deputy report - user accounts | GOV.UK
-
 deletePage:
   htmlTitle: "Client profile - remove user account | GOV.UK"
   subject: user account
