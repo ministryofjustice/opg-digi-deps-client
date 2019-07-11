@@ -36,5 +36,3 @@ form:
     label: Organisation country
   save:
     label: Save contact
-summaryPage:
-    title: "Client profile - contacts | GOV.UK"
