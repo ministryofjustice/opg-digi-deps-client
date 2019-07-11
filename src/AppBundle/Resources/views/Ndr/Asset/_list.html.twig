@@ -2,31 +2,31 @@
 {% trans_default_domain translationDomain %}
 
 {# "client own assets" question #}
-<table class="check-your-answers columns-2 push-double--bottom">
-    <thead>
-        <tr>
-            <th>{{ 'question' | trans({}, 'common') }}</th>
-            <th>{{ 'answer' | trans({}, 'common') }}</th>
-            <th>
-                <span class="visually-hidden">{{ 'actions' | trans({}, 'common') }}</span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="behat-region-has-assets">
-            <td>
-                {{ 'existPage.form.noAssetToAdd.label' | trans(transOptions)  }}
-            </td>
-            <td>
-                {{ ndr.noAssetToAdd ? 'No' : 'Yes' }}
-            </td>
-            <td class="change-answer">
-                <a href="{{ url('ndr_assets_exist', { 'ndrId': ndr.id, 'from': 'summary' }) }}" class="behat-link-edit">{{ 'edit' | trans({}, 'common') }}</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+<dl class="govuk-summary-list columns-2 push-double--bottom">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      {{ 'question' | trans({}, 'common') }}
+    </dt>
+    <dd class="govuk-summary-list__key">
+      {{ 'answer' | trans({}, 'common') }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row behat-region-has-assets">
+    <dt class="govuk-summary-list__value">
+        {{ 'existPage.form.noAssetToAdd.label' | trans(transOptions)  }}
+    </dt>
+    <dd class="govuk-summary-list__value">
+        {{ ndr.noAssetToAdd ? 'No' : 'Yes' }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link behat-link-edit" href="{{ url('ndr_assets_exist', { 'ndrId': ndr.id, 'from': 'summary' }) }}">
+        {{ 'edit' | trans({}, 'common') }}
+      </a>
+    </dd>
+  </div>
+</dl>
 {# display title if assets are present #}
 {% if ndr.assets %}
     <div class="grid-row">
