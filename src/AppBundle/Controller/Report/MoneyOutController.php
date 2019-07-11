@@ -222,7 +222,7 @@ class MoneyOutController extends AbstractController
             ['label' => 'Amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
         ];
 
-        if ($report->canLinkToBankAccounts()) {
+        if ($report->canLinkToBankAccounts() && $transaction->getBankAccount()) {
             $summary[] = ['label' => 'Bank account', 'value' => $transaction->getBankAccount()->getNameOneLine()];
         }
 
