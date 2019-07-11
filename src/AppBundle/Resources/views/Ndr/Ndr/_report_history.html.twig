@@ -3,55 +3,70 @@
 
 <h2 class="heading-large">{{ 'history.title' | trans }}</h2>
 
-<table class="check-your-answers behat-region-reports-history">
-    <thead>
-        <tr>
-            <th>{{ 'history.header.reportType' | trans }}</th>
-            <th>{{ 'history.header.reportingPeriod' | trans }}</th>
-            <th>{{ 'history.header.submissionDate' | trans }}</th>
-            <th><span class="visually-hidden">{{ 'actions' | trans({}, 'common') }}</span></th>
-        </tr>
-    </thead>
-    <tbody>
+
+<dl class="govuk-summary-list behat-region-reports-history">
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ 'history.header.reportType' | trans }}
+        </dt>
+        <dd class="govuk-summary-list__key">
+            {{ 'history.header.reportingPeriod' | trans }}
+        </dd>
+        <dd class="govuk-summary-list__key">
+            {{ 'history.header.submissionDate' | trans }}
+        </dd>
+        <dd class="govuk-summary-list__key">
+            <span class="visually-hidden">{{ 'actions' | trans({}, 'common') }}</span>
+        </dd>
+    </div>
+
     {# only submitted reports listed here #}
     {% for report in reports %}
-        <tr>
-            <td>
-                <a href="{{ path('report_review', {reportId: report.id}) }}">
-                    {{ 'annualDeputyReport' | trans({}, 'common') }}
-                </a>
-            </td>
-            <td>{{ report.startDate | date("j M Y") }} - {{ report.endDate | date("j M Y") }}</td>
-            <td>{{ report.submitDate | date("j F Y") }}</td>
-            <td class="width-sixth change-answer">
-                <a href="{{ path('report_pdf', {reportId: report.id}) }}">
-                    {{ 'history.reports.download' | trans }}
-                </a><br>
-                <a href="{{ path('report_review', {reportId: report.id}) }}">
-                    {{ 'history.reports.view' | trans }}
-                </a><br>
-                <a href="{{ path('report_documents', {reportId: report.id}) }}" class="no-wrap behat-link-report-attach-more">
-                    {{ 'history.reports.attachDocuments' | trans }}
-                </a>
-            </td>
-        </tr>
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__value">
+            <a href="{{ path('report_review', {reportId: report.id}) }}">
+                {{ 'annualDeputyReport' | trans({}, 'common') }}
+            </a>
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ report.startDate | date("j M Y") }} - {{ report.endDate | date("j M Y") }}
+        </dd>
+        <dd class="govuk-summary-list__value">
+            {{ report.submitDate | date("j F Y") }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ path('report_pdf', {reportId: report.id}) }}">
+                {{ 'history.reports.download' | trans }}
+            </a><br>
+            <a class="govuk-link" href="{{ path('report_review', {reportId: report.id}) }}">
+                {{ 'history.reports.view' | trans }}
+            </a><br>
+            <a class="govuk-link no-wrap behat-link-report-attach-more" href="{{ path('report_documents', {reportId: report.id}) }}">
+                {{ 'history.reports.attachDocuments' | trans }}
+            </a>
+        </dd>
+    </div>
     {% endfor %}
-    <tr>
-        <td>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
             <a href="{{ path('ndr_review', {'ndrId': ndr.id}) }}">
                 {{ 'history.ndr.title' | trans }}
             </a>
-        </td>
-        <td>{{ 'history.ndr.reportingPeriod' | trans }}</td>
-        <td>{{ ndr.submitDate | date("j F Y") }}</td>
-        <td class="change-answer">
-            <a href="{{ path('ndr_pdf', {'ndrId': ndr.id}) }}">
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ 'history.ndr.reportingPeriod' | trans }}
+        </dd>
+        <dd class="govuk-summary-list__value">
+            {{ ndr.submitDate | date("j F Y") }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ path('ndr_pdf', {'ndrId': ndr.id}) }}">
                 {{ 'history.ndr.download' | trans }}
             </a><br>
-            <a href="{{ path('ndr_review', {'ndrId': ndr.id}) }}">
+            <a class="govuk-link" href="{{ path('ndr_review', {'ndrId': ndr.id}) }}">
                 {{ 'history.ndr.view' | trans }}
             </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        </dd>
+    </div>
+</dl>
