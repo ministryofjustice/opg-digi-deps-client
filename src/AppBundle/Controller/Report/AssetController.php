@@ -368,7 +368,7 @@ class AssetController extends AbstractController
 
         if ($asset instanceof EntityDir\Report\AssetProperty) {
             $summary = [
-                ['label' => 'deletePage.summary.type', 'value' => 'deletePage.summary.property'],
+                ['label' => 'deletePage.summary.type', 'value' => 'deletePage.summary.property', 'format' => 'translate'],
                 ['label' => 'deletePage.summary.address', 'value' => implode(', ', $asset->getAddressValidLines())],
                 ['label' => 'deletePage.summary.value', 'value' => $asset->getValue(), 'format' => 'money'],
             ];
