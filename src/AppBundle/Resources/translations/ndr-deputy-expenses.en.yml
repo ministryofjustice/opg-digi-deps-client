@@ -58,6 +58,9 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - remove deputy expense | GOV.UK"
   subject: expense
+  summary:
+    description: Description
+    amount: Amount
 
 form:
   explanation:

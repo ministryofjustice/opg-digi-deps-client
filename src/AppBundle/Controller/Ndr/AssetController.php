@@ -362,16 +362,16 @@ class AssetController extends AbstractController
 
         if ($asset instanceof EntityDir\Ndr\AssetProperty) {
             $summary = [
-                ['label' => 'Type', 'value' => 'Property'],
-                ['label' => 'Address', 'value' => implode(', ', $asset->getAddressValidLines())],
-                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.type', 'value' => 'deletePage.summary.property', 'format' => 'translate'],
+                ['label' => 'deletePage.summary.address', 'value' => implode(', ', $asset->getAddressValidLines())],
+                ['label' => 'deletePage.summary.value', 'value' => $asset->getValue(), 'format' => 'money'],
             ];
         } else {
             $summary = [
-                ['label' => 'Type', 'value' => $asset->getTitle()],
-                ['label' => 'Description', 'value' => $asset->getDescription()],
-                ['label' => 'Value', 'value' => $asset->getValue(), 'format' => 'money'],
-                ['label' => 'Valuation date', 'value' => $asset->getValuationDate(), 'format' => 'date'],
+                ['label' => 'deletePage.summary.type', 'value' => $asset->getTitle()],
+                ['label' => 'deletePage.summary.description', 'value' => $asset->getDescription()],
+                ['label' => 'deletePage.summary.value', 'value' => $asset->getValue(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.valuationDate', 'value' => $asset->getValuationDate(), 'format' => 'date'],
             ];
         }
 

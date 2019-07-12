@@ -55,6 +55,10 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - remove account | GOV.UK"
   subject: account
+  summary:
+    accountType: Account type
+    accountNumber: Account number
+    balance: Balance
 
 form:
   accountType:

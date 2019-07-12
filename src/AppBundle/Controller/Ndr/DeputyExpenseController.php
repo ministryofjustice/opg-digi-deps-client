@@ -210,8 +210,8 @@ class DeputyExpenseController extends AbstractController
             'translationDomain' => 'ndr-deputy-expenses',
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Description', 'value' => $expense->getExplanation()],
-                ['label' => 'Amount', 'value' => $expense->getAmount(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.description', 'value' => $expense->getExplanation()],
+                ['label' => 'deletePage.summary.amount', 'value' => $expense->getAmount(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('ndr_deputy_expenses', ['ndrId' => $ndrId]),
         ];

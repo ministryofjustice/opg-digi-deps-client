@@ -205,9 +205,9 @@ class BankAccountController extends AbstractController
             'translationDomain' => 'ndr-bank-accounts',
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Account type', 'value' => $account->getAccountTypeText()],
-                ['label' => 'Account number', 'value' => '****' . $account->getAccountNumber()],
-                ['label' => 'Balance', 'value' => $account->getBalanceOnCourtOrderDate(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.accountType', 'value' => $account->getAccountTypeText()],
+                ['label' => 'deletePage.summary.accountNumber', 'value' => '****' . $account->getAccountNumber()],
+                ['label' => 'deletePage.summary.balance', 'value' => $account->getBalanceOnCourtOrderDate(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('ndr_bank_accounts_summary', ['ndrId' => $ndrId]),
         ];
