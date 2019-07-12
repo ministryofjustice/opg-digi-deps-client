@@ -32,7 +32,7 @@
         {% for definition in summary %}
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
-                    {{ definition.label }}
+                    {{ definition.label | trans }}
                 </dt>
                 <dd class="govuk-summary-list__value">
                     {% if definition.value is null %}
@@ -41,6 +41,8 @@
                         £{{ definition.value | money_format }}
                     {% elseif definition.format is defined and definition.format == 'date' %}
                         {{ definition.value | date('j F Y') }}
+                    {% elseif definition.format is defined and definition.format == 'translate' %}
+                        {{ definition.value | trans }}
                     {% else %}
                         {{ definition.value | default('-') | nl2br }}
                     {% endif %}
