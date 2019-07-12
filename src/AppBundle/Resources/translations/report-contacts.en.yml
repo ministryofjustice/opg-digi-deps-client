@@ -60,6 +60,10 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - remove contact | GOV.UK"
   subject: contact
+  summary:
+    contactName: Contact name
+    relationship: Relationship
+    explanation: Reason for contact
 
 form:
   contactName:

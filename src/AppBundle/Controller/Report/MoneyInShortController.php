@@ -221,9 +221,9 @@ class MoneyInShortController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Description', 'value' => $transaction->getDescription()],
-                ['label' => 'Date', 'value' => $transaction->getDate(), 'format' => 'date'],
-                ['label' => 'Amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.description', 'value' => $transaction->getDescription()],
+                ['label' => 'deletePage.summary.date', 'value' => $transaction->getDate(), 'format' => 'date'],
+                ['label' => 'deletePage.summary.amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('money_in_short_summary', ['reportId' => $reportId]),
         ];

@@ -66,6 +66,13 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - remove asset | GOV.UK"
   subject: asset
+  summary:
+    type: Type
+    property: Property
+    address: Address
+    value: Value
+    description: Description
+    valuationDate: Valuation date
 
 form:
   clientAssets.label: %client%'s assets

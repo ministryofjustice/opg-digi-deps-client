@@ -217,13 +217,13 @@ class MoneyOutController extends AbstractController
         $translator = $this->get('translator');
         $categoryKey = 'form.category.entries.' . $transaction->getCategory() . '.label';
         $summary = [
-            ['label' => 'Type', 'value' => $translator->trans($categoryKey, [], 'report-money-transaction')],
-            ['label' => 'Description', 'value' => $transaction->getDescription()],
-            ['label' => 'Amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
+            ['label' => 'deletePage.summary.category', 'value' => $translator->trans($categoryKey, [], 'report-money-transaction')],
+            ['label' => 'deletePage.summary.description', 'value' => $transaction->getDescription()],
+            ['label' => 'deletePage.summary.amount', 'value' => $transaction->getAmount(), 'format' => 'money'],
         ];
 
         if ($report->canLinkToBankAccounts() && $transaction->getBankAccount()) {
-            $summary[] = ['label' => 'Bank account', 'value' => $transaction->getBankAccount()->getNameOneLine()];
+            $summary[] = ['label' => 'deletePage.summary.bankAccount', 'value' => $transaction->getBankAccount()->getNameOneLine()];
         }
 
         return [

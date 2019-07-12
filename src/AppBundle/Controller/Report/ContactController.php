@@ -215,9 +215,9 @@ class ContactController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Contact name', 'value' => $contact->getContactName()],
-                ['label' => 'Relationship', 'value' => $contact->getRelationship()],
-                ['label' => 'Reason for contact', 'value' => $contact->getExplanation()],
+                ['label' => 'deletePage.summary.contactName', 'value' => $contact->getContactName()],
+                ['label' => 'deletePage.summary.relationship', 'value' => $contact->getRelationship()],
+                ['label' => 'deletePage.summary.explanation', 'value' => $contact->getExplanation()],
             ],
             'backLink' => $this->generateUrl('contacts', ['reportId' => $reportId]),
         ];

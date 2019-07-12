@@ -247,9 +247,9 @@ class MoneyTransferController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Transferred from', 'value' => $transfer->getAccountFrom()->getNameOneLine()],
-                ['label' => 'Transferred to', 'value' => $transfer->getAccountTo()->getNameOneLine()],
-                ['label' => 'Amount', 'value' => $transfer->getAmount(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.accountFrom', 'value' => $transfer->getAccountFrom()->getNameOneLine()],
+                ['label' => 'deletePage.summary.accountTo', 'value' => $transfer->getAccountTo()->getNameOneLine()],
+                ['label' => 'deletePage.summary.amount', 'value' => $transfer->getAmount(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('money_transfers_summary', ['reportId' => $reportId]),
         ];

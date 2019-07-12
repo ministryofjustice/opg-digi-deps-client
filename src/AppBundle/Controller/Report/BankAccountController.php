@@ -234,16 +234,16 @@ class BankAccountController extends AbstractController
         $summary = [];
 
         if ($bankAccount->requiresBankName()) {
-            $summary[] = ['label' => 'Bank or building society name', 'value' => $bankAccount->getBank()];
+            $summary[] = ['label' => 'deletePage.summary.bank', 'value' => $bankAccount->getBank()];
         }
 
-        $summary[] = ['label' => 'Type of account', 'value' => $bankAccount->getAccountTypeText()];
+        $summary[] = ['label' => 'deletePage.summary.accountType', 'value' => $bankAccount->getAccountTypeText()];
 
         if ($bankAccount->requiresSortCode()) {
-            $summary[] = ['label' => 'Sort code', 'value' => $bankAccount->getDisplaySortCode()];
+            $summary[] = ['label' => 'deletePage.summary.sortCode', 'value' => $bankAccount->getDisplaySortCode()];
         }
 
-        $summary[] = ['label' => 'Account number', 'value' => '****' . $bankAccount->getAccountNumber()];
+        $summary[] = ['label' => 'deletePage.summary.accountNumber', 'value' => '****' . $bankAccount->getAccountNumber()];
 
         // show confirmation page
         $templateData = [
@@ -261,7 +261,11 @@ class BankAccountController extends AbstractController
                 if ($count > 0) $transactionTypes[] = $translator->trans($type, [], 'common');
             }
 
-            $templateData['warning'] = 'You have ' . StringUtils::implodeWithDifferentLast($transactionTypes, ', ', ' and ') . ' payments linked to this bank account. If you remove the account, we\'ll unlink the payments for you.';
+            $templateData['warning'] = $translator->trans(
+                'deletePage.linkedPaymentsWarning',
+                ['%paymentTypes%' => StringUtils::implodeWithDifferentLast($transactionTypes, ', ', ' and ')],
+                'report-bank-accounts'
+            );
         }
 
         return $templateData;

@@ -110,6 +110,8 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - remove decision | GOV.UK"
   subject: decision
+  summary:
+    description: Decision description
 
 form:
   title:

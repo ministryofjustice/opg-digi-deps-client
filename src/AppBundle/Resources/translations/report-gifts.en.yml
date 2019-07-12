@@ -71,6 +71,9 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - remove gift | GOV.UK"
   subject: gift
+  summary:
+    explanation: Description of gift
+    amount: Amount
 
 form:
   explanation:

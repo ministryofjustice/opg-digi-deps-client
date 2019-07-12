@@ -295,7 +295,7 @@ class DecisionController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Decision', 'value' => $decision->getDescription()],
+                ['label' => 'deletePage.summary.description', 'value' => $decision->getDescription()],
             ],
             'backLink' => $this->generateUrl('decisions', ['reportId' => $reportId]),
         ];

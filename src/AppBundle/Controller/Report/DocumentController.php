@@ -239,8 +239,8 @@ class DocumentController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'File name', 'value' => $document->getFileName()],
-                ['label' => 'Date attached', 'value' => $document->getCreatedOn(), 'format' => 'date'],
+                ['label' => 'deletePage.summary.fileName', 'value' => $document->getFileName()],
+                ['label' => 'deletePage.summary.createdOn', 'value' => $document->getCreatedOn(), 'format' => 'date'],
             ],
             'backLink' => $backLink,
         ];

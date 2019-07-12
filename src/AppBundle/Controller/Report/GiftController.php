@@ -219,8 +219,8 @@ class GiftController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Description of gift', 'value' => $gift->getExplanation()],
-                ['label' => 'Amount', 'value' => $gift->getAmount(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.explanation', 'value' => $gift->getExplanation()],
+                ['label' => 'deletePage.summary.amount', 'value' => $gift->getAmount(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('gifts', ['reportId' => $reportId]),
         ];
