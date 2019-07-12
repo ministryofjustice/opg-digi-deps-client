@@ -4,16 +4,17 @@
 
 {% trans_default_domain translationDomain %}
 
-{% set subject = 'deletePage.subject' | trans() %}
+{% set subject = 'deletePage.subject' | trans %}
 
 {% block htmlTitle %}
-    {% if ('deletePage.htmlTitle' | trans()) != 'deletePage.htmlTitle' %}
-        {{ 'deletePage.htmlTitle' | trans() }}
+    {% if ('deletePage.htmlTitle' | trans) != 'deletePage.htmlTitle' %}
+        {{ 'deletePage.htmlTitle' | trans }}
     {% else %}
-        {{ 'deletePage.htmlTitle' | trans({ '%subject%': subject }, 'common') }}
+        {{ 'page.htmlTitle' | trans({ '%subject%': subject }, 'delete-page') }}
     {% endif %}
 {% endblock %}
-{% block pageTitle %}{{ 'deletePage.pageTitle' | trans({ '%subject%': subject }, 'common') }}{% endblock %}
+
+{% block pageTitle %}{{ 'page.title' | trans({ '%subject%': subject }, 'delete-page') }}{% endblock %}
 
 {% block linkBack %}
     <a href="{{ backLink }}" class="govuk-back-link behat-link-step-back">{{ 'back' | trans({}, 'common') }}</a>
@@ -24,7 +25,7 @@
     {{ form_start(form) }}
 
     <h2 class="govuk-heading-m">
-        {{ 'deletePage.question' | trans({ '%subject%': subject }, 'common') }}
+        {{ 'page.question' | trans({ '%subject%': subject }, 'delete-page') }}
     </h2>
 
     <dl class="govuk-summary-list">
@@ -55,7 +56,7 @@
     <div class="govuk-form-group">
         {{ form_submit(form.confirm, '', {
             'buttonClass': 'behat-link-confirm',
-            'labelText': ('deletePage.linkButtonLabel' | trans({ '%subject%': subject }, 'common'))
+            'labelText': ('page.linkButtonLabel' | trans({ '%subject%': subject }, 'delete-page'))
         }) }}
         <a href="{{ backLink }}" class="govuk-button govuk-button--secondary behat-link-confirm-cancel">
             {{ 'cancel' | trans({}, 'common') }}

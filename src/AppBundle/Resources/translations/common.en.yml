@@ -169,10 +169,3 @@ canYouAnswerNDR: |
   it's complete.
 returnToReport: Return to report overview
 returnToClientProfile: Return to client profile
-
-# Confirm delete page
-deletePage:
-    htmlTitle: Deputy report - remove %subject% | GOV.UK
-    question: Are you sure you want to remove this %subject%?
-    pageTitle: Remove %subject%
-    linkButtonLabel: Yes, remove %subject%
