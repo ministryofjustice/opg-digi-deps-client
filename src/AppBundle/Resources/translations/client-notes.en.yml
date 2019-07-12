@@ -9,6 +9,9 @@ editNote:
 deletePage:
   htmlTitle: "Client profile - remove note | GOV.UK"
   subject: note
+  summary:
+    title: Title
+    createdOn: Date added
 form:
   category:
     label: Category

@@ -217,9 +217,9 @@ class ProfDeputyCostsController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Reporting period start date', 'value' => $cost->getStartDate(), 'format' => 'date'],
-                ['label' => 'Reporting period end date', 'value' => $cost->getEndDate(), 'format' => 'date'],
-                ['label' => 'Amount', 'value' => $cost->getAmount(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.startDate', 'value' => $cost->getStartDate(), 'format' => 'date'],
+                ['label' => 'deletePage.summary.endDate', 'value' => $cost->getEndDate(), 'format' => 'date'],
+                ['label' => 'deletePage.summary.amount', 'value' => $cost->getAmount(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('prof_deputy_costs_summary', ['reportId' => $reportId]),
         ];

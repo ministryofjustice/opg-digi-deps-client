@@ -9,6 +9,9 @@ editContact:
 deletePage:
   htmlTitle: "Client profile - remove contact | GOV.UK"
   subject: contact
+  summary:
+    name: Name
+    orgName: Organisation
 form:
   contactHeading: Contact details
   firstName:

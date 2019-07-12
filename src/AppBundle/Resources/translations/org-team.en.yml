@@ -25,6 +25,18 @@ editPage:
 deletePage:
   htmlTitle: "Client profile - remove user account | GOV.UK"
   subject: user account
+  summary:
+    fullName: Name
+    email: Email address
+    isOrgAdministrator:
+      label: Administrator?
+      yes: Yes
+      no: No
+    otherTeams:
+      label: Other teams
+      value:
+        singular: User will remain a member of %count% other team
+        plural: User will remain a member of %count% other teams
 
 view:
     pageTitle: My details

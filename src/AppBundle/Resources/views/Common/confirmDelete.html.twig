@@ -42,7 +42,11 @@
                     {% elseif definition.format is defined and definition.format == 'date' %}
                         {{ definition.value | date('j F Y') }}
                     {% elseif definition.format is defined and definition.format == 'translate' %}
-                        {{ definition.value | trans }}
+                        {% if definition.translateData is defined %}
+                            {{ definition.value | trans(definition.translateData) }}
+                        {% else %}
+                            {{ definition.value | trans }}
+                        {% endif %}
                     {% else %}
                         {{ definition.value | default('-') | nl2br }}
                     {% endif %}

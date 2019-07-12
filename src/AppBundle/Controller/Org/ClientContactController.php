@@ -121,8 +121,8 @@ class ClientContactController extends AbstractController
             'report'   => $client->getCurrentReport(),
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Name', 'value' => $clientContact->getFirstname() . ' ' . $clientContact->getLastName()],
-                ['label' => 'Organisation', 'value' => $clientContact->getOrgName()],
+                ['label' => 'deletePage.summary.name', 'value' => $clientContact->getFirstname() . ' ' . $clientContact->getLastName()],
+                ['label' => 'deletePage.summary.orgName', 'value' => $clientContact->getOrgName()],
             ],
             'backLink' => $this->generateClientProfileLink($client)
         ];

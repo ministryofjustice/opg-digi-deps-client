@@ -254,14 +254,23 @@ class TeamController extends AbstractController
         $this->denyAccessUnlessGranted('delete-user', $user, 'Access denied');
 
         $summary = [
-            ['label' => 'Name', 'value' => $user->getFullName()],
-            ['label' => 'Email address', 'value' => $user->getEmail()],
-            ['label' => 'Administrator?', 'value' => $user->isOrgAdministrator() ? 'Yes' : 'No'],
+            ['label' => 'deletePage.summary.fullName', 'value' => $user->getFullName()],
+            ['label' => 'deletePage.summary.email', 'value' => $user->getEmail()],
+            [
+                'label' => 'deletePage.summary.isOrgAdministrator.label',
+                'value' => 'deletePage.summary.isOrgAdministrator.' . ($user->isOrgAdministrator() ? 'yes' : 'no'),
+                'format' => 'translate',
+            ],
         ];
 
         if (count($user->getTeamNames()) >= 2) {
             $count = count($user->getTeamNames()) - 1;
-            $summary[] = ['label' => 'Other teams', 'value' => 'User will remain a member of ' . $count  . ' other team' . ($count > 1 ? 's' : '')];
+            $summary[] = [
+                'label' => 'deletePage.summary.otherTeams.label',
+                'value' => 'deletePage.summary.otherTeams.value.' . ($count === 1 ? 'singular' : 'plural'),
+                'format' => 'translate',
+                'translateData' => ['%count%' => $count],
+            ];
         }
 
         return [

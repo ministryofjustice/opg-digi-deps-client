@@ -132,3 +132,7 @@ summaryPage:
 deletePage:
   htmlTitle: "Deputy report - Deputy costs | GOV.UK"
   subject: previous cost
+  summary:
+    startDate: Reporting period start date
+    endDate: Reporting period end date
+    amount: Amount

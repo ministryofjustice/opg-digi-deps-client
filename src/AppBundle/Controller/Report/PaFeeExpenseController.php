@@ -295,8 +295,8 @@ class PaFeeExpenseController extends AbstractController
             'report' => $report,
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Description', 'value' => $expense->getExplanation()],
-                ['label' => 'Amount', 'value' => $expense->getAmount(), 'format' => 'money'],
+                ['label' => 'deletePage.summary.explanation', 'value' => $expense->getExplanation()],
+                ['label' => 'deletePage.summary.amount', 'value' => $expense->getAmount(), 'format' => 'money'],
             ],
             'backLink' => $this->generateUrl('pa_fee_expense', ['reportId' => $reportId]),
         ];

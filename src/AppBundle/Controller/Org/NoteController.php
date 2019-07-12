@@ -138,8 +138,8 @@ class NoteController extends AbstractController
             'report' => $note->getClient()->getCurrentReport(),
             'form' => $form->createView(),
             'summary' => [
-                ['label' => 'Title', 'value' => $note->getTitle()],
-                ['label' => 'Date added', 'value' => $note->getCreatedOn(), 'format' => 'date'],
+                ['label' => 'deletePage.summary.title', 'value' => $note->getTitle()],
+                ['label' => 'deletePage.summary.createdOn', 'value' => $note->getCreatedOn(), 'format' => 'date'],
             ],
             'backLink' => $this->generateClientProfileLink($note->getClient()),
         ];

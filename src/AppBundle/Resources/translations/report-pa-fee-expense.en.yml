@@ -71,8 +71,11 @@ summaryPage:
   addButton: Add a deputy expense
 
 deletePage:
-    htmlTitle: "Deputy report - Deputy fees and expenses | GOV.UK"
-    subject: expense
+  htmlTitle: "Deputy report - Deputy fees and expenses | GOV.UK"
+  subject: expense
+  summary:
+    explanation: Description of expense
+    amount: Amount
 
 form.entries:
   work-up-to-and-including-cot-made.label: Work up to and including date court order made
