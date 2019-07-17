@@ -10,10 +10,10 @@
     {% set linkToSubSection = path(subSection, {reportId: report.id}) %}
 {% endif %}
 
-<li id="{{ subSection }}-section{{ incompleteAppend }}" class="opg-overview-section">
+<li id="{{ subSection }}-section{{ incompleteAppend }}" class="opg-overview-section  {{ sectionNeedsAttention ? ('behat-region-section-' ~ sectionId ~ '-needs-attention opg-overview-section--highlight') : '' }}">
     <a
         id="edit-{{ subSection }}{{ incompleteAppend }}"
-        class="opg-overview-section__header {{ sectionNeedsAttention ? ('behat-region-section-' ~ sectionId ~ '-needs-attention opg-overview-section--highlight') : '' }} behat-link-edit-{{ subSection }}"
+        class="opg-overview-section__header behat-link-edit-{{ subSection }}"
         href="{{ linkToSubSection }}"
         aria-label="{{ (subSection ~ '.edit') | trans }}"
     >
