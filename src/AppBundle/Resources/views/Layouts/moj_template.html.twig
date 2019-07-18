@@ -104,11 +104,14 @@
     </div>
 
     <div class="govuk-width-container opg-main-wrapper {% if env == 'admin' %}opg-width-container--wider{% endif %}">
-        {% block detailsBanner %}
-            {% include 'AppBundle:Org/ClientProfile:_detailsBanner.html.twig' with {
-            'report': report is defined ? report : null
-            } %}
-        {% endblock %}
+        {# Only show details banner on public-facing pages, not admin #}
+        {% if env == 'prod' %}
+            {% block detailsBanner %}
+                    {% include 'AppBundle:Org/ClientProfile:_detailsBanner.html.twig' with {
+                        'report': report is defined ? report : null
+                    } %}
+            {% endblock %}
+        {% endif %}
 
         <main class="govuk-main-wrapper" role="main">
             {% block content %}{% endblock %}
