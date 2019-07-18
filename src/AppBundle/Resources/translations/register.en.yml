@@ -19,7 +19,7 @@ email:
       label: "Your email"
       hint: ""
       existingError: |
-        This email address has already been registered. Please sign in or reset your password.
+        This email address has already been registered.
       invalid: Enter a valid email address
     second:
       label: "Confirm your email"
