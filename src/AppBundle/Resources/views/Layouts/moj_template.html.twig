@@ -105,7 +105,7 @@
 
     <div class="govuk-width-container opg-main-wrapper {% if env == 'admin' %}opg-width-container--wider{% endif %}">
         {# Only show details banner on public-facing pages, not admin #}
-        {% if env == 'prod' %}
+        {% if env == 'front' %}
             {% block detailsBanner %}
                     {% include 'AppBundle:Org/ClientProfile:_detailsBanner.html.twig' with {
                         'report': report is defined ? report : null
