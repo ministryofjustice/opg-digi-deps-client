@@ -41,6 +41,7 @@
             </a>
         </dd>
     </div>
+    {% if ndr.actionGiveGiftsToClient == 'yes' %}
     <div class="govuk-summary-list__row behat-region-give-gifts-client-details">
         <dt class="govuk-summary-list__key">
             {{ 'form.actionGiveGiftsToClientDetails.label' | trans(transOptions) }}
@@ -54,6 +55,7 @@
             </a>
         </dd>
     </div>
+    {% endif %}
 </dl>
 
 <h2 class="heading-medium flush--ends">Property</h2>
@@ -100,8 +102,8 @@
     </div>
 
     {# step 3 #}
-    <div class="govuk-summary-list__row behat-region-property-maintenance">
-        {% if ndr.actionPropertyMaintenance is null %}
+    <div class="govuk-summary-list__row behat-region-selling-rent">
+        {% if ndr.actionPropertySellingRent is null %}
             <dt class="govuk-summary-list__key">
                 <span class="error">
                     {{ 'form.actionPropertySellingRent.label' | trans(transOptions) }}
@@ -128,8 +130,8 @@
     </div>
 
     {# step 4 #}
-    <div class="govuk-summary-list__row behat-region-property-selling-rent">
-        {% if ndr.actionPropertyMaintenance is null %}
+    <div class="govuk-summary-list__row behat-region-property-buy">
+        {% if ndr.actionPropertyBuy is null %}
             <dt class="govuk-summary-list__key">
                 <span class="error">
                     {{ 'form.actionPropertyBuy.label' | trans(transOptions) }}
