@@ -1,25 +1,27 @@
-<h3 class="heading-medium">{{ groupId | trans }}</h3>
+{% set translationDomain = "ndr-assets" %}
+{% trans_default_domain translationDomain %}
 
+<h3 class="govuk-heading-m">{{ groupId | trans }}</h3>
 
 <dl class="govuk-summary-list behat-region-list-accounts">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
-      Description of asset
+      {{ 'form.description.label' | trans }}
     </dt>
     <dd class="govuk-summary-list__key">
-      Valuation date
+      {{ 'form.valuationDate.label' | trans }}
     </dd>
     <dd class="govuk-summary-list__key">
-      Value
+      {{ 'form.value.label' | trans }}
     </dd>
     <dd class="govuk-summary-list__actions">
         <span class="visually-hidden">{{ 'actions' | trans({}, 'common') }}</span>
     </dd>
   </div>
-  
+
     {% for asset in assetsInGroup.items %}
         <div class="govuk-summary-list__row behat-region-asset-{{ asset.description | behat_namify }}">
-            <dt class="govuk-summary-list__value">
+            <dt class="govuk-summary-list__key">
                 {{ asset.description | nl2br }}
             </dt>
             <dd class="govuk-summary-list__value">
@@ -36,6 +38,7 @@
                 <a class="govuk-link behat-link-edit" href="{{ path('ndr_asset_other_edit', {'ndrId': ndr.id, 'assetId': asset.id}) }}">
                 {{ 'edit' | trans({}, 'common' ) }}
                 </a>
+                &nbsp;
                 <a class="govuk-link behat-link-delete" href="{{ path('ndr_asset_delete', {'ndrId': ndr.id, 'assetId': asset.id}) }}">
                 {{ 'remove' | trans({}, 'common' ) }}
                 </a>
