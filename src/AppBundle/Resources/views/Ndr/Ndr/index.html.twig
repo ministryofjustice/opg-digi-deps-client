@@ -12,7 +12,7 @@
 {% block pageContent %}
 
     {% if app.user.getCoDeputyClientConfirmed() %}
-        {% include 'AppBundle:Report/Report:_codeputies.html.twig' with {coDeputies: coDeputies} %}
+        {% include 'AppBundle:Report/report:_codeputies.html.twig' with {coDeputies: coDeputies} %}
     {% endif %}
 
     {% if ndr.submitted %}

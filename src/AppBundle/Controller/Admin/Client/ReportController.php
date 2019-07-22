@@ -164,7 +164,7 @@ class ReportController extends AbstractController
             }
 
             // Render confirmation form view
-            return $this->render('AppBundle:Admin/Client/Report:manageConfirm.html.twig', [
+            return $this->render('AppBundle:Admin/Client/Report:manage_confirm.html.twig', [
                 'report' => $report,
                 'form' => $confirmForm->createView(),
                 'urlData' => [

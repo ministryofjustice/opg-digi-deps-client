@@ -30,7 +30,7 @@ class MoneyTransferController extends AbstractController
     {
         $report = $this->getReportIfNotSubmitted($reportId, self::$jmsGroups);
         if (!$report->enoughBankAccountForTransfers()) {
-            return $this->render('AppBundle:Report/MoneyTransfer:error.html.twig', [
+            return $this->render('AppBundle:Report/money_transfer:error.html.twig', [
                 'error' => 'atLeastTwoBankAccounts',
                 'report' => $report,
             ]);

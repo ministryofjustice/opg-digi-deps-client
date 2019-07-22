@@ -1,6 +1,9 @@
 Feature: Report 103 start
+  In order to this
+  I want to that
+  As a though
 
-  @deputy
+  @deputy @tmptest
   Scenario: load app status before 102 money got completed, change type to 103 and check not submittable
     # Since 103 shares same section as 102, import status from 102 before money section (that is the only different section) were added
     # that checkpoint correspond to a 103 report without money added

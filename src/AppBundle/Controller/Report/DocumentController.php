@@ -207,7 +207,7 @@ class DocumentController extends AbstractController
      * Confirm delete document form
      *
      * @Route("/documents/{documentId}/delete", name="delete_document")
-     * @Template("AppBundle:Report/Document:deleteConfirm.html.twig")
+     * @Template("AppBundle:Report/Document:delete_confirm.html.twig")
      */
     public function deleteConfirmAction(Request $request, $documentId, $confirmed = false)
     {
@@ -288,7 +288,7 @@ class DocumentController extends AbstractController
      * Confirm additional documents form
      *
      * @Route("/report/{reportId}/documents/submit-more", name="report_documents_submit_more")
-     * @Template("AppBundle:Report/Document:submitMoreDocumentsConfirm.html.twig")
+     * @Template("AppBundle:Report/Document:submit_more_documents_confirm.html.twig")
      */
     public function submitMoreConfirmAction(Request $request, $reportId)
     {

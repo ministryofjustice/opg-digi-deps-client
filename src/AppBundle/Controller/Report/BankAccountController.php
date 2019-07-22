@@ -144,7 +144,7 @@ class BankAccountController extends AbstractController
 
     /**
      * @Route("/report/{reportId}/bank-accounts/add_another", name="bank_accounts_add_another")
-     * @Template("AppBundle:Report/BankAccount:add_another.html.twig")
+     * @Template("AppBundle:Report/bank_account:add_another.html.twig")
      */
     public function addAnotherAction(Request $request, $reportId)
     {

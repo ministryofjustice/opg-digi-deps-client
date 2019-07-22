@@ -39,7 +39,7 @@ class UserController extends AbstractController
 
         // token expired
         if (!$user->isTokenSentInTheLastHours(EntityDir\User::TOKEN_EXPIRE_HOURS)) {
-            $template = $isActivatePage ? 'AppBundle:User:activateTokenExpired.html.twig' : 'AppBundle:User:passwordResetTokenExpired.html.twig';
+            $template = $isActivatePage ? 'AppBundle:User:activate_token_expired.html.twig' : 'AppBundle:User:password_reset_token_expired.html.twig';
 
             return $this->render($template, [
                 'token'            => $token,
@@ -65,7 +65,7 @@ class UserController extends AbstractController
         } else { // 'password-reset'
             $passwordMismatchMessage = $translator->trans('form.password.validation.passwordMismatch', [], 'password-reset');
             $form = $this->createForm(FormDir\ResetPasswordType::class, $user, ['passwordMismatchMessage' => $passwordMismatchMessage]);
-            $template = 'AppBundle:User:passwordReset.html.twig';
+            $template = 'AppBundle:User:password_reset.html.twig';
         }
 
         $form->handleRequest($request);
@@ -317,9 +317,9 @@ class UserController extends AbstractController
         }
 
         if ($user->getRoleName() == EntityDir\User::ROLE_PA_NAMED) {
-            $view = 'AppBundle:User:agreeTermsUsePa.html.twig';
+            $view = 'AppBundle:User:agree_terms_use_pa.html.twig';
         } elseif ($user->getRoleName() ==EntityDir\User::ROLE_PROF_NAMED) {
-            $view = 'AppBundle:User:agreeTermsUseProf.html.twig';
+            $view = 'AppBundle:User:agree_terms_use_prof.html.twig';
         } else {
             throw new \RuntimeException('terms page not implemented');
         }

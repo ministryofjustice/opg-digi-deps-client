@@ -206,7 +206,7 @@
             <div class="opg-indented-block">
                 <div>
                     {# Questions and answers table #}
-                    {% include 'AppBundle:Report/MoneyTransfer:_list.html.twig' with {
+                    {% include 'AppBundle:Report/money_transfer:_list.html.twig' with {
                         hideEditLink: true
                     } %}
                 </div>
@@ -227,11 +227,11 @@
             <div>
                 {# Questions and answers table #}
                 {% if report.hasSection('moneyIn') %}
-                    {% include 'AppBundle:Report/MoneyIn:_list.html.twig' with {
+                    {% include 'AppBundle:Report/money_in:_list.html.twig' with {
                         hideEditLink: true
                     } %}
                 {% elseif report.hasSection('moneyInShort') %}
-                    {% include 'AppBundle:Report/MoneyInShort:_answers.html.twig' with {
+                    {% include 'AppBundle:Report/money_in_short:_answers.html.twig' with {
                         hideEditLink: true
                     } %}
                 {% endif %}
@@ -247,11 +247,11 @@
             <div>
                 {# Questions and answers table #}
                 {% if report.hasSection('moneyOut') %}
-                    {% include 'AppBundle:Report/MoneyOut:_list.html.twig' with {
+                    {% include 'AppBundle:Report/money_out:_list.html.twig' with {
                         hideEditLink: true
                     } %}
                 {% elseif report.hasSection('moneyOutShort') %}
-                    {% include 'AppBundle:Report/MoneyOutShort:_answers.html.twig' with {
+                    {% include 'AppBundle:Report/money_out_short:_answers.html.twig' with {
                         hideEditLink: true
                     } %}
                 {% endif %}
@@ -283,7 +283,7 @@
             <div class="opg-indented-block">
                 <div>
                     {# Questions and answers table #}
-                    {% include 'AppBundle:Report/DeputyExpense:_list.html.twig' with {
+                    {% include 'AppBundle:Report/deputy_expense:_list.html.twig' with {
                         hideEditLink: true
                     } %}
                 </div>

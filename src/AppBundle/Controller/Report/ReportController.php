@@ -210,7 +210,7 @@ class ReportController extends AbstractController
         $activeReportId = null;
         if ($this->getUser()->isDeputyOrg()) {
             // PR and PROF: unsubmitted at the top (if exists), active below (
-            $template = 'AppBundle:Org/ClientProfile:overview.html.twig';
+            $template = 'AppBundle:Org/client_profile:overview.html.twig';
             // if there is an unsubmitted report, swap them, so linkswill both show the unsubmitted first
             if ($client->getUnsubmittedReport()) {
                 //alternative: redirect (but more API calls overall)

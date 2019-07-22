@@ -23,19 +23,19 @@
         <div class="opg-indented-block">
             <div>
 
-                {% include 'AppBundle:Report/PaFeeExpense:_yn_questions.html.twig' with {
+                {% include 'AppBundle:Report/pa_fee_expense:_yn_questions.html.twig' with {
                     'report': report,
                     'transDomain': translationDomain,
                     'hideEditLink' : true
                 } %}
 
-                {% include 'AppBundle:Report/PaFeeExpense:_fee_list.html.twig' with {
+                {% include 'AppBundle:Report/pa_fee_expense:_fee_list.html.twig' with {
                     'report': report,
                     'transDomain': translationDomain,
                     'hideEditLink': true
                 } %}
 
-                {% include 'AppBundle:Report/PaFeeExpense:_other_list.html.twig' with {
+                {% include 'AppBundle:Report/pa_fee_expense:_other_list.html.twig' with {
                     'report': report,
                     'transDomain': translationDomain,
                     'hideEditLink': true
