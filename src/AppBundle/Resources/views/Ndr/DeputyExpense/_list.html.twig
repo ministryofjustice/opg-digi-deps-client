@@ -1,7 +1,7 @@
 {% set translationDomain = "ndr-deputy-expenses" %}
 {% trans_default_domain translationDomain %}
 
-<dl class="govuk-summary-list columns-2 push-double--bottom">
+<dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
       {{ 'question' | trans({}, 'common') }}
@@ -29,19 +29,21 @@
 </dl>
 
 {% if ndr.expenses | length > 0 %}
-    <div class="grid-row">
-        <div class="column-half">
-            <h2 class="heading-medium flush--ends">List of expenses</h2>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">List of expenses</h2>
         </div>
-        <div class="column-half text--right">
-            <a href="{{ path('ndr_deputy_expenses_add', { 'ndrId': ndr.id, 'from': 'summary'}) }}" class="bold-small move-quarter--up action-link behat-link-add">
-                <span class="icon icon-plus"></span>
-                {{ 'summaryPage.addButton' | trans }}
-            </a>
+        <div class="govuk-grid-column-one-half text--right">
+            <strong>
+                <a href="{{ path('ndr_deputy_expenses_add', { 'ndrId': ndr.id, 'from': 'summary'}) }}" class="behat-link-add">
+                    <span class="icon icon-plus"></span>
+                    {{ 'summaryPage.addButton' | trans }}
+                </a>
+            </strong>
         </div>
     </div>
 
-    <dl class="govuk-summary-list columns-2 push-double--bottom">
+    <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
             Description of expense
@@ -54,18 +56,19 @@
         </div>
 
         {% for expense in ndr.expenses %}
-        
+
         <div class="govuk-summary-list__row behat-region-expense-{{ expense.explanation | behat_namify }}">
             <dt class="govuk-summary-list__value">
                 {{ expense.explanation }}
             </dt>
-            <dd class="govuk-summary-list__value numeric-small">
+            <dd class="govuk-summary-list__value">
                     £{{ expense.amount | money_format }}
             </dd>
             <dd class="govuk-summary-list__actions">
                 <a class="govuk-link behat-link-edit" href="{{ url('ndr_deputy_expenses_edit', { 'ndrId': ndr.id, 'expenseId': expense.id }) }}">
                     {{ 'edit' | trans({}, 'common') }}
                 </a>
+                &nbsp;
                 <a class="govuk-link behat-link-delete" href="{{ path('ndr_deputy_expenses_delete', { 'ndrId': ndr.id, 'expenseId': expense.id }) }}">
                     {{ 'remove' | trans({}, 'common' ) }}
                 </a>
