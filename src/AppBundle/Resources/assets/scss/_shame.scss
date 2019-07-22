@@ -1,14 +1,25 @@
 // Shame CSS
 // ==========================================================================
 
-// Undo the font-size overwrite in govuk-elements. It was to avoid an IE6/7 bug
-// but they're no longer supported and the overwrite made govuk-frontend unusable
-html { font-size: initial; }
-body { font-size: initial; }
+// Enable standard GDS typography on body elements. Most components automatically
+// apply the typography, but some (including custom ones) don't. This ensures the
+// font is consistently applied anyway.
+body {
+    @include govuk-typography-common;
+}
 
 // Undo the font-weight nullification in govuk-elements. It's no longer present in
 // the Design System, but so eager that it's still cascading through.
 b,
 strong {
     font-weight: 600;
+}
+
+// Use brand link colours for all links. We should be using `govuk-link`, but it's
+// hard to find all instances of this so we apply default styling.
+a {
+    &:link { color: $govuk-link-colour; }
+    &:visited { color: $govuk-link-visited-colour; }
+    &:hover { color: $govuk-link-hover-colour; }
+    &:active { color: $govuk-link-active-colour; }
 }
