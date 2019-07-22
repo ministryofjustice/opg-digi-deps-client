@@ -3,7 +3,7 @@
 {% set transOptions = {'%client%': ndr.client.firstname | e } %}
 
 
-<h2 class="heading-medium flush--ends">Gifts</h2>
+<h2 class="govuk-heading-l">{{ 'stepPage.gifts.pageTitle' | trans(transOptions) }}</h2>
 
 {# step 1 #}
 <dl class="govuk-summary-list columns-2 push--bottom">
@@ -58,14 +58,14 @@
     {% endif %}
 </dl>
 
-<h2 class="heading-medium flush--ends">Property</h2>
+<h2 class="govuk-heading-l">{{ 'stepPage.property.pageTitle' | trans(transOptions) }}</h2>
     {# step 2 #}
 <dl class="govuk-summary-list columns-2 push--bottom">
     <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
             {{ 'question' | trans({}, 'common') }}
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__key">
             {{ 'answer' | trans({}, 'common') }}
         </dd>
         <dd class="govuk-summary-list__actions">
@@ -93,8 +93,8 @@
             </dd>
         {% endif %}
         <dd class="govuk-summary-list__actions">
-            <a 
-            href="{{ path('ndr_actions_step', {'ndrId': ndr.id, 'step': 2, 'from': 'summary'}) }}" 
+            <a
+            href="{{ path('ndr_actions_step', {'ndrId': ndr.id, 'step': 2, 'from': 'summary'}) }}"
             class="behat-link-edit govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}
             </a>
@@ -121,8 +121,8 @@
             </dd>
         {% endif %}
         <dd class="govuk-summary-list__actions">
-            <a 
-            href="{{ path('ndr_actions_step', {'ndrId': ndr.id, 'step': 2, 'from': 'summary'}) }}" 
+            <a
+            href="{{ path('ndr_actions_step', {'ndrId': ndr.id, 'step': 2, 'from': 'summary'}) }}"
             class="behat-link-edit govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}
             </a>
@@ -149,8 +149,8 @@
             </dd>
         {% endif %}
         <dd class="govuk-summary-list__actions">
-            <a 
-            href="{{ path('ndr_actions_step', {'ndrId': ndr.id, 'step': 2, 'from': 'summary'}) }}" 
+            <a
+            href="{{ path('ndr_actions_step', {'ndrId': ndr.id, 'step': 2, 'from': 'summary'}) }}"
             class="behat-link-edit govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}
             </a>
