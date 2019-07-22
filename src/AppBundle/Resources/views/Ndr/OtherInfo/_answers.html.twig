@@ -2,12 +2,12 @@
 {% trans_default_domain translationDomain %}
 {% set transOptions = {'%client%': ndr.client.firstname | e } %}
 
-<dl class="govuk-summary-list columns-2 push--bottom">
+<dl class="govuk-summary-list">
     <div class="govuk-summary-list__row behat-region-more-info">
         <dt class="govuk-summary-list__key">
             {{ 'question' | trans({}, 'common') }}
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__key">
             {{ 'answer' | trans({}, 'common') }}
         </dd>
         <dd class="govuk-summary-list__actions">
