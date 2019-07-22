@@ -2,15 +2,15 @@
 {% trans_default_domain translationDomain %}
 {% set transOptions = {'%client%': ndr.client.firstname | e } %}
 
-<h3 class="heading-medium">{{ 'stepPage.pageTitle.stateBenefits' | trans(transOptions) }}</h3>
+<h2 class="govuk-heading-l">{{ 'stepPage.pageTitle.stateBenefits' | trans(transOptions) }}</h2>
 
-<dl class="govuk-summary-list columns-2 push-double--bottom">
+<dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-            Question
+            {{ 'question' | trans({}, 'common') }}
         </dt>
         <dd class="govuk-summary-list__key">
-            Answer
+            {{ 'answer' | trans({}, 'common') }}
         </dd>
         <dd class="govuk-summary-list__actions">
         </dd>
@@ -24,7 +24,7 @@
             {% if ndr.stateBenefitsPresent | length == 0 %}
                 None
             {% else %}
-                <ul class="list list-bullet flush--ends">
+                <ul class="govuk-list govuk-list--bullet">
                     {% for sb in ndr.stateBenefitsPresent %}
                         <li>
                             {{ ('form.stateBenefits.entries.' ~ sb.typeId ~ '.label') | trans(transOptions) }}
@@ -42,7 +42,7 @@
 
     {% set stateBenefitsOther = ndr.getStateBenefitOther() %}
     {% if stateBenefitsOther.present %}
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row behat-region-benefits-other-more-details">
             <dt class="govuk-summary-list__value">
                 {{ 'form.stateBenefitsOtherDetails.labelSummaryPage' | trans(transOptions) }}
             </dt>
@@ -58,14 +58,15 @@
     {% endif %}
 </dl>
 
-<h3 class="heading-medium">{{ 'stepPage.pageTitle.pensions' | trans(transOptions) }}</h3>
-<dl class="govuk-summary-list columns-2 push-double--bottom">
+<h2 class="govuk-heading-l">{{ 'stepPage.pageTitle.pensions' | trans(transOptions) }}</h2>
+
+<dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-            Question
+            {{ 'question' | trans({}, 'common') }}
         </dt>
         <dd class="govuk-summary-list__key">
-            Answer
+            {{ 'answer' | trans({}, 'common') }}
         </dd>
         <dd class="govuk-summary-list__actions">
         </dd>
@@ -89,12 +90,6 @@
                 {{ ndr.receiveStatePension | capitalize }}
             </dd>
         {% endif %}
-        <dt class="govuk-summary-list__value">
-            Name
-        </dt>
-        <dd class="govuk-summary-list__value">
-            Sarah Philips
-        </dd>
         <dd class="govuk-summary-list__actions">
             <a class="govuk-link behat-link-edit" href="{{ path('ndr_income_benefits_step', { 'ndrId': ndr.id, 'step': 2, 'from': 'summary' }) }}">
                 {{ 'edit' | trans({}, 'common') }}
@@ -144,15 +139,15 @@
     {% endif %}
 </dl>
 
-<h3 class="heading-medium">{{ 'stepPage.pageTitle.damages' | trans(transOptions) }}</h3>
+<h2 class="govuk-heading-l">{{ 'stepPage.pageTitle.damages' | trans(transOptions) }}</h2>
 
-<dl class="govuk-summary-list columns-2 push-double--bottom">
+<dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-            Question
+            {{ 'question' | trans({}, 'common') }}
         </dt>
         <dd class="govuk-summary-list__key">
-            Answer
+            {{ 'answer' | trans({}, 'common') }}
         </dd>
         <dd class="govuk-summary-list__actions">
         </dd>
@@ -200,30 +195,30 @@
     {% endif %}
 </dl>
 
-<h3 class="heading-medium">{{ 'stepPage.pageTitle.oneOff' | trans(transOptions) }}</h3>
+<h2 class="govuk-heading-l">{{ 'stepPage.pageTitle.oneOff' | trans(transOptions) }}</h2>
 
-<dl class="govuk-summary-list columns-2 push-double--bottom">
+<dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-            Question
+            {{ 'question' | trans({}, 'common') }}
         </dt>
         <dd class="govuk-summary-list__key">
-            Answer
+            {{ 'answer' | trans({}, 'common') }}
         </dd>
         <dd class="govuk-summary-list__actions">
         </dd>
     </div>
-    
+
     <div class="govuk-summary-list__row behat-region-one-off">
         <dt class="govuk-summary-list__value">
             {{ 'form.oneOff.label' | trans(transOptions) }}
         </dt>
         <dd class="govuk-summary-list__value">
-            
+
             {% if ndr.getOneOffPresent | length == 0 %}
                 None
             {% else %}
-                <ul class="list list-bullet flush--ends">
+                <ul class="govuk-list govuk-list--bullet">
                     {% for sb in ndr.oneOffPresent %}
                         <li>
                             {{ ('form.oneOff.entries.' ~ sb.typeId ~ '.label') | trans(transOptions) }}
@@ -240,17 +235,13 @@
     </div>
 </dl>
 
-
-
-
-
-<dl class="govuk-summary-list columns-2 push-double--bottom">
+<dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-            Question
+            {{ 'question' | trans({}, 'common') }}
         </dt>
         <dd class="govuk-summary-list__key">
-            Answer
+            {{ 'answer' | trans({}, 'common') }}
         </dd>
         <dd class="govuk-summary-list__actions">
         </dd>
