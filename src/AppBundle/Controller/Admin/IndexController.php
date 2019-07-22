@@ -125,13 +125,13 @@ class IndexController extends AbstractController
             /* @var $user EntityDir\User */
             $user = $this->getRestClient()->get("v2/deputy/{$filter}", 'User');
         } catch (\Throwable $e) {
-            return $this->render('AppBundle:Admin:error.html.twig', [
+            return $this->render('AppBundle:admin:error.html.twig', [
                 'error' => 'User not found',
             ]);
         }
 
         if ($user->getRoleName() == EntityDir\User::ROLE_ADMIN && !$this->isGranted(EntityDir\User::ROLE_ADMIN)) {
-            return $this->render('AppBundle:Admin:error.html.twig', [
+            return $this->render('AppBundle:admin:error.html.twig', [
                 'error' => 'Non-admin cannot edit admin users',
             ]);
         }

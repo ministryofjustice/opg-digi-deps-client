@@ -1,6 +1,6 @@
-{% extends 'AppBundle:Layouts:application.html.twig' %}
+{% extends 'AppBundle:layouts:application.html.twig' %}
 
-{% import 'AppBundle:Macros:macros.html.twig' as macros %}
+{% import 'AppBundle:macros:macros.html.twig' as macros %}
 
 {% set translationDomain = "report-pa-fee-expense" %}
 {% trans_default_domain translationDomain %}
@@ -38,17 +38,17 @@
         </div>
     </div>
 
-    {% include 'AppBundle:Report/pa_fee_expense:_yn_questions.html.twig' with {
+    {% include 'AppBundle:report/pa_fee_expense:_yn_questions.html.twig' with {
     'report': report,
     'transDomain': translationDomain
     } %}
 
-    {% include 'AppBundle:Report/pa_fee_expense:_fee_list.html.twig' with {
+    {% include 'AppBundle:report/pa_fee_expense:_fee_list.html.twig' with {
     'report': report,
     'transDomain': translationDomain
     } %}
 
-    {% include 'AppBundle:Report/pa_fee_expense:_other_list.html.twig' with {
+    {% include 'AppBundle:report/pa_fee_expense:_other_list.html.twig' with {
     'report': report,
     'transDomain': translationDomain
     } %}

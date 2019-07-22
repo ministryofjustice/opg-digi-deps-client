@@ -1,6 +1,6 @@
-{% extends 'AppBundle:Layouts:application.html.twig' %}
+{% extends 'AppBundle:layouts:application.html.twig' %}
 
-{% import 'AppBundle:Macros:macros.html.twig' as macros %}
+{% import 'AppBundle:macros:macros.html.twig' as macros %}
 
 {% set translationDomain = "report-money-transaction" %}
 {% trans_default_domain translationDomain %}
@@ -55,7 +55,7 @@
     </div>
 
     {# Items list #}
-    {% include "AppBundle:Report/money_out:_list.html.twig" %}
+    {% include "AppBundle:report/money_out:_list.html.twig" %}
 
     {# Pagination #}
     {% include 'AppBundle:report:_nextprevious.html.twig' with {

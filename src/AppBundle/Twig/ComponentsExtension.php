@@ -223,7 +223,7 @@ class ComponentsExtension extends \Twig_Extension
             ];
         }
 
-        echo $env->render('AppBundle:Components/Navigation:_progress-indicator.html.twig', [
+        echo $env->render('AppBundle:components/Navigation:_progress-indicator.html.twig', [
             'progressSteps' => $progressSteps,
         ]);
     }

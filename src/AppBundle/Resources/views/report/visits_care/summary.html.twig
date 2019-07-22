@@ -1,6 +1,6 @@
-{% extends 'AppBundle:Layouts:application.html.twig'%}
+{% extends 'AppBundle:layouts:application.html.twig'%}
 
-{% import 'AppBundle:Macros:macros.html.twig' as macros %}
+{% import 'AppBundle:macros:macros.html.twig' as macros %}
 
 {% set translationDomain = "report-visits-care" %}
 {% trans_default_domain translationDomain %}
@@ -42,7 +42,7 @@
     </div>
 
     {# Questions and answers table #}
-    {% include 'AppBundle:Report/visits_care:_answers.html.twig' %}
+    {% include 'AppBundle:report/visits_care:_answers.html.twig' %}
 
     {# Pagination #}
     {% include 'AppBundle:report:_nextprevious.html.twig' with {

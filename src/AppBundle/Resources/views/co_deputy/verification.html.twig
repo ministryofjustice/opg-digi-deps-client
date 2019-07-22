@@ -1,4 +1,4 @@
-{% extends 'AppBundle:Layouts:application.html.twig' %}
+{% extends 'AppBundle:layouts:application.html.twig' %}
 
 {% trans_default_domain "settings" %}
 {% set page = "verifyDeputy" %}
@@ -18,7 +18,7 @@
 
     {{ form_start(form, {attr: {novalidate: 'novalidate' }}) }}
 
-    {% include 'AppBundle:User:_form_fields.html.twig' %}
+    {% include 'AppBundle:user:_form_fields.html.twig' %}
 
     <h2 class="heading-medium flush--top">{{ (page ~ '.yourClientsDetails') | trans }}</h2>
 

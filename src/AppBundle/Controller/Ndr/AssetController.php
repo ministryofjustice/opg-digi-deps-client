@@ -106,7 +106,7 @@ class AssetController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/assets/other/{title}/add", name="ndr_asset_other_add")
-     * @Template("AppBundle:Ndr/Asset/Other:add.html.twig")
+     * @Template("AppBundle:ndr/asset/other:add.html.twig")
      */
     public function otherAddAction(Request $request, $ndrId, $title)
     {
@@ -137,7 +137,7 @@ class AssetController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/assets/other/edit/{assetId}", name="ndr_asset_other_edit")
-     * @Template("AppBundle:Ndr/Asset/Other:edit.html.twig")
+     * @Template("AppBundle:ndr/asset/other:edit.html.twig")
      */
     public function otherEditAction(Request $request, $ndrId, $assetId = null)
     {
@@ -197,7 +197,7 @@ class AssetController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/assets/property/step{step}/{assetId}", name="ndr_assets_property_step", requirements={"step":"\d+"})
-     * @Template("AppBundle:Ndr/Asset/Property:step.html.twig")
+     * @Template("AppBundle:ndr/asset/property:step.html.twig")
      */
     public function propertyStepAction(Request $request, $ndrId, $step, $assetId = null)
     {

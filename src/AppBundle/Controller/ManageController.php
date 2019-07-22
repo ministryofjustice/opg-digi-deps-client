@@ -21,7 +21,7 @@ class ManageController extends AbstractController
     {
         list($healthy, $services, $errors) = $this->servicesHealth();
 
-        $response = $this->render('AppBundle:Manage:availability.html.twig', [
+        $response = $this->render('AppBundle:manage:availability.html.twig', [
             'services' => $services,
             'errors' => $errors,
             'environment' => $this->get('kernel')->getEnvironment(),
@@ -40,7 +40,7 @@ class ManageController extends AbstractController
     {
         list($healthy, $services, $errors, $time) = $this->servicesHealth();
 
-        $response = $this->render('AppBundle:Manage:health-check.xml.twig', [
+        $response = $this->render('AppBundle:manage:health-check.xml.twig', [
             'status' => $healthy ? 'OK' : 'ERRORS: ',
             'time' => $time * 1000,
         ]);

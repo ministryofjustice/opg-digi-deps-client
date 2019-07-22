@@ -88,13 +88,13 @@ class AdController extends AbstractController
         try {
             $user = $this->getRestClient()->get("user/get-one-by/{$what}/{$filter}", 'User', ['user', 'client', 'client-reports', 'report', 'ndr']);
         } catch (\Throwable $e) {
-            return $this->render('AppBundle:Admin/Ad:error.html.twig', [
+            return $this->render('AppBundle:admin/ad:error.html.twig', [
                 'error' => 'User not found',
             ]);
         }
 
         if ($user->getRoleName() != EntityDir\User::ROLE_LAY_DEPUTY) {
-            return $this->render('AppBundle:Admin/Ad:error.html.twig', [
+            return $this->render('AppBundle:admin/ad:error.html.twig', [
                 'error' => 'You can only view Lay deputies',
             ]);
         }
@@ -141,7 +141,7 @@ class AdController extends AbstractController
 
             return $this->redirect($redirectUrl);
         } catch (\Throwable $e) {
-            return $this->render('AppBundle:Admin/Ad:error.html.twig', [
+            return $this->render('AppBundle:admin/ad:error.html.twig', [
                 'error' => $e->getMessage(),
             ]);
         }

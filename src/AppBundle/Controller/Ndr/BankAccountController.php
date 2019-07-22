@@ -126,7 +126,7 @@ class BankAccountController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/bank-accounts/add_another", name="ndr_bank_accounts_add_another")
-     * @Template("AppBundle:Ndr/bank_account:add_another.html.twig")
+     * @Template("AppBundle:ndr/bank_account:add_another.html.twig")
      */
     public function addAnotherAction(Request $request, $ndrId)
     {

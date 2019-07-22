@@ -87,8 +87,8 @@ class MailFactory
             ->setToEmail($user->getEmail())
             ->setToName($user->getFullName())
             ->setSubject($this->translate('activation.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:user-activate.html.twig', $viewParams))
-            ->setBodyText($this->templating->render('AppBundle:Email:user-activate.text.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:email:user-activate.html.twig', $viewParams))
+            ->setBodyText($this->templating->render('AppBundle:email:user-activate.text.twig', $viewParams));
 
         return $email;
     }
@@ -146,8 +146,8 @@ class MailFactory
             ->setToEmail($user->getEmail())
             ->setToName($user->getFullName())
             ->setSubject($this->translate('resetPassword.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:password-forgotten.html.twig', $viewParams))
-            ->setBodyText($this->templating->render('AppBundle:Email:password-forgotten.text.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:email:password-forgotten.html.twig', $viewParams))
+            ->setBodyText($this->templating->render('AppBundle:email:password-forgotten.text.twig', $viewParams));
 
         return $email;
     }
@@ -173,7 +173,7 @@ class MailFactory
             ->setToEmail($user->getEmail())
             ->setToName($user->getFirstname())
             ->setSubject($this->translate('changePassword.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:change-password.html.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:email:change-password.html.twig', $viewParams));
 
         return $email;
     }
@@ -216,7 +216,7 @@ class MailFactory
             ->setToEmail($this->container->getParameter('email_report_submit')['to_email'])
             ->setToName($this->translate('ndrSubmission.toName'))
             ->setSubject($this->translate('ndrSubmission.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:ndr-submission.html.twig', $viewParams))
+            ->setBodyHtml($this->templating->render('AppBundle:email:ndr-submission.html.twig', $viewParams))
             ->setAttachments([new ModelDir\EmailAttachment($attachmentName, 'application/pdf', $pdfBinaryContent)]);
 
         return $email;
@@ -241,7 +241,7 @@ class MailFactory
             ->setToEmail($this->container->getParameter('email_feedback_send')['to_email'])
             ->setToName($this->translate('feedbackForm.toName'))
             ->setSubject($this->translate('feedbackForm.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:feedback.html.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:email:feedback.html.twig', $viewParams));
 
         return $email;
     }
@@ -269,7 +269,7 @@ class MailFactory
             'userRole' => $user->getRoleFullName()
         ];
 
-        $template = 'AppBundle:Email:address-update-' . $type . '.html.twig';
+        $template = 'AppBundle:email:address-update-' . $type . '.html.twig';
 
         $email = new ModelDir\Email();
         $email
@@ -310,8 +310,8 @@ class MailFactory
             ->setToEmail($user->getEmail())
             ->setToName($user->getFirstname())
             ->setSubject($this->translate('reportSubmissionConfirmation.subject', ['%clientFullname%' => $submittedReport->getClient()->getFullname()]))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:report-submission-confirm.html.twig', $viewParams))
-            ->setBodyText($this->templating->render('AppBundle:Email:report-submission-confirm.text.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:email:report-submission-confirm.html.twig', $viewParams))
+            ->setBodyText($this->templating->render('AppBundle:email:report-submission-confirm.text.twig', $viewParams));
 
         return $email;
     }
@@ -354,8 +354,8 @@ class MailFactory
             ->setToEmail($user->getEmail())
             ->setToName($user->getFirstname())
             ->setSubject($this->translate('ndrSubmissionConfirmation.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:ndr-submission-confirm.html.twig', $viewParams))
-            ->setBodyText($this->templating->render('AppBundle:Email:ndr-submission-confirm.text.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:email:ndr-submission-confirm.html.twig', $viewParams))
+            ->setBodyText($this->templating->render('AppBundle:email:ndr-submission-confirm.text.twig', $viewParams));
 
         return $email;
     }
@@ -415,8 +415,8 @@ class MailFactory
             ->setToEmail($invitedUser->getEmail())
             ->setToName($invitedUser->getFullName())
             ->setSubject($this->translate('codeputyInvitation.subject'))
-            ->setBodyHtml($this->templating->render('AppBundle:Email:coDeputy-invitation.html.twig', $viewParams))
-            ->setBodyText($this->templating->render('AppBundle:Email:coDeputy-invitation.text.twig', $viewParams));
+            ->setBodyHtml($this->templating->render('AppBundle:email:coDeputy-invitation.html.twig', $viewParams))
+            ->setBodyText($this->templating->render('AppBundle:email:coDeputy-invitation.text.twig', $viewParams));
 
         return $email;
     }

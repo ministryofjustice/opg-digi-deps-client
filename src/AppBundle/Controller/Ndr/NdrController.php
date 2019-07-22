@@ -143,7 +143,7 @@ class NdrController extends AbstractController
 
     private function getPdfBinaryContent($ndr)
     {
-        $html = $this->render('AppBundle:Ndr/Formatted:formatted_body.html.twig', [
+        $html = $this->render('AppBundle:ndr/formatted:formatted_body.html.twig', [
             'ndr' => $ndr, 'adLoggedAsDeputy' => $this->isGranted(User::ROLE_AD)
         ])->getContent();
 
@@ -252,7 +252,7 @@ class NdrController extends AbstractController
 
     /**
      * @Route("/ndr/{ndrId}/submit_feedback", name="ndr_submit_feedback")
-     * @Template("AppBundle:Report:Report/submit_feedback.html.twig")
+     * @Template("AppBundle:report:report/submit_feedback.html.twig")
      */
     public function submitFeedbackAction($ndrId)
     {

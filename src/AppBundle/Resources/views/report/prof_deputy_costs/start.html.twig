@@ -1,11 +1,11 @@
-{% extends 'AppBundle:Layouts:application.html.twig'%}
+{% extends 'AppBundle:layouts:application.html.twig'%}
 {% set transOptions = {
     '%client%': report.client.firstname | e,
     '%periodStartDate%': report.startDate | date("j F Y"),
     '%periodEndDate%': report.endDate | date("j F Y")
 } %}
 
-{% import 'AppBundle:Macros:macros.html.twig' as macros %}
+{% import 'AppBundle:macros:macros.html.twig' as macros %}
 
 {% set translationDomain = "report-prof-deputy-costs" %}
 {% trans_default_domain translationDomain %}

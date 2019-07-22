@@ -50,7 +50,7 @@ class FormFieldsExtension extends \Twig_Extension
     {
         //generate input field html using variables supplied
         echo $env->render(
-            'AppBundle:Components/Form:_input.html.twig',
+            'AppBundle:components/form:_input.html.twig',
             array_merge(
                 $this->getFormComponentTwigVariables($element, $elementName, $vars, $transIndex),
                 ['multiline' => in_array('textarea', $element->vars['block_prefixes'])]
@@ -69,7 +69,7 @@ class FormFieldsExtension extends \Twig_Extension
     public function renderCheckboxInput(Twig_Environment $env, $element, $elementName, array $vars = [], $transIndex = null)
     {
         echo $env->render(
-            'AppBundle:Components/Form:_checkbox.html.twig',
+            'AppBundle:components/form:_checkbox.html.twig',
             array_merge(
                 $this->getFormComponentTwigVariables($element, $elementName, $vars, $transIndex),
                 ['type' => in_array('radio', $element->vars['block_prefixes']) ? 'radio' : 'checkbox']
@@ -117,7 +117,7 @@ class FormFieldsExtension extends \Twig_Extension
         }
 
          //generate input field html using variables supplied
-        echo $env->render('AppBundle:Components/Form:_checkboxgroup.html.twig', [
+        echo $env->render('AppBundle:components/form:_checkboxgroup.html.twig', [
             'fieldSetClass' => isset($vars['fieldSetClass']) ? $vars['fieldSetClass'] : null,
             'formGroupClass' => isset($vars['formGroupClass']) ? $vars['formGroupClass'] : null,
             'legendText' => $legendText,
@@ -170,7 +170,7 @@ class FormFieldsExtension extends \Twig_Extension
         }
 
         //generate input field html using variables supplied
-        echo $env->render('AppBundle:Components/Form:_checkboxgroup_new.html.twig', [
+        echo $env->render('AppBundle:components/form:_checkboxgroup_new.html.twig', [
             'fieldSetClass' => isset($vars['fieldSetClass']) ? $vars['fieldSetClass'] : null,
             'legendText' => $legendText,
             'legendClass' => isset($vars['legendClass']) ? $vars['legendClass'] : null,
@@ -194,7 +194,7 @@ class FormFieldsExtension extends \Twig_Extension
     {
         //generate input field html using variables supplied
         echo $env->render(
-            'AppBundle:Components/Form:_select.html.twig',
+            'AppBundle:components/form:_select.html.twig',
             $this->getFormComponentTwigVariables($element, $elementName, $vars, $transIndex)
         );
     }
@@ -234,7 +234,7 @@ class FormFieldsExtension extends \Twig_Extension
             }
         }
 
-        $html = $env->render('AppBundle:Components/Form:_known-date.html.twig', [
+        $html = $env->render('AppBundle:components/form:_known-date.html.twig', [
             'legendText' => $legendText,
             'hintText' => $hintText,
             'element' => $element,
@@ -259,7 +259,7 @@ class FormFieldsExtension extends \Twig_Extension
 
         $legendText = ($legendTextTrans != $translationKey . '.legend') ? $legendTextTrans : null;
 
-        $html = $env->render('AppBundle:Components/Form:_sort-code.html.twig', ['legendText' => $legendText,
+        $html = $env->render('AppBundle:components/form:_sort-code.html.twig', ['legendText' => $legendText,
                                                                                                 'hintText' => $hintText,
                                                                                                 'element' => $element,
                                                                                               ]);
@@ -286,7 +286,7 @@ class FormFieldsExtension extends \Twig_Extension
             $options['label'] = $vars['labelText'];
         }
 
-        $html = $env->render('AppBundle:Components/Form:_button.html.twig', $options);
+        $html = $env->render('AppBundle:components/form:_button.html.twig', $options);
 
         echo $html;
     }
@@ -299,7 +299,7 @@ class FormFieldsExtension extends \Twig_Extension
      */
     public function renderFormErrors(Twig_Environment $env, $element)
     {
-        $html = $env->render('AppBundle:Components/Form:_errors.html.twig', [
+        $html = $env->render('AppBundle:components/form:_errors.html.twig', [
             'element' => $element,
         ]);
 
@@ -316,7 +316,7 @@ class FormFieldsExtension extends \Twig_Extension
     {
         $formErrorMessages = $this->getErrorsFromFormViewRecursive($form);
 
-        $html = $env->render('AppBundle:Components/Alerts:_validation-summary.html.twig', [
+        $html = $env->render('AppBundle:components/Alerts:_validation-summary.html.twig', [
             'formErrorMessages' => $formErrorMessages,
             'formUncaughtErrors' => empty($form->vars['errors']) ? [] : $form->vars['errors'],
         ]);
@@ -352,7 +352,7 @@ class FormFieldsExtension extends \Twig_Extension
      * @param array                            $vars
      * @param string|null                      $transIndex
      *
-     * @return array with vars labelText,labelParameters,hintText,element,labelClass, to pass into twig templates AppBundle:Components/Form:*
+     * @return array with vars labelText,labelParameters,hintText,element,labelClass, to pass into twig templates AppBundle:components/Form:*
      */
     private function getFormComponentTwigVariables($element, $elementName, array $vars, $transIndex)
     {

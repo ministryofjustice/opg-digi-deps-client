@@ -164,7 +164,7 @@ class ReportController extends AbstractController
             }
 
             // Render confirmation form view
-            return $this->render('AppBundle:Admin/Client/Report:manage_confirm.html.twig', [
+            return $this->render('AppBundle:admin/client/report:manage_confirm.html.twig', [
                 'report' => $report,
                 'form' => $confirmForm->createView(),
                 'urlData' => [
@@ -208,7 +208,7 @@ class ReportController extends AbstractController
      */
     private function generateChecklistUnsubmitInformationContent(ReportInterface $report)
     {
-        return $this->render('AppBundle:Admin/Client/Report/Formatted:unsubmit_information.html.twig', [
+        return $this->render('AppBundle:admin/client/report/formatted:unsubmit_information.html.twig', [
             'report' => $report
         ])->getContent();
     }

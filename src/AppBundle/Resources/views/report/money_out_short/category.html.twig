@@ -1,6 +1,6 @@
-{% extends 'AppBundle:Layouts:application.html.twig' %}
+{% extends 'AppBundle:layouts:application.html.twig' %}
 
-{% import 'AppBundle:Macros:macros.html.twig' as macros %}
+{% import 'AppBundle:macros:macros.html.twig' as macros %}
 
 {% set translationDomain = "report-money-short" %}
 {% trans_default_domain translationDomain %}
@@ -24,7 +24,7 @@
     <p class="form-hint">
         {{ 'form.categoriesOut.hint' | trans(transOptions) }}
     </p>
-    {% include 'AppBundle:Report/money_out_short:_checkboxes_list.html.twig' with {
+    {% include 'AppBundle:report/money_out_short:_checkboxes_list.html.twig' with {
     'elements': form.moneyShortCategoriesOut,
     } %}
 

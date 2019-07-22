@@ -17,11 +17,11 @@ services:
         class: AppBundle\Service\ApiCollector
         arguments: ["@rest_client"]
         tags:
-            - { name: data_collector, template: "AppBundle:Manage:api-collector", id: "api-collector" }
+            - { name: data_collector, template: "AppBundle:manage:api-collector", id: "api-collector" }
     data_collector.CssClassCollector:
       class: AppBundle\Service\CssClassCollector
       tags:
-        - { name: data_collector, template: 'AppBundle:Manage:css-class-collector', id: 'css-class-collector' }
+        - { name: data_collector, template: 'AppBundle:manage:css-class-collector', id: 'css-class-collector' }
       public: false
     mail_sender:
         class: AppBundle\Service\Mailer\MailSenderMock

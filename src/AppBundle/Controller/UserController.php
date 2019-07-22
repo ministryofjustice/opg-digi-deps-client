@@ -39,7 +39,7 @@ class UserController extends AbstractController
 
         // token expired
         if (!$user->isTokenSentInTheLastHours(EntityDir\User::TOKEN_EXPIRE_HOURS)) {
-            $template = $isActivatePage ? 'AppBundle:User:activate_token_expired.html.twig' : 'AppBundle:User:password_reset_token_expired.html.twig';
+            $template = $isActivatePage ? 'AppBundle:user:activate_token_expired.html.twig' : 'AppBundle:user:password_reset_token_expired.html.twig';
 
             return $this->render($template, [
                 'token'            => $token,
@@ -61,11 +61,11 @@ class UserController extends AbstractController
             $form = $this->createForm(FormDir\SetPasswordType::class, $user, [ 'passwordMismatchMessage' => $passwordMismatchMessage, 'showTermsAndConditions'  => $user->isDeputy()
                                        ]
                                      );
-            $template = 'AppBundle:User:activate.html.twig';
+            $template = 'AppBundle:user:activate.html.twig';
         } else { // 'password-reset'
             $passwordMismatchMessage = $translator->trans('form.password.validation.passwordMismatch', [], 'password-reset');
             $form = $this->createForm(FormDir\ResetPasswordType::class, $user, ['passwordMismatchMessage' => $passwordMismatchMessage]);
-            $template = 'AppBundle:User:password_reset.html.twig';
+            $template = 'AppBundle:user:password_reset.html.twig';
         }
 
         $form->handleRequest($request);
@@ -255,7 +255,7 @@ class UserController extends AbstractController
                 $signIn = '<a href="' . $this->generateUrl('login') . '">' . $signInText . '</a>';
                 $bodyText = str_replace('{{ sign_in }}', $signIn, $bodyText);
 
-                return $this->render('AppBundle:User:registration-thankyou.html.twig', [
+                return $this->render('AppBundle:user:registration-thankyou.html.twig', [
                     'bodyText' => $bodyText,
                     'email'    => $email,
                 ]);
@@ -317,9 +317,9 @@ class UserController extends AbstractController
         }
 
         if ($user->getRoleName() == EntityDir\User::ROLE_PA_NAMED) {
-            $view = 'AppBundle:User:agree_terms_use_pa.html.twig';
+            $view = 'AppBundle:user:agree_terms_use_pa.html.twig';
         } elseif ($user->getRoleName() ==EntityDir\User::ROLE_PROF_NAMED) {
-            $view = 'AppBundle:User:agree_terms_use_prof.html.twig';
+            $view = 'AppBundle:user:agree_terms_use_prof.html.twig';
         } else {
             throw new \RuntimeException('terms page not implemented');
         }

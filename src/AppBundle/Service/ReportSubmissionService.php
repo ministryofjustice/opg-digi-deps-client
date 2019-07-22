@@ -116,7 +116,7 @@ class ReportSubmissionService
      */
     public function getPdfBinaryContent(ReportInterface $report, $showSummary = false)
     {
-        $html = $this->templating->render('AppBundle:Report/Formatted:formatted_body.html.twig', [
+        $html = $this->templating->render('AppBundle:report/formatted:formatted_body.html.twig', [
             'report' => $report,
             'showSummary' => $showSummary
         ]);
@@ -134,7 +134,7 @@ class ReportSubmissionService
      */
     public function getChecklistPdfBinaryContent(ReportInterface $report)
     {
-        $html = $this->templating->render('AppBundle:Admin/Client/Report/Formatted:checklist_formatted_body.html.twig', [
+        $html = $this->templating->render('AppBundle:admin/client/report/formatted:checklist_formatted_body.html.twig', [
             'report' => $report,
             'checklist' => $report->getChecklist()
         ]);

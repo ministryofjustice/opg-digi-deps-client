@@ -32,7 +32,7 @@ var config = {
 const cleanAssets = () => { // Clear web assets folder and formatted report css folder
     return del([
         'web/assets/*',
-        config.viewsSrc + '/Css/*'
+        config.viewsSrc + '/css/*'
 
     ]);
 }
@@ -61,17 +61,17 @@ const CompileFormattedReportSassToCSS = () => {
         .pipe(sass(config.sass).on('error', sass.logError))
         .pipe(uglifycss())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(config.viewsSrc + '/Css'));
+        .pipe(gulp.dest(config.viewsSrc + '/css'));
 }
 
 const copyFormattedReportCSSToTwigVersion = () => {
-    return gulp.src(config.viewsSrc + '/Css/formatted-report.css')
-    .pipe(rename(config.viewsSrc + '/Css/formatted-report.css.twig'))
+    return gulp.src(config.viewsSrc + '/css/formatted-report.css')
+    .pipe(rename(config.viewsSrc + '/css/formatted-report.css.twig'))
     .pipe(gulp.dest('./'));
 }
 
 const deleteFormattedReportCSSVersion = () => {
-    return del([config.viewsSrc + '/Css/formatted-report.css']);
+    return del([config.viewsSrc + '/css/formatted-report.css']);
 }
 
 const buildApplicationCSSFromSass = () => { // Compile sass files, uglify, copy

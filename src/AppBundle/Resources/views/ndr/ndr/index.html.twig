@@ -1,0 +1,55 @@
+{% extends 'AppBundle:layouts:application.html.twig' %}
+{% set translationDomain = "ndr-homepage" %}
+{% trans_default_domain translationDomain %}
+
+{% block htmlTitle %}{{ 'page.htmlTitle' | trans }}{% endblock %}
+{% block pageTitle %}{{ 'page.pageTitle' | trans }}{% endblock %}
+
+{% block supportTitleBottom %}
+    <span class="heading-secondary">{{ client.firstname }} {{ client.lastname }}</span>
+{% endblock %}
+
+{% block pageContent %}
+
+    {% if app.user.getCoDeputyClientConfirmed() %}
+        {% include 'AppBundle:report/report:_codeputies.html.twig' with {coDeputies: coDeputies} %}
+    {% endif %}
+
+    {% if ndr.submitted %}
+
+        {% if client.unsubmittedReport %}
+            <h2 class="heading-large">{{ 'unsubmittedReport' | trans({}, 'common') }}</h2>
+            {% include 'AppBundle:ndr/ndr:_report_row.html.twig' with {
+                reportActive: client.unsubmittedReport,
+                ndr: ndr,
+            } %}
+        {% endif %}
+
+        {# always show the report row. If not created yet, a "Start" button will be shown #}
+        <h2 class="heading-large">{{ 'currentDeputyReport' | trans({}, 'common') }}</h2>
+        {% include 'AppBundle:ndr/ndr:_report_row.html.twig' with {
+            reportActive: reportActive,
+            ndr: ndr,
+        } %}
+
+        {% include 'AppBundle:ndr/ndr:_report_history.html.twig' with {
+            reports: reportsSubmitted,
+            ndr: ndr,
+        } %}
+
+    {% else %}
+
+        {% include 'AppBundle:ndr/ndr:_ndr_row.html.twig' with {
+            reports: reportsSubmitted,
+            ndrStatus: ndrStatus,
+        } %}
+
+        <h2 class="heading-large">{{ 'currentDeputyReport' | trans({}, 'common') }}</h2>
+        {% include 'AppBundle:ndr/ndr:_report_row.html.twig' with {
+            reportActive: reportActive,
+            ndr: ndr,
+        } %}
+
+    {% endif %}
+
+{% endblock %}

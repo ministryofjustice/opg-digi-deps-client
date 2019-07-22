@@ -47,7 +47,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
-        - 'AppBundle:Form:fields.html.twig'
+        - 'AppBundle:form:fields.html.twig'
 
 
 # Swiftmailer Configuration

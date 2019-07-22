@@ -1,4 +1,4 @@
-{% import 'AppBundle:Macros:macros.html.twig' as macros %}
+{% import 'AppBundle:macros:macros.html.twig' as macros %}
 
 {% set translationDomain = "report-prof-deputy-costs" %}
 {% trans_default_domain translationDomain %}
@@ -22,12 +22,12 @@
     {{ macros.summaryTableHeaderQA(hideEditLink) }}
     <tbody>
         {# How did you charge for your costs? #}
-        {% include 'AppBundle:Report/prof_deputy_costs:_how_charged_answers.html.twig' with {
+        {% include 'AppBundle:report/prof_deputy_costs:_how_charged_answers.html.twig' with {
            'report': report,
            'transDomain': translationDomain,
            'hideEditLink' : false
         } %}
-        {% include 'AppBundle:Report/prof_deputy_costs:_payments_received_answers.html.twig' with {
+        {% include 'AppBundle:report/prof_deputy_costs:_payments_received_answers.html.twig' with {
             'report': report,
             'transDomain': translationDomain,
             'hideEditLink' : false
@@ -37,13 +37,13 @@
 <table class="check-your-answers columns-2 push--bottom">
     {{ macros.summaryTableHeaderQA(hideEditLink) }}
     <tbody>
-    {% include 'AppBundle:Report/prof_deputy_costs:_all_cost_total_answers.html.twig' with {
+    {% include 'AppBundle:report/prof_deputy_costs:_all_cost_total_answers.html.twig' with {
         'report': report,
         'submittedOtherCosts': actualSubmittedOtherCosts,
         'transDomain': "report-prof-deputy-costs",
         'hideEditLink' : false
     } %}
-    {% include 'AppBundle:Report/prof_deputy_costs:_scco_more_details_answer.html.twig' with {
+    {% include 'AppBundle:report/prof_deputy_costs:_scco_more_details_answer.html.twig' with {
         'report': report,
         'submittedOtherCosts': actualSubmittedOtherCosts,
         'transDomain': "report-prof-deputy-costs",
@@ -51,7 +51,7 @@
     } %}
     </tbody>
 </table>
-{% include 'AppBundle:Report/prof_deputy_costs:_breakdown_costs_answers.html.twig' with {
+{% include 'AppBundle:report/prof_deputy_costs:_breakdown_costs_answers.html.twig' with {
     'report': report,
     'submittedOtherCosts': actualSubmittedOtherCosts,
     'transDomain': "report-prof-deputy-costs",
@@ -65,7 +65,7 @@
         <tr>
             <td colspan="3"></td>
         </tr>
-        {% include 'AppBundle:Report/prof_deputy_costs:_total_final_answers.html.twig' with {
+        {% include 'AppBundle:report/prof_deputy_costs:_total_final_answers.html.twig' with {
             'report': report,
             'submittedOtherCosts': actualSubmittedOtherCosts,
             'transDomain': "report-prof-deputy-costs",

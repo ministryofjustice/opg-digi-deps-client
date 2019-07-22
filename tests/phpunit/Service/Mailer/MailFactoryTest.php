@@ -59,12 +59,12 @@ class MailFactoryTest extends \PHPUnit_Framework_TestCase
         $this->router->shouldReceive('generate')->with('user_activate', ['action' => 'activate', 'token' => 'RT'])->andReturn('ua');
 
         $this->templating->shouldReceive('render')->with(
-            'AppBundle:Email:user-activate.html.twig',
+            'AppBundle:email:user-activate.html.twig',
             m::any()
         )->andReturn('template.html');
 
         $this->templating->shouldReceive('render')->with(
-            'AppBundle:Email:user-activate.text.twig',
+            'AppBundle:email:user-activate.text.twig',
             m::any()
         )->andReturn('template.text');
 
