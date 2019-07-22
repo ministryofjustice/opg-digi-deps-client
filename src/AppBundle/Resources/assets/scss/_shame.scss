@@ -14,12 +14,3 @@ b,
 strong {
     font-weight: 600;
 }
-
-// Use brand link colours for all links. We should be using `govuk-link`, but it's
-// hard to find all instances of this so we apply default styling.
-a {
-    &:link { color: $govuk-link-colour; }
-    &:visited { color: $govuk-link-visited-colour; }
-    &:hover { color: $govuk-link-hover-colour; }
-    &:active { color: $govuk-link-active-colour; }
-}
