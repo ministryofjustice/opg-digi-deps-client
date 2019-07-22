@@ -3,19 +3,6 @@
 {% set transOptions = {'%client%': ndr.client.firstname | e } %}
 
 <dl class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-            {{ 'question' | trans({}, 'common') }}
-        </dt>
-        <dd class="govuk-summary-list__key">
-            {{ 'answer' | trans({}, 'common') }}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden">Intentionally blank</span>
-            </a>
-        </dd>
-    </div>
 {# STEP 1 #}
     <div class="govuk-summary-list__row behat-region-live-with-client">
         <dt class="govuk-summary-list__key">
@@ -31,9 +18,9 @@
         {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-        <a 
-            href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step': 1, 'from': 'summary'}) }}" 
-            class="behat-link-live-with-client-edit action-link">
+        <a
+            href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step': 1, 'from': 'summary'}) }}"
+            class="behat-link-live-with-client-edit govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.doYouLiveWithClient.label' | trans(transOptions) }}</span>
         </a>
         </dd>
@@ -47,9 +34,9 @@
             {{ ndr.visitsCare.howOftenDoYouContactClient | nl2br }}
         </dd>
         <dd class="govuk-summary-list__actions">
-        <a 
-            href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step': 1, 'from': 'summary'}) }}" 
-            class="action-link">
+        <a
+            href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step': 1, 'from': 'summary'}) }}"
+            class="govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.howOftenDoYouContactClient.labelShort' | trans(transOptions) }}</span>
         </a>
         </dd>
@@ -70,9 +57,9 @@
             {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-        <a 
+        <a
             href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':2, 'from': 'summary'}) }}"
-            class="action-link">
+            class="govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.doesClientReceivePaidCare.label' | trans(transOptions) }}</span>
         </a>
         </dd>
@@ -86,9 +73,9 @@
                 {{ ('form.howIsCareFunded.choices.' ~ ndr.visitsCare.howIsCareFunded) | trans(transOptions) }}
             </dd>
             <dd class="govuk-summary-list__actions">
-            <a 
-                href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':2, 'from': 'summary'}) }}" 
-                class="action-link">
+            <a
+                href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':2, 'from': 'summary'}) }}"
+                class="govuk-link">
                 {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.howIsCareFunded.label' | trans(transOptions) }}</span>
             </a>
             </dd>
@@ -109,9 +96,9 @@
             {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-        <a 
+        <a
             href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':3, 'from': 'summary'}) }}"
-            class="action-link">
+            class="govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.whoIsDoingTheCaring.label' | trans(transOptions) }}</span>
         </a>
         </dd>
@@ -131,9 +118,9 @@
             {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-        <a 
+        <a
             href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':4, 'from': 'summary'}) }}"
-            class="action-link">
+            class="govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.doesClientHaveACarePlan.label' | trans(transOptions) }}</span>
         </a>
         </dd>
@@ -147,9 +134,9 @@
                 {{ ndr.visitsCare.whenWasCarePlanLastReviewed | date('F Y') }}
             </dd>
             <dd class="govuk-summary-list__actions">
-            <a 
-                href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':4, 'from': 'summary'}) }}" 
-                class="action-link">
+            <a
+                href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':4, 'from': 'summary'}) }}"
+                class="govuk-link">
                 {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.howIsCareFunded.label' | trans(transOptions) }}</span>
             </a>
             </dd>
@@ -170,9 +157,9 @@
             {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-        <a 
+        <a
             href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':5, 'from': 'summary'}) }}"
-            class="action-link">
+            class="govuk-link">
             {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.doesClientHaveACarePlan.label' | trans(transOptions) }}</span>
         </a>
         </dd>
@@ -186,9 +173,9 @@
                 {{ ndr.visitsCare.planMoveNewResidenceDetails | nl2br }}
             </dd>
             <dd class="govuk-summary-list__actions">
-            <a 
-                href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':5, 'from': 'summary'}) }}" 
-                class="action-link">
+            <a
+                href="{{ path('ndr_visits_care_step', {'ndrId': ndr.id, 'step':5, 'from': 'summary'}) }}"
+                class="govuk-link">
                 {{ 'edit' | trans({}, 'common' ) }}<span class="govuk-visually-hidden"> {{ 'form.howIsCareFunded.label' | trans(transOptions) }}</span>
             </a>
             </dd>
