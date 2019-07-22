@@ -100,8 +100,6 @@ const copyAllImages = () => {
 const concatJSThenMinifyAndCopy = () => { // Only minify if prod
     return gulp.src([
             './node_modules/govuk-frontend/all.js',
-            './node_modules/govuk_frontend_toolkit/javascripts/govuk/show-hide-content.js',
-            config.jsSrc + '/govuk/polyfill/*.js',
             config.jsSrc + '/modules/*.js',
             config.jsSrc + '/main.js'])
         .pipe(sourcemaps.init())
