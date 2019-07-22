@@ -75,9 +75,7 @@ const deleteFormattedReportCSSVersion = () => {
 }
 
 const buildApplicationCSSFromSass = () => { // Compile sass files, uglify, copy
-    return gulp.src([
-        config.sassSrc + '/application.scss',
-        config.sassSrc + '/application-print.scss'])
+    return gulp.src(config.sassSrc + '/application.scss')
         .pipe(sourcemaps.init())
         .pipe(sass(config.sass).on('error', sass.logError))
         .pipe(uglifycss())
