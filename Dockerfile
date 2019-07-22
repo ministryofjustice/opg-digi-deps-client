@@ -29,6 +29,7 @@ WORKDIR /app
 
 # Install composer dependencies
 COPY composer.json .
+COPY composer.lock .
 
 RUN composer install --prefer-dist --no-interaction --no-scripts
 
@@ -36,7 +37,7 @@ COPY app app
 COPY src src
 RUN composer run-script post-install-cmd --no-interaction
 RUN composer dump-autoload --optimize
-RUN composer update
+
 
 FROM php:7-fpm-alpine
 
