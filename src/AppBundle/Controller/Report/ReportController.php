@@ -154,7 +154,7 @@ class ReportController extends AbstractController
      *   defaults={ "action" = "create"},
      *   requirements={ "action" = "(create|add)"}
      * )
-     * @Template()
+     * @Template("AppBundle:Report/Report:create.html.twig")
      */
     public function createAction(Request $request, $clientId, $action = false)
     {

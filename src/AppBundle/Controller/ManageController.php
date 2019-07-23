@@ -53,7 +53,7 @@ class ManageController extends AbstractController
     /**
      * @Route("/elb", name="manage-elb")
      * @Method({"GET"})
-     * @Template()
+     * @Template("AppBundle:Manage:elb.html.twig")
      */
     public function elbAction()
     {

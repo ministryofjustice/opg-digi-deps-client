@@ -42,7 +42,7 @@ class DecisionController extends AbstractController
 
     /**
      * @Route("/report/{reportId}/decisions/mental-capacity", name="decisions_mental_capacity")
-     * @Template()
+     * @Template("AppBundle:Report/Decision:mentalCapacity.html.twig")
      */
     public function mentalCapacityAction(Request $request, $reportId)
     {
