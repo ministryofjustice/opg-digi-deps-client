@@ -420,7 +420,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/org-csv-upload", name="admin_org_upload")
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AD')")
-     * @Template("AppBundle:Admin/Index:upgradeOrgUsers.html.twig")
+     * @Template("AppBundle:Admin/Index:uploadOrgUsers.html.twig")
      */
     public function uploadOrgUsersAction(Request $request)
     {
