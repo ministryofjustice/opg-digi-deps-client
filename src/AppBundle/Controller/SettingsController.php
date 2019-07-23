@@ -82,7 +82,7 @@ class SettingsController extends AbstractController
      *
      * @Route("/deputyship-details/your-details", name="user_show")
      * @Route("/org/settings/your-details", name="org_profile_show")
-     * @Template()
+     * @Template("AppBundle:Settings:profile.html.twig")
      **/
     public function profileAction()
     {
