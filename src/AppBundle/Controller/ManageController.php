@@ -15,7 +15,6 @@ class ManageController extends AbstractController
     /**
      * @Route("/availability")
      * @Method({"GET"})
-     * @Template
      */
     public function availabilityAction()
     {
