@@ -19,7 +19,7 @@ class TeamController extends AbstractController
 {
     /**
      * @Route("", name="org_team")
-     * @Template
+     * @Template("AppBundle:Org/Team:list.html.twig")
      */
     public function listAction(Request $request)
     {
@@ -32,7 +32,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/add", name="add_team_member")
-     * @Template()
+     * @Template("AppBundle:Org/Team:add.html.twig")
      */
     public function addAction(Request $request)
     {
@@ -118,7 +118,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/edit/{id}", name="edit_team_member")
-     * @Template()
+     * @Template("AppBundle:Org/Team:edit.html.twig")
      */
     public function editAction(Request $request, $id)
     {

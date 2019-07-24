@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,7 +18,6 @@ class AjaxController extends AbstractController
     /**
      * @Route("/casrec-truncate", name="casrec_truncate_ajax")
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AD')")
-     * @Template
      */
     public function truncateUsersAjaxAction(Request $request)
     {
@@ -37,7 +35,6 @@ class AjaxController extends AbstractController
     /**
      * @Route("/casrec-add", name="casrec_add_ajax")
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AD')")
-     * @Template
      */
     public function uploadUsersAjaxAction(Request $request)
     {
@@ -47,7 +44,7 @@ class AjaxController extends AbstractController
         try {
             $compressedData = $redis->get($chunkId);
             if ($compressedData) {
-                $ret = $this->getRestClient()->setTimeout(600)->post('casrec/bulk-add', $compressedData);
+                $ret = $this->getRestClient()->setTimeout(600)->post('v2/lay-deputyship/upload', $compressedData);
                 $redis->del($chunkId); //cleanup for next execution
             } else {
                 $ret['added'] = 0;
@@ -63,7 +60,6 @@ class AjaxController extends AbstractController
      * @Route("/org-chunk-add", name="org_add_ajax")
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AD')")
      * @Method({"POST"})
-     * @Template
      */
     public function uploadPaAjaxAction(Request $request)
     {
