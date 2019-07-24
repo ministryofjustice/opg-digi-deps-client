@@ -13,9 +13,6 @@ Feature: Admin report checklist
       | 1 Nov 2017 | court-date |
       | Health and welfare | report-type-title |
       | 1 Nov 2018 to 31 Oct 2019 | expected-date |
-      | dd1-changed | decision-1         |
-      | Andy Whites | contact-n2-aw2     |
-      | December 2015 | care-plan-last-reviewed |
       | John          | checklist-client-firstname |
       | 104-client    | checklist-client-lastname |
       | Victoria road    | checklist-client-address   |
