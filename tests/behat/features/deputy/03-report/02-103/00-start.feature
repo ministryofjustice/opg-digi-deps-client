@@ -1,16 +1,14 @@
 Feature: Report 103 start
 
-  @deputy
-  Scenario: load app status before 102 money got completed, change type to 103 and check not submittable
-    # Since 103 shares same section as 102, import status from 102 before money section (that is the only different section) were added
-    # that checkpoint correspond to a 103 report without money added
-    Given I load the application status from "money-transactions-before"
-    And I change the report of the client with case number "102" to "103"
-    And I change the deputy of the client with case number "102" to "behat-lay-deputy-103@publicguardian.gov.uk"
+  @deputy @deputy-103
+  Scenario: Check 103 report not initially submittable
     # assert not submittable yet
-    And I am logged in as "behat-lay-deputy-103@publicguardian.gov.uk" with password "Abcd1234"
+    Given I am logged in as "behat-lay-deputy-103@publicguardian.gov.uk" with password "Abcd1234"
+    When I set the report start date to "1/1/2016"
+    And I set the report end date to "31/12/2016"
     And I click on "report-start"
-    #test tabs
+    # assert all tabs available
+    Then I should see the "edit-decisions" link
     Then I should see the "edit-contacts" link
     Then I should see the "edit-visits_care" link
     Then I should see the "edit-deputy_expenses" link
