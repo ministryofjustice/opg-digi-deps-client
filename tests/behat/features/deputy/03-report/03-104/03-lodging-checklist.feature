@@ -3,7 +3,7 @@ Feature: Admin report checklist
   @deputy @deputy-104
   Scenario: Case manager submits empty checklist for the report 104
     Given I am logged in to admin as "casemanager@publicguardian.gov.uk" with password "Abcd1234"
-    And I click on "admin-client-search, client-detail-102"
+    And I click on "admin-client-search, client-detail-104"
     And I click on "checklist" in the "report-2016" region
     Then the URL should match "/admin/report/\d+/checklist"
     # check default values
@@ -17,7 +17,7 @@ Feature: Admin report checklist
       | Andy Whites | contact-n2-aw2     |
       | December 2015 | care-plan-last-reviewed |
       | John          | checklist-client-firstname |
-      | 102-client    | checklist-client-lastname |
+      | 104-client    | checklist-client-lastname |
       | Victoria road    | checklist-client-address   |
       | 022222222222222 | checklist-client-phone        |
       | LAY Deputy 104   | checklist-deputy-firstname |
@@ -50,7 +50,7 @@ Feature: Admin report checklist
   @deputy @deputy-104
   Scenario: Case manager saves further information on 104 checklist
     Given I am logged in to admin as "casemanager@publicguardian.gov.uk" with password "Abcd1234"
-    And I click on "admin-client-search, client-detail-102"
+    And I click on "admin-client-search, client-detail-104"
     And I click on "checklist" in the "report-2016" region
     Then the URL should match "/admin/report/\d+/checklist"
     And each text should be present in the corresponding region:
@@ -86,7 +86,7 @@ Feature: Admin report checklist
   Scenario: Admin completes 104 checklist
     Given I am logged in to admin as "admin@publicguardian.gov.uk" with password "Abcd1234"
     # Navigate to checklist via search
-    When I click on "admin-client-search, client-detail-102"
+    When I click on "admin-client-search, client-detail-104"
     And I click on "checklist" in the "report-2016" region
     Then the URL should match "/admin/report/\d+/checklist"
     And each text should be present in the corresponding region:
@@ -130,7 +130,7 @@ Feature: Admin report checklist
   Scenario: 104 Admin marked as submitted
     Given I am logged in to admin as "admin@publicguardian.gov.uk" with password "Abcd1234"
     # Navigate to checklist via search
-    And I click on "admin-client-search, client-detail-102"
+    And I click on "admin-client-search, client-detail-104"
     And I click on "checklist" in the "report-2016" region
     Then the URL should match "/admin/report/\d+/checklist"
     And each text should be present in the corresponding region:
