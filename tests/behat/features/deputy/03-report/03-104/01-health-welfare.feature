@@ -1,6 +1,6 @@
 Feature: Report 104 health welfare
 
-  @deputy
+  @deputy @deputy-104
   Scenario: test HW section
     Given I am logged in as "behat-lay-deputy-104@publicguardian.gov.uk" with password "Abcd1234"
     And I click on "report-start, edit-lifestyle, start"
