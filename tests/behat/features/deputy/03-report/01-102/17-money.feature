@@ -1,11 +1,6 @@
 Feature: Report money 102
 
   @deputy
-  # save status in order to be reused for 103 later
-  Scenario: save status before starting money 102
-    Given I save the application status into "money-transactions-before"
-
-  @deputy
   Scenario: money in 102
     Given I am logged in as "behat-lay-deputy-102@publicguardian.gov.uk" with password "Abcd1234"
     And I click on "report-start, edit-money_in, start"
@@ -55,6 +50,7 @@ Feature: Report money 102
       | £12,344.67              | pensions-total                      |
     # remove transaction n.2
     When I click on "delete" in the "transaction-delete-me" region
+    And I click on "confirm"
     Then I should not see the "transaction-delete-me" region
     # test add link
     When I click on "add"
@@ -128,6 +124,7 @@ Feature: Report money 102
       | £12,344.68              | household-bills-total               |
       # remove transaction n.2
     When I click on "delete" in the "transaction-delete-me" region
+    And I click on "confirm"
     Then I should not see the "transaction-delete-me" region
       # test add link
     When I click on "add"

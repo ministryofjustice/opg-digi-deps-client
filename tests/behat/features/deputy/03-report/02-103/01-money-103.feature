@@ -1,6 +1,6 @@
 Feature: Report money 103
 
-  @deputy
+  @deputy @deputy-103
   Scenario: money in 103
     Given I am logged in as "behat-lay-deputy-103@publicguardian.gov.uk" with password "Abcd1234"
     And I click on "report-start, edit-money_in_short, start"
@@ -50,6 +50,7 @@ Feature: Report money 103
       | £2,900.00       | transaction-total           |
         # remove transaction n.2
     When I click on "delete" in the "transaction-january-salary" region
+    And I click on "confirm"
     Then I should not see the "transaction-january-salary" region
         # test add link
     When I click on "add"
@@ -67,7 +68,7 @@ Feature: Report money 103
       | 1,450.00 | transaction-november-salary |
 
 
-  @deputy
+  @deputy @deputy-103
   Scenario: money out 103
     Given I am logged in as "behat-lay-deputy-103@publicguardian.gov.uk" with password "Abcd1234"
     And I click on "report-start, edit-money_out_short, start"
@@ -117,6 +118,7 @@ Feature: Report money 103
       | £2,902.00     | transaction-total         |
         # remove transaction n.2
     When I click on "delete" in the "transaction-january-rent" region
+    And I click on "confirm"
     Then I should not see the "transaction-january-rent" region
         # test add link
     When I click on "add"
