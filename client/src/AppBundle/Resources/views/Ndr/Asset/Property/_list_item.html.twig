@@ -16,7 +16,7 @@
 
 <dl class="govuk-summary-list behat-region-list-properties">
     {# address #}
-    <div class="govuk-summary-list__row">
+    <div class="govuk-summary-list__row behat-region-property-{{ asset.postcode | behat_namify }}-address">
         <dt class="govuk-summary-list__key">
             {{ 'address' | trans({}, 'common' ) }}
         </dt>

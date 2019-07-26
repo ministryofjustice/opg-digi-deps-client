@@ -3,7 +3,7 @@
 {% set transOptions = {'%client%': ndr.client.firstname | e } %}
 
 <dl class="govuk-summary-list">
-    <div class="govuk-summary-list__row behat-region-more-info">
+    <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
             {{ 'question' | trans({}, 'common') }}
         </dt>
@@ -15,7 +15,7 @@
         </dd>
     </div>
 
-    <div class="govuk-summary-list__row">
+    <div class="govuk-summary-list__row behat-region-more-info">
         {% if ndr.actionMoreInfo is null %}
             <dt class="govuk-summary-list__key">
                 <span class="error">

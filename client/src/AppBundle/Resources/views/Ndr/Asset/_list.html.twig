@@ -57,7 +57,7 @@
 
 {# Total #}
 {% if ndr.assets %}
-    <div class="govuk-heading-m text--right">
+    <div class="govuk-heading-m text--right behat-region-asset-total">
         {{ 'summaryPage.totalValue' | trans({ '%value%': (ndr.assetsTotalValue | money_format) }) }}
     </div>
 {% endif %}
