@@ -116,7 +116,7 @@
             </dd>
         {% endif %}
         <dd class="govuk-summary-list__actions">
-            <a class="govuk-link behat-link-edit" href="#">
+            <a class="govuk-link behat-link-edit" href="{{ path('ndr_income_benefits_step', { 'ndrId': ndr.id, 'step': 3, 'from': 'summary' }) }}">
                 {{ 'edit' | trans({}, 'common') }}
             </a>
         </dd>
