@@ -1,7 +1,6 @@
 'use strict';
 
 const gulp = require('gulp'),
-    gutil = require('gulp-util'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     del = require('del'),
@@ -10,8 +9,6 @@ const gulp = require('gulp'),
     concat = require('gulp-concat'),
     scsslint = require('gulp-sass-lint'),
     jshint = require('gulp-jshint'),
-    replace = require('gulp-replace'),
-    rename = require('gulp-rename'),
     now = new Date().getTime(),
     postcss = require('gulp-postcss');
 
@@ -28,7 +25,7 @@ var config = {
     webAssets: 'web/assets/' + now,
 };
 
-const cleanAssets = () => { // Clear web assets folder and formatted report css folder
+const cleanAssets = () => { // Clear web assets folder
     return del([
         'web/assets/*'
     ]);
