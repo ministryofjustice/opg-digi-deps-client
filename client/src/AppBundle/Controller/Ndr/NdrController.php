@@ -147,6 +147,14 @@ class NdrController extends AbstractController
             'ndr' => $ndr, 'adLoggedAsDeputy' => $this->isGranted(User::ROLE_AD)
         ])->getContent();
 
+        // Insert formatted report CSS
+        $assetPath = __DIR__ . '/../../../../web/assets/';
+        $assetContents = array_diff(scandir($assetPath), ['..', '.']);
+        $folderName = array_values($assetContents)[0];
+
+        $css = file_get_contents($assetPath . $folderName . '/stylesheets/formatted-report.css');
+        $html = '<style type="text/css" media="screen, print">' . $css . '</style>' . $html;
+
         return $this->get('wkhtmltopdf')->getPdfFromHtml($html);
     }
 
