@@ -134,18 +134,10 @@ class ReportSubmissionService
      */
     public function getChecklistPdfBinaryContent(ReportInterface $report)
     {
-        $html = $this->templating->render('AppBundle:Admin/Client/Report/Formatted:checklist_formatted_body.html.twig', [
+        $html = $this->templating->render('AppBundle:Admin/Client/Report/Formatted:checklist_formatted_standalone.html.twig', [
             'report' => $report,
             'checklist' => $report->getChecklist()
         ]);
-
-        // Insert formatted report CSS
-        $assetPath = __DIR__ . '/../../../web/assets/';
-        $assetContents = array_diff(scandir($assetPath), ['..', '.']);
-        $folderName = array_values($assetContents)[0];
-
-        $css = file_get_contents($assetPath . $folderName . '/stylesheets/formatted-report.css');
-        $html = '<style type="text/css" media="screen, print">' . $css . '</style>' . $html;
 
         return $this->wkhtmltopdf->getPdfFromHtml($html);
     }
