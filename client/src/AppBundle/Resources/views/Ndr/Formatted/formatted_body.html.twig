@@ -3,10 +3,6 @@
 {% set isEmailAttachment = true %}
 {% set transOptions = {'%client%': ndr.client.firstname | e } %}
 
-{% block head %}
-    <link href="{{ 'stylesheets/formatted-report.css' | assetUrl }}"  rel="stylesheet" type="text/css">
-{% endblock %}
-
 <div id="wrapper">
     <div class="formatted-report content">
         <div id="report-header">Office of the Public Guardian</div>
