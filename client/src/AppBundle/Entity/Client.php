@@ -249,6 +249,16 @@ class Client
      */
     private $archivedAt;
 
+    /**
+     * Holds the organisation the client belongs to
+     * Loaded from the CSV upload
+     *
+     * @var Organisation
+     *
+     * @JMS\Groups({"client-organisation"})
+     * @JMS\Type("AppBundle\Entity\Organisation")
+     */
+    private $organisation;
 
     public function __construct()
     {
@@ -278,6 +288,25 @@ class Client
     public function setNamedDeputy($namedDeputy)
     {
         $this->namedDeputy = $namedDeputy;
+    }
+
+    /**
+     * @return Organisation
+     */
+    public function getOrganisation()
+    {
+        return $this->organisation;
+    }
+
+    /**
+     * @param Organisation $organisation
+     *
+     * @return Client
+     */
+    public function setOrganisation(Organisation $organisation)
+    {
+        $this->organisation = $organisation;
+        return $this;
     }
 
     /**

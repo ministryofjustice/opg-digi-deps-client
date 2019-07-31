@@ -333,6 +333,13 @@ class User implements AdvancedUserInterface
      */
     private $teamNames = [];
 
+
+    /**
+     * @JMS\Type("array<AppBundle\Entity\Organisation>")
+     * @JMS\Groups({"user-organisations"})
+     */
+    private $organisations = [];
+
     /**
      * @return int $id
      */
@@ -1135,6 +1142,14 @@ class User implements AdvancedUserInterface
     {
         $this->teamNames = $teamNames;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrganisations()
+    {
+        return $this->organisations;
     }
 
     /**
