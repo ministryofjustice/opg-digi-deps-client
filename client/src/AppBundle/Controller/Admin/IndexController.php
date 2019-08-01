@@ -443,9 +443,12 @@ class IndexController extends AbstractController
                         'Dep Forename',
                         'Dep Surname',
                         'Dep Type', // 23 = PA (but not confirmed)
+                        'DepAddr No',
                         'Dep Adrs1',
                         'Dep Adrs2',
                         'Dep Adrs3',
+                        'Dep Adrs4',
+                        'Dep Adrs5',
                         'Dep Postcode',
                         'Email', //mandatory, used as user ID whem uploading
                         'Case', //case number, used as ID when uploading
@@ -471,6 +474,7 @@ class IndexController extends AbstractController
                 // small chunk => upload in same request
                 if (count($data) < $chunkSize) {
                     $compressedData = CsvUploader::compressData($data);
+
                     $this->get('org_service')->uploadAndSetFlashMessages($compressedData, $request->getSession()->getFlashBag());
                     return $this->redirect($this->generateUrl('admin_org_upload'));
                 }
