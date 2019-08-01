@@ -22,7 +22,7 @@ class Address
     /**
      * @var Organisation
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organisation", inversedBy="addresses")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organisation", inversedBy="addresses", cascade={"persist"})
      * @ORM\JoinColumn(name="organisation_id", referencedColumnName="id")
      */
     private $organisation;
