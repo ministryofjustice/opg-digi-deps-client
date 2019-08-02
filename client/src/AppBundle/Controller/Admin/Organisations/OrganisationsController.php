@@ -44,7 +44,7 @@ class OrganisationsController extends AbstractController
 //            $filters = $form->getData() + $filters;
 //        }
 
-        $organisations = $this->getRestClient()->get('organisation/get-all?' . http_build_query($filters), 'User[]');
+        $organisations = $this->getRestClient()->get('v2/organisation/get-all?' . http_build_query($filters), 'Organisation[]');
 
         return [
 //            'form' => $form->createView(),
