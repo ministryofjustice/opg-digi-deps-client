@@ -71,6 +71,11 @@
                             {{ 'nav.userAccount' | trans }}
                         </a>
                     </li>
+                    <li class="govuk-header__navigation-item">
+                        <a href="{{path('admin_organisations_index')}}" class="govuk-header__link behat-link-organisation">
+                            {{ 'nav.organisations' | trans }}
+                        </a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="govuk-header__navigation-item">
